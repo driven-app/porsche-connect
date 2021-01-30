@@ -23,5 +23,5 @@ jobs:
         uses: actions/checkout@v2
       - name: Force XCode 12.4
         run: sudo xcode-select -switch /Applications/Xcode_12.4.app
-      - name: iPhone 11 Tests
-        run: xcodebuild test -destination 'name=iPhone 11' -scheme 'PorscheConnect'
+      - name: Tests
+        run: xcodebuild test -destination 'name=iPhone 11' -destination 'name=iPhone 12' -scheme 'PorscheConnect'
