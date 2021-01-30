@@ -13,15 +13,15 @@ on:
 
 jobs:
 
-  # ---- test ------------------------------------------------------------------------------------------=---------
+# ---- test ------------------------------------------------------------------------------------------=---------
 
-  test:
-    name: Testing PorscheConnect
-    runs-on: macOS-latest
-    steps:
-      - name: Check out repository code
-        uses: actions/checkout@v2
-      - name: Force XCode 12.4
-        run: sudo xcode-select -switch /Applications/Xcode_12.4.app
-      - name: Tests
-        run: xcodebuild test -destination "platform=macOS,arch=arm64" -destination "platform=macOS,arch=x86_64" -destination "platform:iOS Simulator,name=iPhone 11" -destination "platform:iOS Simulator,name=iPhone 12" -scheme "PorscheConnect"
+test:
+ name: Testing PorscheConnect
+ runs-on: macOS-latest
+ steps:
+   - name: Check out repository code
+     uses: actions/checkout@v2
+   - name: Force XCode 12.4
+     run: sudo xcode-select -switch /Applications/Xcode_12.4.app
+   - name: Tests
+     run: xcodebuild test -destination "platform=macOS,arch=arm64" -destination "platform=macOS,arch=x86_64" -destination "platform=iOS Simulator,name=iPhone 11 Pro" -destination "platform=iOS Simulator,name=iPhone 12 mini" -scheme "PorscheConnect"
