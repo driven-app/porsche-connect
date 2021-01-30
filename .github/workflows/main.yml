@@ -1,0 +1,25 @@
+# ---- main workflow ---------------------------------------------------------------------------------------------
+  
+name: PorscheConnect
+
+# ---- trigger ---------------------------------------------------------------------------------------------------
+
+on:
+  push:
+    branches:
+      - '**'        # matches every branch
+      
+# ---- jobs (run in parallel) ------------------------------------------------------------------------------------
+
+jobs:
+
+  # ---- test ------------------------------------------------------------------------------------------=---------
+
+  test:
+    name: Testing PorscheConnect
+    runs-on: macOS-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Force XCode 12.4
+        run: sudo xcode-select -switch /Applications/Xcode_12.4.app
