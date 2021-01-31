@@ -4,19 +4,22 @@ import Foundation
 
 public enum Environment: String, CaseIterable {
   case Ireland, Germany, Test
-    
-  public func baseURL() -> URL {
+  
+  public func loginBaseURL() -> URL {
     switch self {
-    case .Ireland:
-      return URL(string: "https://api.porsche.com")!
-    case .Germany:
-      return URL(string: "https://api.porsche.com")!
-    case .Test:
-      return URL(string: "https://api.porsche.example")!
+    case .Ireland, .Germany, .Test:
+      return URL(string: "https://login.porsche.com")!
     }
   }
   
-  private func countryCode() -> String {
+  public func loginEndpoint() -> String {
+    switch self {
+    case .Ireland, .Germany, .Test:
+      return "/auth/api/v1/\(countryCode)/public/login"
+    }
+  }
+  
+  private var countryCode: String {
     switch self {
     case .Ireland:
       return "ie/en_GB"
@@ -31,9 +34,14 @@ public enum Environment: String, CaseIterable {
 // MARK: - Structs
 
 struct PorscheConnect {
+  public typealias Success = ((Any?, HTTPURLResponse?, ResponseJson?) -> Void)
+  public typealias Failure = ((Error, HTTPURLResponse?) -> Void)
+  
   let environment: Environment
   let username: String
-  let password: String
+  
+  private let networkClient = NetworkClient()
+  private let password: String
   
   // MARK: - Init & Configuration
   
@@ -43,9 +51,12 @@ struct PorscheConnect {
     self.password = password
   }
   
-  public func auth() {
-    let loginBody = ["username": username, "password": password, "keeploggedin": false, "sec": "", "resume": "", "thirdPartyId": "", "state": ""] as [String : Any]
+  public func auth(success: Success? = nil, failure: Failure? = nil) {
+    let loginBody = ["username": username, "password": password, "keeploggedin": "false", "sec": "", "resume": "", "thirdPartyId": "", "state": ""]
     
-    
+    networkClient.post(String.self, baseURL: environment.loginBaseURL(), endpoint: environment.loginEndpoint(), body: buildPostFormBodyFrom(dictionary: loginBody), contentType: .form) { (porscheAuth, response, error, responseJson) in
+      ""
+    }
   }
 }
+

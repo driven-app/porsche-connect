@@ -18,7 +18,7 @@ final class PorscheConnectTests: XCTestCase {
     XCTAssertNotNil(self.connect)
     XCTAssertEqual(Environment.Test, self.connect.environment)
     XCTAssertEqual("homer.simpson@icloud.example", self.connect.username)
-    XCTAssertEqual("Duh!", self.connect.password)
   }
       
+
 }

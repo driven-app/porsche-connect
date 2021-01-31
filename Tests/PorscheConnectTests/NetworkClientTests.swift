@@ -46,7 +46,6 @@ final class NetworkClientTests: BaseMockNetworkTestCase {
     client.get(HelloWorld.self, baseURL: helloWorldBaseURL, endpoint: "/hello_world.json") { (helloWorld, response, error, responseJson) in
       expectation.fulfill()
       XCTAssertNotNil(error)
-      XCTAssertEqual(HTTPStatusCodes.Unauthorized, error as! HTTPStatusCodes)
       XCTAssertNil(responseJson)
       XCTAssertNil(helloWorld)
       XCTAssertNotNil(response)
@@ -55,7 +54,7 @@ final class NetworkClientTests: BaseMockNetworkTestCase {
     
     waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
-  
+    
   func testUrlExtensionAddEndpoint() {
     let url = URL(string: "https://api.porsche.example")!.addEndpoint(endpoint: "endpoint")
     XCTAssertEqual(URL(string: "https://api.porsche.example/endpoint"), url)
@@ -85,5 +84,17 @@ final class NetworkClientTests: BaseMockNetworkTestCase {
     XCTAssertEqual("/endpoint", url.path)
     XCTAssert(url.query!.contains("param_key_1=param_value_1"))
     XCTAssert(url.query!.contains("param_key_2=param_value_2"))
+  }
+  
+  func testBuildPostFormBodySingleKey() {
+    let data = buildPostFormBodyFrom(dictionary: ["param_key": "param_value"])!
+    XCTAssertEqual("param_key=param_value", String(data: data, encoding: .utf8))
+  }
+  
+  func testBuildPostFormBodyMultipleKeys() {
+    let data = buildPostFormBodyFrom(dictionary: ["param_key_1": "param_value_1", "param_key_2": "param_value_2"])!
+    let query = String(data: data, encoding: .utf8)!
+    XCTAssert(query.contains("param_key_1=param_value_1"))
+    XCTAssert(query.contains("param_key_2=param_value_2"))
   }
 }
