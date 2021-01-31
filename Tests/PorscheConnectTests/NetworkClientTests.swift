@@ -1,6 +1,10 @@
 import XCTest
 @testable import PorscheConnect
 
+fileprivate struct HelloWorld: Codable {
+  let message: String
+}
+
 final class NetworkClientTests: BaseMockNetworkTestCase {
 
   // MARK: - Properties
@@ -16,8 +20,40 @@ final class NetworkClientTests: BaseMockNetworkTestCase {
   
   // MARK: - Tests
   
-  func testGet() {
+  func testGetHelloWorldSuccessful() {
+    let helloWorldBaseURL = URL(string: "http://localhost:\(randomMockServerPortForProcess())")!
+    MockNetworkRoutes().mockGetHelloWorldSuccessful(router: router)
+    let expectation = self.expectation(description: "Network Expectation")
+
+    client.get(HelloWorld.self, baseURL: helloWorldBaseURL, endpoint: "/hello_world.json") { (helloWorld, response, error, responseJson) in
+      expectation.fulfill()
+      XCTAssertNil(error)
+      XCTAssertNotNil(responseJson)
+      XCTAssertNotNil(helloWorld)
+      XCTAssertEqual("Hello World!", helloWorld!.message)
+      XCTAssertNotNil(response)
+      XCTAssertEqual(200, response!.statusCode)
+    }
     
+    waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  }
+  
+  func testGetHelloWorldFailure() {
+    let helloWorldBaseURL = URL(string: "http://localhost:\(randomMockServerPortForProcess())")!
+    MockNetworkRoutes().mockGetHelloWorldFailure(router: router)
+    let expectation = self.expectation(description: "Network Expectation")
+
+    client.get(HelloWorld.self, baseURL: helloWorldBaseURL, endpoint: "/hello_world.json") { (helloWorld, response, error, responseJson) in
+      expectation.fulfill()
+      XCTAssertNotNil(error)
+      XCTAssertEqual(HTTPStatusCodes.Unauthorized, error as! HTTPStatusCodes)
+      XCTAssertNil(responseJson)
+      XCTAssertNil(helloWorld)
+      XCTAssertNotNil(response)
+      XCTAssertEqual(401, response!.statusCode)
+    }
+    
+    waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
   
   func testUrlExtensionAddEndpoint() {
