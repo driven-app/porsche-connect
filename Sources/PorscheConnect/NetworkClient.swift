@@ -4,6 +4,7 @@ import Foundation
 
 enum RestMethod: String {
   case get = "GET"
+  case post = "POST"
 }
 
 enum HTTPStatusCodes: Int, Error {
@@ -90,12 +91,9 @@ public typealias ResponseJson = Data
 // MARK: - Structs
 
 struct NetworkClient {
-  let baseURL: URL
   let session: URLSession
   
-  init(baseURL: URL, timeoutIntervalForRequest:TimeInterval = 30) {
-    self.baseURL = baseURL
-    
+  init(timeoutIntervalForRequest:TimeInterval = 30) {
     let configuration = URLSessionConfiguration.default
     configuration.httpCookieAcceptPolicy = .never
     configuration.httpCookieStorage = nil
@@ -105,11 +103,18 @@ struct NetworkClient {
   
   // MARK: - Public
   
-  func get<D: Decodable>(_ responseType: D.Type, endpoint: String, params: [String : String]? = nil, headers: [String : String]? = nil, completion: @escaping (D?, HTTPURLResponse?, Error?, ResponseJson?) -> Void) {
+  func get<D: Decodable>(_ responseType: D.Type, baseURL: URL, endpoint: String, params: [String : String]? = nil, headers: [String : String]? = nil, completion: @escaping (D?, HTTPURLResponse?, Error?, ResponseJson?) -> Void) {
     let url = baseURL.addEndpoint(endpoint: endpoint).addParams(params: params)
     let request = self.createCommonRequest(url: url, method: RestMethod.get.rawValue, headers: headers, contentType: "application/json", bodyData: nil)
     self.performRequest(responseType, request: request, completion: completion)
   }
+  
+  func post<E: Encodable, D: Decodable>(_ responseType: D.Type, baseURL: URL, endpoint: String, params: [String : String]? = nil, body: E?, headers: [String : String]? = nil, completion: @escaping (D?, HTTPURLResponse?, Error?, ResponseJson?) -> Void) {
+    let url = baseURL.addEndpoint(endpoint: endpoint).addParams(params: params)
+    let request = self.buildModifyingRequest(url: url, method: RestMethod.post.rawValue, headers: headers, body: body)
+    self.performRequest(responseType, request: request, completion: completion)
+  }
+ 
   
   // MARK: - Private
   
@@ -154,6 +159,16 @@ struct NetworkClient {
     }
     
     task.resume()
+  }
+  
+  private func buildModifyingRequest<E: Encodable>(url: URL, method: String, headers: [String: String]?, body: E?) -> URLRequest {
+    return createCommonRequest(url: url, method: method, headers: headers, contentType: "application/json", bodyData: buildJsonBody(body: body))
+  }
+  
+  private func buildJsonBody<E: Encodable>(body: E?) -> Data? {
+    let encoder = JSONEncoder()
+    encoder.keyEncodingStrategy = .convertToSnakeCase
+    return try? encoder.encode(body)
   }
   
   private func isErrorStatusCode(_ response: HTTPURLResponse) -> Bool {

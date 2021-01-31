@@ -1,7 +1,7 @@
 import XCTest
 @testable import PorscheConnect
 
-final class NetworkClientTests: XCTestCase {
+final class NetworkClientTests: BaseMockNetworkTestCase {
 
   // MARK: - Properties
   
@@ -11,10 +11,14 @@ final class NetworkClientTests: XCTestCase {
   
   override func setUp() {
     super.setUp()
-    self.client = NetworkClient(baseURL: Environment.Ireland.baseURL())
+    self.client = NetworkClient()
   }
   
   // MARK: - Tests
+  
+  func testGet() {
+    
+  }
   
   func testUrlExtensionAddEndpoint() {
     let url = URL(string: "https://api.porsche.example")!.addEndpoint(endpoint: "endpoint")

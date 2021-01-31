@@ -2,10 +2,23 @@ import XCTest
 @testable import PorscheConnect
 
 final class PorscheConnectTests: XCTestCase {
-  func testExample() {
-    // This is an example of a functional test case.
-    // Use XCTAssert and related functions to verify your tests produce the correct
-    // results.
-    XCTAssertEqual(PorscheConnect().text, "Hello, World!")
+  
+  // MARK: - Properties
+  
+  var connect: PorscheConnect!
+  
+  // MARK: - Lifecycle
+  
+  override func setUp() {
+    super.setUp()
+    self.connect = PorscheConnect(environment: .Test, username: "homer.simpson@icloud.example", password: "Duh!")
   }
+  
+  func testConstruction() {
+    XCTAssertNotNil(self.connect)
+    XCTAssertEqual(Environment.Test, self.connect.environment)
+    XCTAssertEqual("homer.simpson@icloud.example", self.connect.username)
+    XCTAssertEqual("Duh!", self.connect.password)
+  }
+      
 }
