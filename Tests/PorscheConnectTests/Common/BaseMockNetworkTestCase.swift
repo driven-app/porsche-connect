@@ -1,73 +1,70 @@
 import Foundation
+import Network
 import XCTest
-
-#if !os(macOS)
-import UIKit
-#endif
 
 import Embassy
 import Ambassador
+
+@testable import PorscheConnect
 
 class BaseMockNetworkTestCase: XCTestCase {
   
   // MARK: - Properties
   
-  let router = Router()
-  let loop = try! SelectorEventLoop(selector: try! KqueueSelector())
-  var server: HTTPServer!
+  static let router = Router()
+  static let loop = try! SelectorEventLoop(selector: try! KqueueSelector())
+  static var server: DefaultHTTPServer!
   
-  override func setUp() {
+  override class func setUp() {
     super.setUp()
     setupMockWebServer()
   }
   
-  override func tearDown() {
+  override class func tearDown() {
     super.tearDown()
     tearDownMockWebServer()
   }
   
   // MARK: - Private
   
-  private func setupMockWebServer() {
-    let port = randomMockServerPortForProcess()
-    server = DefaultHTTPServer(eventLoop: loop, port: port, app: router.app)
+  private class func setupMockWebServer() {
+    server = DefaultHTTPServer(eventLoop: loop, port: kTestServerPort, app: router.app)
     
     try! server.start()
     
-    if let server = server as? DefaultHTTPServer {
-      print("Started Mock Web Server at port \(server.port)")
-    }
+    print("Mock Web Server at port \(server.port): starting")
     
     DispatchQueue.global().async {
-      self.loop.runForever()
+      loop.runForever()
     }
+    
+    waitForServer()
   }
   
-  private func tearDownMockWebServer() {
+  private class func tearDownMockWebServer() {
     server.stopAndWait()
     loop.stop()
-  }
-}
-
-// MARK: - Helper functions
-
-public func randomMockServerPortForProcess() -> Int {
-  let fileUrl = NSURL.fileURL(withPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent("\(deviceName())-port.txt")
-  
-  if !FileManager.default.fileExists(atPath: fileUrl.path) {
-    let port = String(Int.random(in: 3000 ... 9999))
-    try! port.write(to: fileUrl, atomically: true, encoding: String.Encoding.utf8)
+    print("Mock Web Server at port \(server.port): stopped")
   }
   
-  let port = try! String(contentsOf: fileUrl, encoding: .utf8)
+  private class func waitForServer() {
+    let semaphore = DispatchSemaphore(value: 0)
+    let connection = NWConnection(host: "localhost", port: NWEndpoint.Port(rawValue: NWEndpoint.Port.RawValue(server.port))!, using: .tcp)
+    
+    connection.start(queue: .init(label: "Socket Q"))
+    connection.stateUpdateHandler = { (newState) in
+      switch (newState) {
+      case .ready:
+        DispatchQueue.global().sync {
+          _ = semaphore.signal()
+        }
+      default:
+        break
+      }
+    }
+    
+    semaphore.wait()
+    print("Mock Web Server at port \(server.port): started")
+  }
   
-  return Int(port)!
-}
-
-private func deviceName() -> String {
-  #if os(iOS) || os(watchOS) || os(tvOS)
-  return UIDevice.current.name
-  #elseif os(macOS)
-  return Host.current().name ?? "device"
-  #endif
 }

@@ -6,6 +6,7 @@ final class MockNetworkRoutes {
   // MARK: - Properties
   
   private static let getHelloWorldPath = "/hello_world.json"
+  private static let postLoginAuthPath = "/auth/api/v1/ie/ie_IE/public/login"
 
   public var recorder = [Dictionary<String, Any>]()
   
@@ -20,6 +21,13 @@ final class MockNetworkRoutes {
   
   func mockGetHelloWorldFailure(router: Router) {
     router[MockNetworkRoutes.getHelloWorldPath] = JSONResponse(statusCode: 401, statusMessage: "unauthorized")
+  }
+  
+  func mockPostLoginAuthSuccessful(router: Router) {
+    router[MockNetworkRoutes.postLoginAuthPath] = DataResponse(statusCode: 200) { (req) -> Data in
+      self.recorder.append(req)
+      return kBlankData
+    }
   }
   
   // MARK: - Mock Responses
