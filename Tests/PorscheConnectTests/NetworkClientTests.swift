@@ -21,17 +21,17 @@ final class NetworkClientTests: BaseMockNetworkTestCase {
   // MARK: - Tests
   
   func testGetHelloWorldSuccessful() {
-    let helloWorldBaseURL = URL(string: "http://localhost:\(randomMockServerPortForProcess())")!
+    let url = URL(string: "http://localhost:\(randomMockServerPortForProcess())/hello_world.json")!
     MockNetworkRoutes().mockGetHelloWorldSuccessful(router: router)
     let expectation = self.expectation(description: "Network Expectation")
 
-    client.get(HelloWorld.self, baseURL: helloWorldBaseURL, endpoint: "/hello_world.json") { (helloWorld, response, error, responseJson) in
+    client.get(HelloWorld.self, url: url) { (helloWorld, response, error, responseJson) in
       expectation.fulfill()
       XCTAssertNil(error)
       XCTAssertNotNil(responseJson)
+      XCTAssertNotNil(response)
       XCTAssertNotNil(helloWorld)
       XCTAssertEqual("Hello World!", helloWorld!.message)
-      XCTAssertNotNil(response)
       XCTAssertEqual(200, response!.statusCode)
     }
     
@@ -39,11 +39,11 @@ final class NetworkClientTests: BaseMockNetworkTestCase {
   }
   
   func testGetHelloWorldFailure() {
-    let helloWorldBaseURL = URL(string: "http://localhost:\(randomMockServerPortForProcess())")!
+    let url = URL(string: "http://localhost:\(randomMockServerPortForProcess())/hello_world.json")!
     MockNetworkRoutes().mockGetHelloWorldFailure(router: router)
     let expectation = self.expectation(description: "Network Expectation")
 
-    client.get(HelloWorld.self, baseURL: helloWorldBaseURL, endpoint: "/hello_world.json") { (helloWorld, response, error, responseJson) in
+    client.get(HelloWorld.self, url: url) { (helloWorld, response, error, responseJson) in
       expectation.fulfill()
       XCTAssertNotNil(error)
       XCTAssertNil(responseJson)
@@ -87,12 +87,12 @@ final class NetworkClientTests: BaseMockNetworkTestCase {
   }
   
   func testBuildPostFormBodySingleKey() {
-    let data = buildPostFormBodyFrom(dictionary: ["param_key": "param_value"])!
+    let data = buildPostFormBodyFrom(dictionary: ["param_key": "param_value"])
     XCTAssertEqual("param_key=param_value", String(data: data, encoding: .utf8))
   }
   
   func testBuildPostFormBodyMultipleKeys() {
-    let data = buildPostFormBodyFrom(dictionary: ["param_key_1": "param_value_1", "param_key_2": "param_value_2"])!
+    let data = buildPostFormBodyFrom(dictionary: ["param_key_1": "param_value_1", "param_key_2": "param_value_2"])
     let query = String(data: data, encoding: .utf8)!
     XCTAssert(query.contains("param_key_1=param_value_1"))
     XCTAssert(query.contains("param_key_2=param_value_2"))

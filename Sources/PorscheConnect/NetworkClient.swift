@@ -19,16 +19,14 @@ struct NetworkClient {
   
   // MARK: - Public
   
-  func get<D: Decodable>(_ responseType: D.Type, baseURL: URL, endpoint: String, params: [String : String]? = nil, headers: [String : String]? = nil, completion: @escaping (D?, HTTPURLResponse?, Error?, ResponseJson?) -> Void) {
-    let url = baseURL.addEndpoint(endpoint: endpoint).addParams(params: params)
-    let request = self.createCommonRequest(url: url, method: HttpMethod.get.rawValue, headers: headers, contentType: .json, bodyData: nil)
+  func get<D: Decodable>(_ responseType: D.Type, url: URL, params: [String : String]? = nil, headers: [String : String]? = nil, completion: @escaping (D?, HTTPURLResponse?, Error?, ResponseJson?) -> Void) {
+    let request = self.createCommonRequest(url: url.addParams(params: params), method: HttpMethod.get.rawValue, headers: headers, contentType: .json, bodyData: nil)
     self.performRequest(responseType, request: request, completion: completion)
   }
   
-  func post<E: Encodable, D: Decodable>(_ responseType: D.Type, baseURL: URL, endpoint: String, params: [String : String]? = nil, body: E?, headers: [String : String]? = nil, contentType: HttpRequestContentType = .json, completion: @escaping (D?, HTTPURLResponse?, Error?, ResponseJson?) -> Void) {
-    let url = baseURL.addEndpoint(endpoint: endpoint).addParams(params: params)
-    let request = self.buildModifyingRequest(url: url, method: HttpMethod.post.rawValue, headers: headers, contentType: contentType, body: body)
-    self.performRequest(responseType, request: request, completion: completion)
+  func post<E: Encodable, D: Decodable>(_ responseType: D.Type, url: URL, params: [String : String]? = nil, body: E?, headers: [String : String]? = nil, contentType: HttpRequestContentType = .json, completion: @escaping (D?, HTTPURLResponse?, Error?, ResponseJson?) -> Void) {
+    let request = self.buildModifyingRequest(url: url.addParams(params: params), method: HttpMethod.post.rawValue, headers: headers, contentType: contentType, body: body)
+    self.performRequest(responseType, request: request, contentType: contentType, completion: completion)
   }
  
   
@@ -43,12 +41,12 @@ struct NetworkClient {
       }
     }
   
-    request.setValue(contentType.mimeDescription, forHTTPHeaderField: "Content-Type")
+    request.addValue(contentType.mimeDescription, forHTTPHeaderField: "Content-Type")
     request.httpBody = bodyData
     return request
   }
   
-  private func performRequest<D: Decodable>(_ responseType: D.Type, request: URLRequest, completion: @escaping (D?, HTTPURLResponse?, Error?, ResponseJson?) -> Void) {
+  private func performRequest<D: Decodable>(_ responseType: D.Type, request: URLRequest, contentType: HttpRequestContentType = .json, completion: @escaping (D?, HTTPURLResponse?, Error?, ResponseJson?) -> Void) {
     let task = self.session.dataTask(with: request) { (data, urlResponse, error) in
       let response = urlResponse as? HTTPURLResponse
       
@@ -60,6 +58,11 @@ struct NetworkClient {
       }
       
       guard let data = data, error == nil, !data.isEmpty else {
+        completion(nil, response, error, nil)
+        return
+      }
+      
+      if contentType == .form {
         completion(nil, response, error, nil)
         return
       }
@@ -79,7 +82,8 @@ struct NetworkClient {
   }
   
   private func buildModifyingRequest<E: Encodable>(url: URL, method: String, headers: [String: String]?, contentType: HttpRequestContentType = .json ,body: E?) -> URLRequest {
-    return createCommonRequest(url: url, method: method, headers: headers, contentType: contentType, bodyData: buildJsonBody(body: body))
+    let bodyData: Data? = contentType == .json ? buildJsonBody(body: body) : body as? Data
+    return createCommonRequest(url: url, method: method, headers: headers, contentType: contentType, bodyData: bodyData)
   }
   
   private func buildJsonBody<E: Encodable>(body: E?) -> Data? {
@@ -130,12 +134,13 @@ public extension URL {
   }
 }
 
-public func buildPostFormBodyFrom(dictionary: [String: String]) -> Data? {
+public func buildPostFormBodyFrom(dictionary: [String: String]) -> Data {
   var urlComponents = URLComponents()
   urlComponents.queryItems = dictionary.map {
     URLQueryItem(name: $0.key, value: $0.value)
   }
-  return urlComponents.query?.data(using: .utf8)
+
+  return urlComponents.query?.data(using: .utf8) ?? kBlankData
 }
 // MARK: - Enums
 
