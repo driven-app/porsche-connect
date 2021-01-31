@@ -10,6 +10,7 @@ final class NetworkClientTests: BaseMockNetworkTestCase {
   // MARK: - Properties
   
   var client: NetworkClient!
+  let mockNetworkRoutes = MockNetworkRoutes()
   
   // MARK: - Lifecycle
   
@@ -21,8 +22,8 @@ final class NetworkClientTests: BaseMockNetworkTestCase {
   // MARK: - Tests
   
   func testGetHelloWorldSuccessful() {
-    let url = URL(string: "http://localhost:\(randomMockServerPortForProcess())/hello_world.json")!
-    MockNetworkRoutes().mockGetHelloWorldSuccessful(router: router)
+    let url = URL(string: "http://localhost:\(kTestServerPort)/hello_world.json")!
+    mockNetworkRoutes.mockGetHelloWorldSuccessful(router: BaseMockNetworkTestCase.router)
     let expectation = self.expectation(description: "Network Expectation")
 
     client.get(HelloWorld.self, url: url) { (helloWorld, response, error, responseJson) in
@@ -39,8 +40,8 @@ final class NetworkClientTests: BaseMockNetworkTestCase {
   }
   
   func testGetHelloWorldFailure() {
-    let url = URL(string: "http://localhost:\(randomMockServerPortForProcess())/hello_world.json")!
-    MockNetworkRoutes().mockGetHelloWorldFailure(router: router)
+    let url = URL(string: "http://localhost:\(kTestServerPort)/hello_world.json")!
+    mockNetworkRoutes.mockGetHelloWorldFailure(router: BaseMockNetworkTestCase.router)
     let expectation = self.expectation(description: "Network Expectation")
 
     client.get(HelloWorld.self, url: url) { (helloWorld, response, error, responseJson) in

@@ -27,7 +27,7 @@ public struct NetworkRoutes {
     case .Ireland, .Germany:
       return URL(string: "https://login.porsche.com/auth/api/v1/\(environment.countryCode)/public/login")!
     case .Test:
-      return URL(string: "https://localhost:\(randomMockServerPortForProcess())/auth/api/v1/\(environment.countryCode)/public/login")!
+      return URL(string: "https://localhost:\(kTestServerPort)/auth/api/v1/\(environment.countryCode)/public/login")!
     }
   }
 }
