@@ -46,7 +46,6 @@ final class NetworkClientTests: BaseMockNetworkTestCase {
     client.get(HelloWorld.self, baseURL: helloWorldBaseURL, endpoint: "/hello_world.json") { (helloWorld, response, error, responseJson) in
       expectation.fulfill()
       XCTAssertNotNil(error)
-      XCTAssertEqual(HTTPStatusCodes.Unauthorized, error as! HTTPStatusCodes)
       XCTAssertNil(responseJson)
       XCTAssertNil(helloWorld)
       XCTAssertNotNil(response)
