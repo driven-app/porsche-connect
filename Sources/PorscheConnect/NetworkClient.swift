@@ -188,7 +188,7 @@ public extension URL {
       queryItems.append(contentsOf: existingQueryItems)
     }
     
-    for (key, value) in params.reversed() {
+    for (key, value) in params {
       queryItems.append(URLQueryItem(name: key, value: value))
     }
     
@@ -197,13 +197,3 @@ public extension URL {
     return urlComponents.url!
   }
 }
-
-
-
-//let params = queryString.components(separatedBy: "&").map({
-//    $0.components(separatedBy: "=")
-//}).reduce(into: [String:String]()) { dict, pair in
-//    if pair.count == 2 {
-//        dict[pair[0]] = pair[1]
-//    }
-//}
