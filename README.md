@@ -23,7 +23,9 @@ Porsche Connect requires Swift 5.2 of higher.
 Create an instance of the library:
 
 ```Swift
- let porscheConnect = PorscheConnect(environment: .Ireland, username: "homer.simpson@icloud.example", password: "Duh!")
+ let porscheConnect = PorscheConnect(environment: .Ireland, 
+                                     username: "homer.simpson@icloud.example", 
+                                     password: "Duh!")
 ```
 
 Currently the following environments are supported:
@@ -32,7 +34,7 @@ Currently the following environments are supported:
 * Germany
 * Test (used by the test suite against a mocked server)
 
-A valid ![MyPorsche](https://connect-portal.porsche.com) username (email) and password is required to use this library.
+A valid [MyPorsche](https://connect-portal.porsche.com) username (email) and password is required to use this library.
 
 
 ## Install
