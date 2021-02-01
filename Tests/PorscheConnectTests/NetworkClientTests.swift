@@ -21,7 +21,7 @@ final class NetworkClientTests: BaseMockNetworkTestCase {
   
   // MARK: - Tests
   
-  func testGetHelloWorldSuccessful() {
+  func testGetSuccessful() {
     let url = URL(string: "http://localhost:\(kTestServerPort)/hello_world.json")!
     mockNetworkRoutes.mockGetHelloWorldSuccessful(router: BaseMockNetworkTestCase.router)
     let expectation = self.expectation(description: "Network Expectation")
@@ -39,7 +39,7 @@ final class NetworkClientTests: BaseMockNetworkTestCase {
     waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
   
-  func testGetHelloWorldFailure() {
+  func testGetFailure() {
     let url = URL(string: "http://localhost:\(kTestServerPort)/hello_world.json")!
     mockNetworkRoutes.mockGetHelloWorldFailure(router: BaseMockNetworkTestCase.router)
     let expectation = self.expectation(description: "Network Expectation")
@@ -51,6 +51,25 @@ final class NetworkClientTests: BaseMockNetworkTestCase {
       XCTAssertNil(helloWorld)
       XCTAssertNotNil(response)
       XCTAssertEqual(401, response!.statusCode)
+    }
+    
+    waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  }
+  
+  func testPostSuccess() {
+    let url = URL(string: "http://localhost:\(kTestServerPort)/hello_world.json")!
+    mockNetworkRoutes.mockGetHelloWorldSuccessful(router: BaseMockNetworkTestCase.router)
+    let expectation = self.expectation(description: "Network Expectation")
+    let body = ["param_key": "param_value"]
+    
+    client.post(HelloWorld.self, url: url, body: buildPostFormBodyFrom(dictionary: body)) { (helloWorld, response, error, responseJson) in
+      expectation.fulfill()
+      XCTAssertNil(error)
+      XCTAssertNotNil(responseJson)
+      XCTAssertNotNil(response)
+      XCTAssertNotNil(helloWorld)
+      XCTAssertEqual("Hello World!", helloWorld!.message)
+      XCTAssertEqual(200, response!.statusCode)
     }
     
     waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)

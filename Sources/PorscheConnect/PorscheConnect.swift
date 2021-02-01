@@ -22,12 +22,12 @@ public enum Environment: String, CaseIterable {
 public struct NetworkRoutes {
   let environment: Environment
   
-  func loginAuthURL() -> URL {
+  var loginAuthURL: URL {
     switch environment {
     case .Ireland, .Germany:
       return URL(string: "https://login.porsche.com/auth/api/v1/\(environment.countryCode)/public/login")!
     case .Test:
-      return URL(string: "https://localhost:\(kTestServerPort)/auth/api/v1/\(environment.countryCode)/public/login")!
+      return URL(string: "http://localhost:\(kTestServerPort)/auth/api/v1/\(environment.countryCode)/public/login")!
     }
   }
 }
@@ -55,7 +55,7 @@ struct PorscheConnect {
   public func auth(success: Success? = nil, failure: Failure? = nil) {
     let loginBody = ["username": username, "password": password, "keeploggedin": "false", "sec": "", "resume": "", "thirdPartyId": "", "state": ""]
     
-    networkClient.post(String.self, url: networkRoutes.loginAuthURL(), body: buildPostFormBodyFrom(dictionary: loginBody), contentType: .form) { (body, response, error, responseJson) in
+    networkClient.post(String.self, url: networkRoutes.loginAuthURL, body: buildPostFormBodyFrom(dictionary: loginBody), contentType: .form) { (body, response, error, responseJson) in
       handleResponse(body: body, response: response, error: error, json: responseJson, success: success, failure: failure)
     }
   }
