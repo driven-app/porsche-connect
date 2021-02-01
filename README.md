@@ -1,5 +1,7 @@
 # PorscheConnect 
 
+**NOTE: This is a work-in-progress and not yet read for use - wait until v1.0.0 is released**
+
 This is an unofficial Porsche Connect API library written in Swift. The primary purpose for this library is to act as a base building block for both mobile, desktop and serverside applications built around the Porsche Connect service.
 
 You will require a My Porsche account to be able to make use of this library.
