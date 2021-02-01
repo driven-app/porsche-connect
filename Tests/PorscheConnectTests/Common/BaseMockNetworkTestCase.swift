@@ -55,9 +55,7 @@ class BaseMockNetworkTestCase: XCTestCase {
     connection.stateUpdateHandler = { (newState) in
       switch (newState) {
       case .ready:
-        DispatchQueue.global().sync {
-          _ = semaphore.signal()
-        }
+        semaphore.signal()
       default:
         break
       }
