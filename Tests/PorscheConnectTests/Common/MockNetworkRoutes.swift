@@ -2,19 +2,17 @@ import Foundation
 import Ambassador
 
 final class MockNetworkRoutes {
-
+  
   // MARK: - Properties
   
   private static let getHelloWorldPath = "/hello_world.json"
-  private static let postLoginAuthPath = "/auth/api/v1/ie/ie_IE/public/login"
-
-  public var recorder = [Dictionary<String, Any>]()
+  
+  private static let postLoginAuthPath = "/auth/api/v1/ie/en_IE/public/login"
   
   // MARK: - Mock Routes
   
   func mockGetHelloWorldSuccessful(router: Router) {
     router[MockNetworkRoutes.getHelloWorldPath] = JSONResponse(statusCode: 200) { (req) -> Any in
-      self.recorder.append(req)
       return self.mockHelloWorldResponse()
     }
   }
@@ -24,10 +22,7 @@ final class MockNetworkRoutes {
   }
   
   func mockPostLoginAuthSuccessful(router: Router) {
-    router[MockNetworkRoutes.postLoginAuthPath] = DataResponse(statusCode: 200) { (req) -> Data in
-      self.recorder.append(req)
-      return kBlankData
-    }
+    router[MockNetworkRoutes.postLoginAuthPath] = DataResponse(statusCode: 200, statusMessage: "ok")
   }
   
   // MARK: - Mock Responses
