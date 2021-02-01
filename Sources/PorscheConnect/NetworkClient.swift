@@ -99,11 +99,7 @@ struct NetworkClient {
 
 // MARK: - Extensions & Utilities
 
-public extension URL {
-  func addEndpoint(endpoint: String) -> URL {
-    return self.appendingPathComponent(endpoint)
-  }
-  
+public extension URL {  
   func addParams(params: [String: String]?) -> URL {
     guard let params = params else {
       return self

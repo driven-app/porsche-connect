@@ -1,6 +1,6 @@
 # PorscheConnect 
 
-**NOTE: This is a work-in-progress and not yet read for use - wait until v1.0.0 is released**
+**NOTE: This is a work-in-progress and not yet ready for use - wait until v1.0.0 is released**
 
 This is an unofficial Porsche Connect API library written in Swift. The primary purpose for this library is to act as a building block for both mobile, desktop and serverside applications built around the Porsche Connect service.
 
@@ -58,7 +58,7 @@ To run the test suite:
 xcodebuild test -destination "platform=iOS Simulator,name=iPhone 12 mini" -scheme "PorscheConnect"
 ```
 
-This is similar to the commands that are run in CI to test the library on each git commit. You can change the destinations to any of the packages supported platforms.
+This is similar to the commands that are run in CI to test the library on each git commit. You can change the destinations to any of the libraries supported platforms.
 
 
 ## Install
