@@ -22,7 +22,7 @@ final class MockNetworkRoutes {
   }
   
   func mockPostLoginAuthSuccessful(router: Router) {
-    router[MockNetworkRoutes.postLoginAuthPath] = DataResponse(statusCode: 200, statusMessage: "ok")
+    router[MockNetworkRoutes.postLoginAuthPath] = DataResponse(statusCode: 200, statusMessage: "ok", headers: [("Set-Cookie", "CIAM.status=mockValue")])
   }
   
   // MARK: - Mock Responses

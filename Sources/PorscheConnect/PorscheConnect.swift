@@ -56,11 +56,15 @@ struct PorscheConnect {
     let loginBody = ["username": username, "password": password, "keeploggedin": "false", "sec": "", "resume": "", "thirdPartyId": "", "state": ""]
     
     networkClient.post(String.self, url: networkRoutes.loginAuthURL, body: buildPostFormBodyFrom(dictionary: loginBody), contentType: .form) { (body, response, error, responseJson) in
+      
+      
+      
+      
       handleResponse(body: body, response: response, error: error, json: responseJson, success: success, failure: failure)
     }
   }
   
-  // MARK: - Internal
+  // MARK: - Private
 
   fileprivate func handleResponse(body: Any?, response: HTTPURLResponse?, error: Error?, json: ResponseJson?, success: Success?, failure: Failure?) {
     DispatchQueue.main.async {
