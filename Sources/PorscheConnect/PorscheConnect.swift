@@ -2,9 +2,9 @@ import Foundation
 
 // MARK: - Enums
 
-public enum Environment: String, CaseIterable {
+public enum Environment: String {
   case Ireland, Germany, Test
-    
+  
   public var countryCode: String {
     switch self {
     case .Ireland:
@@ -13,6 +13,24 @@ public enum Environment: String, CaseIterable {
       return "de/de_DE"
     case .Test:
       return "ie/en_IE"
+    }
+  }
+}
+
+public enum Application {
+  case Portal
+  
+  public var clientId: String {
+    switch self {
+    case .Portal:
+      return "TZ4Vf5wnKeipJxvatJ60lPHYEzqZ4WNp"
+    }
+  }
+  
+  public var redirectURL: URL {
+    switch self {
+    case .Portal:
+      return URL(string: "https://my-static02.porsche.com/static/cms/auth.htm")!
     }
   }
 }
@@ -28,6 +46,15 @@ public struct NetworkRoutes {
       return URL(string: "https://login.porsche.com/auth/api/v1/\(environment.countryCode)/public/login")!
     case .Test:
       return URL(string: "http://localhost:\(kTestServerPort)/auth/api/v1/\(environment.countryCode)/public/login")!
+    }
+  }
+  
+  var apiAuthURL: URL {
+    switch environment {
+    case .Ireland, .Germany:
+      return URL(string: "https://login.porsche.com/as/authorization.oauth2")!
+    case .Test:
+      return URL(string: "http://localhost:\(kTestServerPort)/as/authorization.oauth2")!
     }
   }
 }
@@ -65,7 +92,7 @@ struct PorscheConnect {
   }
   
   // MARK: - Private
-
+  
   fileprivate func handleResponse(body: Any?, response: HTTPURLResponse?, error: Error?, json: ResponseJson?, success: Success?, failure: Failure?) {
     DispatchQueue.main.async {
       if let failure = failure, let error = error {
