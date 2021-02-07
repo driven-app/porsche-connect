@@ -117,6 +117,8 @@ class PorscheConnect {
       if let codeVerifier = codeVerifier, let code = code {
         AuthLogger.debug("Auth: Code received: \(code)")
         self.getApiToken(codeVerifier: codeVerifier, code: code, completion: apiAuthTokenCompletion)
+      } else if let failure = failure, let error = error {
+        failure(error, response)
       }
     }
     
