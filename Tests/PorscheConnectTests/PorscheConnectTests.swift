@@ -91,15 +91,12 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
       XCTAssertNotNil(response)
       XCTAssertNil(responseJson)
       
-//      let cookies = self.cookiesFrom(response: response!)
-//      XCTAssertEqual(1, cookies.count)
+      let cookies = HTTPCookieStorage.shared.cookies!
+      XCTAssertEqual(1, cookies.count)
 //
-//      let cookie = cookies.first!
-//      XCTAssertEqual("CIAM.status", cookie.name)
-//      XCTAssertEqual("mockValue", cookie.value)
-//
-//      XCTAssertEqual(1, HTTPCookieStorage.shared.cookies!.count)
-//      XCTAssertEqual(cookie, HTTPCookieStorage.shared.cookies!.first)
+      let cookie = cookies.first!
+      XCTAssertEqual("CIAM.status", cookie.name)
+      XCTAssertEqual("mockValue", cookie.value)
       
       let porscheAuth = body as! PorscheAuth
       XCTAssertNotNil(porscheAuth)

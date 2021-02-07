@@ -101,6 +101,7 @@ struct PorscheConnect {
     let apiAuthTokenCompletion = { (porscheAuth: PorscheAuth?, error: PorscheConnectError?, response: HTTPURLResponse?) -> Void in
       
       if let porscheAuth = porscheAuth, let success = success {
+//        authorized = true
         success(porscheAuth, response, nil)
       }
     }
