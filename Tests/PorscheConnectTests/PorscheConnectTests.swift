@@ -44,6 +44,17 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
       expectation.fulfill()
       XCTAssertNil(body)
       XCTAssertNil(responseJson)
+      XCTAssertNotNil(response)
+      
+      let cookies = self.cookiesFrom(response: response!)
+      XCTAssertEqual(1, cookies.count)
+      
+      let cookie = cookies.first!
+      XCTAssertEqual("CIAM.status", cookie.name)
+      XCTAssertEqual("mockValue", cookie.value)
+      
+      XCTAssertEqual(1, HTTPCookieStorage.shared.cookies!.count)
+      XCTAssertEqual(cookie, HTTPCookieStorage.shared.cookies!.first)
     }
 
     waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)

@@ -15,6 +15,8 @@ class BaseMockNetworkTestCase: XCTestCase {
   static let loop = try! SelectorEventLoop(selector: try! KqueueSelector())
   static var server: DefaultHTTPServer!
   
+  // MARK: - Lifecycle
+  
   override class func setUp() {
     super.setUp()
     setupMockWebServer()
@@ -23,6 +25,16 @@ class BaseMockNetworkTestCase: XCTestCase {
   override class func tearDown() {
     super.tearDown()
     tearDownMockWebServer()
+  }
+  
+  // MARK: - Helpers
+  
+  func cookiesFrom(response: HTTPURLResponse) -> [HTTPCookie] {
+    guard let allHeaderFields = response.allHeaderFields as? [String: String] else {
+      return []
+    }
+    
+    return HTTPCookie.cookies(withResponseHeaderFields: allHeaderFields, for: response.url!)
   }
   
   // MARK: - Private
