@@ -7,8 +7,8 @@ let package = Package(
   name: "PorscheConnect",
   platforms: [
     .macOS(.v11),
-    .iOS(.v13),
-    .tvOS(.v13),
+    .iOS(.v14),
+    .tvOS(.v14),
     .watchOS(.v6)
   ],
   products: [
