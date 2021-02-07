@@ -79,3 +79,6 @@ let package = Package(
 )
 ```
 
+## Is the API official?
+
+Absolutely not. These endpoints are a result of reverse engineering Porsche's web and mobile applications.
