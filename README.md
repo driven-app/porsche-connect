@@ -6,6 +6,11 @@ This is an unofficial Porsche Connect API library written in Swift. The primary 
 
 You will require a My Porsche account to be able to make use of this library.
 
+## Is the API official?
+
+Absolutely not. These endpoints are a result of reverse engineering Porsche's web and mobile applications.
+
+
 # CI/CD Status
 
 The library has a comprehensive suite of unit tests that run on GitHub Actions. Currently the test suite is run on a simulated **iPhone 12 Mini**. Further platforms (macOS) will be added in the future. 
@@ -78,7 +83,3 @@ let package = Package(
   ]
 )
 ```
-
-## Is the API official?
-
-Absolutely not. These endpoints are a result of reverse engineering Porsche's web and mobile applications.
