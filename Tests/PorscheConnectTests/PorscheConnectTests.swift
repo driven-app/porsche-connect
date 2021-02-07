@@ -77,7 +77,7 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
     XCTAssertNotNil(AuthLogger)
   }
   
-  func testFullAuthSuccessful() {
+  func testRequestTokenSuccessful() {
     HTTPCookieStorage.shared.cookies?.forEach { HTTPCookieStorage.shared.deleteCookie($0) }
 
     let expectation = self.expectation(description: "Network Expectation")
@@ -85,7 +85,7 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
     mockNetworkRoutes.mockGetApiAuthSuccessful(router: BaseMockNetworkTestCase.router)
     mockNetworkRoutes.mockPostApiTokenSuccessful(router: BaseMockNetworkTestCase.router)
     
-    self.connect.auth { (body, response, responseJson) in
+    self.connect.requestToken { (body, response, responseJson) in
       expectation.fulfill()
       XCTAssertNotNil(body)
       XCTAssertNotNil(response)
@@ -93,7 +93,7 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
       
       let cookies = HTTPCookieStorage.shared.cookies!
       XCTAssertEqual(1, cookies.count)
-//
+
       let cookie = cookies.first!
       XCTAssertEqual("CIAM.status", cookie.name)
       XCTAssertEqual("mockValue", cookie.value)
@@ -109,4 +109,5 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
     waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
   
+  //TODO: Add auth failure tests
 }
