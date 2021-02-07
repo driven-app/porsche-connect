@@ -84,12 +84,17 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
     mockNetworkRoutes.mockPostLoginAuthSuccessful(router: BaseMockNetworkTestCase.router)
     mockNetworkRoutes.mockGetApiAuthSuccessful(router: BaseMockNetworkTestCase.router)
     mockNetworkRoutes.mockPostApiTokenSuccessful(router: BaseMockNetworkTestCase.router)
+
+    XCTAssertFalse(self.connect.authorized)
+    XCTAssertNil(self.connect.auth)
     
-    self.connect.requestToken { (body, response, responseJson) in
+    self.connect.auth { (body, response, responseJson) in
       expectation.fulfill()
       XCTAssertNotNil(body)
       XCTAssertNotNil(response)
       XCTAssertNil(responseJson)
+      
+      XCTAssert(self.connect.authorized)
       
       let cookies = HTTPCookieStorage.shared.cookies!
       XCTAssertEqual(1, cookies.count)
@@ -104,6 +109,12 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
       XCTAssertEqual("eyQhbGciOiJSUzI1NiIsImtpZCI6IjE1bF9LeldTV08tQ1ZNdXdlTmQyMnMifQ", porscheAuth.idToken)
       XCTAssertEqual("Bearer", porscheAuth.tokenType)
       XCTAssertEqual(7199, porscheAuth.expiresIn)
+      
+      XCTAssertNotNil(self.connect.auth)
+      XCTAssertEqual("QycHMMWhUjsEVNUxzLgM92XGIN17", self.connect.auth!.accessToken)
+      XCTAssertEqual("eyQhbGciOiJSUzI1NiIsImtpZCI6IjE1bF9LeldTV08tQ1ZNdXdlTmQyMnMifQ", self.connect.auth!.idToken)
+      XCTAssertEqual("Bearer", self.connect.auth!.tokenType)
+      XCTAssertEqual(7199, self.connect.auth!.expiresIn)
     }
 
     waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)

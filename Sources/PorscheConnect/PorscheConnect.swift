@@ -72,13 +72,16 @@ public struct NetworkRoutes {
   }
 }
 
-struct PorscheConnect {
+// MARK: - Porsche Connect
+
+class PorscheConnect {
   typealias Success = ((Any?, HTTPURLResponse?, ResponseJson?) -> Void)
-  typealias Failure = ((Error, HTTPURLResponse?) -> Void)
+  typealias Failure = ((PorscheConnectError, HTTPURLResponse?) -> Void)
   
   let environment: Environment
   let username: String
   private(set) var authorized: Bool
+  private(set) var auth: PorscheAuth?
   
   private let networkClient = NetworkClient()
   private let networkRoutes: NetworkRoutes
@@ -95,14 +98,17 @@ struct PorscheConnect {
     self.authorized = false
   }
   
-  // MARK: - Request Token (Auth)
+  // MARK: - Auth
   
-  public func requestToken(success: Success? = nil, failure: Failure? = nil) {
+  public func auth(success: Success? = nil, failure: Failure? = nil) {
     let apiAuthTokenCompletion = { (porscheAuth: PorscheAuth?, error: PorscheConnectError?, response: HTTPURLResponse?) -> Void in
-      
-      if let porscheAuth = porscheAuth, let success = success {
-        DispatchQueue.main.async {
+      DispatchQueue.main.async {
+        if let porscheAuth = porscheAuth, let success = success {
+          self.auth = porscheAuth
+          self.authorized = true
           success(porscheAuth, response, nil)
+        } else if let failure = failure, let error = error {
+          failure(error, response)
         }
       }
     }
@@ -110,12 +116,12 @@ struct PorscheConnect {
     let apiAuthCompletion = { (code: String?, codeVerifier: String?, error: PorscheConnectError?, response: HTTPURLResponse?) -> Void in
       if let codeVerifier = codeVerifier, let code = code {
         AuthLogger.debug("Auth: Code received: \(code)")
-        getApiToken(codeVerifier: codeVerifier, code: code, completion: apiAuthTokenCompletion)
+        self.getApiToken(codeVerifier: codeVerifier, code: code, completion: apiAuthTokenCompletion)
       }
     }
     
     let loginToRetrieveCookiesCompletion = { (error: PorscheConnectError?, response: HTTPURLResponse?) -> Void in
-      getApiAuthCode(completion: apiAuthCompletion)
+      self.getApiAuthCode(completion: apiAuthCompletion)
     }
     
     loginToRetrieveCookies(completion: loginToRetrieveCookiesCompletion)
