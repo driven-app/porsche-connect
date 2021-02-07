@@ -13,7 +13,6 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
   override func setUp() {
     super.setUp()
     self.connect = PorscheConnect(environment: .Test, username: "homer.simpson@icloud.example", password: "Duh!")
-    HTTPCookieStorage.shared.cookies?.forEach { HTTPCookieStorage.shared.deleteCookie($0) }
   }
   
   func testConstruction() {
@@ -78,26 +77,36 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
     XCTAssertNotNil(AuthLogger)
   }
   
-  func testSuccessfulAuth() {
+  func testFullAuthSuccessful() {
+    HTTPCookieStorage.shared.cookies?.forEach { HTTPCookieStorage.shared.deleteCookie($0) }
+
     let expectation = self.expectation(description: "Network Expectation")
     mockNetworkRoutes.mockPostLoginAuthSuccessful(router: BaseMockNetworkTestCase.router)
     mockNetworkRoutes.mockGetApiAuthSuccessful(router: BaseMockNetworkTestCase.router)
-
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: BaseMockNetworkTestCase.router)
+    
     self.connect.auth { (body, response, responseJson) in
       expectation.fulfill()
-      XCTAssertNil(body)
-      XCTAssertNil(responseJson)
+      XCTAssertNotNil(body)
       XCTAssertNotNil(response)
+      XCTAssertNil(responseJson)
       
-      let cookies = self.cookiesFrom(response: response!)
-      XCTAssertEqual(1, cookies.count)
+//      let cookies = self.cookiesFrom(response: response!)
+//      XCTAssertEqual(1, cookies.count)
+//
+//      let cookie = cookies.first!
+//      XCTAssertEqual("CIAM.status", cookie.name)
+//      XCTAssertEqual("mockValue", cookie.value)
+//
+//      XCTAssertEqual(1, HTTPCookieStorage.shared.cookies!.count)
+//      XCTAssertEqual(cookie, HTTPCookieStorage.shared.cookies!.first)
       
-      let cookie = cookies.first!
-      XCTAssertEqual("CIAM.status", cookie.name)
-      XCTAssertEqual("mockValue", cookie.value)
-      
-      XCTAssertEqual(1, HTTPCookieStorage.shared.cookies!.count)
-      XCTAssertEqual(cookie, HTTPCookieStorage.shared.cookies!.first)
+      let porscheAuth = body as! PorscheAuth
+      XCTAssertNotNil(porscheAuth)
+      XCTAssertEqual("QycHMMWhUjsEVNUxzLgM92XGIN17", porscheAuth.accessToken)
+      XCTAssertEqual("eyQhbGciOiJSUzI1NiIsImtpZCI6IjE1bF9LeldTV08tQ1ZNdXdlTmQyMnMifQ", porscheAuth.idToken)
+      XCTAssertEqual("Bearer", porscheAuth.tokenType)
+      XCTAssertEqual(7199, porscheAuth.expiresIn)
     }
 
     waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)

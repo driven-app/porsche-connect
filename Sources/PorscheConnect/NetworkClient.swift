@@ -7,7 +7,7 @@ public typealias ResponseJson = Data
 // MARK: - Structs
 
 struct NetworkClient {
-  let session: URLSession
+  private let session: URLSession
   
   init(timeoutIntervalForRequest:TimeInterval = 30) {
     let configuration = URLSessionConfiguration.default
@@ -19,17 +19,16 @@ struct NetworkClient {
   
   // MARK: - Public
   
-  func get<D: Decodable>(_ responseType: D.Type, url: URL, params: Dictionary<String, String>? = nil, headers: Dictionary<String, String>? = nil, completion: @escaping (D?, HTTPURLResponse?, Error?, ResponseJson?) -> Void) {
+  func get<D: Decodable>(_ responseType: D.Type, url: URL, params: Dictionary<String, String>? = nil, headers: Dictionary<String, String>? = nil, parseResponseBody: Bool = true, completion: @escaping (D?, HTTPURLResponse?, Error?, ResponseJson?) -> Void) {
     let request = self.createCommonRequest(url: url.addParams(params: params), method: HttpMethod.get.rawValue, headers: headers, contentType: .json, bodyData: nil)
-    self.performRequest(responseType, request: request, completion: completion)
+    self.performRequest(responseType, request: request, parseResponseBody: parseResponseBody, completion: completion)
   }
   
-  func post<E: Encodable, D: Decodable>(_ responseType: D.Type, url: URL, params: Dictionary<String, String>? = nil, body: E?, headers: Dictionary<String, String>? = nil, contentType: HttpRequestContentType = .json, completion: @escaping (D?, HTTPURLResponse?, Error?, ResponseJson?) -> Void) {
+  func post<E: Encodable, D: Decodable>(_ responseType: D.Type, url: URL, params: Dictionary<String, String>? = nil, body: E?, headers: Dictionary<String, String>? = nil, contentType: HttpRequestContentType = .json, parseResponseBody: Bool = true, completion: @escaping (D?, HTTPURLResponse?, Error?, ResponseJson?) -> Void) {
     let request = self.buildModifyingRequest(url: url.addParams(params: params), method: HttpMethod.post.rawValue, headers: headers, contentType: contentType, body: body)
-    self.performRequest(responseType, request: request, contentType: contentType, completion: completion)
+    self.performRequest(responseType, request: request, contentType: contentType, parseResponseBody: parseResponseBody, completion: completion)
   }
  
-  
   // MARK: - Private
   
   private func createCommonRequest(url: URL, method: String, headers: Dictionary<String, String>?, contentType: HttpRequestContentType, bodyData: Data?) -> URLRequest {
@@ -46,7 +45,7 @@ struct NetworkClient {
     return request
   }
   
-  private func performRequest<D: Decodable>(_ responseType: D.Type, request: URLRequest, contentType: HttpRequestContentType = .json, completion: @escaping (D?, HTTPURLResponse?, Error?, ResponseJson?) -> Void) {
+  private func performRequest<D: Decodable>(_ responseType: D.Type, request: URLRequest, contentType: HttpRequestContentType = .json, parseResponseBody: Bool = true, completion: @escaping (D?, HTTPURLResponse?, Error?, ResponseJson?) -> Void) {
     let task = self.session.dataTask(with: request) { (data, urlResponse, error) in
       let response = urlResponse as? HTTPURLResponse
       
@@ -62,13 +61,13 @@ struct NetworkClient {
         return
       }
       
-      if contentType == .form {
+      if !parseResponseBody {
         completion(nil, response, error, nil)
         return
       }
       
       let decoder = JSONDecoder()
-      decoder.keyDecodingStrategy = .useDefaultKeys
+      decoder.keyDecodingStrategy = .convertFromSnakeCase
       
       do {
         let result = try decoder.decode(D.self, from: data)
@@ -89,6 +88,8 @@ struct NetworkClient {
   private func buildJsonBody<E: Encodable>(body: E?) -> Data? {
     let encoder = JSONEncoder()
     encoder.keyEncodingStrategy = .useDefaultKeys
+    encoder.outputFormatting = .sortedKeys
+    
     return try? encoder.encode(body)
   }
   

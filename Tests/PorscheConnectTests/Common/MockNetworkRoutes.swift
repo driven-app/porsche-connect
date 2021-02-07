@@ -9,6 +9,7 @@ final class MockNetworkRoutes {
   private static let getApiAuthPath = "/as/authorization.oauth2"
   
   private static let postLoginAuthPath = "/auth/api/v1/ie/en_IE/public/login"
+  private static let postApiTokenPath = "/as/token.oauth2"
   
   // MARK: - Mock Routes
   
@@ -23,16 +24,29 @@ final class MockNetworkRoutes {
   }
   
   func mockGetApiAuthSuccessful(router: Router) {
-    router[MockNetworkRoutes.getApiAuthPath] = DataResponse(statusCode: 200, statusMessage: "ok", headers: [("Set-Cookie", "CIAM.status=mockValue")])
+    router[MockNetworkRoutes.getApiAuthPath] = DataResponse(statusCode: 200, statusMessage: "ok", headers: [("Set-Cookie", "CIAM.status=mockValue"), ("cdn-original-uri", "/static/cms/auth.html?code=fqFQlQSUfNkMGtMLj0zRK0RriKdPySGVMmVXPAAC")])
   }
   
   func mockPostLoginAuthSuccessful(router: Router) {
     router[MockNetworkRoutes.postLoginAuthPath] = DataResponse(statusCode: 200, statusMessage: "ok")
   }
   
+  func mockPostApiTokenSuccessful(router: Router) {
+    router[MockNetworkRoutes.postApiTokenPath] = JSONResponse(statusCode: 200) { (req) -> Any in
+      return self.mockApiTokenResponse()
+    }
+  }
+  
   // MARK: - Mock Responses
   
   private func mockHelloWorldResponse() -> Dictionary<String, Any> {
     return ["message": "Hello World!"]
+  }
+  
+  private func mockApiTokenResponse() -> Dictionary<String, Any> {
+    return ["access_token": "QycHMMWhUjsEVNUxzLgM92XGIN17",
+            "id_token": "eyQhbGciOiJSUzI1NiIsImtpZCI6IjE1bF9LeldTV08tQ1ZNdXdlTmQyMnMifQ",
+            "token_type": "Bearer",
+            "expires_in":7199]
   }
 }
