@@ -61,6 +61,15 @@ public struct NetworkRoutes {
       return URL(string: "http://localhost:\(kTestServerPort)/as/authorization.oauth2")!
     }
   }
+  
+  var apiTokenURL: URL {
+    switch environment {
+    case .Ireland, .Germany:
+      return URL(string: "https://login.porsche.com/as/token.oauth2")!
+    case .Test:
+      return URL(string: "http://localhost:\(kTestServerPort)/as/token.oauth2")!
+    }
+  }
 }
 
 struct PorscheConnect {
@@ -74,6 +83,7 @@ struct PorscheConnect {
   private let networkClient = NetworkClient()
   private let networkRoutes: NetworkRoutes
   private let password: String
+  private let codeChallenger = CodeChallenger(length: 40)
   
   // MARK: - Init & Configuration
   
@@ -88,7 +98,11 @@ struct PorscheConnect {
   // MARK: - Auth
   
   public func auth(success: Success? = nil, failure: Failure? = nil) {
-    let apiAuthComplention = { (code: String?, error: PorscheConnectError?, response: HTTPURLResponse?) -> Void in
+    let apiAuthTokenCompletion = {
+      print()
+    }
+    
+    let apiAuthCompletion = { (code: String?, codeVerifier: String?, error: PorscheConnectError?, response: HTTPURLResponse?) -> Void in
       if let code = code {
         AuthLogger.debug("Auth: Code received: \(code)")
       }
@@ -99,12 +113,11 @@ struct PorscheConnect {
     }
     
     let loginToRetrieveCookiesCompletion = { (error: PorscheConnectError?, response: HTTPURLResponse?) -> Void in
-      getApiAuthCode(completion: apiAuthComplention)
+      getApiAuthCode(completion: apiAuthCompletion)
     }
     
     loginToRetrieveCookies(completion: loginToRetrieveCookiesCompletion)
   }
-  
   
   private func loginToRetrieveCookies(completion: @escaping ((PorscheConnectError?, HTTPURLResponse?) -> Void)) {
     let loginBody = buildLoginBody(username: username, password: password)
@@ -119,18 +132,26 @@ struct PorscheConnect {
     }
   }
   
-  private func getApiAuthCode(completion: @escaping (String?, PorscheConnectError?, HTTPURLResponse?) -> Void) {
-    let apiAuthParams = buildApiAuthParams(clientId: Application.Portal.clientId, redirectURL: Application.Portal.redirectURL)
+  private func getApiAuthCode(completion: @escaping (_ code: String?, _ codeVerifier: String?, _ error: PorscheConnectError?, _ response: HTTPURLResponse?) -> Void) {
+    let codeVerifier = codeChallenger.generateCodeVerifier()! //TODO: handle null
+    AuthLogger.debug("Auth: Code Verifier: \(codeVerifier)")
+    
+    let apiAuthParams = buildApiAuthParams(clientId: Application.Portal.clientId, redirectURL: Application.Portal.redirectURL, codeVerifier: codeVerifier)
     
     networkClient.get(String.self, url: networkRoutes.apiAuthURL, params: apiAuthParams) { (_, response, error, _) in
       
       if let code = URLComponents(string: response!.url?.absoluteString ?? kBlankString)?.queryItems?.first(where: {$0.name == "code"})?.value {
         AuthLogger.info("Auth: Api Auth call for code successful")
-        completion(code, nil, response)
+        completion(code, codeVerifier, nil, response)
       } else {
-        completion(nil, PorscheConnectError.AuthFailure, response)
+        completion(nil, nil, PorscheConnectError.AuthFailure, response)
       }
     }
+  }
+  
+  private func getApiToken(codeVerifier: String, completion: @escaping (_ token: String?, _ error: PorscheConnectError?, _ response: HTTPURLResponse?) -> Void) {
+
+    completion(nil, nil, nil)
   }
   
   private func buildLoginBody(username: String, password: String) -> Dictionary<String, String> {
@@ -143,11 +164,10 @@ struct PorscheConnect {
             "state": ""]
   }
   
-  private func buildApiAuthParams(clientId: String, redirectURL: URL) -> Dictionary<String, String> {
-    let codeChallenger = CodeChallenger(length: 40)
+  private func buildApiAuthParams(clientId: String, redirectURL: URL, codeVerifier: String) -> Dictionary<String, String> {
     return ["client_id": clientId,
             "redirect_uri": redirectURL.absoluteString,
-            "code_challenge": codeChallenger.codeChallenge(for: codeChallenger.generateCodeVerifier()!)!, //TODO: Handle null
+            "code_challenge": codeChallenger.codeChallenge(for: codeVerifier)!, //TODO: Handle null
             "scope": "openid",
             "response_type": "code",
             "access_type": "offline",
@@ -155,14 +175,13 @@ struct PorscheConnect {
             "code_challenge_method": "S256"]
   }
   
-//  private func handleResponse(body: Any?, response: HTTPURLResponse?, error: Error?, json: ResponseJson?, success: Success?, failure: Failure?) {
-//    DispatchQueue.main.async {
-//      if let failure = failure, let error = error {
-//        failure(error, response)
-//      } else if let success = success {
-//        success(body, response, json)
-//      }
-//    }
-//  }
+  private func buildApiTokenBody(clientId: String, redirectURL: URL, code: String, codeVerifier: String) -> Dictionary<String, String> {
+    return ["client_id": clientId,
+            "redirect_uri": redirectURL.absoluteString,
+            "code": code,
+            "code_verifier": codeVerifier,
+            "prompt": "none",
+            "grant_type": "authorization_code"]
+  }
   
 }
