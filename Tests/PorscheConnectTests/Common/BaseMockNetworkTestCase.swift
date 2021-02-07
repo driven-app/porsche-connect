@@ -27,16 +27,6 @@ class BaseMockNetworkTestCase: XCTestCase {
     tearDownMockWebServer()
   }
   
-  // MARK: - Helpers
-  
-  func cookiesFrom(response: HTTPURLResponse) -> [HTTPCookie] {
-    guard let allHeaderFields = response.allHeaderFields as? [String: String] else {
-      return []
-    }
-    
-    return HTTPCookie.cookies(withResponseHeaderFields: allHeaderFields, for: response.url!)
-  }
-  
   // MARK: - Private
   
   private class func setupMockWebServer() {

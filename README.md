@@ -30,10 +30,10 @@ Porsche Connect requires Swift 5.2 of higher.
 
 Currently the library supports the following platforms:
 
-* **macOS** (Version 10.14+)
-* **iOS** (Version 12+)
-* **tvOS** (Version 12+)
-* **watchOS** (Version 5+)
+* **macOS** (Version 11.0+)
+* **iOS** (Version 14+)
+* **tvOS** (Version 14+)
+* **watchOS** (Version 6+)
 
 
 ## Usage
