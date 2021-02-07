@@ -13,12 +13,14 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
   override func setUp() {
     super.setUp()
     self.connect = PorscheConnect(environment: .Test, username: "homer.simpson@icloud.example", password: "Duh!")
+    HTTPCookieStorage.shared.cookies?.forEach { HTTPCookieStorage.shared.deleteCookie($0) }
   }
   
   func testConstruction() {
     XCTAssertNotNil(self.connect)
     XCTAssertEqual(Environment.Test, self.connect.environment)
     XCTAssertEqual("homer.simpson@icloud.example", self.connect.username)
+    XCTAssertFalse(self.connect.authorized)
   }
   
   func testEnvironmentIreland() {
@@ -48,7 +50,7 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
   func testApplicationRedirectURLPortal() {
     let application = Application.Portal
     XCTAssertNotNil(application)
-    XCTAssertEqual(URL(string: "https://my-static02.porsche.com/static/cms/auth.htm")!, application.redirectURL)
+    XCTAssertEqual(URL(string: "https://my-static02.porsche.com/static/cms/auth.html")!, application.redirectURL)
   }
   
   func testNetworkRoutesIreland() {
@@ -70,9 +72,14 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
 
   }
   
+  func testAuthLoggerIsDefined() {
+    XCTAssertNotNil(AuthLogger)
+  }
+  
   func testSuccessfulAuth() {
     let expectation = self.expectation(description: "Network Expectation")
     mockNetworkRoutes.mockPostLoginAuthSuccessful(router: BaseMockNetworkTestCase.router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: BaseMockNetworkTestCase.router)
 
     self.connect.auth { (body, response, responseJson) in
       expectation.fulfill()
@@ -93,4 +100,5 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
 
     waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
+  
 }

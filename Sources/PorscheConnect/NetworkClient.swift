@@ -19,12 +19,12 @@ struct NetworkClient {
   
   // MARK: - Public
   
-  func get<D: Decodable>(_ responseType: D.Type, url: URL, params: [String : String]? = nil, headers: [String : String]? = nil, completion: @escaping (D?, HTTPURLResponse?, Error?, ResponseJson?) -> Void) {
+  func get<D: Decodable>(_ responseType: D.Type, url: URL, params: Dictionary<String, String>? = nil, headers: Dictionary<String, String>? = nil, completion: @escaping (D?, HTTPURLResponse?, Error?, ResponseJson?) -> Void) {
     let request = self.createCommonRequest(url: url.addParams(params: params), method: HttpMethod.get.rawValue, headers: headers, contentType: .json, bodyData: nil)
     self.performRequest(responseType, request: request, completion: completion)
   }
   
-  func post<E: Encodable, D: Decodable>(_ responseType: D.Type, url: URL, params: [String : String]? = nil, body: E?, headers: [String : String]? = nil, contentType: HttpRequestContentType = .json, completion: @escaping (D?, HTTPURLResponse?, Error?, ResponseJson?) -> Void) {
+  func post<E: Encodable, D: Decodable>(_ responseType: D.Type, url: URL, params: Dictionary<String, String>? = nil, body: E?, headers: Dictionary<String, String>? = nil, contentType: HttpRequestContentType = .json, completion: @escaping (D?, HTTPURLResponse?, Error?, ResponseJson?) -> Void) {
     let request = self.buildModifyingRequest(url: url.addParams(params: params), method: HttpMethod.post.rawValue, headers: headers, contentType: contentType, body: body)
     self.performRequest(responseType, request: request, contentType: contentType, completion: completion)
   }
@@ -32,7 +32,7 @@ struct NetworkClient {
   
   // MARK: - Private
   
-  private func createCommonRequest(url: URL, method: String, headers: [String : String]?, contentType: HttpRequestContentType, bodyData: Data?) -> URLRequest {
+  private func createCommonRequest(url: URL, method: String, headers: Dictionary<String, String>?, contentType: HttpRequestContentType, bodyData: Data?) -> URLRequest {
     var request = URLRequest(url: url)
     request.httpMethod = method
     if let headers = headers {
@@ -81,7 +81,7 @@ struct NetworkClient {
     task.resume()
   }
   
-  private func buildModifyingRequest<E: Encodable>(url: URL, method: String, headers: [String: String]?, contentType: HttpRequestContentType = .json ,body: E?) -> URLRequest {
+  private func buildModifyingRequest<E: Encodable>(url: URL, method: String, headers: Dictionary<String, String>?, contentType: HttpRequestContentType = .json ,body: E?) -> URLRequest {
     let bodyData: Data? = contentType == .json ? buildJsonBody(body: body) : body as? Data
     return createCommonRequest(url: url, method: method, headers: headers, contentType: contentType, bodyData: bodyData)
   }
@@ -100,7 +100,7 @@ struct NetworkClient {
 // MARK: - Extensions & Utilities
 
 public extension URL {  
-  func addParams(params: [String: String]?) -> URL {
+  func addParams(params: Dictionary<String, String>?) -> URL {
     guard let params = params else {
       return self
     }
@@ -130,7 +130,7 @@ public extension URL {
   }
 }
 
-public func buildPostFormBodyFrom(dictionary: [String: String]) -> Data {
+public func buildPostFormBodyFrom(dictionary: Dictionary<String, String>) -> Data {
   var urlComponents = URLComponents()
   urlComponents.queryItems = dictionary.map {
     URLQueryItem(name: $0.key, value: $0.value)
@@ -151,7 +151,7 @@ enum HttpRequestContentType: String {
   var mimeDescription: String {
     switch self {
     case .json:
-      return "pplication/json"
+      return "application/json"
     case .form:
     return "application/x-www-form-urlencoded"
     }

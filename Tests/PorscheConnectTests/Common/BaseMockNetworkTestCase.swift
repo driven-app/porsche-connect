@@ -30,7 +30,7 @@ class BaseMockNetworkTestCase: XCTestCase {
   // MARK: - Helpers
   
   func cookiesFrom(response: HTTPURLResponse) -> [HTTPCookie] {
-    guard let allHeaderFields = response.allHeaderFields as? [String: String] else {
+    guard let allHeaderFields = response.allHeaderFields as? Dictionary<String, String> else {
       return []
     }
     
