@@ -26,19 +26,25 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
   func testEnvironmentIreland() {
     let environment = Environment.Ireland
     XCTAssertNotNil(environment)
-    XCTAssertEqual("ie/en_GB", environment.countryCode)
+    XCTAssertEqual("ie/en_GB", environment.regionCode)
+    XCTAssertEqual("en", environment.languageCode)
+    XCTAssertEqual("ie", environment.countryCode)
   }
   
   func testEnvironmentGermany() {
     let environment = Environment.Germany
     XCTAssertNotNil(environment)
-    XCTAssertEqual("de/de_DE", environment.countryCode)
+    XCTAssertEqual("de/de_DE", environment.regionCode)
+    XCTAssertEqual("de", environment.languageCode)
+    XCTAssertEqual("de", environment.countryCode)
   }
   
   func testEnvironmentTest() {
     let environment = Environment.Test
     XCTAssertNotNil(environment)
-    XCTAssertEqual("ie/en_IE", environment.countryCode)
+    XCTAssertEqual("ie/en_IE", environment.regionCode)
+    XCTAssertEqual("en", environment.languageCode)
+    XCTAssertEqual("ie", environment.countryCode)
   }
   
   func testApplicationClientIdPortal() {
@@ -173,6 +179,20 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
     
     waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
+  
+//  func testVehiclesSuccessful() {
+//    let expectation = self.expectation(description: "Network Expectation")
+//
+//    XCTAssertFalse(self.connect.authorized)
+//    XCTAssertNil(self.connect.auth)
+//    
+//    self.connect.vehicles(success: { (vehicles, response, responseJson) in
+//      expectation.fulfill()
+//      
+//    })
+//
+//    waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+//  }
   
   // MARK: - Private functions
   
