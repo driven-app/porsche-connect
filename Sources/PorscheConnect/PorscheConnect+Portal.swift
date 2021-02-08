@@ -7,7 +7,7 @@ public extension PorscheConnect {
     
     let headers = buildHeaders(accessToken: auth!.accessToken, apiKey: auth!.apiKey!, countryCode: environment.countryCode, languageCode: environment.languageCode)
     
-    networkClient.get(Vehicle.self, url: networkRoutes.vehiclesURL, headers: headers) { (vehicles, response, error, responseJson) in
+    networkClient.get([Vehicle].self, url: networkRoutes.vehiclesURL, headers: headers, jsonKeyDecodingStrategy: .useDefaultKeys) { (vehicles, response, error, responseJson) in
       print()
     }
     

@@ -7,7 +7,7 @@ final class ModelsTests: XCTestCase {
                                 tokenType: "Bearer",
                                 expiresIn: 7199)
   
-  let vehicle = Vehicle(vin: "WP0ZZZY4MSA38703")
+  let vehicle = Vehicle(vin: "WP0ZZZY4MSA38703", modelDescription: "Taycan 4S", modelType: "Y1ADB1", modelYear: "2021")
   
   func testPorscheAuthConstruction() {
     XCTAssertNotNil(porscheAuth)

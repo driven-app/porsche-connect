@@ -193,7 +193,7 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
 //
 //    waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
 //  }
-  
+    
   // MARK: - Private functions
   
   private func assertCookiesNotPresent() {
