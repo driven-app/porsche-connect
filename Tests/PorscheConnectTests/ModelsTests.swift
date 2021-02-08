@@ -7,6 +7,8 @@ final class ModelsTests: XCTestCase {
                                 tokenType: "Bearer",
                                 expiresIn: 7199)
   
+  let vehicle = Vehicle(vin: "WP0ZZZY4MSA38703")
+  
   func testPorscheAuthConstruction() {
     XCTAssertNotNil(porscheAuth)
     XCTAssertNotNil(porscheAuth.apiKey)
@@ -37,4 +39,9 @@ final class ModelsTests: XCTestCase {
     XCTAssertNotNil(porscheAuth)
     XCTAssertEqual("TZ4Vf5wnKeipJxvatJ60lPHYEzqZ4WNp", porscheAuth.apiKey)
   }
+  
+  func testVehicleConstruction() {
+    XCTAssertNotNil(vehicle)
+  }
+  
 }

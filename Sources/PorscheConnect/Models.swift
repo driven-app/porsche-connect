@@ -45,5 +45,11 @@ public struct PorscheAuth: Codable {
     self.expiresIn = expiresIn
     self.expiresAt = Date().addingTimeInterval(self.expiresIn)
   }
+}
 
+public struct Vehicle: Codable {
+  
+  // MARK: - Properties
+  
+  public let vin: String
 }
