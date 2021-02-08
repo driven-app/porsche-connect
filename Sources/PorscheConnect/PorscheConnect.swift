@@ -83,7 +83,7 @@ class PorscheConnect {
   private(set) var auth: PorscheAuth?
   
   var authorized: Bool {
-    return auth != nil // TODO: add expiry time checking
+    return ((auth?.expired) != nil)
   }
   
   private let networkClient = NetworkClient()

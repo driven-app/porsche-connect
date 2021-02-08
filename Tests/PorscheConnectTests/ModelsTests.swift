@@ -11,6 +11,8 @@ final class ModelsTests: XCTestCase {
     XCTAssertNotNil(porscheAuth)
     XCTAssertNotNil(porscheAuth.apiKey)
     XCTAssertEqual("TZ4Vf5wnKeipJxvatJ60lPHYEzqZ4WNp", porscheAuth.apiKey!)
+    XCTAssertNotNil(porscheAuth.expiresAt)
+    XCTAssertFalse(porscheAuth.expired)
   }
   
   func testDecodingJsonIntoModel() {
@@ -27,6 +29,8 @@ final class ModelsTests: XCTestCase {
     XCTAssertEqual(7199, decodedPorscheAuth.expiresIn)
     XCTAssertNotNil(decodedPorscheAuth.apiKey)
     XCTAssertEqual("TZ4Vf5wnKeipJxvatJ60lPHYEzqZ4WNp", porscheAuth.apiKey!)
+    XCTAssertNotNil(porscheAuth.expiresAt)
+    XCTAssertFalse(porscheAuth.expired)
   }
   
   func testDecodedJwtToken() {
