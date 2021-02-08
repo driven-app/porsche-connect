@@ -19,12 +19,20 @@ public extension PorscheConnect {
         AuthLogger.debug("Auth: Code received: \(code)")
         self.getApiToken(codeVerifier: codeVerifier, code: code, completion: apiAuthTokenCompletion)
       } else if let failure = failure, let error = error {
-        failure(error, response)
+        DispatchQueue.main.async {
+          failure(error, response)
+        }
       }
     }
     
     let loginToRetrieveCookiesCompletion = { (error: PorscheConnectError?, response: HTTPURLResponse?) -> Void in
-      self.getApiAuthCode(completion: apiAuthCompletion)
+      if let failure = failure, let error = error {
+        DispatchQueue.main.async {
+          failure(error, response)
+        }
+      } else {
+        self.getApiAuthCode(completion: apiAuthCompletion)
+      }
     }
     
     loginToRetrieveCookies(completion: loginToRetrieveCookiesCompletion)
