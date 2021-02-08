@@ -2,7 +2,7 @@ import Foundation
 
 public extension PorscheConnect {
   
-  func auth(success: Success? = nil, failure: Failure? = nil) {
+  func auth(success: Success? = nil, failure: Failure? = nil) {    
     let apiAuthTokenCompletion = { (porscheAuth: PorscheAuth?, error: PorscheConnectError?, response: HTTPURLResponse?) -> Void in
       DispatchQueue.main.async {
         if let porscheAuth = porscheAuth, let success = success {

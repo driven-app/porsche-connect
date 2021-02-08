@@ -180,20 +180,20 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
     waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
   
-//  func testVehiclesSuccessful() {
-//    let expectation = self.expectation(description: "Network Expectation")
-//
-//    XCTAssertFalse(self.connect.authorized)
-//    XCTAssertNil(self.connect.auth)
-//    
-//    self.connect.vehicles(success: { (vehicles, response, responseJson) in
-//      expectation.fulfill()
-//      
-//    })
-//
-//    waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
-//  }
-    
+  //  func testVehiclesSuccessful() {
+  //    let expectation = self.expectation(description: "Network Expectation")
+  //
+  //    XCTAssertFalse(self.connect.authorized)
+  //    XCTAssertNil(self.connect.auth)
+  //
+  //    self.connect.vehicles(success: { (vehicles, response, responseJson) in
+  //      expectation.fulfill()
+  //
+  //    })
+  //
+  //    waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  //  }
+  
   // MARK: - Private functions
   
   private func assertCookiesNotPresent() {
