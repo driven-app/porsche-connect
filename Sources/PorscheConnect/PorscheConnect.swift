@@ -80,8 +80,11 @@ class PorscheConnect {
   
   let environment: Environment
   let username: String
-  private(set) var authorized: Bool
   private(set) var auth: PorscheAuth?
+  
+  var authorized: Bool {
+    return ((auth?.expired) != nil)
+  }
   
   private let networkClient = NetworkClient()
   private let networkRoutes: NetworkRoutes
@@ -95,7 +98,6 @@ class PorscheConnect {
     self.networkRoutes = NetworkRoutes(environment: environment)
     self.username = username
     self.password = password
-    self.authorized = false
   }
   
   // MARK: - Auth
@@ -105,7 +107,6 @@ class PorscheConnect {
       DispatchQueue.main.async {
         if let porscheAuth = porscheAuth, let success = success {
           self.auth = porscheAuth
-          self.authorized = true
           success(porscheAuth, response, nil)
         } else if let failure = failure, let error = error {
           failure(error, response)
