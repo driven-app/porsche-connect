@@ -79,8 +79,7 @@ final class MockNetworkRoutes {
   
   private func mockVehiclesResponse() -> [Dictionary<String, String>] {
     return [["vin": "VIN12345",
-            "model": "eyQhbGciOiJSUzI1NiIsImtpZCI6IjE1bF9LeldTV08tQ1ZNdXdlTmQyMnMifQ",
-            "modelDescription": "A Test Description",
+            "modelDescription": "Porsche Taycan 4S",
             "modelType": "A Test Model Type",
             "modelYear": "2021"]]
   }
