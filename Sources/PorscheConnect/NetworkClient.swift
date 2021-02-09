@@ -51,12 +51,12 @@ struct NetworkClient {
         
         if let response = response {
           if self.isErrorStatusCode(response) {
-            completion(.failure(HttpStatusCode(rawValue: response.statusCode) as! Error))
+            completion(.failure(HttpStatusCode(rawValue: response.statusCode)!))
             return
           }
         }
         
-        guard let data = data, error == nil, !data.isEmpty else {
+      guard let data = data, error == nil, !data.isEmpty else {
           completion(.success((nil, response)))
           return
         }
