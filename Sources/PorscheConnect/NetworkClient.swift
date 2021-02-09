@@ -19,12 +19,12 @@ struct NetworkClient {
   
   // MARK: - Public
   
-  func get<D: Decodable>(_ responseType: D.Type, url: URL, params: Dictionary<String, String>? = nil, headers: Dictionary<String, String>? = nil, parseResponseBody: Bool = true, jsonKeyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase, completion: @escaping (D?, HTTPURLResponse?, Error?, ResponseJson?) -> Void) {
+  func get<D: Decodable>(_ responseType: D.Type, url: URL, params: Dictionary<String, String>? = nil, headers: Dictionary<String, String>? = nil, parseResponseBody: Bool = true, jsonKeyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase, completion: @escaping (D?, HTTPURLResponse?, Error?) -> Void) {
     let request = self.createCommonRequest(url: url.addParams(params: params), method: HttpMethod.get.rawValue, headers: headers, contentType: .json, bodyData: nil)
     self.performRequest(responseType, request: request, parseResponseBody: parseResponseBody, jsonKeyDecodingStrategy: jsonKeyDecodingStrategy, completion: completion)
   }
   
-  func post<E: Encodable, D: Decodable>(_ responseType: D.Type, url: URL, params: Dictionary<String, String>? = nil, body: E?, headers: Dictionary<String, String>? = nil, contentType: HttpRequestContentType = .json, parseResponseBody: Bool = true, jsonKeyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase, completion: @escaping (D?, HTTPURLResponse?, Error?, ResponseJson?) -> Void) {
+  func post<E: Encodable, D: Decodable>(_ responseType: D.Type, url: URL, params: Dictionary<String, String>? = nil, body: E?, headers: Dictionary<String, String>? = nil, contentType: HttpRequestContentType = .json, parseResponseBody: Bool = true, jsonKeyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase, completion: @escaping (D?, HTTPURLResponse?, Error?) -> Void) {
     let request = self.buildModifyingRequest(url: url.addParams(params: params), method: HttpMethod.post.rawValue, headers: headers, contentType: contentType, body: body)
     self.performRequest(responseType, request: request, contentType: contentType, parseResponseBody: parseResponseBody, jsonKeyDecodingStrategy: jsonKeyDecodingStrategy, completion: completion)
   }
@@ -45,24 +45,24 @@ struct NetworkClient {
     return request
   }
   
-  private func performRequest<D: Decodable>(_ responseType: D.Type, request: URLRequest, contentType: HttpRequestContentType = .json, parseResponseBody: Bool = true, jsonKeyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase, completion: @escaping (D?, HTTPURLResponse?, Error?, ResponseJson?) -> Void) {
+  private func performRequest<D: Decodable>(_ responseType: D.Type, request: URLRequest, contentType: HttpRequestContentType = .json, parseResponseBody: Bool = true, jsonKeyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase, completion: @escaping (D?, HTTPURLResponse?, Error?) -> Void) {
     let task = self.session.dataTask(with: request) { (data, urlResponse, error) in
       let response = urlResponse as? HTTPURLResponse
       
       if let response = response {
         if self.isErrorStatusCode(response) {
-          completion(nil, response, HttpStatusCode(rawValue: response.statusCode), nil)
+          completion(nil, response, HttpStatusCode(rawValue: response.statusCode))
           return
         }
       }
       
       guard let data = data, error == nil, !data.isEmpty else {
-        completion(nil, response, error, nil)
+        completion(nil, response, error)
         return
       }
       
       if !parseResponseBody {
-        completion(nil, response, error, nil)
+        completion(nil, response, error)
         return
       }
       
@@ -71,9 +71,9 @@ struct NetworkClient {
       
       do {
         let result = try decoder.decode(D.self, from: data)
-        completion(result, response, nil, data)
+        completion(result, response, nil)
       } catch {
-        completion(nil, response, error, nil)
+        completion(nil, response, error)
       }
     }
     
@@ -156,82 +156,5 @@ enum HttpRequestContentType: String {
     case .form:
     return "application/x-www-form-urlencoded"
     }
-  }
-}
-
-enum HttpStatusCode: Int, Error {
-  // 100 Informational
-  case Continue = 100
-  case SwitchingProtocols
-  case Processing
-  
-  // 200 Success
-  case OK = 200
-  case Created
-  case Accepted
-  case NonAuthoritativeInformation
-  case NoContent
-  case ResetContent
-  case PartialContent
-  case MultiStatus
-  case AlreadyReported
-  case IMUsed = 226
-  
-  // 300 Redirection
-  case MultipleChoices = 300
-  case MovedPermanently
-  case Found
-  case SeeOther
-  case NotModified
-  case UseProxy
-  case SwitchProxy
-  case TemporaryRedirect
-  case PermanentRedirect
-  
-  // 400 Client Error
-  case BadRequest = 400
-  case Unauthorized
-  case PaymentRequired
-  case Forbidden
-  case NotFound
-  case MethodNotAllowed
-  case NotAcceptable
-  case ProxyAuthenticationRequired
-  case RequestTimeout
-  case Conflict
-  case Gone
-  case LengthRequired
-  case PreconditionFailed
-  case PayloadTooLarge
-  case URITooLong
-  case UnsupportedMediaType
-  case RangeNotSatisfiable
-  case ExpectationFailed
-  case ImATeapot
-  case MisdirectedRequest = 421
-  case UnprocessableEntity
-  case Locked
-  case FailedDependency
-  case UpgradeRequired = 426
-  case PreconditionRequired = 428
-  case TooManyRequests
-  case RequestHeaderFieldsTooLarge = 431
-  case UnavailableForLegalReasons = 451
-  
-  // 500 Server Error
-  case InternalServerError = 500
-  case NotImplemented
-  case BadGateway
-  case ServiceUnavailable
-  case GatewayTimeout
-  case HTTPVersionNotSupported
-  case VariantAlsoNegotiates
-  case InsufficientStorage
-  case LoopDetected
-  case NotExtended = 510
-  case NetworkAuthenticationRequired
-  
-  var localizedDescription: String {
-    return String(rawValue)
   }
 }

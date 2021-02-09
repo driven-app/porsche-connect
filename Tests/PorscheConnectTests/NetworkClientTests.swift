@@ -26,10 +26,9 @@ final class NetworkClientTests: BaseMockNetworkTestCase {
     mockNetworkRoutes.mockGetHelloWorldSuccessful(router: BaseMockNetworkTestCase.router)
     let expectation = self.expectation(description: "Network Expectation")
 
-    client.get(HelloWorld.self, url: url) { (helloWorld, response, error, responseJson) in
+    client.get(HelloWorld.self, url: url) { (helloWorld, response, error) in
       expectation.fulfill()
       XCTAssertNil(error)
-      XCTAssertNotNil(responseJson)
       XCTAssertNotNil(response)
       XCTAssertNotNil(helloWorld)
       XCTAssertEqual("Hello World!", helloWorld!.message)
@@ -44,10 +43,9 @@ final class NetworkClientTests: BaseMockNetworkTestCase {
     mockNetworkRoutes.mockGetHelloWorldFailure(router: BaseMockNetworkTestCase.router)
     let expectation = self.expectation(description: "Network Expectation")
 
-    client.get(HelloWorld.self, url: url) { (helloWorld, response, error, responseJson) in
+    client.get(HelloWorld.self, url: url) { (helloWorld, response, error) in
       expectation.fulfill()
       XCTAssertNotNil(error)
-      XCTAssertNil(responseJson)
       XCTAssertNil(helloWorld)
       XCTAssertNotNil(response)
       XCTAssertEqual(401, response!.statusCode)
@@ -62,10 +60,9 @@ final class NetworkClientTests: BaseMockNetworkTestCase {
     let expectation = self.expectation(description: "Network Expectation")
     let body = ["param_key": "param_value"]
     
-    client.post(HelloWorld.self, url: url, body: buildPostFormBodyFrom(dictionary: body)) { (helloWorld, response, error, responseJson) in
+    client.post(HelloWorld.self, url: url, body: buildPostFormBodyFrom(dictionary: body)) { (helloWorld, response, error) in
       expectation.fulfill()
       XCTAssertNil(error)
-      XCTAssertNotNil(responseJson)
       XCTAssertNotNil(response)
       XCTAssertNotNil(helloWorld)
       XCTAssertEqual("Hello World!", helloWorld!.message)

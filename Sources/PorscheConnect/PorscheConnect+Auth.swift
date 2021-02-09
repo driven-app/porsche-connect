@@ -42,7 +42,7 @@ public extension PorscheConnect {
   
   private func loginToRetrieveCookies(completion: @escaping ((PorscheConnectError?, HTTPURLResponse?) -> Void)) {
     let loginBody = buildLoginBody(username: username, password: password)
-    networkClient.post(String.self, url: networkRoutes.loginAuthURL, body: buildPostFormBodyFrom(dictionary: loginBody), contentType: .form, parseResponseBody: false) { (_, response, error, _) in
+    networkClient.post(String.self, url: networkRoutes.loginAuthURL, body: buildPostFormBodyFrom(dictionary: loginBody), contentType: .form, parseResponseBody: false) { (_, response, error) in
       
       DispatchQueue.main.async {
         if error != nil {
@@ -60,7 +60,7 @@ public extension PorscheConnect {
     AuthLogger.debug("Auth: Code Verifier: \(codeVerifier)")
     
     let apiAuthParams = buildApiAuthParams(clientId: Application.Portal.clientId, redirectURL: Application.Portal.redirectURL, codeVerifier: codeVerifier)
-    networkClient.get(String.self, url: networkRoutes.apiAuthURL, params: apiAuthParams, parseResponseBody: false) { (_, response, error, _) in
+    networkClient.get(String.self, url: networkRoutes.apiAuthURL, params: apiAuthParams, parseResponseBody: false) { (_, response, error) in
       
       if let response = response,
          let url = response.value(forHTTPHeaderField: "cdn-original-uri"),
@@ -76,7 +76,7 @@ public extension PorscheConnect {
   
   private func getApiToken(codeVerifier: String, code: String, completion: @escaping (_ poscheAuth: PorscheAuth?, _ error: PorscheConnectError?, _ response: HTTPURLResponse?) -> Void) {
     let apiTokenBody = buildApiTokenBody(clientId: Application.Portal.clientId, redirectURL: Application.Portal.redirectURL, code: code, codeVerifier: codeVerifier)
-    networkClient.post(PorscheAuth.self, url: networkRoutes.apiTokenURL, body: buildPostFormBodyFrom(dictionary: apiTokenBody), contentType: .form) { (porscheAuth, response, error, responseJson) in
+    networkClient.post(PorscheAuth.self, url: networkRoutes.apiTokenURL, body: buildPostFormBodyFrom(dictionary: apiTokenBody), contentType: .form) { (porscheAuth, response, error) in
       
       if error != nil {
         completion(nil, PorscheConnectError.AuthFailure, response)
