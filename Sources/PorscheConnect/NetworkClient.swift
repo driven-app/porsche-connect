@@ -1,9 +1,5 @@
 import Foundation
 
-// MARK: - Typealias
-
-public typealias ResponseJson = Data
-
 // MARK: - Structs
 
 struct NetworkClient {
