@@ -2,14 +2,16 @@ import Foundation
 
 public extension PorscheConnect {
   
-  func auth(success: Success? = nil, failure: Failure? = nil) {    
+  //  func auth(success: Success? = nil, failure: Failure? = nil) {
+  
+  func auth(completion: @escaping (Result<PorscheAuth, Error>) -> Void) {
     let apiAuthTokenCompletion = { (porscheAuth: PorscheAuth?, error: PorscheConnectError?, response: HTTPURLResponse?) -> Void in
       DispatchQueue.main.async {
-        if let porscheAuth = porscheAuth, let success = success {
+        if let porscheAuth = porscheAuth {
           self.auth = porscheAuth
-          success(porscheAuth, response, nil)
-        } else if let failure = failure, let error = error {
-          failure(error, response)
+          completion(.success(porscheAuth))
+        } else if let error = error {
+          completion(.failure(error))
         }
       }
     }
@@ -18,17 +20,17 @@ public extension PorscheConnect {
       if let codeVerifier = codeVerifier, let code = code {
         AuthLogger.debug("Auth: Code received: \(code)")
         self.getApiToken(codeVerifier: codeVerifier, code: code, completion: apiAuthTokenCompletion)
-      } else if let failure = failure, let error = error {
+      } else if let error = error {
         DispatchQueue.main.async {
-          failure(error, response)
+          completion(.failure(error))
         }
       }
     }
     
     let loginToRetrieveCookiesCompletion = { (error: PorscheConnectError?, response: HTTPURLResponse?) -> Void in
-      if let failure = failure, let error = error {
+      if let error = error {
         DispatchQueue.main.async {
-          failure(error, response)
+          completion(.failure(error))
         }
       } else {
         self.getApiAuthCode(completion: apiAuthCompletion)

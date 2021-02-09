@@ -106,8 +106,6 @@ struct NetworkRoutes {
 // MARK: - Porsche Connect
 
 public class PorscheConnect {
-  public typealias Success = ((Any?, HTTPURLResponse?, ResponseJson?) -> Void)
-  public typealias Failure = ((Error, HTTPURLResponse?) -> Void)
   
   let environment: Environment
   let username: String
@@ -142,22 +140,22 @@ public class PorscheConnect {
   
   func executeWithAuth(closure: @escaping () -> Void) {
     if !authorized {
-      auth { (auth, response, _) in
+      auth { _ in 
         closure()
       }
     } else {
       closure()
     }
   }
-  
-  func handleResponse(body: Any?, response: HTTPURLResponse?, error: Error?, json: ResponseJson?, success: Success?, failure: Failure?) {
-    DispatchQueue.main.async {
-      if let failure = failure, let error = error {
-        failure(error, response)
-      } else if let success = success {
-        success(body, response, json)
-      }
-    }
-  }
+    
+//  func handleResponse(body: Any?, response: HTTPURLResponse?, error: Error?, json: ResponseJson?, success: Success?, failure: Failure?) {
+//    DispatchQueue.main.async {
+//      if let failure = failure, let error = error {
+//        failure(error, response)
+//      } else if let success = success {
+//        success(body, response, json)
+//      }
+//    }
+//  }
   
 }

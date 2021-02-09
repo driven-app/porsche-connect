@@ -31,17 +31,15 @@ final class PorscheConnectPortalTests: BaseMockNetworkTestCase {
     XCTAssertFalse(self.connect.authorized)
     XCTAssertNil(self.connect.auth)
     
-    self.connect.vehicles(success: { (body, response, responseJson) in
+    self.connect.vehicles { result in
       expectation.fulfill()
       XCTAssert(self.connect.authorized)
-      XCTAssertNotNil(body)
-      XCTAssertNotNil(response)
-      XCTAssertNotNil(responseJson)
+      XCTAssertNotNil(result)
 
-      let vehicles = body as! [Vehicle]
+      let vehicles = try! result.get()!
       XCTAssertEqual(1, vehicles.count)
       self.assertVehicle(vehicles.first!)
-    })
+    }
     
     waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
@@ -52,17 +50,15 @@ final class PorscheConnectPortalTests: BaseMockNetworkTestCase {
     
     XCTAssert(self.connect.authorized)
     
-    self.connect.vehicles(success: { (body, response, responseJson) in
+    self.connect.vehicles { result in
       expectation.fulfill()
       XCTAssert(self.connect.authorized)
-      XCTAssertNotNil(body)
-      XCTAssertNotNil(response)
-      XCTAssertNotNil(responseJson)
+      XCTAssertNotNil(result)
       
-      let vehicles = body as! [Vehicle]
+      let vehicles = try! result.get()!
       XCTAssertEqual(1, vehicles.count)
       self.assertVehicle(vehicles.first!)
-    })
+    }
     
     waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
