@@ -59,6 +59,7 @@ enum Application {
 
 public enum PorscheConnectError: Error {
   case AuthFailure
+  case NoResult
 }
 
 // MARK: - Structs
@@ -106,8 +107,6 @@ struct NetworkRoutes {
 // MARK: - Porsche Connect
 
 public class PorscheConnect {
-  public typealias Success = ((Any?, HTTPURLResponse?, ResponseJson?) -> Void)
-  public typealias Failure = ((PorscheConnectError, HTTPURLResponse?) -> Void)
   
   let environment: Environment
   let username: String
@@ -122,14 +121,42 @@ public class PorscheConnect {
   let password: String
   let codeChallenger = CodeChallenger(length: 40)
   
-  // MARK: - Init & Configuration
+  // MARK: - Init & configuration
   
-  public init(environment: Environment, username: String, password: String) {
-    self.environment = environment
-    self.networkRoutes = NetworkRoutes(environment: environment)
+  public init(username: String, password: String, environment: Environment = .Germany) {
     self.username = username
     self.password = password
+    self.environment = environment
+    self.networkRoutes = NetworkRoutes(environment: environment)
   }
   
+  // MARK: - Common functions
+  
+  func buildHeaders(accessToken: String, apiKey: String, countryCode: String, languageCode: String) -> Dictionary<String, String> {
+    return ["Authorization": "Bearer \(accessToken)",
+            "apikey": apiKey,
+            "x-vrs-url-country": countryCode,
+            "x-vrs-url-language": "\(languageCode)_\(countryCode.uppercased())"]
+  }
+  
+  func executeWithAuth(closure: @escaping () -> Void) {
+    if !authorized {
+      auth { _ in 
+        closure()
+      }
+    } else {
+      closure()
+    }
+  }
+    
+//  func handleResponse(body: Any?, response: HTTPURLResponse?, error: Error?, json: ResponseJson?, success: Success?, failure: Failure?) {
+//    DispatchQueue.main.async {
+//      if let failure = failure, let error = error {
+//        failure(error, response)
+//      } else if let success = success {
+//        success(body, response, json)
+//      }
+//    }
+//  }
+  
 }
-

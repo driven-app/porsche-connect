@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 public struct PorscheAuth: Codable {
   
@@ -52,4 +53,37 @@ public struct Vehicle: Codable {
   // MARK: - Properties
   
   public let vin: String
+  public let modelDescription: String
+  public let modelType: String
+  public let modelYear: String
+  public let exteriorColorHex: String
+  public let attributes: [VehicleAttribute]?
+  public let pictures: [VehiclePicture]?
+
+  // MARK: - Computed Properties
+  
+  public var externalColor: Color {
+    return Color(hex: exteriorColorHex)
+  }
+  
+  public struct VehicleAttribute: Codable {
+    
+    // MARK: - Properties
+    
+    public let name: String
+    public let value: String
+  }
+
+  public struct VehiclePicture: Codable {
+    
+    // MARK: - Properties
+    
+    public let url: URL
+    public let view: String
+    public let size: Int
+    public let width: Int
+    public let height: Int
+    public let transparent: Bool
+    public let placeholder: String?
+  }
 }
