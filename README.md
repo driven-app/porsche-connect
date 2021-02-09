@@ -48,7 +48,6 @@ Create an instance of the library:
 Currently the following environments are supported:
 
 * **Germany** (default)
-* **Ireland** (beta)
 * **Test** (used by the test suite against a mocked server)
 
 A valid [MyPorsche](https://connect-portal.porsche.com) username (email) and password is required to use this library.
@@ -64,6 +63,36 @@ xcodebuild test -destination "platform=iOS Simulator,name=iPhone 12 mini" -schem
 
 This is similar to the commands that are run in CI to test the library on each git commit. You can change the destinations to any of the libraries supported platforms.
 
+
+## Command Line Tool
+
+The library is packaged with a command line utility to give a simple terminal access to the set of Porsche Connect services wrapped by this library. 
+
+### Compiling
+
+```bash
+swift build -c release
+```
+
+This will place the excutable in `<project-dir>/.build/apple/Products/Release` folder, where it will be named `porsche`. If you want to make it available more generally when using a terminal, copy it to `/usr/local/bin` from the project dir:
+
+```bash
+cp -f .build/apple/Products/Release/porsche /usr/local/bin
+```
+
+### Universal binary
+
+If you would like to build a universal binary for both Intel (x86) and Apple (M1) Mac's then run the compiler with:
+
+```bash
+swift build -c release --arch arm64 --arch x86_64
+```
+
+### Using
+
+```bash
+porsche 
+```
 
 ## Install
 
