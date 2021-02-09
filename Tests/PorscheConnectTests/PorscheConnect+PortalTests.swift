@@ -34,11 +34,16 @@ final class PorscheConnectPortalTests: BaseMockNetworkTestCase {
     self.connect.vehicles { result in
       expectation.fulfill()
       XCTAssert(self.connect.authorized)
-      XCTAssertNotNil(result)
-
-      let vehicles = try! result.get()!
-      XCTAssertEqual(1, vehicles.count)
-      self.assertVehicle(vehicles.first!)
+      
+      switch result {
+      case .success(let (vehicles, response)):
+        XCTAssertNotNil(response)
+        XCTAssertNotNil(vehicles)
+        XCTAssertEqual(1, vehicles!.count)
+        self.assertVehicle(vehicles!.first!)
+      case .failure:
+        XCTFail("Should not have reached here")
+      }
     }
     
     waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
@@ -53,16 +58,21 @@ final class PorscheConnectPortalTests: BaseMockNetworkTestCase {
     self.connect.vehicles { result in
       expectation.fulfill()
       XCTAssert(self.connect.authorized)
-      XCTAssertNotNil(result)
       
-      let vehicles = try! result.get()!
-      XCTAssertEqual(1, vehicles.count)
-      self.assertVehicle(vehicles.first!)
+      switch result {
+      case .success(let (vehicles, response)):
+        XCTAssertNotNil(response)
+        XCTAssertNotNil(vehicles)
+        XCTAssertEqual(1, vehicles!.count)
+        self.assertVehicle(vehicles!.first!)
+      case .failure:
+        XCTFail("Should not have reached here")
+      }
     }
     
     waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
-  
+    
   // MARK: - Private functions
   
   private func assertVehicle(_ vehicle: Vehicle) {

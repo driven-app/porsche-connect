@@ -28,7 +28,6 @@ final class PorscheConnectAuthTests: BaseMockNetworkTestCase {
     
     self.connect.auth { result in
       expectation.fulfill()
-      XCTAssertNotNil(result)
       
       XCTAssert(self.connect.authorized)
       

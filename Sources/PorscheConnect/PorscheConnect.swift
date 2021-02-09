@@ -59,6 +59,7 @@ enum Application {
 
 public enum PorscheConnectError: Error {
   case AuthFailure
+  case NoResult
 }
 
 // MARK: - Structs

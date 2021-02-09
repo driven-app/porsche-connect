@@ -2,88 +2,69 @@ import Foundation
 
 public extension PorscheConnect {
   
-  //  func auth(success: Success? = nil, failure: Failure? = nil) {
-  
   func auth(completion: @escaping (Result<PorscheAuth, Error>) -> Void) {
-    let apiAuthTokenCompletion = { (porscheAuth: PorscheAuth?, error: PorscheConnectError?, response: HTTPURLResponse?) -> Void in
-      DispatchQueue.main.async {
-        if let porscheAuth = porscheAuth {
+    
+    loginToRetrieveCookies { result in
+      guard let result = try? result.get(), result.1 != nil else { completion(.failure(PorscheConnectError.NoResult)); return }
+      
+      self.getApiAuthCode{ result in
+        guard let result = try? result.get(),
+              let codeVerifier = result.codeVerifier,
+              let code = result.code,
+              result.1 != nil else { completion(.failure(PorscheConnectError.NoResult)); return }
+        
+        self.getApiToken(codeVerifier: codeVerifier, code: code) { result in
+          guard let result = try? result.get(),
+                let porscheAuth = result.0,
+                result.1 != nil else { completion(.failure(PorscheConnectError.NoResult)); return }
+          
           self.auth = porscheAuth
           completion(.success(porscheAuth))
-        } else if let error = error {
-          completion(.failure(error))
         }
       }
     }
-    
-    let apiAuthCompletion = { (code: String?, codeVerifier: String?, error: PorscheConnectError?, response: HTTPURLResponse?) -> Void in
-      if let codeVerifier = codeVerifier, let code = code {
-        AuthLogger.debug("Auth: Code received: \(code)")
-        self.getApiToken(codeVerifier: codeVerifier, code: code, completion: apiAuthTokenCompletion)
-      } else if let error = error {
-        DispatchQueue.main.async {
-          completion(.failure(error))
-        }
-      }
-    }
-    
-    let loginToRetrieveCookiesCompletion = { (error: PorscheConnectError?, response: HTTPURLResponse?) -> Void in
-      if let error = error {
-        DispatchQueue.main.async {
-          completion(.failure(error))
-        }
-      } else {
-        self.getApiAuthCode(completion: apiAuthCompletion)
-      }
-    }
-    
-    loginToRetrieveCookies(completion: loginToRetrieveCookiesCompletion)
   }
   
-  private func loginToRetrieveCookies(completion: @escaping ((PorscheConnectError?, HTTPURLResponse?) -> Void)) {
+  private func loginToRetrieveCookies(completion: @escaping (Result<(String?, HTTPURLResponse?), Error>) -> Void) {
     let loginBody = buildLoginBody(username: username, password: password)
-    networkClient.post(String.self, url: networkRoutes.loginAuthURL, body: buildPostFormBodyFrom(dictionary: loginBody), contentType: .form, parseResponseBody: false) { (_, response, error) in
+    networkClient.post(String.self, url: networkRoutes.loginAuthURL, body: buildPostFormBodyFrom(dictionary: loginBody), contentType: .form, parseResponseBody: false) { result in
       
-      DispatchQueue.main.async {
-        if error != nil {
-          completion(PorscheConnectError.AuthFailure, response)
-        } else {
-          AuthLogger.info("Auth: Login to retrieve cookies successful")
-          completion(nil, nil)
-        }
+      if let result = try? result.get() {
+        if result.1 == nil { AuthLogger.info("Login to retrieve cookies successful") }
       }
+      
+      completion(result)
     }
   }
   
-  private func getApiAuthCode(completion: @escaping (_ code: String?, _ codeVerifier: String?, _ error: PorscheConnectError?, _ response: HTTPURLResponse?) -> Void) {
+  private func getApiAuthCode(completion: @escaping (Result<(code: String?, codeVerifier: String?, response: HTTPURLResponse?), PorscheConnectError>) -> Void) {
     let codeVerifier = codeChallenger.generateCodeVerifier()! //TODO: handle null
-    AuthLogger.debug("Auth: Code Verifier: \(codeVerifier)")
+    AuthLogger.debug("Code Verifier: \(codeVerifier)")
     
     let apiAuthParams = buildApiAuthParams(clientId: Application.Portal.clientId, redirectURL: Application.Portal.redirectURL, codeVerifier: codeVerifier)
-    networkClient.get(String.self, url: networkRoutes.apiAuthURL, params: apiAuthParams, parseResponseBody: false) { (_, response, error) in
+    networkClient.get(String.self, url: networkRoutes.apiAuthURL, params: apiAuthParams, parseResponseBody: false) { result in
       
-      if let response = response,
+      if let result = try? result.get(), let response = result.1,
          let url = response.value(forHTTPHeaderField: "cdn-original-uri"),
          let code = URLComponents(string: url)?.queryItems?.first(where: {$0.name == "code"})?.value {
         
-        AuthLogger.info("Auth: Api Auth call for code successful")
-        completion(code, codeVerifier, nil, response)
+        AuthLogger.info("Api Auth call for code successful")
+        completion(.success((code, codeVerifier, response)))
       } else {
-        completion(nil, nil, PorscheConnectError.AuthFailure, response)
+        completion(.failure(PorscheConnectError.AuthFailure))
       }
     }
   }
   
-  private func getApiToken(codeVerifier: String, code: String, completion: @escaping (_ poscheAuth: PorscheAuth?, _ error: PorscheConnectError?, _ response: HTTPURLResponse?) -> Void) {
+  private func getApiToken(codeVerifier: String, code: String, completion: @escaping (Result<(PorscheAuth?, HTTPURLResponse?), Error>) -> Void) {
     let apiTokenBody = buildApiTokenBody(clientId: Application.Portal.clientId, redirectURL: Application.Portal.redirectURL, code: code, codeVerifier: codeVerifier)
-    networkClient.post(PorscheAuth.self, url: networkRoutes.apiTokenURL, body: buildPostFormBodyFrom(dictionary: apiTokenBody), contentType: .form) { (porscheAuth, response, error) in
+    networkClient.post(PorscheAuth.self, url: networkRoutes.apiTokenURL, body: buildPostFormBodyFrom(dictionary: apiTokenBody), contentType: .form) { result in
       
-      if error != nil {
-        completion(nil, PorscheConnectError.AuthFailure, response)
-      } else {
-        AuthLogger.info("Auth: Api Auth call for token successful")
-        completion(porscheAuth, nil, response)
+      if let result = try? result.get() {
+        if result.1 == nil { AuthLogger.info("Api Auth call for token successful") }
       }
+      
+      completion(result)
     }
   }
   
@@ -99,7 +80,7 @@ public extension PorscheConnect {
   
   private func buildApiAuthParams(clientId: String, redirectURL: URL, codeVerifier: String) -> Dictionary<String, String> {
     let codeChallenge = codeChallenger.codeChallenge(for: codeVerifier)! //TODO: Handle null
-    AuthLogger.debug("Auth: Code Challenge: \(codeChallenge)")
+    AuthLogger.debug("Code Challenge: \(codeChallenge)")
     
     return ["client_id": clientId,
             "redirect_uri": redirectURL.absoluteString,

@@ -26,13 +26,16 @@ final class NetworkClientTests: BaseMockNetworkTestCase {
     mockNetworkRoutes.mockGetHelloWorldSuccessful(router: BaseMockNetworkTestCase.router)
     let expectation = self.expectation(description: "Network Expectation")
 
-    client.get(HelloWorld.self, url: url) { (helloWorld, response, error) in
+    client.get(HelloWorld.self, url: url) { result in
       expectation.fulfill()
-      XCTAssertNil(error)
-      XCTAssertNotNil(response)
-      XCTAssertNotNil(helloWorld)
-      XCTAssertEqual("Hello World!", helloWorld!.message)
-      XCTAssertEqual(200, response!.statusCode)
+
+      switch result {
+      case .success(let (helloWorld, response)):
+        XCTAssertEqual("Hello World!", helloWorld!.message)
+        XCTAssertEqual(200, response!.statusCode)
+      case .failure:
+        XCTFail("Should not have reached here")
+      }
     }
     
     waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
@@ -43,12 +46,16 @@ final class NetworkClientTests: BaseMockNetworkTestCase {
     mockNetworkRoutes.mockGetHelloWorldFailure(router: BaseMockNetworkTestCase.router)
     let expectation = self.expectation(description: "Network Expectation")
 
-    client.get(HelloWorld.self, url: url) { (helloWorld, response, error) in
+    client.get(HelloWorld.self, url: url) { result in
       expectation.fulfill()
-      XCTAssertNotNil(error)
-      XCTAssertNil(helloWorld)
-      XCTAssertNotNil(response)
-      XCTAssertEqual(401, response!.statusCode)
+      
+      switch result {
+      case .success:
+        XCTFail("Should not have reached here")
+      case .failure(let error):
+        print()
+        XCTAssertEqual(HttpStatusCode.Unauthorized, error as! HttpStatusCode)
+      }
     }
     
     waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
@@ -60,13 +67,15 @@ final class NetworkClientTests: BaseMockNetworkTestCase {
     let expectation = self.expectation(description: "Network Expectation")
     let body = ["param_key": "param_value"]
     
-    client.post(HelloWorld.self, url: url, body: buildPostFormBodyFrom(dictionary: body)) { (helloWorld, response, error) in
+    client.post(HelloWorld.self, url: url, body: buildPostFormBodyFrom(dictionary: body)) { result in
       expectation.fulfill()
-      XCTAssertNil(error)
-      XCTAssertNotNil(response)
-      XCTAssertNotNil(helloWorld)
-      XCTAssertEqual("Hello World!", helloWorld!.message)
-      XCTAssertEqual(200, response!.statusCode)
+      switch result {
+      case .success(let (helloWorld, response)):
+        XCTAssertEqual("Hello World!", helloWorld!.message)
+        XCTAssertEqual(200, response!.statusCode)
+      case .failure:
+        XCTFail("Should not have reached here")
+      }
     }
     
     waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
