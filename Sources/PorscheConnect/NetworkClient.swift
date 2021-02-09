@@ -47,7 +47,6 @@ struct NetworkClient {
   
   private func performRequest<D: Decodable>(_ responseType: D.Type, request: URLRequest, contentType: HttpRequestContentType = .json, parseResponseBody: Bool = true, jsonKeyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase, completion: @escaping (Result<(D?, HTTPURLResponse?), Error>) -> Void) {
     let task = self.session.dataTask(with: request) { (data, urlResponse, error) in
-      DispatchQueue.main.async {
         let response = urlResponse as? HTTPURLResponse
         
         if let response = response {
@@ -77,7 +76,6 @@ struct NetworkClient {
           completion(.failure(error))
         }
       }
-    }
     
     task.resume()
   }
