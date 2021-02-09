@@ -6,15 +6,15 @@ import PorscheConnect
 
 struct Porsche: ParsableCommand {
   static let configuration = CommandConfiguration(
-    abstract: "A command-line tool to call and interact with Porsche Connect services",
+    abstract: NSLocalizedString("A command-line tool to call and interact with Porsche Connect services.", comment: ""),
     version: "0.1.0",
     subcommands: [ListVehicles.self])
   
   struct Options: ParsableArguments {
-    @Argument(help: "Your MyPorsche username (registered email).")
+    @Argument(help: ArgumentHelp(NSLocalizedString("Your MyPorsche username (registered email).", comment: "")))
     var username: String
     
-    @Argument(help: "Your MyPorsche password")
+    @Argument(help: ArgumentHelp(NSLocalizedString("Your MyPorsche password.", comment: "")))
     var password: String
   }
 }
@@ -34,7 +34,7 @@ extension Porsche {
         case .success(let (vehicles, _)):
           printVehicles(vehicles)
         case .failure(let error):
-          print("Error: \(error)")
+          print(NSLocalizedString("Error \(error).", comment: ""))
         }
         
         Porsche.ListVehicles.exit()
@@ -52,7 +52,7 @@ extension Porsche {
     }
     
     func printVehicle(_ vehicle: Vehicle, at index: Int) {
-      print("#\(index+1) => Model: \(vehicle.modelDescription); Year: \(vehicle.modelYear); Type: \(vehicle.modelType); VIN: \(vehicle.vin)")
+      print(NSLocalizedString("#\(index+1) => Model: \(vehicle.modelDescription); Year: \(vehicle.modelYear); Type: \(vehicle.modelType); VIN: \(vehicle.vin)", comment: ""))
     }
   }
 }
