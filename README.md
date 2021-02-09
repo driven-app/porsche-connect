@@ -68,7 +68,7 @@ porscheConnect.vehicles { result in
 }
 ```
 
-For example, to get the external `Color` (a SwiftUI struct) for the first car in your account:
+For example, to get the external [Color](https://developer.apple.com/documentation/swiftui/color) (a SwiftUI struct) for the first car in your account:
 
 ```swift
 porscheConnect.vehicles { result in
