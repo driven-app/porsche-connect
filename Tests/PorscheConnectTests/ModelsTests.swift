@@ -2,7 +2,7 @@ import XCTest
 @testable import PorscheConnect
 
 final class ModelsTests: XCTestCase {
-let porscheAuth = kMockPorscheAuth
+let porscheAuth = kTestPorscheAuth
   
   let vehicle = Vehicle(vin: "WP0ZZZY4MSA38703", modelDescription: "Taycan 4S", modelType: "Y1ADB1", modelYear: "2021")
   
