@@ -15,7 +15,7 @@ class BaseMockNetworkTestCase: XCTestCase {
   static let loop = try! SelectorEventLoop(selector: try! KqueueSelector())
   static var server: DefaultHTTPServer!
   
-  // MARK: - Lifecycle
+  // MARK: - Once Lifecycle
   
   override class func setUp() {
     super.setUp()
@@ -27,6 +27,13 @@ class BaseMockNetworkTestCase: XCTestCase {
     tearDownMockWebServer()
   }
   
+  // MARK: - Lifecycle
+
+  override func setUp() {
+    super.setUp()
+    HTTPCookieStorage.shared.cookies?.forEach { HTTPCookieStorage.shared.deleteCookie($0) }
+  }
+    
   // MARK: - Private
   
   private class func setupMockWebServer() {

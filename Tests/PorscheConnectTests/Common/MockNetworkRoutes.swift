@@ -7,11 +7,12 @@ final class MockNetworkRoutes {
   
   private static let getHelloWorldPath = "/hello_world.json"
   private static let getApiAuthPath = "/as/authorization.oauth2"
-  
+  private static let getVehiclesPath = "/core/api/v3/ie/en_IE/vehicles"
+    
   private static let postLoginAuthPath = "/auth/api/v1/ie/en_IE/public/login"
   private static let postApiTokenPath = "/as/token.oauth2"
   
-  // MARK: - Mock Routes - Hello World
+  // MARK: - Hello World
   
   func mockGetHelloWorldSuccessful(router: Router) {
     router[MockNetworkRoutes.getHelloWorldPath] = JSONResponse(statusCode: 200) { (req) -> Any in
@@ -23,7 +24,7 @@ final class MockNetworkRoutes {
     router[MockNetworkRoutes.getHelloWorldPath] = JSONResponse(statusCode: 401, statusMessage: "unauthorized")
   }
   
-  // MARK: - Mock Routes - Post Login Auth
+  // MARK: - Post Login Auth
   
   func mockPostLoginAuthSuccessful(router: Router) {
     router[MockNetworkRoutes.postLoginAuthPath] = DataResponse(statusCode: 200, statusMessage: "ok", headers: [("Set-Cookie", "CIAM.status=mockValue")])
@@ -33,7 +34,7 @@ final class MockNetworkRoutes {
     router[MockNetworkRoutes.postLoginAuthPath] = DataResponse(statusCode: 400, statusMessage: "bad request")
   }
   
-  // MARK: - Mock Routes - Get Api Auth
+  // MARK: - Get Api Auth
   
   func mockGetApiAuthSuccessful(router: Router) {
     router[MockNetworkRoutes.getApiAuthPath] = DataResponse(statusCode: 200, statusMessage: "ok", headers: [("cdn-original-uri", "/static/cms/auth.html?code=fqFQlQSUfNkMGtMLj0zRK0RriKdPySGVMmVXPAAC")])
@@ -43,7 +44,7 @@ final class MockNetworkRoutes {
     router[MockNetworkRoutes.getApiAuthPath] = DataResponse(statusCode: 400, statusMessage: "bad request")
   }
   
-  // MARK: - Mock Routes - Post Api Token
+  // MARK: - Post Api Token
   
   func mockPostApiTokenSuccessful(router: Router) {
     router[MockNetworkRoutes.postApiTokenPath] = JSONResponse(statusCode: 200) { (req) -> Any in
@@ -53,6 +54,14 @@ final class MockNetworkRoutes {
   
   func mockPostApiTokenFailure(router: Router) {
     router[MockNetworkRoutes.postApiTokenPath] = DataResponse(statusCode: 400, statusMessage: "bad request")
+  }
+  
+  // MARK: - Get Vehicles
+  
+  func mockGetVehiclesSuccessful(router: Router) {
+    router[MockNetworkRoutes.getVehiclesPath] = JSONResponse(statusCode: 200) { (req) -> Any in
+      return self.mockVehiclesResponse()
+    }
   }
   
   // MARK: - Mock Responses
@@ -66,5 +75,13 @@ final class MockNetworkRoutes {
             "id_token": "eyQhbGciOiJSUzI1NiIsImtpZCI6IjE1bF9LeldTV08tQ1ZNdXdlTmQyMnMifQ",
             "token_type": "Bearer",
             "expires_in":7199]
+  }
+  
+  private func mockVehiclesResponse() -> [Dictionary<String, String>] {
+    return [["vin": "VIN12345",
+            "model": "eyQhbGciOiJSUzI1NiIsImtpZCI6IjE1bF9LeldTV08tQ1ZNdXdlTmQyMnMifQ",
+            "modelDescription": "A Test Description",
+            "modelType": "A Test Model Type",
+            "modelYear": "2021"]]
   }
 }
