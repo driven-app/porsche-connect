@@ -8,7 +8,7 @@ final class MockNetworkRoutes {
   private static let getHelloWorldPath = "/hello_world.json"
   private static let getApiAuthPath = "/as/authorization.oauth2"
   private static let getVehiclesPath = "/core/api/v3/ie/en_IE/vehicles"
-    
+  
   private static let postLoginAuthPath = "/auth/api/v1/ie/en_IE/public/login"
   private static let postApiTokenPath = "/as/token.oauth2"
   
@@ -77,10 +77,15 @@ final class MockNetworkRoutes {
             "expires_in":7199]
   }
   
-  private func mockVehiclesResponse() -> [Dictionary<String, String>] {
-    return [["vin": "VIN12345",
-            "modelDescription": "Porsche Taycan 4S",
-            "modelType": "A Test Model Type",
-            "modelYear": "2021"]]
+  private func mockVehiclesResponse() -> [Dictionary<String, Any>] {
+    return [
+      ["vin": "VIN12345",
+       "modelDescription": "Porsche Taycan 4S",
+       "modelType": "A Test Model Type",
+       "modelYear": "2021",
+       "exteriorColorHex": "#47402e",
+       "attributes": [["name": "licenseplate", "value": "Porsche Taycan"]]
+      ]
+    ]
   }
 }

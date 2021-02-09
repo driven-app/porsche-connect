@@ -4,7 +4,12 @@ import XCTest
 final class ModelsTests: XCTestCase {
 
   let porscheAuth = kTestPorscheAuth
-  let vehicle = Vehicle(vin: "WP0ZZZY4MSA38703", modelDescription: "Taycan 4S", modelType: "Y1ADB1", modelYear: "2021", attributes: nil)
+  let vehicle = Vehicle(vin: "WP0ZZZY4MSA38703",
+                        modelDescription: "Taycan 4S",
+                        modelType: "Y1ADB1",
+                        modelYear: "2021",
+                        exteriorColorHex: "#47402e",
+                        attributes: nil)
   
   func testPorscheAuthConstruction() {
     XCTAssertNotNil(porscheAuth)
@@ -39,6 +44,7 @@ final class ModelsTests: XCTestCase {
   
   func testVehicleConstruction() {
     XCTAssertNotNil(vehicle)
+    XCTAssertNotNil(vehicle.externalColor)
   }
   
   func testVehicleDecodingJsonIntoModel() {
