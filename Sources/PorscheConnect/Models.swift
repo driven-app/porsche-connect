@@ -55,4 +55,12 @@ public struct Vehicle: Codable {
   public let modelDescription: String
   public let modelType: String
   public let modelYear: String
+  public let attributes: [VehicleAttribute]?
+}
+
+public struct VehicleAttribute: Codable {
+  
+  // MARK: - Properties
+  public let name: String
+  public let value: String
 }
