@@ -124,11 +124,11 @@ public class PorscheConnect {
   
   // MARK: - Init & configuration
   
-  public init(environment: Environment, username: String, password: String) {
-    self.environment = environment
-    self.networkRoutes = NetworkRoutes(environment: environment)
+  public init(username: String, password: String, environment: Environment = .Germany) {
     self.username = username
     self.password = password
+    self.environment = environment
+    self.networkRoutes = NetworkRoutes(environment: environment)
   }
   
   // MARK: - Common functions

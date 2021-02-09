@@ -41,15 +41,14 @@ Currently the library supports the following platforms:
 Create an instance of the library:
 
 ```Swift
- let porscheConnect = PorscheConnect(environment: .Ireland, 
-                                     username: "homer.simpson@icloud.example", 
+ let porscheConnect = PorscheConnect(username: "homer.simpson@icloud.example", 
                                      password: "Duh!")
 ```
 
 Currently the following environments are supported:
 
-* **Ireland**
-* **Germany**
+* **Germany** (default)
+* **Ireland** (beta)
 * **Test** (used by the test suite against a mocked server)
 
 A valid [MyPorsche](https://connect-portal.porsche.com) username (email) and password is required to use this library.

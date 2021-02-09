@@ -12,7 +12,7 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
   
   override func setUp() {
     super.setUp()
-    self.connect = PorscheConnect(environment: .Test, username: "homer.simpson@icloud.example", password: "Duh!")
+    self.connect = PorscheConnect(username: "homer.simpson@icloud.example", password: "Duh!", environment: .Test)
   }
   
   // MARK: - Tests

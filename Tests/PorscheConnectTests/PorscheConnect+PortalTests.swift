@@ -12,11 +12,39 @@ final class PorscheConnectPortalTests: BaseMockNetworkTestCase {
   
   override func setUp() {
     super.setUp()
-    self.connect = PorscheConnect(environment: .Test, username: "homer.simpson@icloud.example", password: "Duh!")
+    self.connect = PorscheConnect(username: "homer.simpson@icloud.example", password: "Duh!", environment: .Test)
     self.connect.auth = kTestPorscheAuth
   }
   
   // MARK: - Tests
+  
+  func testVehiclesAuthRequiredSuccessful() {
+    self.connect.auth = nil
+    let expectation = self.expectation(description: "Network Expectation")
+    
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: BaseMockNetworkTestCase.router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: BaseMockNetworkTestCase.router)
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: BaseMockNetworkTestCase.router)
+    
+    mockNetworkRoutes.mockGetVehiclesSuccessful(router: BaseMockNetworkTestCase.router)
+    
+    XCTAssertFalse(self.connect.authorized)
+    XCTAssertNil(self.connect.auth)
+    
+    self.connect.vehicles(success: { (body, response, responseJson) in
+      expectation.fulfill()
+      XCTAssert(self.connect.authorized)
+      XCTAssertNotNil(body)
+      XCTAssertNotNil(response)
+      XCTAssertNotNil(responseJson)
+
+      let vehicles = body as! [Vehicle]
+      XCTAssertEqual(1, vehicles.count)
+      self.assertVehicle(vehicles.first!)
+    })
+    
+    waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  }
   
   func testVehiclesNoAuthRequiredSuccessful() {
     let expectation = self.expectation(description: "Network Expectation")
