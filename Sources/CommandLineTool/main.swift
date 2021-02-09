@@ -36,9 +36,11 @@ extension Porsche {
         case .failure(let error):
           print("Error: \(error)")
         }
+        
+        Porsche.ListVehicles.exit()
       }
     
-      RunLoop.main.run()
+      dispatchMain()
     }
     
     func printVehicles(_ vehicles: [Vehicle]?) {
@@ -50,8 +52,7 @@ extension Porsche {
     }
     
     func printVehicle(_ vehicle: Vehicle, at index: Int) {
-      print("#\(index+1) Model: \(vehicle.modelDescription); Year: \(vehicle.modelYear); Type: \(vehicle.modelType); VIN: \(vehicle.vin)")
+      print("#\(index+1) => Model: \(vehicle.modelDescription); Year: \(vehicle.modelYear); Type: \(vehicle.modelType); VIN: \(vehicle.vin)")
     }
-    
   }
 }
