@@ -87,5 +87,3 @@ public struct VehiclePicture: Codable {
   public let transparent: Bool
   public let placeholder: String?
 }
-
-
