@@ -38,9 +38,11 @@ Currently the library supports the following platforms:
 
 ## Usage
 
+### Instanciate
+
 Create an instance of the library:
 
-```Swift
+```swift
  let porscheConnect = PorscheConnect(username: "homer.simpson@icloud.example", 
                                      password: "Duh!")
 ```
@@ -52,6 +54,20 @@ Currently the following environments are supported:
 
 A valid [MyPorsche](https://connect-portal.porsche.com) username (email) and password is required to use this library.
 
+
+### List Vehicles
+
+To get a list of vehicles associated with your My Porsche account . This call will return an array of `Vehicle` structs, with nested `VehicleAttribute`'s and `VehiclePicture`'s as appropriate for the vehicles configuration.
+
+```swift
+porscheConnect.vehicles { result in
+  switch result {
+  case .success(let (vehicles, _)):
+    break // Do something with vehicles
+  case .failure(let error):
+    break // Handle the error
+  }
+```
 
 ## Tests
 
@@ -69,6 +85,8 @@ This is similar to the commands that are run in CI to test the library on each g
 The library is packaged with a command line utility to give a simple terminal access to the set of Porsche Connect services wrapped by this library. 
 
 ### Compiling
+
+From within the project directory, run:
 
 ```bash
 swift build -c release
@@ -109,7 +127,7 @@ SUBCOMMANDS:
   See 'porsche help <subcommand>' for detailed help.
 ```
 
-For example, to get a list of all the vehicles associated with your My Porsche account:
+To get a list of all the vehicles associated with your My Porsche account:
 
 ```bash
 $ porsche list-vehicles <username> <password>
