@@ -90,9 +90,33 @@ swift build -c release --arch arm64 --arch x86_64
 
 ### Using
 
+To get help on the various commands available, call with `--help` on either the overall command or any of the sub-commands:
+
 ```bash
-porsche 
+$ porsche --help
+
+OVERVIEW: A command-line tool to call and interact with Porsche Connect services
+
+USAGE: porsche <subcommand>
+
+OPTIONS:
+  --version               Show the version.
+  -h, --help              Show help information.
+
+SUBCOMMANDS:
+  list-vehicles
+
+  See 'porsche help <subcommand>' for detailed help.
 ```
+
+For example, to get a list of all the vehicles associated with your My Porsche account:
+
+```bash
+$ porsche list-vehicles <username> <password>
+
+#1 => Model: Taycan 4S; Year: 2021; Type: Y1ADB1; VIN: WP0ZZZXXXXXXXXXXX
+```
+
 
 ## Install
 
