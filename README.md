@@ -1,7 +1,5 @@
 # PorscheConnect 
 
-**NOTE: This is a work-in-progress and not yet ready for use - wait until v1.0.0 is released**
-
 This is an unofficial Porsche Connect API library written in Swift. The primary purpose for this library is to act as a building block for both mobile, desktop and serverside applications built around the Porsche Connect service.
 
 You will require a My Porsche account to be able to make use of this library.
@@ -11,7 +9,7 @@ You will require a My Porsche account to be able to make use of this library.
 Absolutely not. These endpoints are a result of reverse engineering Porsche's web and mobile applications.
 
 
-# CI/CD Status
+## CI/CD Status
 
 The library has a comprehensive suite of unit tests that run on GitHub Actions. Currently the test suite is run on a simulated **iPhone 12 Mini**. Further platforms (macOS) will be added in the future. 
 
@@ -36,9 +34,9 @@ Currently the library supports the following platforms:
 * **watchOS** (Version 6+)
 
 
-## Usage
+# Usage
 
-### Instanciate
+### Getting Started
 
 Create an instance of the library:
 
@@ -67,9 +65,10 @@ porscheConnect.vehicles { result in
   case .failure(let error):
     break // Handle the error
   }
+}
 ```
 
-## Tests
+# Tests
 
 To run the test suite:
 
@@ -80,7 +79,7 @@ xcodebuild test -destination "platform=iOS Simulator,name=iPhone 12 mini" -schem
 This is similar to the commands that are run in CI to test the library on each git commit. You can change the destinations to any of the libraries supported platforms.
 
 
-## Command Line Tool
+# Command Line Tool
 
 The library is packaged with a command line utility to give a simple terminal access to the set of Porsche Connect services wrapped by this library. 
 
@@ -136,7 +135,7 @@ $ porsche list-vehicles <username> <password>
 ```
 
 
-## Install
+# Install
 
 ### Package Manager
 
