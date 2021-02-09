@@ -65,25 +65,25 @@ public struct Vehicle: Codable {
   public var externalColor: Color {
     return Color(hex: exteriorColorHex)
   }
-}
+  
+  public struct VehicleAttribute: Codable {
+    
+    // MARK: - Properties
+    
+    public let name: String
+    public let value: String
+  }
 
-public struct VehicleAttribute: Codable {
-  
-  // MARK: - Properties
-  
-  public let name: String
-  public let value: String
-}
-
-public struct VehiclePicture: Codable {
-  
-  // MARK: - Properties
-  
-  public let url: URL
-  public let view: String
-  public let size: Int
-  public let width: Int
-  public let height: Int
-  public let transparent: Bool
-  public let placeholder: String?
+  public struct VehiclePicture: Codable {
+    
+    // MARK: - Properties
+    
+    public let url: URL
+    public let view: String
+    public let size: Int
+    public let width: Int
+    public let height: Int
+    public let transparent: Bool
+    public let placeholder: String?
+  }
 }
