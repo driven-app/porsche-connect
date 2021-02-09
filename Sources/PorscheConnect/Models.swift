@@ -58,6 +58,7 @@ public struct Vehicle: Codable {
   public let modelYear: String
   public let exteriorColorHex: String
   public let attributes: [VehicleAttribute]?
+  public let pictures: [VehiclePicture]?
 
   // MARK: - Computed Properties
   
@@ -78,7 +79,13 @@ public struct VehiclePicture: Codable {
   
   // MARK: - Properties
   
-//  public let
+  public let url: URL
+  public let view: String
+  public let size: Int
+  public let width: Int
+  public let height: Int
+  public let transparent: Bool
+  public let placeholder: String?
 }
 
 

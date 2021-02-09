@@ -9,7 +9,8 @@ final class ModelsTests: XCTestCase {
                         modelType: "Y1ADB1",
                         modelYear: "2021",
                         exteriorColorHex: "#47402e",
-                        attributes: nil)
+                        attributes: nil,
+                        pictures: nil)
   
   func testPorscheAuthConstruction() {
     XCTAssertNotNil(porscheAuth)
@@ -74,5 +75,57 @@ final class ModelsTests: XCTestCase {
     XCTAssertNotNil(vehicleAttribute2)
     XCTAssertEqual("service-favorites", vehicleAttribute2.name)
     XCTAssertEqual("taycan_charging_EU_v1", vehicleAttribute2.value)
+    
+    XCTAssertEqual(5, decodedVehicle.pictures!.count)
+    
+    let vehiclePicture1 = decodedVehicle.pictures![0]
+    XCTAssertNotNil(vehiclePicture1)
+    XCTAssertEqual(URL(string: "https://picserv.porsche.com/picserv/images-api/v1/ec2bed3b73260c6f0116e12f538b1ac6/5")!, vehiclePicture1.url)
+    XCTAssertEqual("extcam01", vehiclePicture1.view)
+    XCTAssertEqual(5, vehiclePicture1.size)
+    XCTAssertEqual(1080, vehiclePicture1.height)
+    XCTAssertEqual(1920, vehiclePicture1.width)
+    XCTAssert(vehiclePicture1.transparent)
+    XCTAssertNil(vehiclePicture1.placeholder)
+    
+    let vehiclePicture2 = decodedVehicle.pictures![1]
+    XCTAssertNotNil(vehiclePicture2)
+    XCTAssertEqual(URL(string: "https://picserv.porsche.com/picserv/images-api/v1/c11fb8a8bb320523ce6591d52c68f5cf/4")!, vehiclePicture2.url)
+    XCTAssertEqual("extcam01", vehiclePicture2.view)
+    XCTAssertEqual(4, vehiclePicture2.size)
+    XCTAssertEqual(810, vehiclePicture2.height)
+    XCTAssertEqual(1440, vehiclePicture2.width)
+    XCTAssertFalse(vehiclePicture2.transparent)
+    XCTAssertNil(vehiclePicture2.placeholder)
+    
+    let vehiclePicture3 = decodedVehicle.pictures![2]
+    XCTAssertNotNil(vehiclePicture3)
+    XCTAssertEqual(URL(string: "https://picserv.porsche.com/picserv/images-api/v1/c11fb8a8bb320523ce6591d52c68f5cf/3")!, vehiclePicture3.url)
+    XCTAssertEqual("extcam01", vehiclePicture3.view)
+    XCTAssertEqual(3, vehiclePicture3.size)
+    XCTAssertEqual(540, vehiclePicture3.height)
+    XCTAssertEqual(960, vehiclePicture3.width)
+    XCTAssertFalse(vehiclePicture3.transparent)
+    XCTAssertNil(vehiclePicture3.placeholder)
+    
+    let vehiclePicture4 = decodedVehicle.pictures![3]
+    XCTAssertNotNil(vehiclePicture4)
+    XCTAssertEqual(URL(string: "https://picserv.porsche.com/picserv/images-api/v1/ec2bed3b73260c6f0116e12f538b1ac6/2")!, vehiclePicture4.url)
+    XCTAssertEqual("extcam01", vehiclePicture4.view)
+    XCTAssertEqual(2, vehiclePicture4.size)
+    XCTAssertEqual(360, vehiclePicture4.height)
+    XCTAssertEqual(640, vehiclePicture4.width)
+    XCTAssert(vehiclePicture4.transparent)
+    XCTAssertNil(vehiclePicture4.placeholder)
+    
+    let vehiclePicture5 = decodedVehicle.pictures![4]
+    XCTAssertNotNil(vehiclePicture5)
+    XCTAssertEqual(URL(string: "https://picserv.porsche.com/picserv/images-api/v1/ec2bed3b73260c6f0116e12f538b1ac6/1")!, vehiclePicture5.url)
+    XCTAssertEqual("extcam01", vehiclePicture5.view)
+    XCTAssertEqual(1, vehiclePicture5.size)
+    XCTAssertEqual(72, vehiclePicture5.height)
+    XCTAssertEqual(128, vehiclePicture5.width)
+    XCTAssert(vehiclePicture5.transparent)
+    XCTAssertNotNil(vehiclePicture5.placeholder)
   }
 }
