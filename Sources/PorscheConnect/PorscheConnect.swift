@@ -148,15 +148,4 @@ public class PorscheConnect {
       closure()
     }
   }
-    
-//  func handleResponse(body: Any?, response: HTTPURLResponse?, error: Error?, json: ResponseJson?, success: Success?, failure: Failure?) {
-//    DispatchQueue.main.async {
-//      if let failure = failure, let error = error {
-//        failure(error, response)
-//      } else if let success = success {
-//        success(body, response, json)
-//      }
-//    }
-//  }
-  
 }
