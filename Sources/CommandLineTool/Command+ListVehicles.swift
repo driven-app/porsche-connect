@@ -32,7 +32,8 @@ extension Porsche {
     }
     
     private func printVehicle(_ vehicle: Vehicle, at index: Int) {
-      print(NSLocalizedString("#\(index+1) => Model: \(vehicle.modelDescription); Year: \(vehicle.modelYear); Type: \(vehicle.modelType); VIN: \(vehicle.vin)", comment: ""))
+      let output = NSLocalizedString("#\(index+1) => Model: \(vehicle.modelDescription); Year: \(vehicle.modelYear); Type: \(vehicle.modelType); VIN: \(vehicle.vin)", comment: "")
+      print(output)
     }
   }
 }

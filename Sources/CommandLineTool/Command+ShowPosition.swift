@@ -4,7 +4,7 @@ import PorscheConnect
 
 extension Porsche {
   
-  struct ShowSummary: ParsableCommand {
+  struct ShowPosition: ParsableCommand {
     @OptionGroup() var options: Options
     
     @Argument(help: ArgumentHelp(NSLocalizedString("Your vehicle VIN.", comment: "")))
@@ -14,11 +14,11 @@ extension Porsche {
       let porscheConnect = PorscheConnect(username: options.username, password: options.password)
       let vehicle = Vehicle(vin: vin)
       
-      porscheConnect.summary(vehicle: vehicle) { result in
+      porscheConnect.position(vehicle: vehicle) { result in
         switch result {
-        case .success(let (summary, _)):
-          if let summary = summary {
-            printSummary(summary)
+        case .success(let (position, _)):
+          if let position = position {
+            printPosition(position)
           }
         case .failure(let error):
           print(NSLocalizedString("Error \(error).", comment: ""))
@@ -30,8 +30,9 @@ extension Porsche {
       dispatchMain()
     }
     
-    private func printSummary(_ summary: Summary) {
-      print(NSLocalizedString("Model Description: \(summary.modelDescription); Nickname: \(summary.nickName ?? "None")", comment: ""))
+    private func printPosition(_ position: Position) {
+      let output = NSLocalizedString("Latitude: \(position.carCoordinate.latitude); Longitude: \(position.carCoordinate.longitude); Heading: \(position.heading)", comment: "")
+      print(output)
     }
   }
 }
