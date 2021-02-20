@@ -24,4 +24,4 @@ jobs:
       - name: Force XCode 12.4
         run: sudo xcode-select -switch /Applications/Xcode_12.4.app
       - name: Tests
-        run: xcodebuild test -destination "platform=iOS Simulator,name=iPhone 12 mini" -scheme "PorscheConnect"
+        run: xcodebuild test -destination "platform=iOS Simulator,name=iPhone 12 Pro" -scheme "PorscheConnect"
