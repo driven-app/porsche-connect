@@ -35,4 +35,21 @@ public extension PorscheConnect {
       }
     }
   }
+  
+  func capabilities(vehicle: Vehicle, completion: @escaping (Result<(Capability?, HTTPURLResponse?), Error>) -> Void) {
+    let application: Application = .CarControl
+
+    executeWithAuth(application: application) { [self] in
+      guard let auth = auths[application], let apiKey = auth.apiKey else {
+        completion(.failure(PorscheConnectError.AuthFailure))
+        return
+      }
+      
+      let headers = buildHeaders(accessToken: auth.accessToken, apiKey: apiKey, countryCode: environment.countryCode, languageCode: environment.languageCode)
+      
+      networkClient.get(Capability.self, url: networkRoutes.vehicleCapabilitiesURL(vehicle: vehicle), headers: headers, jsonKeyDecodingStrategy: .useDefaultKeys) { result in
+        completion(result)
+      }
+    }
+  }
 }
