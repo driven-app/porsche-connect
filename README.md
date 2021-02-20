@@ -60,8 +60,8 @@ To get a list of vehicles associated with your My Porsche account . This call wi
 ```swift
 porscheConnect.vehicles { result in
   switch result {
-  case .success(let (vehicles, _)):
-    break // Do something with vehicles
+  case .success(let (vehicles, response)):
+    break // Do something with vehicles or raw response
   case .failure(let error):
     break // Handle the error
   }
@@ -92,8 +92,8 @@ To get a summary for a vehicle. This call will return a `Summary` struct.
 let vehicle = vehicles.first!
 porscheConnect.summary(vehicle: vehicle) { result in
   switch result {
-  case .success(let (summary, _)):
-    break // Do something with the summary
+  case .success(let (summary, response)):
+    break // Do something with the summary or raw response
   case .failure(let error):
     break // Handle the error
   }
