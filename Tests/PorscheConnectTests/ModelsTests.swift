@@ -20,6 +20,8 @@ final class ModelsTests: XCTestCase {
     XCTAssertFalse(porscheAuth.expired)
   }
   
+  // MARK: - Auth tests
+  
   func testPorscheAuthDecodingJsonIntoModel() {
     let json =  "{\"access_token\":\"Kpjg2m1ZXd8GM0pvNIB3jogWd0o6\",\"id_token\":\"eyJhbGciOiJSUzI1NiIsImtpZCI6IjE1bF9LeldTV08tQ1ZNdXdlTmQyMnMifQ.eyJzdWIiOiI4N3VnOGJobXZydnF5bTFrIiwiYXVkIjoiVFo0VmY1d25LZWlwSnh2YXRKNjBsUEhZRXpxWjRXTnAiLCJqdGkiOiJmTldhWEE4RTBXUzNmVzVZU0VmNFRDIiwiaXNzIjoiaHR0cHM6XC9cL2xvZ2luLnBvcnNjaGUuY29tIiwiaWF0IjoxNjEyNzQxNDA4LCJleHAiOjE2MTI3NDE3MDgsInBpLnNyaSI6InNoeTN3aDN4RFVWSFlwd0pPYmpQdHJ5Y2FpOCJ9.EsgxbnDCdEC0O8b05B_VJoe09etxcQOqhj4bRkR-AOwZrFV0Ba5LGkUFD_8GxksWuCn9W_bG_vHNOxpcum-avI7r2qY3N2iMJHZaOc0Y-NqBPCu5kUN3F5oh8e7aDbBKQI_ZWTxRdMvcTC8zKJRZf0Ud2YFQSk6caGwmqJ5OE_OB38_ovbAiVRgV_beHePWpEkdADKKtlF5bmSViHOoUOs8x6j21mCXDiuMPf62oRxU4yPN-AS4wICtz22dabFgdjIwOAFm651098z2zwEUEAPAGkcRKuvSHlZ8OAvi4IXSFPXBdCfcfXRk5KdCXxP1xaZW0ItbrQZORdI12hVFoUQ\",\"token_type\":\"Bearer\",\"expires_in\":7199}\r\n".data(using: .utf8)!
     
@@ -42,6 +44,8 @@ final class ModelsTests: XCTestCase {
     XCTAssertNotNil(porscheAuth)
     XCTAssertEqual("TZ4Vf5wnKeipJxvatJ60lPHYEzqZ4WNp", porscheAuth.apiKey)
   }
+  
+  // MARK: - Vehicle tests
   
   func testVehicleConstruction() {
     XCTAssertNotNil(vehicle)
@@ -129,9 +133,57 @@ final class ModelsTests: XCTestCase {
     XCTAssertNotNil(vehiclePicture5.placeholder)
   }
   
+  // MARK: - Summary tests
+  
   func testSummaryConstruction() {
     let summary = Summary(modelDescription: "A model description", nickName: nil)
     XCTAssertNotNil(summary)
     XCTAssertNil(summary.nickName)
   }
+  
+  func testSummaryDecodingJsonIntoModel() {
+    let json = "{\n \"modelDescription\": \"Taycan 4S\", \n \"nickName\": \"211-D-12345\"}".data(using: .utf8)!
+    
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .useDefaultKeys
+    
+    let summary = try! decoder.decode(Summary.self, from: json)
+    XCTAssertNotNil(summary)
+    XCTAssertEqual("Taycan 4S", summary.modelDescription)
+    XCTAssertEqual("211-D-12345", summary.nickName!)
+  }
+  
+  func testSummaryDecodingJsonIntoModelWithNoNickname() {
+    let json = "{\"modelDescription\": \"Taycan 4S\"}".data(using: .utf8)!
+    
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .useDefaultKeys
+    
+    let summary = try! decoder.decode(Summary.self, from: json)
+    XCTAssertNotNil(summary)
+    XCTAssertEqual("Taycan 4S", summary.modelDescription)
+    XCTAssertNil(summary.nickName)
+  }
+  
+  // MARK: - Position tests
+  
+  func testPositionConstruction() {
+    let position = Position(carCoordinate: CarCoordinate(geoCoordinateSystem: "WGS84", latitude: 53.395367, longitude: -6.389296), heading: 68)
+    XCTAssertNotNil(position)
+  }
+  
+  func testPositionDecodingJsonIntoModel() {
+    let json = "{\"carCoordinate\": {\"geoCoordinateSystem\": \"WGS84\",\"latitude\": 53.395367, \"longitude\": -6.389296}, \"heading\": 68}".data(using: .utf8)!
+    
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .useDefaultKeys
+    
+    let position = try! decoder.decode(Position.self, from: json)
+    XCTAssertNotNil(position)
+    XCTAssertNotNil(position.carCoordinate)
+    XCTAssertEqual(53.395367, position.carCoordinate.latitude)
+    XCTAssertEqual(-6.389296, position.carCoordinate.longitude)
+    XCTAssertEqual(68, position.heading)
+  }
+  
 }
