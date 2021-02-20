@@ -64,7 +64,7 @@ struct NetworkRoutes {
   }
   
   func vehicleCapabilitiesURL(vehicle: Vehicle) -> URL {
-    switch environment {
+    switch environment { 
     case .Ireland, .Germany:
       return URL(string: "https://api.porsche.com/service-vehicle/vcs/capabilities/\(vehicle.vin)")!
     case .Test:

@@ -7,12 +7,7 @@ final class NetworkRoutesTests: XCTestCase {
   
   override func setUp() {
     super.setUp()
-    let json = "{\"displayParkingBrake\": true, \"needsSPIN\": true, \"hasRDK\": true, \"engineType\": \"BEV\", \"carModel\": \"J1\", \"onlineRemoteUpdateStatus\": {\"editableByUser\": true, \"active\": true }, \"heatingCapabilities\": {\"frontSeatHeatingAvailable\": true, \"rearSeatHeatingAvailable\": false}, \"steeringWheelPosition\": \"RIGHT\", \"hasHonkAndFlash\": true }".data(using: .utf8)!
-    
-    let decoder = JSONDecoder()
-    decoder.keyDecodingStrategy = .useDefaultKeys
-    
-    capabilities = try! decoder.decode(Capabilities.self, from: json)
+    capabilities = buildCapabilites()
   }
   
   func testApplicationRedirectURLPortal() {

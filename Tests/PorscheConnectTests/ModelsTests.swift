@@ -168,12 +168,8 @@ final class ModelsTests: XCTestCase {
   // MARK: - Position tests
   
   func testPositionDecodingJsonIntoModel() {
-    let json = "{\"carCoordinate\": {\"geoCoordinateSystem\": \"WGS84\",\"latitude\": 53.395367, \"longitude\": -6.389296}, \"heading\": 68}".data(using: .utf8)!
+    let position = buildPosition()
     
-    let decoder = JSONDecoder()
-    decoder.keyDecodingStrategy = .useDefaultKeys
-    
-    let position = try! decoder.decode(Position.self, from: json)
     XCTAssertNotNil(position)
     XCTAssertNotNil(position.carCoordinate)
     XCTAssertEqual(53.395367, position.carCoordinate.latitude)
@@ -184,12 +180,8 @@ final class ModelsTests: XCTestCase {
   // MARK: - Capabilities tests
   
   func testCapabilitiesDecodingJsonIntoModel() {
-    let json = "{\"displayParkingBrake\": true, \"needsSPIN\": true, \"hasRDK\": true, \"engineType\": \"BEV\", \"carModel\": \"J1\", \"onlineRemoteUpdateStatus\": {\"editableByUser\": true, \"active\": true }, \"heatingCapabilities\": {\"frontSeatHeatingAvailable\": true, \"rearSeatHeatingAvailable\": false}, \"steeringWheelPosition\": \"RIGHT\", \"hasHonkAndFlash\": true }".data(using: .utf8)!
+    let capabilities = buildCapabilites()
     
-    let decoder = JSONDecoder()
-    decoder.keyDecodingStrategy = .useDefaultKeys
-    
-    let capabilities = try! decoder.decode(Capabilities.self, from: json)
     XCTAssertNotNil(capabilities)
     XCTAssertNotNil(capabilities.heatingCapabilities)
     XCTAssertNotNil(capabilities.onlineRemoteUpdateStatus)
@@ -206,4 +198,14 @@ final class ModelsTests: XCTestCase {
     XCTAssertTrue(capabilities.hasHonkAndFlash)
   }
   
+  // MARK: - Private functions
+  
+  private func buildPosition() -> Position {
+    let json = "{\"carCoordinate\": {\"geoCoordinateSystem\": \"WGS84\",\"latitude\": 53.395367, \"longitude\": -6.389296}, \"heading\": 68}".data(using: .utf8)!
+    
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .useDefaultKeys
+    
+    return try! decoder.decode(Position.self, from: json)
+  }
 }
