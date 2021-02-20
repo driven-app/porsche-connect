@@ -206,6 +206,7 @@ final class ModelsTests: XCTestCase {
     XCTAssertNotNil(emobility)
     XCTAssertNotNil(emobility.batteryChargeStatus)
     XCTAssertNotNil(emobility.directCharge)
+    XCTAssertNotNil(emobility.directClimatisation)
     
     let batteryChargeStatus = emobility.batteryChargeStatus
     
@@ -246,6 +247,12 @@ final class ModelsTests: XCTestCase {
     let directCharge = emobility.directCharge
     XCTAssertFalse(directCharge.disabled)
     XCTAssertFalse(directCharge.isActive)
+    
+    let directClimatisation = emobility.directClimatisation
+    XCTAssertEqual("OFF", directClimatisation.climatisationState)
+    XCTAssertNil(directClimatisation.remainingClimatisationTime)
+    
+    XCTAssertEqual("NOT_CHARGING", emobility.chargingStatus)
   }
   
   // MARK: - Private functions

@@ -191,6 +191,8 @@ public struct Emobility: Codable {
   
   public let batteryChargeStatus: BatteryChargeStatus
   public let directCharge: DirectCharge
+  public let directClimatisation: DirectClimatisation
+  public let chargingStatus: String
   
   // MARK: -
   
@@ -239,4 +241,8 @@ public struct Emobility: Codable {
     public let isActive: Bool
   }
   
+  public struct DirectClimatisation: Codable {
+    public let climatisationState: String
+    public let remainingClimatisationTime: String? // TBD when set
+  }
 }
