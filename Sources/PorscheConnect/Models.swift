@@ -1,5 +1,6 @@
 import Foundation
 import SwiftUI
+import CoreLocation
 
 public struct PorscheAuth: Codable {
   
@@ -102,4 +103,24 @@ public struct Summary: Codable {
   
   public let modelDescription: String
   public let nickName: String?
+}
+
+// MARK: -
+  
+public struct Position: Codable {
+  
+  // MARK: Properties
+  public let carCoordinate: CarCoordinate
+  public let heading: CLLocationDirection
+}
+
+// MARK: -
+
+public struct CarCoordinate: Codable {
+  
+  // MARK: Properties
+  
+  public let geoCoordinateSystem: String
+  public let latitude: CLLocationDegrees
+  public let longitude: CLLocationDegrees
 }

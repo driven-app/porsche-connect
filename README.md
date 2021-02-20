@@ -98,6 +98,22 @@ porscheConnect.summary(vehicle: vehicle) { result in
 }
 ```
 
+### Position for a vehicle
+
+To get last reported position for a vehicle. This call will return a `Position` struct.
+
+```swift
+let vehicle = vehicles.first!
+porscheConnect.position(vehicle: vehicle) { result in
+  switch result {
+  case .success(let (position, response)):
+    break // Do something with the position or raw response
+  case .failure(let error):
+    break // Handle the error
+  }
+}
+```
+
 # Tests
 
 To run the test suite:
