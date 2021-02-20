@@ -52,14 +52,22 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
   
   func testApplicationClientIdPortal() {
     let application = Application.Portal
-    XCTAssertNotNil(application)
     XCTAssertEqual("TZ4Vf5wnKeipJxvatJ60lPHYEzqZ4WNp", application.clientId)
   }
   
   func testApplicationRedirectURLPortal() {
     let application = Application.Portal
-    XCTAssertNotNil(application)
     XCTAssertEqual(URL(string: "https://my-static02.porsche.com/static/cms/auth.html")!, application.redirectURL)
+  }
+  
+  func testApplicationClientIdCarControl() {
+    let application = Application.CarControl
+    XCTAssertEqual("gZLSI7ThXFB4d2ld9t8Cx2DBRvGr1zN2", application.clientId)
+  }
+  
+  func testApplicationRedirectURLCarControl() {
+    let application = Application.CarControl
+    XCTAssertEqual(URL(string: "https://connect-portal.porsche.com/myservices/auth/auth.html")!, application.redirectURL)
   }
   
   func testNetworkRoutesIreland() {
