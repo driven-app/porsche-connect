@@ -235,7 +235,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
       case .success(let (capability, response)):
         XCTAssertNotNil(response)
         XCTAssertNotNil(capability)
-        self.assertCapability(capability!)
+        self.assertCapabilities(capability!)
       case .failure:
         XCTFail("Should not have reached here")
       }
@@ -258,7 +258,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
       case .success(let (capability, response)):
         XCTAssertNotNil(response)
         XCTAssertNotNil(capability)
-        self.assertCapability(capability!)
+        self.assertCapabilities(capability!)
       case .failure:
         XCTFail("Should not have reached here")
       }
@@ -327,19 +327,19 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertEqual(-6.389296, carCoordinate.longitude)
   }
   
-  private func assertCapability(_ capability: Capability) {
-    XCTAssertNotNil(capability.heatingCapabilities)
-    XCTAssertNotNil(capability.onlineRemoteUpdateStatus)
-    XCTAssertTrue(capability.displayParkingBrake)
-    XCTAssertTrue(capability.needsSPIN)
-    XCTAssertTrue(capability.hasRDK)
-    XCTAssertEqual("BEV", capability.engineType)
-    XCTAssertEqual("J1", capability.carModel)
-    XCTAssertTrue(capability.onlineRemoteUpdateStatus.editableByUser)
-    XCTAssertTrue(capability.onlineRemoteUpdateStatus.active)
-    XCTAssertTrue(capability.heatingCapabilities.frontSeatHeatingAvailable)
-    XCTAssertFalse(capability.heatingCapabilities.rearSeatHeatingAvailable)
-    XCTAssertEqual("RIGHT", capability.steeringWheelPosition)
-    XCTAssertTrue(capability.hasHonkAndFlash)
+  private func assertCapabilities(_ capabilities: Capabilities) {
+    XCTAssertNotNil(capabilities.heatingCapabilities)
+    XCTAssertNotNil(capabilities.onlineRemoteUpdateStatus)
+    XCTAssertTrue(capabilities.displayParkingBrake)
+    XCTAssertTrue(capabilities.needsSPIN)
+    XCTAssertTrue(capabilities.hasRDK)
+    XCTAssertEqual("BEV", capabilities.engineType)
+    XCTAssertEqual("J1", capabilities.carModel)
+    XCTAssertTrue(capabilities.onlineRemoteUpdateStatus.editableByUser)
+    XCTAssertTrue(capabilities.onlineRemoteUpdateStatus.active)
+    XCTAssertTrue(capabilities.heatingCapabilities.frontSeatHeatingAvailable)
+    XCTAssertFalse(capabilities.heatingCapabilities.rearSeatHeatingAvailable)
+    XCTAssertEqual("RIGHT", capabilities.steeringWheelPosition)
+    XCTAssertTrue(capabilities.hasHonkAndFlash)
   }
 }

@@ -181,29 +181,29 @@ final class ModelsTests: XCTestCase {
     XCTAssertEqual(68, position.heading)
   }
   
-  // MARK: - Capability tests
+  // MARK: - Capabilities tests
   
-  func testCapabilityDecodingJsonIntoModel() {
+  func testCapabilitiesDecodingJsonIntoModel() {
     let json = "{\"displayParkingBrake\": true, \"needsSPIN\": true, \"hasRDK\": true, \"engineType\": \"BEV\", \"carModel\": \"J1\", \"onlineRemoteUpdateStatus\": {\"editableByUser\": true, \"active\": true }, \"heatingCapabilities\": {\"frontSeatHeatingAvailable\": true, \"rearSeatHeatingAvailable\": false}, \"steeringWheelPosition\": \"RIGHT\", \"hasHonkAndFlash\": true }".data(using: .utf8)!
     
     let decoder = JSONDecoder()
     decoder.keyDecodingStrategy = .useDefaultKeys
     
-    let capability = try! decoder.decode(Capability.self, from: json)
-    XCTAssertNotNil(capability)
-    XCTAssertNotNil(capability.heatingCapabilities)
-    XCTAssertNotNil(capability.onlineRemoteUpdateStatus)
-    XCTAssertTrue(capability.displayParkingBrake)
-    XCTAssertTrue(capability.needsSPIN)
-    XCTAssertTrue(capability.hasRDK)
-    XCTAssertEqual("BEV", capability.engineType)
-    XCTAssertEqual("J1", capability.carModel)
-    XCTAssertTrue(capability.onlineRemoteUpdateStatus.editableByUser)
-    XCTAssertTrue(capability.onlineRemoteUpdateStatus.active)
-    XCTAssertTrue(capability.heatingCapabilities.frontSeatHeatingAvailable)
-    XCTAssertFalse(capability.heatingCapabilities.rearSeatHeatingAvailable)
-    XCTAssertEqual("RIGHT", capability.steeringWheelPosition)
-    XCTAssertTrue(capability.hasHonkAndFlash)
+    let capabilities = try! decoder.decode(Capabilities.self, from: json)
+    XCTAssertNotNil(capabilities)
+    XCTAssertNotNil(capabilities.heatingCapabilities)
+    XCTAssertNotNil(capabilities.onlineRemoteUpdateStatus)
+    XCTAssertTrue(capabilities.displayParkingBrake)
+    XCTAssertTrue(capabilities.needsSPIN)
+    XCTAssertTrue(capabilities.hasRDK)
+    XCTAssertEqual("BEV", capabilities.engineType)
+    XCTAssertEqual("J1", capabilities.carModel)
+    XCTAssertTrue(capabilities.onlineRemoteUpdateStatus.editableByUser)
+    XCTAssertTrue(capabilities.onlineRemoteUpdateStatus.active)
+    XCTAssertTrue(capabilities.heatingCapabilities.frontSeatHeatingAvailable)
+    XCTAssertFalse(capabilities.heatingCapabilities.rearSeatHeatingAvailable)
+    XCTAssertEqual("RIGHT", capabilities.steeringWheelPosition)
+    XCTAssertTrue(capabilities.hasHonkAndFlash)
   }
   
 }

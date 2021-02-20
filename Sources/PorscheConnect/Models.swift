@@ -148,7 +148,7 @@ public struct Position: Codable {
 
 // MARK: -
 
-public struct Capability: Codable {
+public struct Capabilities: Codable {
   
   // MARK: Properties
   

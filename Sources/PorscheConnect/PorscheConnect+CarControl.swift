@@ -48,7 +48,7 @@ public extension PorscheConnect {
     }
   }
   
-  func capabilities(vehicle: Vehicle, completion: @escaping (Result<(Capability?, HTTPURLResponse?), Error>) -> Void) {
+  func capabilities(vehicle: Vehicle, completion: @escaping (Result<(Capabilities?, HTTPURLResponse?), Error>) -> Void) {
     let application: Application = .CarControl
     
     executeWithAuth(application: application) { [self] in
@@ -61,7 +61,7 @@ public extension PorscheConnect {
       
       let headers = buildHeaders(accessToken: auth.accessToken, apiKey: apiKey, countryCode: environment.countryCode, languageCode: environment.languageCode)
       
-      networkClient.get(Capability.self, url: networkRoutes.vehicleCapabilitiesURL(vehicle: vehicle), headers: headers, jsonKeyDecodingStrategy: .useDefaultKeys) { result in
+      networkClient.get(Capabilities.self, url: networkRoutes.vehicleCapabilitiesURL(vehicle: vehicle), headers: headers, jsonKeyDecodingStrategy: .useDefaultKeys) { result in
         DispatchQueue.main.async {
           completion(result)
         }
