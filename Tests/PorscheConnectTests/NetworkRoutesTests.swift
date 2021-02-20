@@ -27,6 +27,7 @@ final class NetworkRoutesTests: XCTestCase {
     let vehicle = Vehicle(vin: "12345X")
     XCTAssertEqual(URL(string: "https://api.porsche.com/service-vehicle/vehicle-summary/12345X"), networkRoute.vehicleSummaryURL(vehicle: vehicle))
     XCTAssertEqual(URL(string: "https://api.porsche.com/service-vehicle/car-finder/12345X/position"), networkRoute.vehiclePositionURL(vehicle: vehicle))
+    XCTAssertEqual(URL(string: "https://api.porsche.com/service-vehicle/vcs/capabilities/12345X"), networkRoute.vehicleCapabilitiesURL(vehicle: vehicle))
   }
   
   func testNetworkRoutesGermany() {
@@ -38,6 +39,7 @@ final class NetworkRoutesTests: XCTestCase {
     let vehicle = Vehicle(vin: "12345X")
     XCTAssertEqual(URL(string: "https://api.porsche.com/service-vehicle/vehicle-summary/12345X"), networkRoute.vehicleSummaryURL(vehicle: vehicle))
     XCTAssertEqual(URL(string: "https://api.porsche.com/service-vehicle/car-finder/12345X/position"), networkRoute.vehiclePositionURL(vehicle: vehicle))
+    XCTAssertEqual(URL(string: "https://api.porsche.com/service-vehicle/vcs/capabilities/12345X"), networkRoute.vehicleCapabilitiesURL(vehicle: vehicle))
   }
   
   func testNetworkRoutesTest() {
@@ -49,5 +51,6 @@ final class NetworkRoutesTests: XCTestCase {
     let vehicle = Vehicle(vin: "12345X")
     XCTAssertEqual(URL(string: "http://localhost:\(kTestServerPort)/service-vehicle/vehicle-summary/12345X"), networkRoute.vehicleSummaryURL(vehicle: vehicle))
     XCTAssertEqual(URL(string: "http://localhost:\(kTestServerPort)/service-vehicle/car-finder/12345X/position"), networkRoute.vehiclePositionURL(vehicle: vehicle))
+    XCTAssertEqual(URL(string: "http://localhost:\(kTestServerPort)/service-vehicle/vcs/capabilities/12345X"), networkRoute.vehicleCapabilitiesURL(vehicle: vehicle))
   }
 }

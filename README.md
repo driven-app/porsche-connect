@@ -82,7 +82,7 @@ porscheConnect.vehicles { result in
 }
 ```
 
-### Summary for a vehicle
+### Summary of a vehicle
 
 To get a summary for a vehicle. This call will return a `Summary` struct.
 
@@ -98,9 +98,9 @@ porscheConnect.summary(vehicle: vehicle) { result in
 }
 ```
 
-### Position for a vehicle
+### Position of a vehicle
 
-To get last reported position for a vehicle. This call will return a `Position` struct.
+To get last reported position for a vehicle. This call will return a `Position` struct. 
 
 ```swift
 let vehicle = vehicles.first!
@@ -108,6 +108,22 @@ porscheConnect.position(vehicle: vehicle) { result in
   switch result {
   case .success(let (position, response)):
     break // Do something with the position or raw response
+  case .failure(let error):
+    break // Handle the error
+  }
+}
+```
+
+### Capabilities of a vehicle
+
+To get last reported position for a vehicle. This call will return a `Capabilities` struct. This struct has nested `OnlineRemoteUpdateStatus` and `HeatingCapabilities` structs as appropriate for the vehicle.
+
+```swift
+let vehicle = vehicles.first!
+porscheConnect.capabilities(vehicle: vehicle) { result in
+  switch result {
+  case .success(let (capabilities, response)):
+    break // Do something with the capabilities or raw response
   case .failure(let error):
     break // Handle the error
   }
@@ -170,6 +186,7 @@ SUBCOMMANDS:
   list-vehicles
   show-summary
   show-position
+  show-capabilities
   
   See 'porsche help <subcommand>' for detailed help.
 ```
@@ -190,12 +207,20 @@ $ porsche show-summary <username> <password> <vin>
 Model Description: Taycan 4S; Nickname: 211-D-12345
 ```
 
-To show the current position of the vehicle:
+To show the current position of a vehicle:
 
 ```bash
 $ porsche show-position <username> <password> <vin>
 
 Latitude: 53.395367; Longitude: -6.389296; Heading: 68
+```
+
+To show the capabilties of a vehicle:
+
+```bash
+$ porsche show-capabilities <username> <password> <vin>
+
+Display parking brake: yes; Needs SPIN: yes; Has RDK: yes; Engine Type: BEV; Car Model: J1; Front Seat Heating: yes; Rear Seat Heating: no; Steering Wheel Position: RIGHT; Honk & Flash: yes
 ```
 
 # Install
