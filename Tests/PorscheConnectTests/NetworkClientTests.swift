@@ -23,7 +23,7 @@ final class NetworkClientTests: BaseMockNetworkTestCase {
   
   func testGetSuccessful() {
     let url = URL(string: "http://localhost:\(kTestServerPort)/hello_world.json")!
-    mockNetworkRoutes.mockGetHelloWorldSuccessful(router: BaseMockNetworkTestCase.router)
+    mockNetworkRoutes.mockGetHelloWorldSuccessful(router: MockServer.shared.router)
     let expectation = self.expectation(description: "Network Expectation")
 
     client.get(HelloWorld.self, url: url) { result in
@@ -43,7 +43,7 @@ final class NetworkClientTests: BaseMockNetworkTestCase {
   
   func testGetFailure() {
     let url = URL(string: "http://localhost:\(kTestServerPort)/hello_world.json")!
-    mockNetworkRoutes.mockGetHelloWorldFailure(router: BaseMockNetworkTestCase.router)
+    mockNetworkRoutes.mockGetHelloWorldFailure(router: MockServer.shared.router)
     let expectation = self.expectation(description: "Network Expectation")
 
     client.get(HelloWorld.self, url: url) { result in
@@ -63,7 +63,7 @@ final class NetworkClientTests: BaseMockNetworkTestCase {
   
   func testPostSuccess() {
     let url = URL(string: "http://localhost:\(kTestServerPort)/hello_world.json")!
-    mockNetworkRoutes.mockGetHelloWorldSuccessful(router: BaseMockNetworkTestCase.router)
+    mockNetworkRoutes.mockGetHelloWorldSuccessful(router: MockServer.shared.router)
     let expectation = self.expectation(description: "Network Expectation")
     let body = ["param_key": "param_value"]
     

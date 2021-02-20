@@ -23,11 +23,11 @@ final class PorscheConnectPortalTests: BaseMockNetworkTestCase {
     connect.auths[application] = nil
     let expectation = self.expectation(description: "Network Expectation")
     
-    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: BaseMockNetworkTestCase.router)
-    mockNetworkRoutes.mockGetApiAuthSuccessful(router: BaseMockNetworkTestCase.router)
-    mockNetworkRoutes.mockPostApiTokenSuccessful(router: BaseMockNetworkTestCase.router)
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: MockServer.shared.router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: MockServer.shared.router)
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: MockServer.shared.router)
     
-    mockNetworkRoutes.mockGetVehiclesSuccessful(router: BaseMockNetworkTestCase.router)
+    mockNetworkRoutes.mockGetVehiclesSuccessful(router: MockServer.shared.router)
     
     XCTAssertFalse(self.connect.authorized(application: application))
     
@@ -51,7 +51,7 @@ final class PorscheConnectPortalTests: BaseMockNetworkTestCase {
   
   func testVehiclesNoAuthRequiredSuccessful() {
     let expectation = self.expectation(description: "Network Expectation")
-    mockNetworkRoutes.mockGetVehiclesSuccessful(router: BaseMockNetworkTestCase.router)
+    mockNetworkRoutes.mockGetVehiclesSuccessful(router: MockServer.shared.router)
     
     XCTAssert(connect.authorized(application: application))
 
@@ -75,7 +75,7 @@ final class PorscheConnectPortalTests: BaseMockNetworkTestCase {
   
   func testVehiclesNoAuthRequiredFailure() {
     let expectation = self.expectation(description: "Network Expectation")
-    mockNetworkRoutes.mockGetVehiclesFailure(router: BaseMockNetworkTestCase.router)
+    mockNetworkRoutes.mockGetVehiclesFailure(router: MockServer.shared.router)
     
     XCTAssert(connect.authorized(application: application))
     
@@ -98,7 +98,7 @@ final class PorscheConnectPortalTests: BaseMockNetworkTestCase {
     connect.auths[application] = nil
     let expectation = self.expectation(description: "Network Expectation")
     
-    mockNetworkRoutes.mockPostLoginAuthFailure(router: BaseMockNetworkTestCase.router)
+    mockNetworkRoutes.mockPostLoginAuthFailure(router: MockServer.shared.router)
 
     XCTAssertFalse(connect.authorized(application: application))
     

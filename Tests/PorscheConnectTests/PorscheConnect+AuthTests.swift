@@ -20,9 +20,9 @@ final class PorscheConnectAuthTests: BaseMockNetworkTestCase {
   func testRequestTokenSuccessful() {
     let application: Application = .Portal
     let expectation = self.expectation(description: "Network Expectation")
-    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: BaseMockNetworkTestCase.router)
-    mockNetworkRoutes.mockGetApiAuthSuccessful(router: BaseMockNetworkTestCase.router)
-    mockNetworkRoutes.mockPostApiTokenSuccessful(router: BaseMockNetworkTestCase.router)
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: MockServer.shared.router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: MockServer.shared.router)
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: MockServer.shared.router)
     
     XCTAssertFalse(self.connect.authorized(application: application))
     
@@ -55,7 +55,7 @@ final class PorscheConnectAuthTests: BaseMockNetworkTestCase {
   func testRequestTokenFailureAtLoginToRetrieveCookies() {
     let application: Application = .Portal
     let expectation = self.expectation(description: "Network Expectation")
-    mockNetworkRoutes.mockPostLoginAuthFailure(router: BaseMockNetworkTestCase.router)
+    mockNetworkRoutes.mockPostLoginAuthFailure(router: MockServer.shared.router)
     
     XCTAssertFalse(self.connect.authorized(application: application))
     
@@ -72,8 +72,8 @@ final class PorscheConnectAuthTests: BaseMockNetworkTestCase {
   func testRequestTokenFailureAtGetApiAuthCode() {
     let application: Application = .Portal
     let expectation = self.expectation(description: "Network Expectation")
-    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: BaseMockNetworkTestCase.router)
-    mockNetworkRoutes.mockGetApiAuthFailure(router: BaseMockNetworkTestCase.router)
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: MockServer.shared.router)
+    mockNetworkRoutes.mockGetApiAuthFailure(router: MockServer.shared.router)
     
     XCTAssertFalse(self.connect.authorized(application: application))
 
@@ -90,9 +90,9 @@ final class PorscheConnectAuthTests: BaseMockNetworkTestCase {
   func testRequestTokenFailureAtGetApiAuthToken() {
     let application: Application = .Portal
     let expectation = self.expectation(description: "Network Expectation")
-    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: BaseMockNetworkTestCase.router)
-    mockNetworkRoutes.mockGetApiAuthSuccessful(router: BaseMockNetworkTestCase.router)
-    mockNetworkRoutes.mockPostApiTokenFailure(router: BaseMockNetworkTestCase.router)
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: MockServer.shared.router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: MockServer.shared.router)
+    mockNetworkRoutes.mockPostApiTokenFailure(router: MockServer.shared.router)
     
     XCTAssertFalse(self.connect.authorized(application: application))
     
