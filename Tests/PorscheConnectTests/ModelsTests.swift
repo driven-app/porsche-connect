@@ -205,6 +205,7 @@ final class ModelsTests: XCTestCase {
     
     XCTAssertNotNil(emobility)
     XCTAssertNotNil(emobility.batteryChargeStatus)
+    XCTAssertNotNil(emobility.directCharge)
     
     let batteryChargeStatus = emobility.batteryChargeStatus
     
@@ -218,8 +219,8 @@ final class ModelsTests: XCTestCase {
     XCTAssertEqual("OFF", batteryChargeStatus.chargingMode)
     XCTAssertEqual(56, batteryChargeStatus.stateOfChargeInPercentage)
     XCTAssertNil(batteryChargeStatus.remainingChargeTimeUntil100PercentInMinutes)
-    XCTAssertNotNil(batteryChargeStatus.remainingERange)
 
+    XCTAssertNotNil(batteryChargeStatus.remainingERange)
     let remainingERange = batteryChargeStatus.remainingERange
     XCTAssertEqual(191, remainingERange.value)
     XCTAssertEqual("KILOMETER", remainingERange.unit)
@@ -231,8 +232,8 @@ final class ModelsTests: XCTestCase {
     XCTAssertNil(batteryChargeStatus.remainingCRange)
     XCTAssertEqual("2021-02-19T01:09", batteryChargeStatus.chargingTargetDateTime)
     XCTAssertNil(batteryChargeStatus.status)
+
     XCTAssertNotNil(batteryChargeStatus.chargeRate)
-    
     let chargeRate = batteryChargeStatus.chargeRate
     XCTAssertEqual(0, chargeRate.value)
     XCTAssertEqual("KM_PER_MIN", chargeRate.unit)
@@ -241,6 +242,10 @@ final class ModelsTests: XCTestCase {
 
     XCTAssertEqual(0, batteryChargeStatus.chargingPower)
     XCTAssertFalse(batteryChargeStatus.chargingInDCMode)
+    
+    let directCharge = emobility.directCharge
+    XCTAssertFalse(directCharge.disabled)
+    XCTAssertFalse(directCharge.isActive)
   }
   
   // MARK: - Private functions

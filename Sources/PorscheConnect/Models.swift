@@ -190,6 +190,7 @@ public struct Emobility: Codable {
   // MARK: Properties
   
   public let batteryChargeStatus: BatteryChargeStatus
+  public let directCharge: DirectCharge
   
   // MARK: -
   
@@ -229,6 +230,13 @@ public struct Emobility: Codable {
       public let valueInKmPerHour: Int
       public let unitTranslationKey: String // "EC.COMMON.UNIT.KM_PER_MIN"
     }
+  }
+  
+  // MARK: -
+  
+  public struct DirectCharge: Codable {
+    public let disabled: Bool
+    public let isActive: Bool
   }
   
 }
