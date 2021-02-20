@@ -74,10 +74,8 @@ For example, to get the external [Color](https://developer.apple.com/documentati
 porscheConnect.vehicles { result in
   switch result {
   case .success(let (vehicles, _)):
-    
     let firstVehicle = vehicles!.first!
     let color: Color = firstVehicle.externalColor
-    
   case .failure(let error):
     break // Handle the error
   }

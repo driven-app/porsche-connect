@@ -53,4 +53,13 @@ struct NetworkRoutes {
       return URL(string: "http://localhost:\(kTestServerPort)/service-vehicle/vehicle-summary/\(vehicle.vin)")!
     }
   }
+  
+  func vehiclePositionURL(vehicle: Vehicle) -> URL {
+    switch environment {
+    case .Ireland, .Germany:
+      return URL(string: "https://api.porsche.com/service-vehicle/car-finder/\(vehicle.vin)/position")!
+    case .Test:
+      return URL(string: "http://localhost:\(kTestServerPort)/service-vehicle/car-finder/\(vehicle.vin)/position")!
+    }
+  }
 }
