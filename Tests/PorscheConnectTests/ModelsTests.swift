@@ -167,11 +167,6 @@ final class ModelsTests: XCTestCase {
   
   // MARK: - Position tests
   
-  func testPositionConstruction() {
-    let position = Position(carCoordinate: CarCoordinate(geoCoordinateSystem: "WGS84", latitude: 53.395367, longitude: -6.389296), heading: 68)
-    XCTAssertNotNil(position)
-  }
-  
   func testPositionDecodingJsonIntoModel() {
     let json = "{\"carCoordinate\": {\"geoCoordinateSystem\": \"WGS84\",\"latitude\": 53.395367, \"longitude\": -6.389296}, \"heading\": 68}".data(using: .utf8)!
     
