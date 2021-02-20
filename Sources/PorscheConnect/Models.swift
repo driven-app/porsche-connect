@@ -93,6 +93,26 @@ public struct Vehicle: Codable {
     public let transparent: Bool
     public let placeholder: String?
   }
+  
+  public init(vin: String, modelDescription: String, modelType: String, modelYear: String, exteriorColorHex: String, attributes: [VehicleAttribute]?, pictures: [VehiclePicture]?) {
+    self.vin = vin
+    self.modelDescription = modelDescription
+    self.modelType = modelType
+    self.modelYear = modelYear
+    self.exteriorColorHex = exteriorColorHex
+    self.attributes = attributes
+    self.pictures = pictures
+  }
+  
+  public init(vin: String) {
+    self.vin = vin
+    self.modelDescription = kBlankString
+    self.modelType = kBlankString
+    self.modelYear = kBlankString
+    self.exteriorColorHex = kBlankString
+    self.attributes = nil
+    self.pictures = nil
+  }
 }
 
 // MARK: -

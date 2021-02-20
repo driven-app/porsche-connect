@@ -76,7 +76,7 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "list-vehicles --help"
+            argument = ""
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

@@ -168,7 +168,8 @@ OPTIONS:
 
 SUBCOMMANDS:
   list-vehicles
-
+  show-summary
+  
   See 'porsche help <subcommand>' for detailed help.
 ```
 

@@ -8,8 +8,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
   var connect: PorscheConnect!
   let mockNetworkRoutes = MockNetworkRoutes()
   let application: Application = .CarControl
-  let vehicle = Vehicle(vin: "A1234", modelDescription: "Taycan 4S", modelType: "Y1ADB1", modelYear: "2021", exteriorColorHex: "#47402e", attributes: nil, pictures: nil)
-  
+  let vehicle = Vehicle(vin: "A1234")
   // MARK: - Lifecycle
   
   override func setUp() {
@@ -40,7 +39,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
       case .success(let (summary, response)):
         XCTAssertNotNil(response)
         XCTAssertNotNil(summary)
-        self.assertSumary(summary!)
+        self.assertSummary(summary!)
       case .failure:
         XCTFail("Should not have reached here")
       }
@@ -63,7 +62,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
       case .success(let (summary, response)):
         XCTAssertNotNil(response)
         XCTAssertNotNil(summary)
-        self.assertSumary(summary!)
+        self.assertSummary(summary!)
       case .failure:
         XCTFail("Should not have reached here")
       }
@@ -216,7 +215,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
   
   // MARK: - Private functions
   
-  private func assertSumary(_ summary: Summary) {
+  private func assertSummary(_ summary: Summary) {
     XCTAssertEqual("Taycan 4S", summary.modelDescription)
     XCTAssertEqual("211-D-12345", summary.nickName)
   }

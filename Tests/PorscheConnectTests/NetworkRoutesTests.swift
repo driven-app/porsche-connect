@@ -24,7 +24,7 @@ final class NetworkRoutesTests: XCTestCase {
     XCTAssertEqual(URL(string: "https://login.porsche.com/as/authorization.oauth2")!, networkRoute.apiAuthURL)
     XCTAssertEqual(URL(string: "https://login.porsche.com/as/token.oauth2")!, networkRoute.apiTokenURL)
     
-    let vehicle = Vehicle(vin: "12345X", modelDescription: "Taycan 4S", modelType: "ABC123", modelYear: "2021", exteriorColorHex: "#478be7", attributes: nil, pictures: nil)
+    let vehicle = Vehicle(vin: "12345X")
     XCTAssertEqual(URL(string: "https://api.porsche.com/service-vehicle/vehicle-summary/12345X"), networkRoute.vehicleSummaryURL(vehicle: vehicle))
     XCTAssertEqual(URL(string: "https://api.porsche.com/service-vehicle/car-finder/12345X/position"), networkRoute.vehiclePositionURL(vehicle: vehicle))
   }
@@ -35,7 +35,7 @@ final class NetworkRoutesTests: XCTestCase {
     XCTAssertEqual(URL(string: "https://login.porsche.com/as/authorization.oauth2")!, networkRoute.apiAuthURL)
     XCTAssertEqual(URL(string: "https://login.porsche.com/as/token.oauth2")!, networkRoute.apiTokenURL)
     
-    let vehicle = Vehicle(vin: "12345X", modelDescription: "Taycan 4S", modelType: "ABC123", modelYear: "2021", exteriorColorHex: "#478be7", attributes: nil, pictures: nil)
+    let vehicle = Vehicle(vin: "12345X")
     XCTAssertEqual(URL(string: "https://api.porsche.com/service-vehicle/vehicle-summary/12345X"), networkRoute.vehicleSummaryURL(vehicle: vehicle))
     XCTAssertEqual(URL(string: "https://api.porsche.com/service-vehicle/car-finder/12345X/position"), networkRoute.vehiclePositionURL(vehicle: vehicle))
   }
@@ -46,7 +46,7 @@ final class NetworkRoutesTests: XCTestCase {
     XCTAssertEqual(URL(string: "http://localhost:\(kTestServerPort)/as/authorization.oauth2")!, networkRoute.apiAuthURL)
     XCTAssertEqual(URL(string: "http://localhost:\(kTestServerPort)/as/token.oauth2")!, networkRoute.apiTokenURL)
     
-    let vehicle = Vehicle(vin: "12345X", modelDescription: "Taycan 4S", modelType: "ABC123", modelYear: "2021", exteriorColorHex: "#478be7", attributes: nil, pictures: nil)
+    let vehicle = Vehicle(vin: "12345X")
     XCTAssertEqual(URL(string: "http://localhost:\(kTestServerPort)/service-vehicle/vehicle-summary/12345X"), networkRoute.vehicleSummaryURL(vehicle: vehicle))
     XCTAssertEqual(URL(string: "http://localhost:\(kTestServerPort)/service-vehicle/car-finder/12345X/position"), networkRoute.vehiclePositionURL(vehicle: vehicle))
   }
