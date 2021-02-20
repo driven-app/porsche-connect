@@ -10,7 +10,8 @@ final class MockNetworkRoutes {
   private static let getVehiclesPath = "/core/api/v3/ie/en_IE/vehicles"
   private static let getSummaryPath = "/service-vehicle/vehicle-summary/A1234"
   private static let getPositionPath = "/service-vehicle/car-finder/A1234/position"
-  
+  private static let getCapabilitiesPath = "/service-vehicle/vcs/capabilities/A1234"
+
   private static let postLoginAuthPath = "/auth/api/v1/ie/en_IE/public/login"
   private static let postApiTokenPath = "/as/token.oauth2"
   
@@ -94,6 +95,18 @@ final class MockNetworkRoutes {
     router[MockNetworkRoutes.getPositionPath] = DataResponse(statusCode: 400, statusMessage: "bad request")
   }
   
+  // MARK: - Get Capabilities
+  
+  func mockGetCapabilitiesSuccessful(router: Router) {
+    router[MockNetworkRoutes.getCapabilitiesPath] = JSONResponse(statusCode: 200) { (req) -> Any in
+      return self.mockCapabilitiesResponse()
+    }
+  }
+  
+  func mockGetCapabilitiesFailure(router: Router) {
+    router[MockNetworkRoutes.getCapabilitiesPath] = DataResponse(statusCode: 400, statusMessage: "bad request")
+  }
+  
   // MARK: - Mock Responses
   
   private func mockHelloWorldResponse() -> Dictionary<String, Any> {
@@ -130,5 +143,23 @@ final class MockNetworkRoutes {
                "latitude": 53.395367,
                "longitude": -6.389296],
             "heading": 68]
+  }
+  
+  private func mockCapabilitiesResponse() -> Dictionary<String, Any> {
+    return ["displayParkingBrake": true,
+            "needsSPIN": true,
+            "hasRDK": true,
+            "engineType": "BEV",
+            "carModel": "J1",
+            "onlineRemoteUpdateStatus": [
+              "editableByUser": true,
+              "active": true
+            ],
+            "heatingCapabilities": [
+              "frontSeatHeatingAvailable": true,
+              "rearSeatHeatingAvailable": false
+            ],
+            "steeringWheelPosition": "RIGHT",
+            "hasHonkAndFlash": true]
   }
 }

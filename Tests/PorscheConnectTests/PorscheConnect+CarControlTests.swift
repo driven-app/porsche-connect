@@ -213,6 +213,104 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
   
+  // MARK: - Capabilities Tests
+  
+  func testCapabilitiesAuthRequiredSuccessful() {
+    connect.auths[application] = nil
+    let expectation = self.expectation(description: "Network Expectation")
+    
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: MockServer.shared.router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: MockServer.shared.router)
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: MockServer.shared.router)
+    
+    mockNetworkRoutes.mockGetCapabilitiesSuccessful(router: MockServer.shared.router)
+
+    XCTAssertFalse(self.connect.authorized(application: application))
+    
+    connect.capabilities(vehicle: vehicle) { result in
+      expectation.fulfill()
+      XCTAssert(self.connect.authorized(application: self.application))
+      
+      switch result {
+      case .success(let (capability, response)):
+        XCTAssertNotNil(response)
+        XCTAssertNotNil(capability)
+        self.assertCapability(capability!)
+      case .failure:
+        XCTFail("Should not have reached here")
+      }
+    }
+    
+    waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  }
+  
+  func testCapabilitiesNoAuthRequiredSuccessful() {
+    let expectation = self.expectation(description: "Network Expectation")
+    mockNetworkRoutes.mockGetCapabilitiesSuccessful(router: MockServer.shared.router)
+    
+    XCTAssert(connect.authorized(application: application))
+
+    connect.capabilities(vehicle: vehicle) { result in
+      expectation.fulfill()
+      XCTAssert(self.connect.authorized(application: self.application))
+      
+      switch result {
+      case .success(let (capability, response)):
+        XCTAssertNotNil(response)
+        XCTAssertNotNil(capability)
+        self.assertCapability(capability!)
+      case .failure:
+        XCTFail("Should not have reached here")
+      }
+    }
+    
+    waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  }
+  
+  func testCapabilitiesNoAuthRequiredFailure() {
+    let expectation = self.expectation(description: "Network Expectation")
+    mockNetworkRoutes.mockGetCapabilitiesFailure(router: MockServer.shared.router)
+    
+    XCTAssert(connect.authorized(application: application))
+    
+    connect.capabilities(vehicle: vehicle) { result in
+      expectation.fulfill()
+      XCTAssert(self.connect.authorized(application: self.application))
+      
+      switch result {
+      case .success:
+        XCTFail("Should not have reached here")
+      case .failure(let error):
+        XCTAssertEqual(HttpStatusCode.BadRequest, error as! HttpStatusCode)
+      }
+    }
+    
+    waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  }
+  
+  func testCapabilitiesAuthRequiredAuthFailure() {
+    connect.auths[application] = nil
+    let expectation = self.expectation(description: "Network Expectation")
+    
+    mockNetworkRoutes.mockPostLoginAuthFailure(router: MockServer.shared.router)
+
+    XCTAssertFalse(connect.authorized(application: application))
+    
+    connect.capabilities(vehicle: vehicle) { result in
+      expectation.fulfill()
+      XCTAssertFalse(self.connect.authorized(application: self.application))
+      
+      switch result {
+      case .success:
+        XCTFail("Should not have reached here")
+      case .failure(let error):
+        XCTAssertEqual(PorscheConnectError.AuthFailure, error as! PorscheConnectError)
+      }
+    }
+    
+    waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  }
+  
   // MARK: - Private functions
   
   private func assertSummary(_ summary: Summary) {
@@ -227,5 +325,21 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertEqual("WGS84", carCoordinate.geoCoordinateSystem)
     XCTAssertEqual(53.395367, carCoordinate.latitude)
     XCTAssertEqual(-6.389296, carCoordinate.longitude)
+  }
+  
+  private func assertCapability(_ capability: Capability) {
+    XCTAssertNotNil(capability.heatingCapabilities)
+    XCTAssertNotNil(capability.onlineRemoteUpdateStatus)
+    XCTAssertTrue(capability.displayParkingBrake)
+    XCTAssertTrue(capability.needsSPIN)
+    XCTAssertTrue(capability.hasRDK)
+    XCTAssertEqual("BEV", capability.engineType)
+    XCTAssertEqual("J1", capability.carModel)
+    XCTAssertTrue(capability.onlineRemoteUpdateStatus.editableByUser)
+    XCTAssertTrue(capability.onlineRemoteUpdateStatus.active)
+    XCTAssertTrue(capability.heatingCapabilities.frontSeatHeatingAvailable)
+    XCTAssertFalse(capability.heatingCapabilities.rearSeatHeatingAvailable)
+    XCTAssertEqual("RIGHT", capability.steeringWheelPosition)
+    XCTAssertTrue(capability.hasHonkAndFlash)
   }
 }

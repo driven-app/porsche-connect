@@ -201,7 +201,7 @@ final class ModelsTests: XCTestCase {
     XCTAssertTrue(capability.onlineRemoteUpdateStatus.editableByUser)
     XCTAssertTrue(capability.onlineRemoteUpdateStatus.active)
     XCTAssertTrue(capability.heatingCapabilities.frontSeatHeatingAvailable)
-    XCTAssertTrue(capability.heatingCapabilities.rearSeatHeatingAvailable)
+    XCTAssertFalse(capability.heatingCapabilities.rearSeatHeatingAvailable)
     XCTAssertEqual("RIGHT", capability.steeringWheelPosition)
     XCTAssertTrue(capability.hasHonkAndFlash)
   }
