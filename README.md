@@ -84,6 +84,22 @@ porscheConnect.vehicles { result in
 }
 ```
 
+### Summary for a vehicle
+
+To get a summary for a vehicle. This call will return a `Summary` struct.
+
+```swift
+let vehicle = vehicles.first!
+porscheConnect.summary(vehicle: vehicle) { result in
+  switch result {
+  case .success(let (summary, _)):
+    break // Do something with the summary
+  case .failure(let error):
+    break // Handle the error
+  }
+}
+```
+
 # Tests
 
 To run the test suite:

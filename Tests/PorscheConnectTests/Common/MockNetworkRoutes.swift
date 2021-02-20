@@ -8,6 +8,7 @@ final class MockNetworkRoutes {
   private static let getHelloWorldPath = "/hello_world.json"
   private static let getApiAuthPath = "/as/authorization.oauth2"
   private static let getVehiclesPath = "/core/api/v3/ie/en_IE/vehicles"
+  private static let getSumaryPath = "/service-vehicle/vehicle-summary/A1234"
   
   private static let postLoginAuthPath = "/auth/api/v1/ie/en_IE/public/login"
   private static let postApiTokenPath = "/as/token.oauth2"
@@ -68,6 +69,18 @@ final class MockNetworkRoutes {
     router[MockNetworkRoutes.getVehiclesPath] = DataResponse(statusCode: 400, statusMessage: "bad request")
   }
   
+  // MARK: - Get Summary
+  
+  func mockGetSummarySuccessful(router: Router) {
+    router[MockNetworkRoutes.getSumaryPath] = JSONResponse(statusCode: 200) { (req) -> Any in
+      return self.mockSummaryResponse()
+    }
+  }
+  
+  func mockGetSummaryFailure(router: Router) {
+    router[MockNetworkRoutes.getSumaryPath] = DataResponse(statusCode: 400, statusMessage: "bad request")
+  }
+  
   // MARK: - Mock Responses
   
   private func mockHelloWorldResponse() -> Dictionary<String, Any> {
@@ -91,5 +104,10 @@ final class MockNetworkRoutes {
        "attributes": [["name": "licenseplate", "value": "Porsche Taycan"]]
       ]
     ]
+  }
+  
+  private func mockSummaryResponse() -> Dictionary<String, Any> {
+    return ["modelDescription": "Taycan 4s",
+            "nickName": "211-D-12345"]
   }
 }
