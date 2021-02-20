@@ -198,6 +198,51 @@ final class ModelsTests: XCTestCase {
     XCTAssertTrue(capabilities.hasHonkAndFlash)
   }
   
+  // MARK: - E-Mobility tests
+  
+  func testEmobilityDecodingJsonIntoModel() {
+    let emobility = buildEmobilityWhenNotCharging()
+    
+    XCTAssertNotNil(emobility)
+    XCTAssertNotNil(emobility.batteryChargeStatus)
+    
+    let batteryChargeStatus = emobility.batteryChargeStatus
+    
+    XCTAssertEqual("DISCONNECTED", batteryChargeStatus.plugState)
+    XCTAssertEqual("UNLOCKED", batteryChargeStatus.lockState)
+    XCTAssertEqual("OFF", batteryChargeStatus.chargingState)
+    XCTAssertEqual("INVALID", batteryChargeStatus.chargingReason)
+    XCTAssertEqual("UNAVAILABLE", batteryChargeStatus.externalPowerSupplyState)
+    XCTAssertEqual("NONE", batteryChargeStatus.ledColor)
+    XCTAssertEqual("OFF", batteryChargeStatus.ledState)
+    XCTAssertEqual("OFF", batteryChargeStatus.chargingMode)
+    XCTAssertEqual(56, batteryChargeStatus.stateOfChargeInPercentage)
+    XCTAssertNil(batteryChargeStatus.remainingChargeTimeUntil100PercentInMinutes)
+    XCTAssertNotNil(batteryChargeStatus.remainingERange)
+
+    let remainingERange = batteryChargeStatus.remainingERange
+    XCTAssertEqual(191, remainingERange.value)
+    XCTAssertEqual("KILOMETER", remainingERange.unit)
+    XCTAssertEqual(191, remainingERange.originalValue)
+    XCTAssertEqual("KILOMETER", remainingERange.originalUnit)
+    XCTAssertEqual(191, remainingERange.valueInKilometers)
+    XCTAssertEqual("GRAY_SLICE_UNIT_KILOMETER", remainingERange.unitTranslationKey)
+
+    XCTAssertNil(batteryChargeStatus.remainingCRange)
+    XCTAssertEqual("2021-02-19T01:09", batteryChargeStatus.chargingTargetDateTime)
+    XCTAssertNil(batteryChargeStatus.status)
+    XCTAssertNotNil(batteryChargeStatus.chargeRate)
+    
+    let chargeRate = batteryChargeStatus.chargeRate
+    XCTAssertEqual(0, chargeRate.value)
+    XCTAssertEqual("KM_PER_MIN", chargeRate.unit)
+    XCTAssertEqual(0, chargeRate.valueInKmPerHour)
+    XCTAssertEqual("EC.COMMON.UNIT.KM_PER_MIN", chargeRate.unitTranslationKey)
+
+    XCTAssertEqual(0, batteryChargeStatus.chargingPower)
+    XCTAssertFalse(batteryChargeStatus.chargingInDCMode)
+  }
+  
   // MARK: - Private functions
   
   private func buildPosition() -> Position {
@@ -207,5 +252,121 @@ final class ModelsTests: XCTestCase {
     decoder.keyDecodingStrategy = .useDefaultKeys
     
     return try! decoder.decode(Position.self, from: json)
+  }
+  
+  private func buildEmobilityWhenNotCharging() -> Emobility {
+    let json = """
+{
+    \"batteryChargeStatus\": {
+      \"plugState\": \"DISCONNECTED\",
+      \"lockState\": \"UNLOCKED\",
+      \"chargingState\": \"OFF\",
+      \"chargingReason\": \"INVALID\",
+      \"externalPowerSupplyState\": \"UNAVAILABLE\",
+      \"ledColor\": \"NONE\",
+      \"ledState\": \"OFF\",
+      \"chargingMode\": \"OFF\",
+      \"stateOfChargeInPercentage\": 56,
+      \"remainingChargeTimeUntil100PercentInMinutes\": null,
+      \"remainingERange\": {
+        \"value\": 191,
+        \"unit\": \"KILOMETER\",
+        \"originalValue\": 191,
+        \"originalUnit\": \"KILOMETER\",
+        \"valueInKilometers\": 191,
+        \"unitTranslationKey\": \"GRAY_SLICE_UNIT_KILOMETER\"
+      },
+      \"remainingCRange\": null,
+      \"chargingTargetDateTime\": \"2021-02-19T01:09\",
+      \"status\": null,
+      \"chargeRate\": {
+        \"value\": 0,
+        \"unit\": \"KM_PER_MIN\",
+        \"valueInKmPerHour\": 0,
+        \"unitTranslationKey\": \"EC.COMMON.UNIT.KM_PER_MIN\"
+      },
+      \"chargingPower\": 0,
+      \"chargingInDCMode\": false
+    },
+    \"directCharge\": {
+      \"disabled\": false,
+      \"isActive\": false
+    },
+    \"directClimatisation\": {
+      \"climatisationState\": \"OFF\",
+      \"remainingClimatisationTime\": null
+    },
+    \"chargingStatus\": \"NOT_CHARGING\",
+    \"timers\": [
+      {
+        \"timerID\": \"1\",
+        \"departureDateTime\": \"2021-02-20T07:00:00.000Z\",
+        \"preferredChargingTimeEnabled\": false,
+        \"preferredChargingStartTime\": null,
+        \"preferredChargingEndTime\": null,
+        \"frequency\": \"CYCLIC\",
+        \"climatised\": false,
+        \"weekDays\": {
+          \"THURSDAY\": true,
+          \"MONDAY\": true,
+          \"WEDNESDAY\": true,
+          \"SUNDAY\": true,
+          \"SATURDAY\": true,
+          \"FRIDAY\": true,
+          \"TUESDAY\": true
+        },
+        \"active\": true,
+        \"chargeOption\": true,
+        \"targetChargeLevel\": 80,
+        \"e3_CLIMATISATION_TIMER_ID\": \"4\",
+        \"climatisationTimer\": false
+      }
+    ],
+    \"climateTimer\": null,
+    \"chargingProfiles\": {
+      \"currentProfileId\": 4,
+      \"profiles\": [
+        {
+          \"profileId\": 4,
+          \"profileName\": \"Allgemein\",
+          \"profileActive\": true,
+          \"chargingOptions\": {
+            \"minimumChargeLevel\": 100,
+            \"smartChargingEnabled\": true,
+            \"preferredChargingEnabled\": false,
+            \"preferredChargingTimeStart\": \"00:00\",
+            \"preferredChargingTimeEnd\": \"06:00\"
+          },
+          \"position\": {
+            \"latitude\": 0,
+            \"longitude\": 0
+          }
+        },
+        {
+          \"profileId\": 5,
+          \"profileName\": \"HOME\",
+          \"profileActive\": true,
+          \"chargingOptions\": {
+            \"minimumChargeLevel\": 25,
+            \"smartChargingEnabled\": false,
+            \"preferredChargingEnabled\": true,
+            \"preferredChargingTimeStart\": \"23:00\",
+            \"preferredChargingTimeEnd\": \"08:00\"
+          },
+          \"position\": {
+            \"latitude\": 53.376328,
+            \"longitude\": -6.332705
+          }
+        }
+      ]
+    },
+    \"errorInfo\": []
+  }
+""".data(using: .utf8)!
+    
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .useDefaultKeys
+    
+    return try! decoder.decode(Emobility.self, from: json)
   }
 }
