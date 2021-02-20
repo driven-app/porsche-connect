@@ -130,6 +130,7 @@ public struct Summary: Codable {
 public struct Position: Codable {
   
   // MARK: Properties
+  
   public let carCoordinate: CarCoordinate
   public let heading: CLLocationDirection
   
@@ -145,4 +146,37 @@ public struct Position: Codable {
   }
 }
 
+// MARK: -
 
+public struct Capability: Codable {
+  
+  // MARK: Properties
+  
+  public let displayParkingBrake: Bool
+  public let needsSPIN: Bool
+  public let hasRDK: Bool
+  public let engineType: String
+  public let carModel: String
+  public let onlineRemoteUpdateStatus: OnlineRemoteUpdateStatus
+  public let heatingCapabilities: HeatingCapabilities
+  public let steeringWheelPosition: String
+  public let hasHonkAndFlash: Bool
+  
+  // MARK: -
+  
+  public struct OnlineRemoteUpdateStatus: Codable {
+    
+    // MARK: Properties
+    
+    public let editableByUser: Bool
+    public let active: Bool
+  }
+  
+  public struct HeatingCapabilities: Codable {
+    
+    // MARK: Properties
+    
+    public let frontSeatHeatingAvailable: Bool
+    public let rearSeatHeatingAvailable: Bool
+  }
+}
