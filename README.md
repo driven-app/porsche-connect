@@ -182,6 +182,21 @@ $ porsche list-vehicles <username> <password>
 #1 => Model: Taycan 4S; Year: 2021; Type: Y1ADB1; VIN: WP0ZZZXXXXXXXXXXX
 ```
 
+To show the summary for a specific vehicle – the nickname is usually set to be the licenseplate of the car, but can be any value set by the owner:
+
+```bash
+$ porsche show-summary <username> <password> <vin>
+
+Model Description: Taycan 4S; Nickname: 211-D-12345
+```
+
+To show the current position of the vehicle:
+
+```bash
+$ porsche show-position <username> <password> <vin>
+
+Latitude: 53.395367; Longitude: -6.389296; Heading: 68
+```
 
 # Install
 
