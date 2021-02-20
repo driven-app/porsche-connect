@@ -21,7 +21,9 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
     XCTAssertNotNil(self.connect)
     XCTAssertEqual(Environment.Test, self.connect.environment)
     XCTAssertEqual("homer.simpson@icloud.example", self.connect.username)
-    XCTAssertFalse(self.connect.authorized)
+    XCTAssertNotNil(self.connect.auths)
+    XCTAssertFalse(self.connect.authorized(application: .Portal))
+    XCTAssertFalse(self.connect.authorized(application: .CarControl))
   }
   
   func testEnvironmentIreland() {

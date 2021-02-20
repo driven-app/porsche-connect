@@ -39,13 +39,15 @@ public enum Environment: String {
   }
 }
 
-enum Application {
-  case Portal
+public enum Application {
+  case Portal, CarControl
   
   public var clientId: String {
     switch self {
     case .Portal:
       return "TZ4Vf5wnKeipJxvatJ60lPHYEzqZ4WNp"
+    case .CarControl:
+      return "gZLSI7ThXFB4d2ld9t8Cx2DBRvGr1zN2"
     }
   }
   
@@ -53,6 +55,8 @@ enum Application {
     switch self {
     case .Portal:
       return URL(string: "https://my-static02.porsche.com/static/cms/auth.html")!
+    case .CarControl:
+      return URL(string: "https://connect-portal.porsche.com/myservices/auth/auth.htm")!
     }
   }
 }
@@ -123,11 +127,7 @@ public class PorscheConnect {
   
   let environment: Environment
   let username: String
-  var auth: PorscheAuth?
-  
-  var authorized: Bool {
-    return ((auth?.expired) != nil)
-  }
+  var auths: Dictionary<Application, PorscheAuth> = Dictionary()
   
   let networkClient = NetworkClient()
   let networkRoutes: NetworkRoutes
@@ -145,6 +145,14 @@ public class PorscheConnect {
   
   // MARK: - Common functions
   
+  func authorized(application: Application) -> Bool {
+    guard let auth = auths[application] else {
+      return false
+    }
+
+    return !auth.expired
+  }
+  
   func buildHeaders(accessToken: String, apiKey: String, countryCode: String, languageCode: String) -> Dictionary<String, String> {
     return ["Authorization": "Bearer \(accessToken)",
             "apikey": apiKey,
@@ -152,9 +160,9 @@ public class PorscheConnect {
             "x-vrs-url-language": "\(languageCode)_\(countryCode.uppercased())"]
   }
   
-  func executeWithAuth(closure: @escaping () -> Void) {
-    if !authorized {
-      auth { _ in 
+  func executeWithAuth(application: Application, closure: @escaping () -> Void) {
+    if !authorized(application: application) {
+      auth(application: application) { _ in
         closure()
       }
     } else {

@@ -2,8 +2,7 @@ import Foundation
 
 public extension PorscheConnect {
   
-  func auth(completion: @escaping (Result<PorscheAuth, Error>) -> Void) {
-    
+  func auth(application: Application, completion: @escaping (Result<PorscheAuth, Error>) -> Void) {
     loginToRetrieveCookies { result in
       guard let result = try? result.get(), result.1 != nil else { completion(.failure(PorscheConnectError.NoResult)); return }
       
@@ -18,7 +17,7 @@ public extension PorscheConnect {
                 let porscheAuth = result.0,
                 result.1 != nil else { completion(.failure(PorscheConnectError.NoResult)); return }
           
-          self.auth = porscheAuth
+          self.auths[application] = porscheAuth
           completion(.success(porscheAuth))
         }
       }

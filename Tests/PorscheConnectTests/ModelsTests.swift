@@ -3,7 +3,7 @@ import XCTest
 
 final class ModelsTests: XCTestCase {
 
-  let porscheAuth = kTestPorscheAuth
+  let porscheAuth = kTestPorschePortalAuth
   let vehicle = Vehicle(vin: "WP0ZZZY4MSA38703",
                         modelDescription: "Taycan 4S",
                         modelType: "Y1ADB1",
