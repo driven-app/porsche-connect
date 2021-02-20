@@ -20,6 +20,58 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
   
   // MARK: - Tests
   
+  func testSummaryAuthRequiredSuccessful() {
+    connect.auths[application] = nil
+    let expectation = self.expectation(description: "Network Expectation")
+    
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: BaseMockNetworkTestCase.router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: BaseMockNetworkTestCase.router)
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: BaseMockNetworkTestCase.router)
+    
+    mockNetworkRoutes.mockGetSummarySuccessful(router: BaseMockNetworkTestCase.router)
+    
+    XCTAssertFalse(self.connect.authorized(application: application))
+    
+    connect.summary(vehicle: vehicle) { result in
+      expectation.fulfill()
+      XCTAssert(self.connect.authorized(application: self.application))
+      
+      switch result {
+      case .success(let (summary, response)):
+        XCTAssertNotNil(response)
+        XCTAssertNotNil(summary)
+        self.assertSumary(summary!)
+      case .failure:
+        XCTFail("Should not have reached here")
+      }
+    }
+    
+    waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  }
+  
+  func testVehiclesNoAuthRequiredSuccessful() {
+    let expectation = self.expectation(description: "Network Expectation")
+    mockNetworkRoutes.mockGetSummarySuccessful(router: BaseMockNetworkTestCase.router)
+    
+    XCTAssert(connect.authorized(application: application))
+
+    connect.summary(vehicle: vehicle) { result in
+      expectation.fulfill()
+      XCTAssert(self.connect.authorized(application: self.application))
+      
+      switch result {
+      case .success(let (summary, response)):
+        XCTAssertNotNil(response)
+        XCTAssertNotNil(summary)
+        self.assertSumary(summary!)
+      case .failure:
+        XCTFail("Should not have reached here")
+      }
+    }
+    
+    waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  }
+  
   func testSummaryNoAuthRequiredFailure() {
     let expectation = self.expectation(description: "Network Expectation")
     mockNetworkRoutes.mockGetSummaryFailure(router: BaseMockNetworkTestCase.router)
@@ -64,4 +116,10 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
   
+  // MARK: - Private functions
+  
+  private func assertSumary(_ summary: Summary) {
+    XCTAssertEqual("Taycan 4S", summary.modelDescription)
+    XCTAssertEqual("211-D-12345", summary.nickName)
+  }
 }

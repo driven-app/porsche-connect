@@ -107,7 +107,7 @@ final class MockNetworkRoutes {
   }
   
   private func mockSummaryResponse() -> Dictionary<String, Any> {
-    return ["modelDescription": "Taycan 4s",
+    return ["modelDescription": "Taycan 4S",
             "nickName": "211-D-12345"]
   }
 }
