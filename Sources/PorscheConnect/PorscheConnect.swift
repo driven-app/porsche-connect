@@ -67,6 +67,8 @@ public enum PorscheConnectError: Error {
 struct NetworkRoutes {
   let environment: Environment
   
+  // MARK: - Calculated properties
+  
   var loginAuthURL: URL {
     switch environment {
     case .Ireland, .Germany:
@@ -100,6 +102,17 @@ struct NetworkRoutes {
       return URL(string: "https://connect-portal.porsche.com/core/api/v3/\(environment.regionCode)/vehicles")!
     case .Test:
       return URL(string: "http://localhost:\(kTestServerPort)/core/api/v3/\(environment.regionCode)/vehicles")!
+    }
+  }
+  
+  // MARK: - Functions
+  
+  func vehicleSummaryURL(vehicle: Vehicle) -> URL {
+    switch environment {
+    case .Ireland, .Germany:
+      return URL(string: "https://api.porsche.com/service-vehicle/vehicle-summary/\(vehicle.vin)")!
+    case .Test:
+      return URL(string: "http://localhost:\(kTestServerPort)/service-vehicle/vehicle-summary/\(vehicle.vin)")!
     }
   }
 }
