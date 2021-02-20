@@ -172,6 +172,8 @@ public struct Capability: Codable {
     public let active: Bool
   }
   
+  // MARK: -
+  
   public struct HeatingCapabilities: Codable {
     
     // MARK: Properties
