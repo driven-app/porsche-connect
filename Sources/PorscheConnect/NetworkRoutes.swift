@@ -71,4 +71,13 @@ struct NetworkRoutes {
       return URL(string: "http://localhost:\(kTestServerPort)/service-vehicle/vcs/capabilities/\(vehicle.vin)")!
     }
   }
+  
+  func vehicleEmobilityURL(vehicle: Vehicle, capabilities: Capabilities ) -> URL {
+    switch environment {
+    case .Ireland, .Germany:
+      return URL(string: "https://api.porsche.com/service-vehicle/\(environment.regionCode)/e-mobility/\(capabilities.carModel)/\(vehicle.vin)?timezone=Europe/Dublin")!
+    case .Test:
+      return URL(string: "http://localhost:\(kTestServerPort)/service-vehicle/\(environment.regionCode)/e-mobility/\(capabilities.carModel)/\(vehicle.vin)?timezone=Europe/Dublin")!
+    }
+  }
 }
