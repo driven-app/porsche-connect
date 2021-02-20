@@ -67,7 +67,6 @@ public enum PorscheConnectError: Error {
 }
 
 
-
 // MARK: - Porsche Connect
 
 public class PorscheConnect {
