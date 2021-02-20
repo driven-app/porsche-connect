@@ -40,7 +40,7 @@ public extension PorscheConnect {
     let codeVerifier = codeChallenger.generateCodeVerifier()! //TODO: handle null
     AuthLogger.debug("Code Verifier: \(codeVerifier)")
     
-    let apiAuthParams = buildApiAuthParams(clientId: application.clientId, redirectURL: Application.Portal.redirectURL, codeVerifier: codeVerifier)
+    let apiAuthParams = buildApiAuthParams(clientId: application.clientId, redirectURL: application.redirectURL, codeVerifier: codeVerifier)
     networkClient.get(String.self, url: networkRoutes.apiAuthURL, params: apiAuthParams, parseResponseBody: false) { result in
       
       if let result = try? result.get(), let response = result.1,
@@ -56,7 +56,7 @@ public extension PorscheConnect {
   }
   
   private func getApiToken(application: Application, codeVerifier: String, code: String, completion: @escaping (Result<(PorscheAuth?, HTTPURLResponse?), Error>) -> Void) {
-    let apiTokenBody = buildApiTokenBody(clientId: application.clientId, redirectURL: Application.Portal.redirectURL, code: code, codeVerifier: codeVerifier)
+    let apiTokenBody = buildApiTokenBody(clientId: application.clientId, redirectURL: application.redirectURL, code: code, codeVerifier: codeVerifier)
     networkClient.post(PorscheAuth.self, url: networkRoutes.apiTokenURL, body: buildPostFormBodyFrom(dictionary: apiTokenBody), contentType: .form) { result in
       
       if let result = try? result.get() {

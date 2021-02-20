@@ -128,4 +128,10 @@ final class ModelsTests: XCTestCase {
     XCTAssert(vehiclePicture5.transparent)
     XCTAssertNotNil(vehiclePicture5.placeholder)
   }
+  
+  func testSummaryConstruction() {
+    let summary = Summary(modelDescription: "A model description", nickName: nil)
+    XCTAssertNotNil(summary)
+    XCTAssertNil(summary.nickName)
+  }
 }

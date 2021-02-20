@@ -3,7 +3,7 @@ import SwiftUI
 
 public struct PorscheAuth: Codable {
   
-  // MARK: - Properties
+  // MARK: Properties
   
   public let accessToken: String
   public let idToken: String
@@ -28,7 +28,7 @@ public struct PorscheAuth: Codable {
     return Date() > expiresAt
   }
   
-  // MARK: - Lifecycle
+  // MARK: Lifecycle
   
   public init(from decoder: Decoder) throws {
     let values = try decoder.container(keyedBy: CodingKeys.self)
@@ -48,9 +48,11 @@ public struct PorscheAuth: Codable {
   }
 }
 
+// MARK: -
+
 public struct Vehicle: Codable {
   
-  // MARK: - Properties
+  // MARK: Properties
   
   public let vin: String
   public let modelDescription: String
@@ -60,23 +62,27 @@ public struct Vehicle: Codable {
   public let attributes: [VehicleAttribute]?
   public let pictures: [VehiclePicture]?
 
-  // MARK: - Computed Properties
+  // MARK: Computed Properties
   
   public var externalColor: Color {
     return Color(hex: exteriorColorHex)
   }
   
+  // MARK: -
+  
   public struct VehicleAttribute: Codable {
     
-    // MARK: - Properties
+    // MARK: Properties
     
     public let name: String
     public let value: String
   }
 
+  // MARK: -
+  
   public struct VehiclePicture: Codable {
     
-    // MARK: - Properties
+    // MARK: Properties
     
     public let url: URL
     public let view: String
@@ -86,4 +92,14 @@ public struct Vehicle: Codable {
     public let transparent: Bool
     public let placeholder: String?
   }
+}
+
+// MARK: -
+  
+public struct Summary: Codable {
+  
+  // MARK: Properties
+  
+  public let modelDescription: String
+  public let nickName: String?
 }
