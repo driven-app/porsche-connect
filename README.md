@@ -74,10 +74,8 @@ For example, to get the external [Color](https://developer.apple.com/documentati
 porscheConnect.vehicles { result in
   switch result {
   case .success(let (vehicles, _)):
-    
     let firstVehicle = vehicles!.first!
     let color: Color = firstVehicle.externalColor
-    
   case .failure(let error):
     break // Handle the error
   }
@@ -94,6 +92,22 @@ porscheConnect.summary(vehicle: vehicle) { result in
   switch result {
   case .success(let (summary, response)):
     break // Do something with the summary or raw response
+  case .failure(let error):
+    break // Handle the error
+  }
+}
+```
+
+### Position for a vehicle
+
+To get last reported position for a vehicle. This call will return a `Position` struct.
+
+```swift
+let vehicle = vehicles.first!
+porscheConnect.position(vehicle: vehicle) { result in
+  switch result {
+  case .success(let (position, response)):
+    break // Do something with the position or raw response
   case .failure(let error):
     break // Handle the error
   }

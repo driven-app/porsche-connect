@@ -8,7 +8,8 @@ final class MockNetworkRoutes {
   private static let getHelloWorldPath = "/hello_world.json"
   private static let getApiAuthPath = "/as/authorization.oauth2"
   private static let getVehiclesPath = "/core/api/v3/ie/en_IE/vehicles"
-  private static let getSumaryPath = "/service-vehicle/vehicle-summary/A1234"
+  private static let getSummaryPath = "/service-vehicle/vehicle-summary/A1234"
+  private static let getPositionPath = "/service-vehicle/car-finder/A1234/position"
   
   private static let postLoginAuthPath = "/auth/api/v1/ie/en_IE/public/login"
   private static let postApiTokenPath = "/as/token.oauth2"
@@ -72,13 +73,25 @@ final class MockNetworkRoutes {
   // MARK: - Get Summary
   
   func mockGetSummarySuccessful(router: Router) {
-    router[MockNetworkRoutes.getSumaryPath] = JSONResponse(statusCode: 200) { (req) -> Any in
+    router[MockNetworkRoutes.getSummaryPath] = JSONResponse(statusCode: 200) { (req) -> Any in
       return self.mockSummaryResponse()
     }
   }
   
   func mockGetSummaryFailure(router: Router) {
-    router[MockNetworkRoutes.getSumaryPath] = DataResponse(statusCode: 400, statusMessage: "bad request")
+    router[MockNetworkRoutes.getSummaryPath] = DataResponse(statusCode: 400, statusMessage: "bad request")
+  }
+  
+  // MARK: - Get Position
+  
+  func mockGetPositionSuccessful(router: Router) {
+    router[MockNetworkRoutes.getPositionPath] = JSONResponse(statusCode: 200) { (req) -> Any in
+      return self.mockPositionResponse()
+    }
+  }
+  
+  func mockGetPositionFailure(router: Router) {
+    router[MockNetworkRoutes.getPositionPath] = DataResponse(statusCode: 400, statusMessage: "bad request")
   }
   
   // MARK: - Mock Responses
@@ -109,5 +122,13 @@ final class MockNetworkRoutes {
   private func mockSummaryResponse() -> Dictionary<String, Any> {
     return ["modelDescription": "Taycan 4S",
             "nickName": "211-D-12345"]
+  }
+  
+  private func mockPositionResponse() -> Dictionary<String, Any> {
+    return ["carCoordinate":
+              ["geoCoordinateSystem": "WGS84",
+               "latitude": 53.395367,
+               "longitude": -6.389296],
+            "heading": 68]
   }
 }

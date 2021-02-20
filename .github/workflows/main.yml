@@ -18,6 +18,7 @@ jobs:
   test:
     name: Testing PorscheConnect
     runs-on: macOS-latest
+    timeout-minutes: 8
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
