@@ -11,7 +11,7 @@ Absolutely not. These endpoints are a result of reverse engineering Porsche's we
 
 ## CI/CD Status
 
-The library has a comprehensive suite of unit tests that run on GitHub Actions. Currently the test suite is run on a simulated **iPhone 12 Mini**. Further platforms (macOS) will be added in the future. 
+The library has a comprehensive suite of unit tests that run on GitHub Actions. Currently the test suite is run on a simulated **iPhone 12 Pro**. Further platforms (macOS) will be added in the future. 
 
 You can see the current build status of the `main` branch here:
 

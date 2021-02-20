@@ -21,7 +21,9 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
     XCTAssertNotNil(self.connect)
     XCTAssertEqual(Environment.Test, self.connect.environment)
     XCTAssertEqual("homer.simpson@icloud.example", self.connect.username)
-    XCTAssertFalse(self.connect.authorized)
+    XCTAssertNotNil(self.connect.auths)
+    XCTAssertFalse(self.connect.authorized(application: .Portal))
+    XCTAssertFalse(self.connect.authorized(application: .CarControl))
   }
   
   func testEnvironmentIreland() {
@@ -65,6 +67,9 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
     XCTAssertEqual(URL(string: "https://login.porsche.com/auth/api/v1/ie/en_GB/public/login")!, networkRoute.loginAuthURL)
     XCTAssertEqual(URL(string: "https://login.porsche.com/as/authorization.oauth2")!, networkRoute.apiAuthURL)
     XCTAssertEqual(URL(string: "https://login.porsche.com/as/token.oauth2")!, networkRoute.apiTokenURL)
+    
+    let vehicle = Vehicle(vin: "12345X", modelDescription: "Taycan 4S", modelType: "ABC123", modelYear: "2021", exteriorColorHex: "#478be7", attributes: nil, pictures: nil)
+    XCTAssertEqual(URL(string: "https://api.porsche.com/service-vehicle/vehicle-summary/12345X"), networkRoute.vehicleSummaryURL(vehicle: vehicle))
   }
   
   func testNetworkRoutesGermany() {
@@ -72,6 +77,9 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
     XCTAssertEqual(URL(string: "https://login.porsche.com/auth/api/v1/de/de_DE/public/login")!, networkRoute.loginAuthURL)
     XCTAssertEqual(URL(string: "https://login.porsche.com/as/authorization.oauth2")!, networkRoute.apiAuthURL)
     XCTAssertEqual(URL(string: "https://login.porsche.com/as/token.oauth2")!, networkRoute.apiTokenURL)
+    
+    let vehicle = Vehicle(vin: "12345X", modelDescription: "Taycan 4S", modelType: "ABC123", modelYear: "2021", exteriorColorHex: "#478be7", attributes: nil, pictures: nil)
+    XCTAssertEqual(URL(string: "https://api.porsche.com/service-vehicle/vehicle-summary/12345X"), networkRoute.vehicleSummaryURL(vehicle: vehicle))
   }
   
   func testNetworkRoutesTest() {
@@ -79,6 +87,9 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
     XCTAssertEqual(URL(string: "http://localhost:\(kTestServerPort)/auth/api/v1/ie/en_IE/public/login")!, networkRoute.loginAuthURL)
     XCTAssertEqual(URL(string: "http://localhost:\(kTestServerPort)/as/authorization.oauth2")!, networkRoute.apiAuthURL)
     XCTAssertEqual(URL(string: "http://localhost:\(kTestServerPort)/as/token.oauth2")!, networkRoute.apiTokenURL)
+    
+    let vehicle = Vehicle(vin: "12345X", modelDescription: "Taycan 4S", modelType: "ABC123", modelYear: "2021", exteriorColorHex: "#478be7", attributes: nil, pictures: nil)
+    XCTAssertEqual(URL(string: "http://localhost:\(kTestServerPort)/service-vehicle/vehicle-summary/12345X"), networkRoute.vehicleSummaryURL(vehicle: vehicle))
   }
   
   func testAuthLoggerIsDefined() {

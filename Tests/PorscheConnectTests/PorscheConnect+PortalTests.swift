@@ -7,19 +7,20 @@ final class PorscheConnectPortalTests: BaseMockNetworkTestCase {
   
   var connect: PorscheConnect!
   let mockNetworkRoutes = MockNetworkRoutes()
+  let application: Application = .Portal
   
   // MARK: - Lifecycle
   
   override func setUp() {
     super.setUp()
     self.connect = PorscheConnect(username: "homer.simpson@icloud.example", password: "Duh!", environment: .Test)
-    self.connect.auth = kTestPorscheAuth
+    self.connect.auths[application] = kTestPorschePortalAuth
   }
   
   // MARK: - Tests
   
   func testVehiclesAuthRequiredSuccessful() {
-    self.connect.auth = nil
+    connect.auths[application] = nil
     let expectation = self.expectation(description: "Network Expectation")
     
     mockNetworkRoutes.mockPostLoginAuthSuccessful(router: BaseMockNetworkTestCase.router)
@@ -28,12 +29,11 @@ final class PorscheConnectPortalTests: BaseMockNetworkTestCase {
     
     mockNetworkRoutes.mockGetVehiclesSuccessful(router: BaseMockNetworkTestCase.router)
     
-    XCTAssertFalse(self.connect.authorized)
-    XCTAssertNil(self.connect.auth)
+    XCTAssertFalse(self.connect.authorized(application: application))
     
-    self.connect.vehicles { result in
+    connect.vehicles { result in
       expectation.fulfill()
-      XCTAssert(self.connect.authorized)
+      XCTAssert(self.connect.authorized(application: self.application))
       
       switch result {
       case .success(let (vehicles, response)):
@@ -53,11 +53,11 @@ final class PorscheConnectPortalTests: BaseMockNetworkTestCase {
     let expectation = self.expectation(description: "Network Expectation")
     mockNetworkRoutes.mockGetVehiclesSuccessful(router: BaseMockNetworkTestCase.router)
     
-    XCTAssert(self.connect.authorized)
-    
-    self.connect.vehicles { result in
+    XCTAssert(connect.authorized(application: application))
+
+    connect.vehicles { result in
       expectation.fulfill()
-      XCTAssert(self.connect.authorized)
+      XCTAssert(self.connect.authorized(application: self.application))
       
       switch result {
       case .success(let (vehicles, response)):
@@ -72,7 +72,51 @@ final class PorscheConnectPortalTests: BaseMockNetworkTestCase {
     
     waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
+  
+  func testVehiclesNoAuthRequiredFailure() {
+    let expectation = self.expectation(description: "Network Expectation")
+    mockNetworkRoutes.mockGetVehiclesFailure(router: BaseMockNetworkTestCase.router)
     
+    XCTAssert(connect.authorized(application: application))
+    
+    connect.vehicles { result in
+      expectation.fulfill()
+      XCTAssert(self.connect.authorized(application: self.application))
+      
+      switch result {
+      case .success:
+        XCTFail("Should not have reached here")
+      case .failure(let error):
+        XCTAssertEqual(HttpStatusCode.BadRequest, error as! HttpStatusCode)
+      }
+    }
+    
+    waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  }
+  
+  func testVehiclesAuthRequiredAuthFailure() {
+    connect.auths[application] = nil
+    let expectation = self.expectation(description: "Network Expectation")
+    
+    mockNetworkRoutes.mockPostLoginAuthFailure(router: BaseMockNetworkTestCase.router)
+
+    XCTAssertFalse(connect.authorized(application: application))
+    
+    self.connect.vehicles { result in
+      expectation.fulfill()
+      XCTAssertFalse(self.connect.authorized(application: self.application))
+
+      switch result {
+      case .success:
+        XCTFail("Should not have reached here")
+      case .failure(let error):
+        XCTAssertEqual(PorscheConnectError.AuthFailure, error as! PorscheConnectError)
+      }
+    }
+    
+    waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  }
+  
   // MARK: - Private functions
   
   private func assertVehicle(_ vehicle: Vehicle) {

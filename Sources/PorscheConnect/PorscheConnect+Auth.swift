@@ -2,23 +2,22 @@ import Foundation
 
 public extension PorscheConnect {
   
-  func auth(completion: @escaping (Result<PorscheAuth, Error>) -> Void) {
-    
+  func auth(application: Application, completion: @escaping (Result<PorscheAuth, Error>) -> Void) {
     loginToRetrieveCookies { result in
       guard let result = try? result.get(), result.1 != nil else { completion(.failure(PorscheConnectError.NoResult)); return }
       
-      self.getApiAuthCode{ result in
+      self.getApiAuthCode(application: application) { result in
         guard let result = try? result.get(),
               let codeVerifier = result.codeVerifier,
               let code = result.code,
               result.1 != nil else { completion(.failure(PorscheConnectError.NoResult)); return }
         
-        self.getApiToken(codeVerifier: codeVerifier, code: code) { result in
+        self.getApiToken(application: application, codeVerifier: codeVerifier, code: code) { result in
           guard let result = try? result.get(),
                 let porscheAuth = result.0,
                 result.1 != nil else { completion(.failure(PorscheConnectError.NoResult)); return }
           
-          self.auth = porscheAuth
+          self.auths[application] = porscheAuth
           completion(.success(porscheAuth))
         }
       }
@@ -37,11 +36,11 @@ public extension PorscheConnect {
     }
   }
   
-  private func getApiAuthCode(completion: @escaping (Result<(code: String?, codeVerifier: String?, response: HTTPURLResponse?), PorscheConnectError>) -> Void) {
+  private func getApiAuthCode(application: Application, completion: @escaping (Result<(code: String?, codeVerifier: String?, response: HTTPURLResponse?), PorscheConnectError>) -> Void) {
     let codeVerifier = codeChallenger.generateCodeVerifier()! //TODO: handle null
     AuthLogger.debug("Code Verifier: \(codeVerifier)")
     
-    let apiAuthParams = buildApiAuthParams(clientId: Application.Portal.clientId, redirectURL: Application.Portal.redirectURL, codeVerifier: codeVerifier)
+    let apiAuthParams = buildApiAuthParams(clientId: application.clientId, redirectURL: Application.Portal.redirectURL, codeVerifier: codeVerifier)
     networkClient.get(String.self, url: networkRoutes.apiAuthURL, params: apiAuthParams, parseResponseBody: false) { result in
       
       if let result = try? result.get(), let response = result.1,
@@ -56,8 +55,8 @@ public extension PorscheConnect {
     }
   }
   
-  private func getApiToken(codeVerifier: String, code: String, completion: @escaping (Result<(PorscheAuth?, HTTPURLResponse?), Error>) -> Void) {
-    let apiTokenBody = buildApiTokenBody(clientId: Application.Portal.clientId, redirectURL: Application.Portal.redirectURL, code: code, codeVerifier: codeVerifier)
+  private func getApiToken(application: Application, codeVerifier: String, code: String, completion: @escaping (Result<(PorscheAuth?, HTTPURLResponse?), Error>) -> Void) {
+    let apiTokenBody = buildApiTokenBody(clientId: application.clientId, redirectURL: Application.Portal.redirectURL, code: code, codeVerifier: codeVerifier)
     networkClient.post(PorscheAuth.self, url: networkRoutes.apiTokenURL, body: buildPostFormBodyFrom(dictionary: apiTokenBody), contentType: .form) { result in
       
       if let result = try? result.get() {
