@@ -64,6 +64,10 @@ final class MockNetworkRoutes {
     }
   }
   
+  func mockGetVehiclesFailure(router: Router) {
+    router[MockNetworkRoutes.getVehiclesPath] = DataResponse(statusCode: 400, statusMessage: "bad request")
+  }
+  
   // MARK: - Mock Responses
   
   private func mockHelloWorldResponse() -> Dictionary<String, Any> {
