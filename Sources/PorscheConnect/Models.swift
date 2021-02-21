@@ -14,7 +14,7 @@ public struct PorscheAuth: Codable {
   
   public var apiKey: String? {
     let idTokenComponents = idToken.components(separatedBy: ".")
-
+    
     if let decodedString = String(data: Data(base64Encoded: idTokenComponents[1]) ?? kBlankData, encoding: .utf8),
        let data = decodedString.data(using: .utf8),
        let dict = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? Dictionary<String, Any>,
@@ -62,7 +62,7 @@ public struct Vehicle: Codable {
   public let exteriorColorHex: String
   public let attributes: [VehicleAttribute]?
   public let pictures: [VehiclePicture]?
-
+  
   // MARK: Computed Properties
   
   public var externalColor: Color {
@@ -78,7 +78,7 @@ public struct Vehicle: Codable {
     public let name: String
     public let value: String
   }
-
+  
   // MARK: -
   
   public struct VehiclePicture: Codable {
@@ -116,7 +116,7 @@ public struct Vehicle: Codable {
 }
 
 // MARK: -
-  
+
 public struct Summary: Codable {
   
   // MARK: Properties
@@ -126,7 +126,7 @@ public struct Summary: Codable {
 }
 
 // MARK: -
-  
+
 public struct Position: Codable {
   
   // MARK: Properties
@@ -186,17 +186,21 @@ public struct Capabilities: Codable {
 // MARK: -
 
 public struct Emobility: Codable {
- 
+  
   // MARK: Properties
   
   public let batteryChargeStatus: BatteryChargeStatus
   public let directCharge: DirectCharge
   public let directClimatisation: DirectClimatisation
   public let chargingStatus: String
+  public let chargingProfiles: ChargingProfiles
   
   // MARK: -
   
   public struct BatteryChargeStatus: Codable {
+    
+    // MARK: Properties
+    
     public let plugState: String
     public let lockState: String
     public let chargingState: String
@@ -218,6 +222,9 @@ public struct Emobility: Codable {
     // MARK: -
     
     public struct RemainingERange: Codable {
+      
+      // MARK: Properties
+      
       public let value: Int
       public let unit: String
       public let originalValue: Int
@@ -226,7 +233,12 @@ public struct Emobility: Codable {
       public let unitTranslationKey: String
     }
     
+    // MARK: -
+    
     public struct ChargeRate: Codable {
+      
+      // MARK: Properties
+      
       public let value: Int
       public let unit: String
       public let valueInKmPerHour: Int
@@ -237,12 +249,66 @@ public struct Emobility: Codable {
   // MARK: -
   
   public struct DirectCharge: Codable {
+    
+    // MARK: Properties
+    
     public let disabled: Bool
     public let isActive: Bool
   }
   
+  // MARK: -
+  
   public struct DirectClimatisation: Codable {
+    
+    // MARK: Properties
+    
     public let climatisationState: String
     public let remainingClimatisationTime: String? // TBD when set
+  }
+  
+  // MARK: -
+  
+  public struct ChargingProfiles: Codable {
+    
+    // MARK: Properties
+    
+    public let currentProfileId: Int
+    public let profiles: [Profile]
+  }
+  
+  // MARK: -
+  
+  public struct Profile: Codable {
+    
+    // MARK: Properties
+    
+    public let profileId: Int
+    public let profileName: String
+    public let profileActive: Bool
+    public let chargingOptions: ChargingOptions
+    public let position: Position
+    
+    // MARK: -
+    
+    public struct ChargingOptions: Codable {
+      
+      // MARK: Properties
+      
+      public let minimumChargeLevel: Int
+      public let smartChargingEnabled: Bool
+      public let preferredChargingEnabled: Bool
+      public let preferredChargingTimeStart: String
+      public let preferredChargingTimeEnd: String
+    }
+    
+    // MARK: -
+    
+    public struct Position: Codable {
+      
+      // MARK: Properties
+      
+      public let latitude: CLLocationDegrees
+      public let longitude: CLLocationDegrees
+    }
   }
 }

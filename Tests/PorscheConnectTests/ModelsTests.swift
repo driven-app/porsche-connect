@@ -253,6 +253,51 @@ final class ModelsTests: XCTestCase {
     XCTAssertNil(directClimatisation.remainingClimatisationTime)
     
     XCTAssertEqual("NOT_CHARGING", emobility.chargingStatus)
+    
+    XCTAssertNotNil(emobility.chargingProfiles)
+    let chargingProfiles = emobility.chargingProfiles
+    XCTAssertEqual(4, chargingProfiles.currentProfileId)
+    XCTAssertNotNil(chargingProfiles.profiles)
+    XCTAssertEqual(2, chargingProfiles.profiles.count)
+    
+    let chargingProfile1 = chargingProfiles.profiles[0]
+    XCTAssertNotNil(chargingProfile1)
+    XCTAssertEqual(4, chargingProfile1.profileId)
+    XCTAssertEqual("Allgemein", chargingProfile1.profileName)
+    XCTAssertTrue(chargingProfile1.profileActive)
+    
+    XCTAssertNotNil(chargingProfile1.chargingOptions)
+    let chargingOptionsForChargingProfile1 = chargingProfile1.chargingOptions
+    XCTAssertEqual(100, chargingOptionsForChargingProfile1.minimumChargeLevel)
+    XCTAssertTrue(chargingOptionsForChargingProfile1.smartChargingEnabled)
+    XCTAssertFalse(chargingOptionsForChargingProfile1.preferredChargingEnabled)
+    XCTAssertEqual("00:00", chargingOptionsForChargingProfile1.preferredChargingTimeStart)
+    XCTAssertEqual("06:00", chargingOptionsForChargingProfile1.preferredChargingTimeEnd)
+
+    XCTAssertNotNil(chargingProfile1.position)
+    let positionForChargingProfile1 = chargingProfile1.position
+    XCTAssertEqual(0, positionForChargingProfile1.latitude)
+    XCTAssertEqual(0, positionForChargingProfile1.longitude)
+    
+    let chargingProfile2 = chargingProfiles.profiles[1]
+    XCTAssertNotNil(chargingProfile2)
+    XCTAssertEqual(5, chargingProfile2.profileId)
+    XCTAssertEqual("HOME", chargingProfile2.profileName)
+    XCTAssertTrue(chargingProfile2.profileActive)
+    
+    XCTAssertNotNil(chargingProfile2.chargingOptions)
+    let chargingOptionsForChargingProfile2 = chargingProfile2.chargingOptions
+    XCTAssertEqual(25, chargingOptionsForChargingProfile2.minimumChargeLevel)
+    XCTAssertFalse(chargingOptionsForChargingProfile2.smartChargingEnabled)
+    XCTAssertTrue(chargingOptionsForChargingProfile2.preferredChargingEnabled)
+    XCTAssertEqual("23:00", chargingOptionsForChargingProfile2.preferredChargingTimeStart)
+    XCTAssertEqual("08:00", chargingOptionsForChargingProfile2.preferredChargingTimeEnd)
+
+    XCTAssertNotNil(chargingProfile2.position)
+    let positionForChargingProfile2 = chargingProfile2.position
+    XCTAssertEqual(53.376328, positionForChargingProfile2.latitude)
+    XCTAssertEqual(-6.332705, positionForChargingProfile2.longitude)
+
   }
   
   // MARK: - Private functions
