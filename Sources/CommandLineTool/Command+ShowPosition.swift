@@ -20,11 +20,10 @@ extension Porsche {
           if let position = position {
             printPosition(position)
           }
+          Porsche.ShowPosition.exit()
         case .failure(let error):
-          print(NSLocalizedString("Error \(error).", comment: ""))
+          Porsche.ShowPosition.exit(withError: error)
         }
-        
-        Porsche.ShowSummary.exit()
       }
       
       dispatchMain()

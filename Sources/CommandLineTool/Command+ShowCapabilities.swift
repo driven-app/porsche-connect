@@ -20,11 +20,10 @@ extension Porsche {
           if let capabilities = capabilities {
             printCapabilities(capabilities)
           }
+          Porsche.ShowCapabilities.exit()
         case .failure(let error):
-          print(NSLocalizedString("Error \(error).", comment: ""))
+          Porsche.ShowCapabilities.exit(withError: error)
         }
-        
-        Porsche.ShowSummary.exit()
       }
       
       dispatchMain()

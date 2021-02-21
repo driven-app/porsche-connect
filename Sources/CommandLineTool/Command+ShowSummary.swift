@@ -20,11 +20,10 @@ extension Porsche {
           if let summary = summary {
             printSummary(summary)
           }
+          Porsche.ShowSummary.exit()
         case .failure(let error):
-          print(NSLocalizedString("Error \(error).", comment: ""))
+          Porsche.ShowSummary.exit(withError: error)
         }
-        
-        Porsche.ShowSummary.exit()
       }
       
       dispatchMain()
