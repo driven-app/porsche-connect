@@ -194,6 +194,8 @@ public struct Emobility: Codable {
   public let directClimatisation: DirectClimatisation
   public let chargingStatus: String
   public let chargingProfiles: ChargingProfiles
+  public let climateTimer: String? // TBD when set
+  public let timers: [Timer]?
   
   // MARK: -
   
@@ -309,6 +311,41 @@ public struct Emobility: Codable {
       
       public let latitude: CLLocationDegrees
       public let longitude: CLLocationDegrees
+    }
+  }
+  
+  // MARK: -
+  
+  public struct Timer: Codable {
+    
+    // MARK: Properties
+    
+    public let timerID: String
+    public let departureDateTime: String
+    public let preferredChargingTimeEnabled: Bool
+    public let preferredChargingStartTime: String?
+    public let preferredChargingEndTime: String?
+    public let frequency: String
+    public let climatised: Bool
+    public let weekDays: Weekdays
+    public let active: Bool
+    public let chargeOption: Bool
+    public let targetChargeLevel: Int
+    public let climatisationTimer: Bool
+    
+    // MARK: -
+    
+    public struct Weekdays: Codable {
+      
+      // MARK: Properties
+      
+      public let SUNDAY: Bool
+      public let MONDAY: Bool
+      public let TUESDAY: Bool
+      public let WEDNESDAY: Bool
+      public let THURSDAY: Bool
+      public let FRIDAY: Bool
+      public let SATURDAY: Bool
     }
   }
 }
