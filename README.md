@@ -130,6 +130,21 @@ porscheConnect.capabilities(vehicle: vehicle) { result in
 }
 ```
 
+### Emobility of a vehicle
+
+If the vehicle is a plug-in hybrid (PHEV) or a battery electric vehicle (BEV) this will return the status and configuration of the e-mobility aspects of the vehicle. This call requires both a vehicle and its matching capabilities. This call will return a `Emobility` struct.
+
+```swift
+porscheConnect.emobility(vehicle: vehicle, capabilities: capabilities) { result in
+  switch result {
+  case .success(let (emobility, response)):
+    break // Do something with the emobility or raw response
+  case .failure(let error):
+    break // Handle the error
+  }
+}
+```
+
 # Tests
 
 To run the test suite:

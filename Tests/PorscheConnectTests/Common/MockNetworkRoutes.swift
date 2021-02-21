@@ -11,7 +11,8 @@ final class MockNetworkRoutes {
   private static let getSummaryPath = "/service-vehicle/vehicle-summary/A1234"
   private static let getPositionPath = "/service-vehicle/car-finder/A1234/position"
   private static let getCapabilitiesPath = "/service-vehicle/vcs/capabilities/A1234"
-
+  private static let getEmobilityPath = "/service-vehicle/ie/en_IE/e-mobility/J1/A1234"
+  
   private static let postLoginAuthPath = "/auth/api/v1/ie/en_IE/public/login"
   private static let postApiTokenPath = "/as/token.oauth2"
   
@@ -107,6 +108,18 @@ final class MockNetworkRoutes {
     router[MockNetworkRoutes.getCapabilitiesPath] = DataResponse(statusCode: 400, statusMessage: "bad request")
   }
   
+  // MARK: - Get Emobility
+  
+  func mockGetEmobilitySuccessful(router: Router) {
+    router[MockNetworkRoutes.getEmobilityPath] = JSONResponse(statusCode: 200) { (req) -> Any in
+      return self.mockEmobilityResponse()
+    }
+  }
+  
+  func mockGetEmobilityFailure(router: Router) {
+    router[MockNetworkRoutes.getEmobilityPath] = DataResponse(statusCode: 400, statusMessage: "bad request")
+  }
+  
   // MARK: - Mock Responses
   
   private func mockHelloWorldResponse() -> Dictionary<String, Any> {
@@ -161,5 +174,9 @@ final class MockNetworkRoutes {
             ],
             "steeringWheelPosition": "RIGHT",
             "hasHonkAndFlash": true]
+  }
+  
+  private func mockEmobilityResponse() -> Dictionary<String, Any> {    
+    return try! (JSONSerialization.jsonObject(with: kEmobilityNotChargingJson, options: []) as! Dictionary<String, Any>)
   }
 }
