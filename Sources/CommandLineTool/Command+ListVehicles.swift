@@ -5,10 +5,22 @@ import PorscheConnect
 extension Porsche {
     
   struct ListVehicles: ParsableCommand {
+    
+    // MARK: - Properties
+    
     @OptionGroup() var options: Options
+    
+    // MARK: - Lifecycle
     
     func run() throws {
       let porscheConnect = PorscheConnect(username: options.username, password: options.password)
+      callListVehiclesService(porscheConnect: porscheConnect)
+      dispatchMain()
+    }
+    
+    // MARK: - Private functions
+    
+    private func callListVehiclesService(porscheConnect: PorscheConnect) {
       porscheConnect.vehicles { result in
         switch result {
         case .success(let (vehicles, _)):
@@ -18,8 +30,6 @@ extension Porsche {
           Porsche.ListVehicles.exit(withError: error)
         }
       }
-    
-      dispatchMain()
     }
     
     private func printVehicles(_ vehicles: [Vehicle]?) {
