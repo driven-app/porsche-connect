@@ -13,11 +13,10 @@ extension Porsche {
         switch result {
         case .success(let (vehicles, _)):
           printVehicles(vehicles)
+          Porsche.ListVehicles.exit()
         case .failure(let error):
-          print(NSLocalizedString("Error \(error).", comment: ""))
+          Porsche.ListVehicles.exit(withError: error)
         }
-        
-        Porsche.ListVehicles.exit()
       }
     
       dispatchMain()

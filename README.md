@@ -202,6 +202,7 @@ SUBCOMMANDS:
   show-summary
   show-position
   show-capabilities
+  show-emobility
   
   See 'porsche help <subcommand>' for detailed help.
 ```
@@ -238,6 +239,14 @@ $ porsche show-capabilities <username> <password> <vin>
 Display parking brake: yes; Needs SPIN: yes; Has RDK: yes; Engine Type: BEV; Car Model: J1; Front Seat Heating: yes; Rear Seat Heating: no; Steering Wheel Position: RIGHT; Honk & Flash: yes
 ```
 
+To show the emobility of a vehicle:
+*(Note: this only displays a small subset of the information that the emobility service returns)*
+
+```bash
+$ porsche show-emobility <username> <password> <vin>
+
+Battery Level %: 53; Remaining Range (in KM): 180; Charging Status: NOT_CHARGING; Plug Status: DISCONNECTED
+```
 # Install
 
 ### Package Manager
