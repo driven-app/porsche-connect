@@ -76,8 +76,8 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = ""
-            isEnabled = "NO">
+            argument = "show-emobility damien.glancy@icloud.com qRsl176i! WP0ZZZY1ZMSA29709"
+            isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
    </LaunchAction>

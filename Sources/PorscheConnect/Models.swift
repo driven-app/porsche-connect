@@ -212,13 +212,13 @@ public struct Emobility: Codable {
     public let ledState: String
     public let chargingMode: String
     public let stateOfChargeInPercentage: Int
-    public let remainingChargeTimeUntil100PercentInMinutes: String? // TBD while charging
+    public let remainingChargeTimeUntil100PercentInMinutes: Int?
     public let remainingERange: RemainingERange
     public let remainingCRange: String? // TBD while charging
     public let chargingTargetDateTime: String //2021-02-19T01:09
     public let status: String? // TBD while charging
     public let chargeRate: ChargeRate
-    public let chargingPower: Int
+    public let chargingPower: Double
     public let chargingInDCMode: Bool
     
     // MARK: -
@@ -241,7 +241,7 @@ public struct Emobility: Codable {
       
       // MARK: Properties
       
-      public let value: Int
+      public let value: Double
       public let unit: String
       public let valueInKmPerHour: Int
       public let unitTranslationKey: String // "EC.COMMON.UNIT.KM_PER_MIN"
