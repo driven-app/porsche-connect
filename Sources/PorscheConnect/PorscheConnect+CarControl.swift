@@ -68,4 +68,25 @@ public extension PorscheConnect {
       }
     }
   }
+  
+  func emobility(vehicle: Vehicle, capabilities: Capabilities, completion: @escaping (Result<(Emobility?, HTTPURLResponse?), Error>) -> Void) {
+    let application: Application = .CarControl
+    
+    executeWithAuth(application: application) { [self] in
+      guard let auth = auths[application], let apiKey = auth.apiKey else {
+        DispatchQueue.main.async {
+          completion(.failure(PorscheConnectError.AuthFailure))
+        }
+        return
+      }
+      
+      let headers = buildHeaders(accessToken: auth.accessToken, apiKey: apiKey, countryCode: environment.countryCode, languageCode: environment.languageCode)
+      
+      networkClient.get(Emobility.self, url: networkRoutes.vehicleEmobilityURL(vehicle: vehicle, capabilities: capabilities), headers: headers, jsonKeyDecodingStrategy: .useDefaultKeys) { result in
+        DispatchQueue.main.async {
+          completion(result)
+        }
+      }
+    }
+  }
 }

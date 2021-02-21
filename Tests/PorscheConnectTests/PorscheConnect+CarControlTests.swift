@@ -9,6 +9,8 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
   let mockNetworkRoutes = MockNetworkRoutes()
   let application: Application = .CarControl
   let vehicle = Vehicle(vin: "A1234")
+  let capabilites = buildCapabilites()
+  
   // MARK: - Lifecycle
   
   override func setUp() {
@@ -297,6 +299,52 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertFalse(connect.authorized(application: application))
     
     connect.capabilities(vehicle: vehicle) { result in
+      expectation.fulfill()
+      XCTAssertFalse(self.connect.authorized(application: self.application))
+      
+      switch result {
+      case .success:
+        XCTFail("Should not have reached here")
+      case .failure(let error):
+        XCTAssertEqual(PorscheConnectError.AuthFailure, error as! PorscheConnectError)
+      }
+    }
+    
+    waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  }
+  
+  // MARK: - Emobility Tests
+  
+  func testEmobilityNoAuthRequiredFailure() {
+    let expectation = self.expectation(description: "Network Expectation")
+    mockNetworkRoutes.mockGetEmobilityFailure(router: MockServer.shared.router)
+    
+    XCTAssert(connect.authorized(application: application))
+    
+    connect.emobility(vehicle: vehicle, capabilities: capabilites) { result in
+      expectation.fulfill()
+      XCTAssert(self.connect.authorized(application: self.application))
+      
+      switch result {
+      case .success:
+        XCTFail("Should not have reached here")
+      case .failure(let error):
+        XCTAssertEqual(HttpStatusCode.NotFound, error as! HttpStatusCode)
+      }
+    }
+    
+    waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  }
+  
+  func testEmobilityAuthRequiredAuthFailure() {
+    connect.auths[application] = nil
+    let expectation = self.expectation(description: "Network Expectation")
+    
+    mockNetworkRoutes.mockPostLoginAuthFailure(router: MockServer.shared.router)
+
+    XCTAssertFalse(connect.authorized(application: application))
+    
+    connect.emobility(vehicle: vehicle, capabilities: capabilites) { result in
       expectation.fulfill()
       XCTAssertFalse(self.connect.authorized(application: self.application))
       

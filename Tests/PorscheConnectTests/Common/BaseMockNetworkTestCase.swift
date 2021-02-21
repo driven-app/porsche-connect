@@ -34,12 +34,6 @@ class MockServer {
     waitForServer()
   }
   
-  private func tearDownMockWebServer() {
-    server.stopAndWait()
-    loop.stop()
-    print("Mock Web Server at port \(server.port): stopped")
-  }
-  
   private func waitForServer() {
     let semaphore = DispatchSemaphore(value: 0)
     let connection = NWConnection(host: "localhost", port: NWEndpoint.Port(rawValue: NWEndpoint.Port.RawValue(server.port))!, using: .tcp)
