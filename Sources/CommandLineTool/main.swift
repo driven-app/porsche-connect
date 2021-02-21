@@ -6,7 +6,7 @@ import ArgumentParser
 struct Porsche: ParsableCommand {
   static let configuration = CommandConfiguration(
     abstract: NSLocalizedString("A command-line tool to call and interact with Porsche Connect services.", comment: ""),
-    version: "0.1.3",
+    version: "0.1.4",
     subcommands: [ListVehicles.self, ShowSummary.self, ShowPosition.self, ShowCapabilities.self, ShowEmobility.self])
   
   struct Options: ParsableArguments {
