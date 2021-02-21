@@ -240,6 +240,7 @@ Display parking brake: yes; Needs SPIN: yes; Has RDK: yes; Engine Type: BEV; Car
 ```
 
 To show the emobility of a vehicle:
+
 *(Note: this only displays a small subset of the information that the emobility service returns)*
 
 ```bash
