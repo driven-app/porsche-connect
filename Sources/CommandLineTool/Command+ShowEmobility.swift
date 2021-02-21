@@ -5,10 +5,15 @@ import PorscheConnect
 extension Porsche {
   
   struct ShowEmobility: ParsableCommand {
+    
+    // MARK: - Properties
+    
     @OptionGroup() var options: Options
     
     @Argument(help: ArgumentHelp(NSLocalizedString("Your vehicle VIN.", comment: "")))
     var vin: String
+    
+    // MARK: - Lifecycle
     
     func run() throws {
       let porscheConnect = PorscheConnect(username: options.username, password: options.password)
@@ -16,6 +21,8 @@ extension Porsche {
       callCapabilitiesService(porscheConnect: porscheConnect, vehicle: vehicle)
       dispatchMain()
     }
+    
+    // MARK: - Private functions
     
     private func callCapabilitiesService(porscheConnect: PorscheConnect, vehicle: Vehicle) {
       porscheConnect.capabilities(vehicle: vehicle) { result in
