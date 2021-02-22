@@ -52,7 +52,7 @@ extension Porsche {
     }
     
     private func printEmobility(_ emobility: Emobility) {
-      let output = NSLocalizedString("Battery Level %: \(emobility.batteryChargeStatus.stateOfChargeInPercentage); Remaining Range (in KM): \(emobility.batteryChargeStatus.remainingERange.valueInKilometers); Charging Status: \(emobility.chargingStatus); Plug Status: \(emobility.batteryChargeStatus.plugState)", comment: "")
+      let output = NSLocalizedString("Battery Level: \(emobility.batteryChargeStatus.stateOfChargeInPercentage)%; Remaining Range: \(emobility.batteryChargeStatus.remainingERange.valueInKilometers) KM; Charging Status: \(emobility.chargingStatus); Plug Status: \(emobility.batteryChargeStatus.plugState)", comment: "")
       print(output)
     }
   }

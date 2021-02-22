@@ -246,7 +246,7 @@ To show the emobility of a vehicle:
 ```bash
 $ porsche show-emobility <username> <password> <vin>
 
-Battery Level %: 53; Remaining Range (in KM): 180; Charging Status: NOT_CHARGING; Plug Status: DISCONNECTED
+Battery Level: 53%; Remaining Range: 180 KM; Charging Status: NOT_CHARGING; Plug Status: DISCONNECTED
 ```
 # Install
 
