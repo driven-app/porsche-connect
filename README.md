@@ -11,7 +11,7 @@ Absolutely not. These endpoints are a result of reverse engineering Porsche's we
 
 ## CI/CD Status
 
-The library has a comprehensive suite of unit tests that run on GitHub Actions. Currently the test suite is run on a simulated **iPhone 12 Pro**. Further platforms (macOS) will be added in the future. 
+The library has a comprehensive suite of unit tests that run on GitHub Actions. Currently the test suite is run on a simulated **iPhone 12 Mini**. Further platforms (macOS) will be added in the future. 
 
 You can see the current build status of the `main` branch here:
 
@@ -22,7 +22,7 @@ You can see the current build status of the `main` branch here:
 
 ### Swift
 
-Porsche Connect requires Swift 5.2 of higher.
+Porsche Connect requires Swift 5.2 or higher.
 
 ### Supported Platforms
 
@@ -116,7 +116,7 @@ porscheConnect.position(vehicle: vehicle) { result in
 
 ### Capabilities of a vehicle
 
-To get last reported position for a vehicle. This call will return a `Capabilities` struct. This struct has nested `OnlineRemoteUpdateStatus` and `HeatingCapabilities` structs as appropriate for the vehicle.
+To get capabilities for a vehicle. This call will return a `Capabilities` struct. This struct has nested `OnlineRemoteUpdateStatus` and `HeatingCapabilities` structs as appropriate for the vehicle.
 
 ```swift
 let vehicle = vehicles.first!
