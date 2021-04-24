@@ -172,8 +172,8 @@ final class ModelsTests: XCTestCase {
     
     XCTAssertNotNil(position)
     XCTAssertNotNil(position.carCoordinate)
-    XCTAssertEqual(53.395367, position.carCoordinate.latitude)
-    XCTAssertEqual(-6.389296, position.carCoordinate.longitude)
+    XCTAssertEqual(53.365771, position.carCoordinate.latitude)
+    XCTAssertEqual(-6.330550, position.carCoordinate.longitude)
     XCTAssertEqual(68, position.heading)
   }
   
@@ -295,8 +295,8 @@ final class ModelsTests: XCTestCase {
     
     XCTAssertNotNil(chargingProfile2.position)
     let positionForChargingProfile2 = chargingProfile2.position
-    XCTAssertEqual(53.376328, positionForChargingProfile2.latitude)
-    XCTAssertEqual(-6.332705, positionForChargingProfile2.longitude)
+    XCTAssertEqual(53.365771, positionForChargingProfile2.latitude)
+    XCTAssertEqual(-6.330550, positionForChargingProfile2.longitude)
     
     XCTAssertNil(emobility.climateTimer)
     
@@ -331,7 +331,7 @@ final class ModelsTests: XCTestCase {
   // MARK: - Private functions
   
   private func buildPosition() -> Position {
-    let json = "{\"carCoordinate\": {\"geoCoordinateSystem\": \"WGS84\",\"latitude\": 53.395367, \"longitude\": -6.389296}, \"heading\": 68}".data(using: .utf8)!
+    let json = "{\"carCoordinate\": {\"geoCoordinateSystem\": \"WGS84\",\"latitude\": 53.365771, \"longitude\": -6.330550}, \"heading\": 68}".data(using: .utf8)!
     
     let decoder = JSONDecoder()
     decoder.keyDecodingStrategy = .useDefaultKeys
