@@ -110,9 +110,27 @@ final class MockNetworkRoutes {
   
   // MARK: - Get Emobility
   
-  func mockGetEmobilitySuccessful(router: Router) {
+  func mockGetEmobilityNotChargingSuccessful(router: Router) {
     router[MockNetworkRoutes.getEmobilityPath] = JSONResponse(statusCode: 200) { (req) -> Any in
-      return self.mockEmobilityResponse()
+      return self.mockEmobilityResponse(mockedResponse: kEmobilityNotChargingJson)
+    }
+  }
+  
+  func mockGetEmobilityACTimerChargingSuccessful(router: Router) {
+    router[MockNetworkRoutes.getEmobilityPath] = JSONResponse(statusCode: 200) { (req) -> Any in
+      return self.mockEmobilityResponse(mockedResponse: kEmobilityACTimerChargingJson)
+    }
+  }
+  
+  func mockGetEmobilityACDirectChargingSuccessful(router: Router) {
+    router[MockNetworkRoutes.getEmobilityPath] = JSONResponse(statusCode: 200) { (req) -> Any in
+      return self.mockEmobilityResponse(mockedResponse: kEmobilityACDirectChargingJson)
+    }
+  }
+  
+  func mockGetEmobilityDCChargingSuccessful(router: Router) {
+    router[MockNetworkRoutes.getEmobilityPath] = JSONResponse(statusCode: 200) { (req) -> Any in
+      return self.mockEmobilityResponse(mockedResponse: kEmobilityDCChargingJson)
     }
   }
   
@@ -176,7 +194,7 @@ final class MockNetworkRoutes {
             "hasHonkAndFlash": true]
   }
   
-  private func mockEmobilityResponse() -> Dictionary<String, Any> {    
-    return try! (JSONSerialization.jsonObject(with: kEmobilityNotChargingJson, options: []) as! Dictionary<String, Any>)
+  private func mockEmobilityResponse(mockedResponse: Data) -> Dictionary<String, Any> {
+    return try! (JSONSerialization.jsonObject(with: mockedResponse, options: []) as! Dictionary<String, Any>)
   }
 }
