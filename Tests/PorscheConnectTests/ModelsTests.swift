@@ -11,6 +11,8 @@ final class ModelsTests: XCTestCase {
                         exteriorColorHex: "#47402e",
                         attributes: nil,
                         pictures: nil)
+    
+  // MARK: - Auth tests
   
   func testPorscheAuthConstruction() {
     XCTAssertNotNil(porscheAuth)
@@ -19,8 +21,6 @@ final class ModelsTests: XCTestCase {
     XCTAssertNotNil(porscheAuth.expiresAt)
     XCTAssertFalse(porscheAuth.expired)
   }
-  
-  // MARK: - Auth tests
   
   func testPorscheAuthDecodingJsonIntoModel() {
     let json =  "{\"access_token\":\"Kpjg2m1ZXd8GM0pvNIB3jogWd0o6\",\"id_token\":\"eyJhbGciOiJSUzI1NiIsImtpZCI6IjE1bF9LeldTV08tQ1ZNdXdlTmQyMnMifQ.eyJzdWIiOiI4N3VnOGJobXZydnF5bTFrIiwiYXVkIjoiVFo0VmY1d25LZWlwSnh2YXRKNjBsUEhZRXpxWjRXTnAiLCJqdGkiOiJmTldhWEE4RTBXUzNmVzVZU0VmNFRDIiwiaXNzIjoiaHR0cHM6XC9cL2xvZ2luLnBvcnNjaGUuY29tIiwiaWF0IjoxNjEyNzQxNDA4LCJleHAiOjE2MTI3NDE3MDgsInBpLnNyaSI6InNoeTN3aDN4RFVWSFlwd0pPYmpQdHJ5Y2FpOCJ9.EsgxbnDCdEC0O8b05B_VJoe09etxcQOqhj4bRkR-AOwZrFV0Ba5LGkUFD_8GxksWuCn9W_bG_vHNOxpcum-avI7r2qY3N2iMJHZaOc0Y-NqBPCu5kUN3F5oh8e7aDbBKQI_ZWTxRdMvcTC8zKJRZf0Ud2YFQSk6caGwmqJ5OE_OB38_ovbAiVRgV_beHePWpEkdADKKtlF5bmSViHOoUOs8x6j21mCXDiuMPf62oRxU4yPN-AS4wICtz22dabFgdjIwOAFm651098z2zwEUEAPAGkcRKuvSHlZ8OAvi4IXSFPXBdCfcfXRk5KdCXxP1xaZW0ItbrQZORdI12hVFoUQ\",\"token_type\":\"Bearer\",\"expires_in\":7199}\r\n".data(using: .utf8)!
@@ -47,9 +47,21 @@ final class ModelsTests: XCTestCase {
   
   // MARK: - Vehicle tests
   
-  func testVehicleConstruction() {
+  func testVehicleConstructionVariantOne() {
     XCTAssertNotNil(vehicle)
     XCTAssertNotNil(vehicle.externalColor)
+  }
+  
+  func testVehicleConstructionVariantTwo() {
+    let vehicle = Vehicle(vin: "VIN12345",
+                          modelDescription: "Taycan 4S",
+                          modelType: "Y1ADB1",
+                          modelYear: "2021")
+    
+    XCTAssertEqual("VIN12345", vehicle.vin)
+    XCTAssertEqual("Taycan 4S", vehicle.modelDescription)
+    XCTAssertEqual("Y1ADB1", vehicle.modelType)
+    XCTAssertEqual("2021", vehicle.modelYear)
   }
   
   func testVehicleDecodingJsonIntoModel() {
@@ -178,6 +190,20 @@ final class ModelsTests: XCTestCase {
   }
   
   // MARK: - Capabilities tests
+  
+  func testCapabilitiesConstruction() {
+    let capabilities = Capabilities(engineType: "Test Engine Type", carModel: "Test Car Model")
+    XCTAssertEqual("Test Engine Type", capabilities.engineType)
+    XCTAssertEqual("Test Car Model", capabilities.carModel)
+    XCTAssertFalse(capabilities.displayParkingBrake)
+    XCTAssertFalse(capabilities.needsSPIN)
+    XCTAssertFalse(capabilities.hasRDK)
+    XCTAssertFalse(capabilities.hasHonkAndFlash)
+    XCTAssertTrue(capabilities.onlineRemoteUpdateStatus.active)
+    XCTAssertTrue(capabilities.onlineRemoteUpdateStatus.editableByUser)
+    XCTAssertTrue(capabilities.heatingCapabilities.frontSeatHeatingAvailable)
+    XCTAssertFalse(capabilities.heatingCapabilities.rearSeatHeatingAvailable)
+  }
   
   func testCapabilitiesDecodingJsonIntoModel() {
     let capabilities = buildCapabilites()

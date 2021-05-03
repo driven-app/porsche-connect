@@ -94,6 +94,8 @@ public struct Vehicle: Codable {
     public let placeholder: String?
   }
   
+  // MARK: - Public
+  
   public init(vin: String, modelDescription: String, modelType: String, modelYear: String, exteriorColorHex: String, attributes: [VehicleAttribute]?, pictures: [VehiclePicture]?) {
     self.vin = vin
     self.modelDescription = modelDescription
@@ -102,6 +104,16 @@ public struct Vehicle: Codable {
     self.exteriorColorHex = exteriorColorHex
     self.attributes = attributes
     self.pictures = pictures
+  }
+  
+  public init(vin: String, modelDescription: String, modelType: String, modelYear: String) {
+    self.vin = vin
+    self.modelDescription = modelDescription
+    self.modelType = modelType
+    self.modelYear = modelYear
+    self.exteriorColorHex = kBlankString
+    self.attributes = nil
+    self.pictures = nil
   }
   
   public init(vin: String) {
@@ -170,6 +182,13 @@ public struct Capabilities: Codable {
     
     public let editableByUser: Bool
     public let active: Bool
+    
+    // MARK: - Public
+    
+    public init(editableByUser: Bool, active: Bool) {
+      self.editableByUser = editableByUser
+      self.active = active
+    }
   }
   
   // MARK: -
@@ -180,6 +199,27 @@ public struct Capabilities: Codable {
     
     public let frontSeatHeatingAvailable: Bool
     public let rearSeatHeatingAvailable: Bool
+    
+    // MARK: - Public
+    
+    public init(frontSeatHeatingAvailable: Bool, rearSeatHeatingAvailable: Bool) {
+      self.frontSeatHeatingAvailable = frontSeatHeatingAvailable
+      self.rearSeatHeatingAvailable = rearSeatHeatingAvailable
+    }
+  }
+  
+  // MARK: - Public
+  
+  public init(engineType: String, carModel: String) {
+    self.displayParkingBrake = false
+    self.needsSPIN = false
+    self.hasRDK = false
+    self.engineType = engineType
+    self.carModel = carModel
+    self.steeringWheelPosition = kBlankString
+    self.hasHonkAndFlash = false
+    self.onlineRemoteUpdateStatus = OnlineRemoteUpdateStatus(editableByUser: true, active: true)
+    self.heatingCapabilities = HeatingCapabilities(frontSeatHeatingAvailable: true, rearSeatHeatingAvailable: false)
   }
 }
 
