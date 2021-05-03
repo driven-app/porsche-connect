@@ -6,19 +6,12 @@ public extension PorscheConnect {
     let application: Application = .CarControl
     
     executeWithAuth(application: application) { [self] in
-      guard let auth = auths[application], let apiKey = auth.apiKey else {
-        DispatchQueue.main.async {
-          completion(.failure(PorscheConnectError.AuthFailure))
-        }
-        return
-      }
+      guard let auth = auths[application], let apiKey = auth.apiKey else { completion(.failure(PorscheConnectError.AuthFailure)); return }
       
       let headers = buildHeaders(accessToken: auth.accessToken, apiKey: apiKey, countryCode: environment.countryCode, languageCode: environment.languageCode)
       
       networkClient.get(Summary.self, url: networkRoutes.vehicleSummaryURL(vehicle: vehicle), headers: headers, jsonKeyDecodingStrategy: .useDefaultKeys) { result in
-        DispatchQueue.main.async {
-          completion(result)
-        }
+        completion(result)
       }
     }
   }
@@ -27,23 +20,12 @@ public extension PorscheConnect {
     let application: Application = .CarControl
     
     executeWithAuth(application: application) { [self] in
-      guard let auth = auths[application], let apiKey = auth.apiKey else {
-        DispatchQueue.main.async {
-          DispatchQueue.main.async {
-            completion(.failure(PorscheConnectError.AuthFailure))
-          }
-        }
-        return
-      }
+      guard let auth = auths[application], let apiKey = auth.apiKey else { completion(.failure(PorscheConnectError.AuthFailure)); return }
       
       let headers = buildHeaders(accessToken: auth.accessToken, apiKey: apiKey, countryCode: environment.countryCode, languageCode: environment.languageCode)
       
       networkClient.get(Position.self, url: networkRoutes.vehiclePositionURL(vehicle: vehicle), headers: headers, jsonKeyDecodingStrategy: .useDefaultKeys) { result in
-        DispatchQueue.main.async {
-          DispatchQueue.main.async {
-            completion(result)
-          }
-        }
+        completion(result)
       }
     }
   }
@@ -52,19 +34,12 @@ public extension PorscheConnect {
     let application: Application = .CarControl
     
     executeWithAuth(application: application) { [self] in
-      guard let auth = auths[application], let apiKey = auth.apiKey else {
-        DispatchQueue.main.async {
-          completion(.failure(PorscheConnectError.AuthFailure))
-        }
-        return
-      }
+      guard let auth = auths[application], let apiKey = auth.apiKey else { completion(.failure(PorscheConnectError.AuthFailure)); return }
       
       let headers = buildHeaders(accessToken: auth.accessToken, apiKey: apiKey, countryCode: environment.countryCode, languageCode: environment.languageCode)
       
       networkClient.get(Capabilities.self, url: networkRoutes.vehicleCapabilitiesURL(vehicle: vehicle), headers: headers, jsonKeyDecodingStrategy: .useDefaultKeys) { result in
-        DispatchQueue.main.async {
-          completion(result)
-        }
+        completion(result)
       }
     }
   }
@@ -73,19 +48,12 @@ public extension PorscheConnect {
     let application: Application = .CarControl
     
     executeWithAuth(application: application) { [self] in
-      guard let auth = auths[application], let apiKey = auth.apiKey else {
-        DispatchQueue.main.async {
-          completion(.failure(PorscheConnectError.AuthFailure))
-        }
-        return
-      }
+      guard let auth = auths[application], let apiKey = auth.apiKey else { completion(.failure(PorscheConnectError.AuthFailure)); return }
       
       let headers = buildHeaders(accessToken: auth.accessToken, apiKey: apiKey, countryCode: environment.countryCode, languageCode: environment.languageCode)
       
       networkClient.get(Emobility.self, url: networkRoutes.vehicleEmobilityURL(vehicle: vehicle, capabilities: capabilities), headers: headers, jsonKeyDecodingStrategy: .useDefaultKeys) { result in
-        DispatchQueue.main.async {
-          completion(result)
-        }
+        completion(result)
       }
     }
   }

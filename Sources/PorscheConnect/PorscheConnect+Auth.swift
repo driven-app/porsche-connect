@@ -4,13 +4,13 @@ public extension PorscheConnect {
   
   func auth(application: Application, completion: @escaping (Result<PorscheAuth, Error>) -> Void) {
     loginToRetrieveCookies { result in
-      guard let result = try? result.get(), result.1 != nil else { DispatchQueue.main.async { completion(.failure(PorscheConnectError.NoResult)); }; return }
+      guard let result = try? result.get(), result.1 != nil else { completion(.failure(PorscheConnectError.NoResult)); return }
       
       self.getApiAuthCode(application: application) { result in
         guard let result = try? result.get(),
               let codeVerifier = result.codeVerifier,
               let code = result.code,
-              result.1 != nil else { DispatchQueue.main.async { completion(.failure(PorscheConnectError.NoResult)) }; return }
+              result.1 != nil else { completion(.failure(PorscheConnectError.NoResult)); return }
         
         self.getApiToken(application: application, codeVerifier: codeVerifier, code: code) { result in
           guard let result = try? result.get(),
@@ -18,9 +18,7 @@ public extension PorscheConnect {
                 result.1 != nil else { completion(.failure(PorscheConnectError.NoResult)); return }
           
           self.auths[application] = porscheAuth
-          DispatchQueue.main.async {
-            completion(.success(porscheAuth))
-          }
+          completion(.success(porscheAuth))
         }
       }
     }
