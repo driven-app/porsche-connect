@@ -26,7 +26,6 @@ final class PorscheConnectPortalTests: BaseMockNetworkTestCase {
     mockNetworkRoutes.mockPostLoginAuthSuccessful(router: MockServer.shared.router)
     mockNetworkRoutes.mockGetApiAuthSuccessful(router: MockServer.shared.router)
     mockNetworkRoutes.mockPostApiTokenSuccessful(router: MockServer.shared.router)
-    
     mockNetworkRoutes.mockGetVehiclesSuccessful(router: MockServer.shared.router)
     
     XCTAssertFalse(self.connect.authorized(application: application))
