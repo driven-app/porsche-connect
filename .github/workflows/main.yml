@@ -22,7 +22,7 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
-      - name: Force XCode 13.0
-        run: sudo xcode-select -switch /Applications/Xcode_13.0.app
+      - name: Force XCode 13.1
+        run: sudo xcode-select -switch /Applications/Xcode_13.1.app
       - name: Tests
-        run: xcodebuild test -destination "platform=iOS Simulator,name=iPhone 13 Mini" -scheme "PorscheConnect"
+        run: xcodebuild test -destination "platform=iOS Simulator,OS=14.0,name=iPhone 13 Mini" -scheme "PorscheConnect"
