@@ -1,4 +1,4 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.5
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -22,10 +22,10 @@ let package = Package(
   dependencies: [
     .package(url: "https://github.com/envoy/Embassy.git", from: "4.1.2"),
     .package(url: "https://github.com/envoy/Ambassador.git", from: "4.0.5"),
-    .package(url: "https://github.com/apple/swift-argument-parser", from: "0.3.2")
+    .package(url: "https://github.com/apple/swift-argument-parser", from: "0.5.0")
   ],
   targets: [
-    .target(
+    .executableTarget(
       name: "CommandLineTool",
       dependencies: ["PorscheConnect",
                      .product(name: "ArgumentParser", package: "swift-argument-parser")]),
