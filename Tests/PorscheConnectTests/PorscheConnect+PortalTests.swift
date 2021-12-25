@@ -13,8 +13,8 @@ final class PorscheConnectPortalTests: BaseMockNetworkTestCase {
   
   override func setUp() {
     super.setUp()
-    self.connect = PorscheConnect(username: "homer.simpson@icloud.example", password: "Duh!", environment: .Test)
-    self.connect.auths[application] = kTestPorschePortalAuth
+    connect = PorscheConnect(username: "homer.simpson@icloud.example", password: "Duh!", environment: .Test)
+    connect.auths[application] = kTestPorschePortalAuth
   }
   
   // MARK: - Tests
@@ -28,16 +28,16 @@ final class PorscheConnectPortalTests: BaseMockNetworkTestCase {
     mockNetworkRoutes.mockPostApiTokenSuccessful(router: MockServer.shared.router)
     mockNetworkRoutes.mockGetVehiclesSuccessful(router: MockServer.shared.router)
     
-    XCTAssertFalse(self.connect.authorized(application: application))
+    XCTAssertFalse(connect.authorized(application: application))
     
     let result = try! await connect.vehicles()
     
     expectation.fulfill()
-    XCTAssert(self.connect.authorized(application: self.application))
+    XCTAssert(connect.authorized(application: application))
     XCTAssertNotNil(result)
     XCTAssertNotNil(result.vehicles)
     XCTAssertEqual(1, result.vehicles!.count)
-    self.assertVehicle(result.vehicles!.first!)
+    assertVehicle(result.vehicles!.first!)
     
     await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
@@ -51,11 +51,11 @@ final class PorscheConnectPortalTests: BaseMockNetworkTestCase {
     let result = try! await connect.vehicles()
     
     expectation.fulfill()
-    XCTAssert(self.connect.authorized(application: self.application))
+    XCTAssert(connect.authorized(application: application))
     XCTAssertNotNil(result)
     XCTAssertNotNil(result.vehicles)
     XCTAssertEqual(1, result.vehicles!.count)
-    self.assertVehicle(result.vehicles!.first!)
+    assertVehicle(result.vehicles!.first!)
         
     await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }

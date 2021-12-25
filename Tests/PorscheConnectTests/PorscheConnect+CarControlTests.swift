@@ -15,8 +15,8 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
   
   override func setUp() {
     super.setUp()
-    self.connect = PorscheConnect(username: "homer.simpson@icloud.example", password: "Duh!", environment: .Test)
-    self.connect.auths[application] = kTestPorschePortalAuth
+    connect = PorscheConnect(username: "homer.simpson@icloud.example", password: "Duh!", environment: .Test)
+    connect.auths[application] = kTestPorschePortalAuth
   }
   
   // MARK: - Summary Tests
@@ -109,7 +109,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     let result = try! await connect.position(vehicle: vehicle)
     
     expectation.fulfill()
-    XCTAssert(self.connect.authorized(application: self.application))
+    XCTAssert(connect.authorized(application: application))
     XCTAssertNotNil(result.response)
     XCTAssertNotNil(result.position)
     assertPosition(result.position!)
@@ -126,7 +126,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
       let result = try! await connect.position(vehicle: vehicle)
       
       expectation.fulfill()
-      XCTAssert(self.connect.authorized(application: self.application))
+      XCTAssert(connect.authorized(application: application))
       XCTAssertNotNil(result.response)
       XCTAssertNotNil(result.position)
   

@@ -12,18 +12,18 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
   
   override func setUp() {
     super.setUp()
-    self.connect = PorscheConnect(username: "homer.simpson@icloud.example", password: "Duh!", environment: .Test)
+    connect = PorscheConnect(username: "homer.simpson@icloud.example", password: "Duh!", environment: .Test)
   }
   
   // MARK: - Tests
   
   func testConstruction() {
-    XCTAssertNotNil(self.connect)
-    XCTAssertEqual(Environment.Test, self.connect.environment)
-    XCTAssertEqual("homer.simpson@icloud.example", self.connect.username)
-    XCTAssertNotNil(self.connect.auths)
-    XCTAssertFalse(self.connect.authorized(application: .Portal))
-    XCTAssertFalse(self.connect.authorized(application: .CarControl))
+    XCTAssertNotNil(connect)
+    XCTAssertEqual(Environment.Test, connect.environment)
+    XCTAssertEqual("homer.simpson@icloud.example", connect.username)
+    XCTAssertNotNil(connect.auths)
+    XCTAssertFalse(connect.authorized(application: .Portal))
+    XCTAssertFalse(connect.authorized(application: .CarControl))
   }
   
   func testEnvironmentIreland() {
