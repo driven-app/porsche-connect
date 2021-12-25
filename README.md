@@ -22,7 +22,7 @@ You can see the current build status of the `main` branch here:
 
 ### Swift
 
-Porsche Connect requires Swift 5.2 or higher.
+Porsche Connect requires Swift 5.5 or higher. It uses the new async/await concurrency language features introduced in Swift 5.5.
 
 ### Supported Platforms
 
