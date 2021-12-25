@@ -58,27 +58,27 @@ A valid [MyPorsche](https://connect-portal.porsche.com) username (email) and pas
 To get a list of vehicles associated with your My Porsche account . This call will return an array of `Vehicle` structs, with nested `VehicleAttribute`'s and `VehiclePicture`'s as appropriate for the vehicles configuration.
 
 ```swift
-porscheConnect.vehicles { result in
-  switch result {
-  case .success(let (vehicles, response)):
-    break // Do something with vehicles or raw response
-  case .failure(let error):
-    break // Handle the error
-  }
+try {
+  let result = porscheConnect.vehicles()
+    if let vehicles = result.vehicles, let response = result.response {
+      // Do something with vehicles or raw response
+    }
+} catch {
+  // Handle the error
 }
 ```
 
 For example, to get the external [Color](https://developer.apple.com/documentation/swiftui/color) (a SwiftUI struct) for the first car in your account:
 
 ```swift
-porscheConnect.vehicles { result in
-  switch result {
-  case .success(let (vehicles, _)):
-    let firstVehicle = vehicles!.first!
-    let color: Color = firstVehicle.externalColor
-  case .failure(let error):
-    break // Handle the error
-  }
+try {
+  let result = porscheConnect.vehicles()
+    if let vehicles = result.vehicles {
+      let firstVehicle = vehicles.first!
+      let color: Color = firstVehicle.externalColor
+    }
+} catch {
+  // Handle the error
 }
 ```
 
