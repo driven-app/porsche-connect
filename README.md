@@ -87,8 +87,6 @@ try {
 To get a summary for a vehicle. This call will return a `Summary` struct.
 
 ```swift
-
-let vehicle = vehicles.first!
 try {
   let result = porscheConnect.summary(vehicle: vehicle)
   if let summary = result.summary, let response = result.response {
@@ -104,7 +102,6 @@ try {
 To get last reported position for a vehicle. This call will return a `Position` struct. 
 
 ```swift
-let vehicle = vehicles.first!
 try {
   let result = porscheConnect.position(vehicle: vehicle)
   if let position = result.position, let response = result.response {
@@ -120,7 +117,6 @@ try {
 To get capabilities for a vehicle. This call will return a `Capabilities` struct. This struct has nested `OnlineRemoteUpdateStatus` and `HeatingCapabilities` structs as appropriate for the vehicle.
 
 ```swift
-let vehicle = vehicles.first!
 try {
   let result = porscheConnect.capabilities(vehicle: vehicle)
   if let capabilities = result.capabilities, let response = result.response {
