@@ -1,4 +1,12 @@
+<div align=center>
+
 # PorscheConnect 
+
+![PorscheConnect](https://github.com/driven-app/porsche-connect/workflows/PorscheConnect/badge.svg)
+[![License](https://img.shields.io/github/license/driven-app/porsche-connect)](https://github.com/driven-app/porsche-connect/blob/main/LICENSE)
+[![Reviewed by Hound](https://img.shields.io/badge/Reviewed_by-Hound-8E64B0.svg)](https://houndci.com)
+
+</div>
 
 This is an unofficial Porsche Connect API library written in Swift. The primary purpose for this library is to act as a building block for both mobile, desktop and serverside applications built around the Porsche Connect service.
 
@@ -11,7 +19,7 @@ Absolutely not. These endpoints are a result of reverse engineering Porsche's we
 
 ## CI/CD Status
 
-The library has a comprehensive suite of unit tests that run on GitHub Actions. Currently the test suite is run on a simulated **iPhone 12 Mini**. Further platforms (macOS) will be added in the future. 
+The library has a comprehensive suite of unit tests that run on GitHub Actions. Currently the test suite is run on a simulated **Intel based macOS v12.1**. 
 
 You can see the current build status of the `main` branch here:
 
@@ -32,6 +40,10 @@ Currently the library supports the following platforms:
 * **iOS** (Version 14+)
 * **tvOS** (Version 14+)
 * **watchOS** (Version 6+)
+
+### Swift Package Index
+
+This library is availble on the Swift Package Index at [https://swiftpackageindex.com/driven-app/porsche-connect](https://swiftpackageindex.com/driven-app/porsche-connect).
 
 
 # Usage
