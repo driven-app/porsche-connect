@@ -4,7 +4,7 @@ import PorscheConnect
 
 extension Porsche {
     
-  struct ListVehicles: ParsableCommand {
+  struct ListVehicles: AsyncParsableCommand {
     
     // MARK: - Properties
     
@@ -12,7 +12,7 @@ extension Porsche {
     
     // MARK: - Lifecycle
     
-    func run() async throws {
+    func runAsync() async throws {
       let porscheConnect = PorscheConnect(username: options.username, password: options.password)
       await callListVehiclesService(porscheConnect: porscheConnect)
       dispatchMain()

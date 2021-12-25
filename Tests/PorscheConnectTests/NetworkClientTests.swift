@@ -16,7 +16,7 @@ final class NetworkClientTests: BaseMockNetworkTestCase {
   
   override func setUp() {
     super.setUp()
-    self.client = NetworkClient()
+    client = NetworkClient()
   }
   
   // MARK: - Tests

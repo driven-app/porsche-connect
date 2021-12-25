@@ -10,19 +10,19 @@ struct NetworkClient {
     configuration.httpCookieAcceptPolicy = .always
     configuration.httpCookieStorage = .shared
     configuration.timeoutIntervalForRequest = timeoutIntervalForRequest
-    self.session = URLSession(configuration: configuration)
+    session = URLSession(configuration: configuration)
   }
   
   // MARK: - Public
   
   func get<D: Decodable>(_ responseType: D.Type, url: URL, params: Dictionary<String, String>? = nil, headers: Dictionary<String, String>? = nil, parseResponseBody: Bool = true, jsonKeyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase) async throws -> (data: D?, response: HTTPURLResponse?) {
-    let request = self.createRequest(url: url.addParams(params: params), method: HttpMethod.get.rawValue, headers: headers, contentType: .json, bodyData: nil)
-    return try await self.performRequest(responseType, request: request, parseResponseBody: parseResponseBody, jsonKeyDecodingStrategy: jsonKeyDecodingStrategy)
+    let request = createRequest(url: url.addParams(params: params), method: HttpMethod.get.rawValue, headers: headers, contentType: .json, bodyData: nil)
+    return try await performRequest(responseType, request: request, parseResponseBody: parseResponseBody, jsonKeyDecodingStrategy: jsonKeyDecodingStrategy)
   }
   
   func post<E: Encodable, D: Decodable>(_ responseType: D.Type, url: URL, params: Dictionary<String, String>? = nil, body: E?, headers: Dictionary<String, String>? = nil, contentType: HttpRequestContentType = .json, parseResponseBody: Bool = true, jsonKeyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase) async throws -> (data: D?, response: HTTPURLResponse?) {
-    let request = self.buildModifyingRequest(url: url.addParams(params: params), method: HttpMethod.post.rawValue, headers: headers, contentType: contentType, body: body)
-    return try await self.performRequest(responseType, request: request, contentType: contentType, parseResponseBody: parseResponseBody, jsonKeyDecodingStrategy: jsonKeyDecodingStrategy)
+    let request = buildModifyingRequest(url: url.addParams(params: params), method: HttpMethod.post.rawValue, headers: headers, contentType: contentType, body: body)
+    return try await performRequest(responseType, request: request, contentType: contentType, parseResponseBody: parseResponseBody, jsonKeyDecodingStrategy: jsonKeyDecodingStrategy)
   }
   
   // MARK: - Private
@@ -44,11 +44,11 @@ struct NetworkClient {
   
   private func performRequest<D: Decodable>(_ responseType: D.Type, request: URLRequest, contentType: HttpRequestContentType = .json, parseResponseBody: Bool = true, jsonKeyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase) async throws -> (D?, HTTPURLResponse?) {
     return try await withCheckedThrowingContinuation { continuation in
-      let task = self.session.dataTask(with: request) { (data, urlResponse, error) in
+      let task = session.dataTask(with: request) { (data, urlResponse, error) in
         let response = urlResponse as? HTTPURLResponse
         
         if let response = response {
-          if self.isErrorStatusCode(response) {
+          if isErrorStatusCode(response) {
             continuation.resume(with: .failure(HttpStatusCode(rawValue: response.statusCode)!))
             return
           }

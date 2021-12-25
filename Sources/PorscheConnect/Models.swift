@@ -14,8 +14,9 @@ public struct PorscheAuth: Codable {
   
   public var apiKey: String? {
     let idTokenComponents = idToken.components(separatedBy: ".")
+    let paddedBase64EncodedString = idTokenComponents[1].padding(toLength: ((idTokenComponents[1].count+3)/4)*4, withPad: "=", startingAt: 0)
     
-    if let decodedString = String(data: Data(base64Encoded: idTokenComponents[1]) ?? kBlankData, encoding: .utf8),
+    if let decodedString = String(data: Data(base64Encoded: paddedBase64EncodedString) ?? kBlankData, encoding: .utf8),
        let data = decodedString.data(using: .utf8),
        let dict = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? Dictionary<String, Any>,
        let apiKey = dict["aud"] as? String {

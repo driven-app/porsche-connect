@@ -37,7 +37,7 @@ struct NetworkRoutes {
   var vehiclesURL: URL {
     switch environment {
     case .Ireland, .Germany:
-      return URL(string: "https://connect-portal.porsche.com/core/api/v3/\(environment.regionCode)/vehicles")!
+      return URL(string: "https://api.porsche.com/core/api/v3/\(environment.regionCode)/vehicles")!
     case .Test:
       return URL(string: "http://localhost:\(kTestServerPort)/core/api/v3/\(environment.regionCode)/vehicles")!
     }
