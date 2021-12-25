@@ -60,9 +60,9 @@ To get a list of vehicles associated with your My Porsche account . This call wi
 ```swift
 try {
   let result = porscheConnect.vehicles()
-    if let vehicles = result.vehicles, let response = result.response {
-      // Do something with vehicles or raw response
-    }
+  if let vehicles = result.vehicles, let response = result.response {
+    // Do something with vehicles or raw response
+  }
 } catch {
   // Handle the error
 }
@@ -73,10 +73,10 @@ For example, to get the external [Color](https://developer.apple.com/documentati
 ```swift
 try {
   let result = porscheConnect.vehicles()
-    if let vehicles = result.vehicles {
-      let firstVehicle = vehicles.first!
-      let color: Color = firstVehicle.externalColor
-    }
+  if let vehicles = result.vehicles {
+    let firstVehicle = vehicles.first!
+    let color: Color = firstVehicle.externalColor
+  }
 } catch {
   // Handle the error
 }
@@ -87,14 +87,15 @@ try {
 To get a summary for a vehicle. This call will return a `Summary` struct.
 
 ```swift
+
 let vehicle = vehicles.first!
-porscheConnect.summary(vehicle: vehicle) { result in
-  switch result {
-  case .success(let (summary, response)):
-    break // Do something with the summary or raw response
-  case .failure(let error):
-    break // Handle the error
+try {
+  let result = porscheConnect.summary(vehicle: vehicle)
+  if let summary = result.summary, let response = result.response {
+    // Do something with the summary or raw response
   }
+} catch {
+  // Handle the error
 }
 ```
 
@@ -104,13 +105,13 @@ To get last reported position for a vehicle. This call will return a `Position` 
 
 ```swift
 let vehicle = vehicles.first!
-porscheConnect.position(vehicle: vehicle) { result in
-  switch result {
-  case .success(let (position, response)):
-    break // Do something with the position or raw response
-  case .failure(let error):
-    break // Handle the error
+try {
+  let result = porscheConnect.position(vehicle: vehicle)
+  if let position = result.position, let response = result.response {
+    // Do something with the position or raw response
   }
+} catch {
+  // Handle the error
 }
 ```
 
@@ -120,13 +121,13 @@ To get capabilities for a vehicle. This call will return a `Capabilities` struct
 
 ```swift
 let vehicle = vehicles.first!
-porscheConnect.capabilities(vehicle: vehicle) { result in
-  switch result {
-  case .success(let (capabilities, response)):
-    break // Do something with the capabilities or raw response
-  case .failure(let error):
-    break // Handle the error
+try {
+  let result = porscheConnect.capabilities(vehicle: vehicle)
+  if let capabilities = result.capabilities, let response = result.response {
+    // Do something with the capabilities or raw response
   }
+} catch {
+  // Handle the error
 }
 ```
 
@@ -135,13 +136,13 @@ porscheConnect.capabilities(vehicle: vehicle) { result in
 If the vehicle is a plug-in hybrid (PHEV) or a battery electric vehicle (BEV) this will return the status and configuration of the e-mobility aspects of the vehicle. This call requires both a vehicle and its matching capabilities. This call will return a `Emobility` struct.
 
 ```swift
-porscheConnect.emobility(vehicle: vehicle, capabilities: capabilities) { result in
-  switch result {
-  case .success(let (emobility, response)):
-    break // Do something with the emobility or raw response
-  case .failure(let error):
-    break // Handle the error
+try {
+  let result = porscheConnect.emobility(vehicle: vehicle, capabilities: capabilities)
+  if let emobility = result.emobility, let response = result.response {
+    // Do something with the emobility or raw response
   }
+} catch {
+  // Handle the error
 }
 ```
 
