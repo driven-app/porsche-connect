@@ -22,8 +22,12 @@ let package = Package(
   targets: [
     .executableTarget(
       name: "CommandLineTool",
-      dependencies: [.target(name: "PorscheConnect", condition: .when(platforms: [.macOS])),
-                     .product(name: "ArgumentParser", package: "swift-argument-parser", condition: .when(platforms: [.macOS]))]),
+      dependencies: [
+        .target(name: "PorscheConnect", condition: .when(platforms: [.macOS])),
+        .product(name: "ArgumentParser",
+                 package: "swift-argument-parser",
+                 condition: .when(platforms: [.macOS]))
+      ]),
     .target(
       name: "PorscheConnect",
       dependencies: []),
