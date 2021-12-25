@@ -33,6 +33,10 @@ Currently the library supports the following platforms:
 * **tvOS** (Version 14+)
 * **watchOS** (Version 6+)
 
+### Swift Package Index
+
+This library is availble on the Swift Package Index at [https://swiftpackageindex.com/driven-app/porsche-connect](https://swiftpackageindex.com/driven-app/porsche-connect).
+
 
 # Usage
 
