@@ -12,7 +12,7 @@ public extension PorscheConnect {
           apiAuthCodeResult.1 != nil else { throw PorscheConnectError.NoResult }
     
     let apiTokenResult = try await getApiToken(application: application, codeVerifier: codeVerifier, code: code)
-    guard let porscheAuth = apiTokenResult.model,
+    guard let porscheAuth = apiTokenResult.data,
           apiTokenResult.response != nil else { throw PorscheConnectError.NoResult }
     
     auths[application] = porscheAuth
@@ -44,7 +44,7 @@ public extension PorscheConnect {
     }
   }
   
-  private func getApiToken(application: Application, codeVerifier: String, code: String) async throws -> (model: PorscheAuth?, response: HTTPURLResponse?) {
+  private func getApiToken(application: Application, codeVerifier: String, code: String) async throws -> (data: PorscheAuth?, response: HTTPURLResponse?) {
     let apiTokenBody = buildApiTokenBody(clientId: application.clientId, redirectURL: application.redirectURL, code: code, codeVerifier: codeVerifier)
     let result = try await networkClient.post(PorscheAuth.self, url: networkRoutes.apiTokenURL, body: buildPostFormBodyFrom(dictionary: apiTokenBody), contentType: .form)
     if result.1 == nil { AuthLogger.info("Api Auth call for token successful") }

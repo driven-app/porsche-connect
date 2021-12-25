@@ -24,12 +24,12 @@ final class NetworkClientTests: BaseMockNetworkTestCase {
   func testGetSuccessful() async {
     let url = URL(string: "http://localhost:\(kTestServerPort)/hello_world.json")!
     mockNetworkRoutes.mockGetHelloWorldSuccessful(router: MockServer.shared.router)
-    let expectation = self.expectation(description: "Network Expectation")
+    let expectation = expectation(description: "Network Expectation")
 
     let result = try! await client.get(HelloWorld.self, url: url)
     expectation.fulfill()
     
-    XCTAssertEqual("Hello World!", result.model!.message)
+    XCTAssertEqual("Hello World!", result.data!.message)
     XCTAssertEqual(200, result.response!.statusCode)
     
     await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
@@ -38,10 +38,10 @@ final class NetworkClientTests: BaseMockNetworkTestCase {
   func testGetFailure() async {
     let url = URL(string: "http://localhost:\(kTestServerPort)/hello_world.json")!
     mockNetworkRoutes.mockGetHelloWorldFailure(router: MockServer.shared.router)
-    let expectation = self.expectation(description: "Network Expectation")
+    let expectation = expectation(description: "Network Expectation")
 
     do {
-      let _ = try await client.get(HelloWorld.self, url: url)
+      _ = try await client.get(HelloWorld.self, url: url)
     } catch {
       expectation.fulfill()
       XCTAssertEqual(HttpStatusCode.Unauthorized, error as! HttpStatusCode)
@@ -53,13 +53,13 @@ final class NetworkClientTests: BaseMockNetworkTestCase {
   func testPostSuccess() async {
     let url = URL(string: "http://localhost:\(kTestServerPort)/hello_world.json")!
     mockNetworkRoutes.mockGetHelloWorldSuccessful(router: MockServer.shared.router)
-    let expectation = self.expectation(description: "Network Expectation")
+    let expectation = expectation(description: "Network Expectation")
     let body = ["param_key": "param_value"]
     
     let result = try! await client.post(HelloWorld.self, url: url, body: buildPostFormBodyFrom(dictionary: body))
     expectation.fulfill()
     
-    XCTAssertEqual("Hello World!", result.model!.message)
+    XCTAssertEqual("Hello World!", result.data!.message)
     XCTAssertEqual(200, result.response!.statusCode)
     
     await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)

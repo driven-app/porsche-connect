@@ -19,9 +19,9 @@ final class PorscheConnectPortalTests: BaseMockNetworkTestCase {
   
   // MARK: - Tests
   
-  func testVehiclesAuthRequiredSuccessful() {
+  func testVehiclesAuthRequiredSuccessful() async {
     connect.auths[application] = nil
-    let expectation = self.expectation(description: "Network Expectation")
+    let expectation = expectation(description: "Network Expectation")
     
     mockNetworkRoutes.mockPostLoginAuthSuccessful(router: MockServer.shared.router)
     mockNetworkRoutes.mockGetApiAuthSuccessful(router: MockServer.shared.router)
@@ -30,91 +30,68 @@ final class PorscheConnectPortalTests: BaseMockNetworkTestCase {
     
     XCTAssertFalse(self.connect.authorized(application: application))
     
-    connect.vehicles { result in
-      expectation.fulfill()
-      XCTAssert(self.connect.authorized(application: self.application))
-      
-      switch result {
-      case .success(let (vehicles, response)):
-        XCTAssertNotNil(response)
-        XCTAssertNotNil(vehicles)
-        XCTAssertEqual(1, vehicles!.count)
-        self.assertVehicle(vehicles!.first!)
-      case .failure:
-        XCTFail("Should not have reached here")
-      }
-    }
+    let result = try! await connect.vehicles()
     
-    waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    expectation.fulfill()
+    XCTAssert(self.connect.authorized(application: self.application))
+    XCTAssertNotNil(result)
+    XCTAssertNotNil(result.vehicles)
+    XCTAssertEqual(1, result.vehicles!.count)
+    self.assertVehicle(result.vehicles!.first!)
+    
+    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
   
-  func testVehiclesNoAuthRequiredSuccessful() {
-    let expectation = self.expectation(description: "Network Expectation")
+  func testVehiclesNoAuthRequiredSuccessful() async {
+    let expectation = expectation(description: "Network Expectation")
     mockNetworkRoutes.mockGetVehiclesSuccessful(router: MockServer.shared.router)
     
     XCTAssert(connect.authorized(application: application))
-
-    connect.vehicles { result in
-      expectation.fulfill()
-      XCTAssert(self.connect.authorized(application: self.application))
-      
-      switch result {
-      case .success(let (vehicles, response)):
-        XCTAssertNotNil(response)
-        XCTAssertNotNil(vehicles)
-        XCTAssertEqual(1, vehicles!.count)
-        self.assertVehicle(vehicles!.first!)
-      case .failure:
-        XCTFail("Should not have reached here")
-      }
-    }
     
-    waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    let result = try! await connect.vehicles()
+    
+    expectation.fulfill()
+    XCTAssert(self.connect.authorized(application: self.application))
+    XCTAssertNotNil(result)
+    XCTAssertNotNil(result.vehicles)
+    XCTAssertEqual(1, result.vehicles!.count)
+    self.assertVehicle(result.vehicles!.first!)
+        
+    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
   
-  func testVehiclesNoAuthRequiredFailure() {
-    let expectation = self.expectation(description: "Network Expectation")
+  func testVehiclesNoAuthRequiredFailure() async {
+    let expectation = expectation(description: "Network Expectation")
     mockNetworkRoutes.mockGetVehiclesFailure(router: MockServer.shared.router)
     
     XCTAssert(connect.authorized(application: application))
     
-    connect.vehicles { result in
+    do {
+     _  = try await connect.vehicles()
+    } catch {
       expectation.fulfill()
-      XCTAssert(self.connect.authorized(application: self.application))
-      
-      switch result {
-      case .success:
-        XCTFail("Should not have reached here")
-      case .failure(let error):
-        XCTAssertEqual(HttpStatusCode.BadRequest, error as! HttpStatusCode)
-      }
+      XCTAssertEqual(HttpStatusCode.BadRequest, error as! HttpStatusCode)
     }
     
-    waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
   
-  func testVehiclesAuthRequiredAuthFailure() {
-    connect.auths[application] = nil
-    let expectation = self.expectation(description: "Network Expectation")
-    
-    mockNetworkRoutes.mockPostLoginAuthFailure(router: MockServer.shared.router)
-
-    XCTAssertFalse(connect.authorized(application: application))
-    
-    self.connect.vehicles { result in
-      expectation.fulfill()
-      XCTAssertFalse(self.connect.authorized(application: self.application))
-
-      switch result {
-      case .success:
-        XCTFail("Should not have reached here")
-      case .failure(let error):
+    func testVehiclesAuthRequiredAuthFailure() async {
+      connect.auths[application] = nil
+      let expectation = expectation(description: "Network Expectation")
+      mockNetworkRoutes.mockPostLoginAuthFailure(router: MockServer.shared.router)
+      
+      XCTAssertFalse(connect.authorized(application: application))
+      
+      do {
+        _  = try await connect.vehicles()
+      } catch {
+        expectation.fulfill()
         XCTAssertEqual(PorscheConnectError.AuthFailure, error as! PorscheConnectError)
       }
+  
+      await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
     }
-    
-    waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
-  }
   
   // MARK: - Private functions
   

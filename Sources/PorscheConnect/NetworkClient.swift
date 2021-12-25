@@ -15,12 +15,12 @@ struct NetworkClient {
   
   // MARK: - Public
   
-  func get<D: Decodable>(_ responseType: D.Type, url: URL, params: Dictionary<String, String>? = nil, headers: Dictionary<String, String>? = nil, parseResponseBody: Bool = true, jsonKeyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase) async throws -> (model: D?, response: HTTPURLResponse?) {
+  func get<D: Decodable>(_ responseType: D.Type, url: URL, params: Dictionary<String, String>? = nil, headers: Dictionary<String, String>? = nil, parseResponseBody: Bool = true, jsonKeyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase) async throws -> (data: D?, response: HTTPURLResponse?) {
     let request = self.createRequest(url: url.addParams(params: params), method: HttpMethod.get.rawValue, headers: headers, contentType: .json, bodyData: nil)
     return try await self.performRequest(responseType, request: request, parseResponseBody: parseResponseBody, jsonKeyDecodingStrategy: jsonKeyDecodingStrategy)
   }
   
-  func post<E: Encodable, D: Decodable>(_ responseType: D.Type, url: URL, params: Dictionary<String, String>? = nil, body: E?, headers: Dictionary<String, String>? = nil, contentType: HttpRequestContentType = .json, parseResponseBody: Bool = true, jsonKeyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase) async throws -> (model: D?, response: HTTPURLResponse?) {
+  func post<E: Encodable, D: Decodable>(_ responseType: D.Type, url: URL, params: Dictionary<String, String>? = nil, body: E?, headers: Dictionary<String, String>? = nil, contentType: HttpRequestContentType = .json, parseResponseBody: Bool = true, jsonKeyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase) async throws -> (data: D?, response: HTTPURLResponse?) {
     let request = self.buildModifyingRequest(url: url.addParams(params: params), method: HttpMethod.post.rawValue, headers: headers, contentType: contentType, body: body)
     return try await self.performRequest(responseType, request: request, contentType: contentType, parseResponseBody: parseResponseBody, jsonKeyDecodingStrategy: jsonKeyDecodingStrategy)
   }

@@ -19,7 +19,7 @@ final class PorscheConnectAuthTests: BaseMockNetworkTestCase {
   
   func testRequestTokenSuccessful() async {
     let application: Application = .Portal
-    let expectation = self.expectation(description: "Network Expectation")
+    let expectation = expectation(description: "Network Expectation")
     mockNetworkRoutes.mockPostLoginAuthSuccessful(router: MockServer.shared.router)
     mockNetworkRoutes.mockGetApiAuthSuccessful(router: MockServer.shared.router)
     mockNetworkRoutes.mockPostApiTokenSuccessful(router: MockServer.shared.router)
@@ -50,62 +50,62 @@ final class PorscheConnectAuthTests: BaseMockNetworkTestCase {
   
   func testRequestTokenFailureAtLoginToRetrieveCookies() async {
     let application: Application = .Portal
-    let expectation = self.expectation(description: "Network Expectation")
+    let expectation = expectation(description: "Network Expectation")
     mockNetworkRoutes.mockPostLoginAuthFailure(router: MockServer.shared.router)
     
     XCTAssertFalse(self.connect.authorized(application: application))
     
     do {
-      let _ = try await connect.auth(application: application)
+      _ = try await connect.auth(application: application)
     } catch {
       expectation.fulfill()
-  
+      
       XCTAssertFalse(self.connect.authorized(application: application))
       self.assertCookiesNotPresent()
     }
     
     await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
-
+  
   func testRequestTokenFailureAtGetApiAuthCode() async {
     let application: Application = .Portal
-    let expectation = self.expectation(description: "Network Expectation")
+    let expectation = expectation(description: "Network Expectation")
     mockNetworkRoutes.mockPostLoginAuthSuccessful(router: MockServer.shared.router)
     mockNetworkRoutes.mockGetApiAuthFailure(router: MockServer.shared.router)
     
     XCTAssertFalse(self.connect.authorized(application: application))
     
     do {
-      let _ = try await connect.auth(application: application)
+      _ = try await connect.auth(application: application)
     } catch {
       expectation.fulfill()
       XCTAssertFalse(self.connect.authorized(application: application))
       self.assertCookiesPresent()
     }
-
+    
     await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
-
+  
   func testRequestTokenFailureAtGetApiAuthToken() async {
     let application: Application = .Portal
-    let expectation = self.expectation(description: "Network Expectation")
+    let expectation = expectation(description: "Network Expectation")
     mockNetworkRoutes.mockPostLoginAuthSuccessful(router: MockServer.shared.router)
     mockNetworkRoutes.mockGetApiAuthSuccessful(router: MockServer.shared.router)
     mockNetworkRoutes.mockPostApiTokenFailure(router: MockServer.shared.router)
-
+    
     XCTAssertFalse(self.connect.authorized(application: application))
     
     do {
-      let _ = try await connect.auth(application: application)
+      _ = try await connect.auth(application: application)
     } catch {
       expectation.fulfill()
       XCTAssertFalse(self.connect.authorized(application: application))
       self.assertCookiesPresent()
     }
-
+    
     await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
-
+  
   // MARK: - Private functions
   
   private func assertCookiesNotPresent() {
