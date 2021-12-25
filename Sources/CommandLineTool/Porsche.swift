@@ -18,4 +18,11 @@ struct Porsche: ParsableCommand {
   }
 }
 
-Porsche.main()
+// MARK: – Async Bootstraping
+
+@main
+struct MainApp {
+  static func main() async {
+    await Porsche.main()
+  }
+}

@@ -8,8 +8,7 @@ public extension PorscheConnect {
   
     let apiAuthCodeResult = try await getApiAuthCode(application: application)
     guard let codeVerifier = apiAuthCodeResult.codeVerifier,
-          let code = apiAuthCodeResult.code,
-          apiAuthCodeResult.1 != nil else { throw PorscheConnectError.NoResult }
+          let code = apiAuthCodeResult.code else { throw PorscheConnectError.NoResult }
     
     let apiTokenResult = try await getApiToken(application: application, codeVerifier: codeVerifier, code: code)
     guard let porscheAuth = apiTokenResult.data,
@@ -22,7 +21,9 @@ public extension PorscheConnect {
   private func loginToRetrieveCookies() async throws -> HTTPURLResponse? {
     let loginBody = buildLoginBody(username: username, password: password)
     let result = try await networkClient.post(String.self, url: networkRoutes.loginAuthURL, body: buildPostFormBodyFrom(dictionary: loginBody), contentType: .form, parseResponseBody: false)
-    if result.response == nil { AuthLogger.info("Login to retrieve cookies successful") }
+    if let response = result.response,
+       let statusCode = HttpStatusCode(rawValue: response.statusCode),
+       statusCode == .OK { AuthLogger.info("Login to retrieve cookies successful") }
     
     return result.response
   }
@@ -33,10 +34,8 @@ public extension PorscheConnect {
     
     let apiAuthParams = buildApiAuthParams(clientId: application.clientId, redirectURL: application.redirectURL, codeVerifier: codeVerifier)
     let result = try await networkClient.get(String.self, url: networkRoutes.apiAuthURL, params: apiAuthParams, parseResponseBody: false)
-    if let response = result.response,
-       let url = response.value(forHTTPHeaderField: "cdn-original-uri"),
+    if let response = result.response, let url = response.value(forHTTPHeaderField: "cdn-original-uri"),
        let code = URLComponents(string: url)?.queryItems?.first(where: {$0.name == "code"})?.value {
-        
       AuthLogger.info("Api Auth call for code successful")
       return (code, codeVerifier, response)
     } else {
@@ -47,7 +46,9 @@ public extension PorscheConnect {
   private func getApiToken(application: Application, codeVerifier: String, code: String) async throws -> (data: PorscheAuth?, response: HTTPURLResponse?) {
     let apiTokenBody = buildApiTokenBody(clientId: application.clientId, redirectURL: application.redirectURL, code: code, codeVerifier: codeVerifier)
     let result = try await networkClient.post(PorscheAuth.self, url: networkRoutes.apiTokenURL, body: buildPostFormBodyFrom(dictionary: apiTokenBody), contentType: .form)
-    if result.1 == nil { AuthLogger.info("Api Auth call for token successful") }
+    if let response = result.response,
+       let statusCode = HttpStatusCode(rawValue: response.statusCode),
+       statusCode == .OK { AuthLogger.info("Api Auth call for token successful") }
     
     return result
   }
