@@ -58,27 +58,27 @@ A valid [MyPorsche](https://connect-portal.porsche.com) username (email) and pas
 To get a list of vehicles associated with your My Porsche account . This call will return an array of `Vehicle` structs, with nested `VehicleAttribute`'s and `VehiclePicture`'s as appropriate for the vehicles configuration.
 
 ```swift
-porscheConnect.vehicles { result in
-  switch result {
-  case .success(let (vehicles, response)):
-    break // Do something with vehicles or raw response
-  case .failure(let error):
-    break // Handle the error
+try {
+  let result = porscheConnect.vehicles()
+  if let vehicles = result.vehicles, let response = result.response {
+    // Do something with vehicles or raw response
   }
+} catch {
+  // Handle the error
 }
 ```
 
 For example, to get the external [Color](https://developer.apple.com/documentation/swiftui/color) (a SwiftUI struct) for the first car in your account:
 
 ```swift
-porscheConnect.vehicles { result in
-  switch result {
-  case .success(let (vehicles, _)):
-    let firstVehicle = vehicles!.first!
+try {
+  let result = porscheConnect.vehicles()
+  if let vehicles = result.vehicles {
+    let firstVehicle = vehicles.first!
     let color: Color = firstVehicle.externalColor
-  case .failure(let error):
-    break // Handle the error
   }
+} catch {
+  // Handle the error
 }
 ```
 
@@ -87,14 +87,13 @@ porscheConnect.vehicles { result in
 To get a summary for a vehicle. This call will return a `Summary` struct.
 
 ```swift
-let vehicle = vehicles.first!
-porscheConnect.summary(vehicle: vehicle) { result in
-  switch result {
-  case .success(let (summary, response)):
-    break // Do something with the summary or raw response
-  case .failure(let error):
-    break // Handle the error
+try {
+  let result = porscheConnect.summary(vehicle: vehicle)
+  if let summary = result.summary, let response = result.response {
+    // Do something with the summary or raw response
   }
+} catch {
+  // Handle the error
 }
 ```
 
@@ -103,14 +102,13 @@ porscheConnect.summary(vehicle: vehicle) { result in
 To get last reported position for a vehicle. This call will return a `Position` struct. 
 
 ```swift
-let vehicle = vehicles.first!
-porscheConnect.position(vehicle: vehicle) { result in
-  switch result {
-  case .success(let (position, response)):
-    break // Do something with the position or raw response
-  case .failure(let error):
-    break // Handle the error
+try {
+  let result = porscheConnect.position(vehicle: vehicle)
+  if let position = result.position, let response = result.response {
+    // Do something with the position or raw response
   }
+} catch {
+  // Handle the error
 }
 ```
 
@@ -119,14 +117,13 @@ porscheConnect.position(vehicle: vehicle) { result in
 To get capabilities for a vehicle. This call will return a `Capabilities` struct. This struct has nested `OnlineRemoteUpdateStatus` and `HeatingCapabilities` structs as appropriate for the vehicle.
 
 ```swift
-let vehicle = vehicles.first!
-porscheConnect.capabilities(vehicle: vehicle) { result in
-  switch result {
-  case .success(let (capabilities, response)):
-    break // Do something with the capabilities or raw response
-  case .failure(let error):
-    break // Handle the error
+try {
+  let result = porscheConnect.capabilities(vehicle: vehicle)
+  if let capabilities = result.capabilities, let response = result.response {
+    // Do something with the capabilities or raw response
   }
+} catch {
+  // Handle the error
 }
 ```
 
@@ -135,13 +132,13 @@ porscheConnect.capabilities(vehicle: vehicle) { result in
 If the vehicle is a plug-in hybrid (PHEV) or a battery electric vehicle (BEV) this will return the status and configuration of the e-mobility aspects of the vehicle. This call requires both a vehicle and its matching capabilities. This call will return a `Emobility` struct.
 
 ```swift
-porscheConnect.emobility(vehicle: vehicle, capabilities: capabilities) { result in
-  switch result {
-  case .success(let (emobility, response)):
-    break // Do something with the emobility or raw response
-  case .failure(let error):
-    break // Handle the error
+try {
+  let result = porscheConnect.emobility(vehicle: vehicle, capabilities: capabilities)
+  if let emobility = result.emobility, let response = result.response {
+    // Do something with the emobility or raw response
   }
+} catch {
+  // Handle the error
 }
 ```
 

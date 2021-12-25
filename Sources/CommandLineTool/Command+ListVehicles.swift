@@ -12,23 +12,21 @@ extension Porsche {
     
     // MARK: - Lifecycle
     
-    func run() throws {
+    func run() async throws {
       let porscheConnect = PorscheConnect(username: options.username, password: options.password)
-      callListVehiclesService(porscheConnect: porscheConnect)
+      await callListVehiclesService(porscheConnect: porscheConnect)
       dispatchMain()
     }
     
     // MARK: - Private functions
     
-    private func callListVehiclesService(porscheConnect: PorscheConnect) {
-      porscheConnect.vehicles { result in
-        switch result {
-        case .success(let (vehicles, _)):
-          printVehicles(vehicles)
-          Porsche.ListVehicles.exit()
-        case .failure(let error):
-          Porsche.ListVehicles.exit(withError: error)
-        }
+    private func callListVehiclesService(porscheConnect: PorscheConnect) async {      
+      do {
+        let result = try await porscheConnect.vehicles()
+        printVehicles(result.vehicles)
+        Porsche.ListVehicles.exit()
+      } catch {
+        Porsche.ListVehicles.exit(withError: error)
       }
     }
     

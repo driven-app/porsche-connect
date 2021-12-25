@@ -21,64 +21,48 @@ final class NetworkClientTests: BaseMockNetworkTestCase {
   
   // MARK: - Tests
   
-  func testGetSuccessful() {
+  func testGetSuccessful() async {
     let url = URL(string: "http://localhost:\(kTestServerPort)/hello_world.json")!
     mockNetworkRoutes.mockGetHelloWorldSuccessful(router: MockServer.shared.router)
-    let expectation = self.expectation(description: "Network Expectation")
+    let expectation = expectation(description: "Network Expectation")
 
-    client.get(HelloWorld.self, url: url) { result in
-      expectation.fulfill()
-
-      switch result {
-      case .success(let (helloWorld, response)):
-        XCTAssertEqual("Hello World!", helloWorld!.message)
-        XCTAssertEqual(200, response!.statusCode)
-      case .failure:
-        XCTFail("Should not have reached here")
-      }
-    }
+    let result = try! await client.get(HelloWorld.self, url: url)
+    expectation.fulfill()
     
-    waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    XCTAssertEqual("Hello World!", result.data!.message)
+    XCTAssertEqual(200, result.response!.statusCode)
+    
+    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
   
-  func testGetFailure() {
+  func testGetFailure() async {
     let url = URL(string: "http://localhost:\(kTestServerPort)/hello_world.json")!
     mockNetworkRoutes.mockGetHelloWorldFailure(router: MockServer.shared.router)
-    let expectation = self.expectation(description: "Network Expectation")
+    let expectation = expectation(description: "Network Expectation")
 
-    client.get(HelloWorld.self, url: url) { result in
+    do {
+      _ = try await client.get(HelloWorld.self, url: url)
+    } catch {
       expectation.fulfill()
-      
-      switch result {
-      case .success:
-        XCTFail("Should not have reached here")
-      case .failure(let error):
-        print()
-        XCTAssertEqual(HttpStatusCode.Unauthorized, error as! HttpStatusCode)
-      }
+      XCTAssertEqual(HttpStatusCode.Unauthorized, error as! HttpStatusCode)
     }
-    
-    waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+
+   await  waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
   
-  func testPostSuccess() {
+  func testPostSuccess() async {
     let url = URL(string: "http://localhost:\(kTestServerPort)/hello_world.json")!
     mockNetworkRoutes.mockGetHelloWorldSuccessful(router: MockServer.shared.router)
-    let expectation = self.expectation(description: "Network Expectation")
+    let expectation = expectation(description: "Network Expectation")
     let body = ["param_key": "param_value"]
     
-    client.post(HelloWorld.self, url: url, body: buildPostFormBodyFrom(dictionary: body)) { result in
-      expectation.fulfill()
-      switch result {
-      case .success(let (helloWorld, response)):
-        XCTAssertEqual("Hello World!", helloWorld!.message)
-        XCTAssertEqual(200, response!.statusCode)
-      case .failure:
-        XCTFail("Should not have reached here")
-      }
-    }
+    let result = try! await client.post(HelloWorld.self, url: url, body: buildPostFormBodyFrom(dictionary: body))
+    expectation.fulfill()
     
-    waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    XCTAssertEqual("Hello World!", result.data!.message)
+    XCTAssertEqual(200, result.response!.statusCode)
+    
+    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
       
   func testUrlExtensionAddSingleParam() {

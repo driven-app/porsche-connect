@@ -2,59 +2,51 @@ import Foundation
 
 public extension PorscheConnect {
   
-  func summary(vehicle: Vehicle, completion: @escaping (Result<(Summary?, HTTPURLResponse?), Error>) -> Void) {
+  func summary(vehicle: Vehicle) async throws -> (summary: Summary?, response: HTTPURLResponse?) {
     let application: Application = .CarControl
     
-    executeWithAuth(application: application) { [self] in
-      guard let auth = auths[application], let apiKey = auth.apiKey else { completion(.failure(PorscheConnectError.AuthFailure)); return }
-      
-      let headers = buildHeaders(accessToken: auth.accessToken, apiKey: apiKey, countryCode: environment.countryCode, languageCode: environment.languageCode)
-      
-      networkClient.get(Summary.self, url: networkRoutes.vehicleSummaryURL(vehicle: vehicle), headers: headers, jsonKeyDecodingStrategy: .useDefaultKeys) { result in
-        completion(result)
-      }
-    }
+    _ = try await authIfRequired(application: application)
+    
+    guard let auth = auths[application], let apiKey = auth.apiKey else { throw PorscheConnectError.AuthFailure }
+    let headers = buildHeaders(accessToken: auth.accessToken, apiKey: apiKey, countryCode: environment.countryCode, languageCode: environment.languageCode)
+    
+    let result = try await networkClient.get(Summary.self, url: networkRoutes.vehicleSummaryURL(vehicle: vehicle), headers: headers, jsonKeyDecodingStrategy: .useDefaultKeys)
+    return (summary: result.data, response: result.response)
   }
   
-  func position(vehicle: Vehicle, completion: @escaping (Result<(Position?, HTTPURLResponse?), Error>) -> Void) {
+  func position(vehicle: Vehicle) async throws -> (position: Position?, response: HTTPURLResponse?) {
     let application: Application = .CarControl
     
-    executeWithAuth(application: application) { [self] in
-      guard let auth = auths[application], let apiKey = auth.apiKey else { completion(.failure(PorscheConnectError.AuthFailure)); return }
-      
-      let headers = buildHeaders(accessToken: auth.accessToken, apiKey: apiKey, countryCode: environment.countryCode, languageCode: environment.languageCode)
-      
-      networkClient.get(Position.self, url: networkRoutes.vehiclePositionURL(vehicle: vehicle), headers: headers, jsonKeyDecodingStrategy: .useDefaultKeys) { result in
-        completion(result)
-      }
-    }
+    _ = try await authIfRequired(application: application)
+    
+    guard let auth = auths[application], let apiKey = auth.apiKey else { throw PorscheConnectError.AuthFailure }
+    let headers = buildHeaders(accessToken: auth.accessToken, apiKey: apiKey, countryCode: environment.countryCode, languageCode: environment.languageCode)
+    
+    let result = try await networkClient.get(Position.self, url: networkRoutes.vehiclePositionURL(vehicle: vehicle), headers: headers, jsonKeyDecodingStrategy: .useDefaultKeys)
+    return (position: result.data, response: result.response)
   }
   
-  func capabilities(vehicle: Vehicle, completion: @escaping (Result<(Capabilities?, HTTPURLResponse?), Error>) -> Void) {
+  func capabilities(vehicle: Vehicle) async throws -> (capabilities: Capabilities?, response: HTTPURLResponse?) {
     let application: Application = .CarControl
     
-    executeWithAuth(application: application) { [self] in
-      guard let auth = auths[application], let apiKey = auth.apiKey else { completion(.failure(PorscheConnectError.AuthFailure)); return }
-      
-      let headers = buildHeaders(accessToken: auth.accessToken, apiKey: apiKey, countryCode: environment.countryCode, languageCode: environment.languageCode)
-      
-      networkClient.get(Capabilities.self, url: networkRoutes.vehicleCapabilitiesURL(vehicle: vehicle), headers: headers, jsonKeyDecodingStrategy: .useDefaultKeys) { result in
-        completion(result)
-      }
-    }
+    _ = try await authIfRequired(application: application)
+
+    guard let auth = auths[application], let apiKey = auth.apiKey else { throw PorscheConnectError.AuthFailure }
+    let headers = buildHeaders(accessToken: auth.accessToken, apiKey: apiKey, countryCode: environment.countryCode, languageCode: environment.languageCode)
+    
+    let result = try await networkClient.get(Capabilities.self, url: networkRoutes.vehicleCapabilitiesURL(vehicle: vehicle), headers: headers, jsonKeyDecodingStrategy: .useDefaultKeys)
+    return (capabilities: result.data, response: result.response)
   }
   
-  func emobility(vehicle: Vehicle, capabilities: Capabilities, completion: @escaping (Result<(Emobility?, HTTPURLResponse?), Error>) -> Void) {
+  func emobility(vehicle: Vehicle, capabilities: Capabilities) async throws -> (emobility: Emobility?, response: HTTPURLResponse?) {
     let application: Application = .CarControl
     
-    executeWithAuth(application: application) { [self] in
-      guard let auth = auths[application], let apiKey = auth.apiKey else { completion(.failure(PorscheConnectError.AuthFailure)); return }
-      
-      let headers = buildHeaders(accessToken: auth.accessToken, apiKey: apiKey, countryCode: environment.countryCode, languageCode: environment.languageCode)
-      
-      networkClient.get(Emobility.self, url: networkRoutes.vehicleEmobilityURL(vehicle: vehicle, capabilities: capabilities), headers: headers, jsonKeyDecodingStrategy: .useDefaultKeys) { result in
-        completion(result)
-      }
-    }
+    _ = try await authIfRequired(application: application)
+    
+    guard let auth = auths[application], let apiKey = auth.apiKey else { throw PorscheConnectError.AuthFailure }
+    let headers = buildHeaders(accessToken: auth.accessToken, apiKey: apiKey, countryCode: environment.countryCode, languageCode: environment.languageCode)
+
+    let result = try await networkClient.get(Emobility.self, url: networkRoutes.vehicleEmobilityURL(vehicle: vehicle, capabilities: capabilities), headers: headers, jsonKeyDecodingStrategy: .useDefaultKeys)
+    return (emobility: result.data, response: result.response)
   }
 }

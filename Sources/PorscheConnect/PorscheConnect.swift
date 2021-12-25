@@ -106,13 +106,13 @@ public class PorscheConnect {
             "x-vrs-url-language": "\(languageCode)_\(countryCode.uppercased())"]
   }
   
-  func executeWithAuth(application: Application, closure: @escaping () -> Void) {
+  func authIfRequired(application: Application) async throws {
     if !authorized(application: application) {
-      auth(application: application) { _ in
-        closure()
+      do {
+      _ = try await auth(application: application)
+      } catch {
+        throw PorscheConnectError.AuthFailure
       }
-    } else {
-      closure()
     }
   }
 }
