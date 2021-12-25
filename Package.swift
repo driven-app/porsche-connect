@@ -5,13 +5,7 @@ import PackageDescription
 
 let package = Package(
   name: "PorscheConnect",
-  platforms: [
-    .macOS(.v11),
-    .iOS(.v14),
-    .tvOS(.v14),
-    .watchOS(.v6),
-    .macCatalyst(.v14)
-  ],
+  platforms: [.macOS(.v11), .iOS(.v14), .tvOS(.v14), .watchOS(.v7), .macCatalyst(.v14)],
   products: [
     .executable(
       name: "porsche",
@@ -28,7 +22,7 @@ let package = Package(
   targets: [
     .executableTarget(
       name: "CommandLineTool",
-      dependencies: ["PorscheConnect",
+      dependencies: [.target(name: "PorscheConnect", condition: .when(platforms: [.macOS, .macCatalyst])),
                      .product(name: "ArgumentParser", package: "swift-argument-parser")]),
     .target(
       name: "PorscheConnect",
