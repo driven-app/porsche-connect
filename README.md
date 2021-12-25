@@ -4,6 +4,7 @@
 
 ![PorscheConnect](https://github.com/driven-app/porsche-connect/workflows/PorscheConnect/badge.svg)
 [![License](https://img.shields.io/github/license/driven-app/porsche-connect)](https://github.com/driven-app/porsche-connect/blob/main/LICENSE)
+[![Reviewed by Hound](https://img.shields.io/badge/Reviewed_by-Hound-8E64B0.svg)](https://houndci.com)
 
 </div>
 
