@@ -15,39 +15,35 @@ extension Porsche {
     
     // MARK: - Lifecycle
     
-    func run() throws {
+    func run() async throws {
       let porscheConnect = PorscheConnect(username: options.username, password: options.password)
       let vehicle = Vehicle(vin: vin)
-      callCapabilitiesService(porscheConnect: porscheConnect, vehicle: vehicle)
+      await callCapabilitiesService(porscheConnect: porscheConnect, vehicle: vehicle)
       dispatchMain()
     }
     
     // MARK: - Private functions
     
-    private func callCapabilitiesService(porscheConnect: PorscheConnect, vehicle: Vehicle) {
-      porscheConnect.capabilities(vehicle: vehicle) { result in
-        switch result {
-        case .success(let (capabilities, _)):
-          callEmobilityService(porscheConnect: porscheConnect, vehicle: vehicle, capabilities: capabilities)
-        case .failure(let error):
-          Porsche.ShowEmobility.exit(withError: error)
-        }
+    private func callCapabilitiesService(porscheConnect: PorscheConnect, vehicle: Vehicle) async {
+      do {
+        let result = try await porscheConnect.capabilities(vehicle: vehicle)
+        await callEmobilityService(porscheConnect: porscheConnect, vehicle: vehicle, capabilities: result.capabilities)
+      } catch {
+        Porsche.ShowEmobility.exit(withError: error)
       }
     }
     
-    private func callEmobilityService(porscheConnect: PorscheConnect, vehicle: Vehicle, capabilities: Capabilities?) {
+    private func callEmobilityService(porscheConnect: PorscheConnect, vehicle: Vehicle, capabilities: Capabilities?) async {
       guard let capabilities = capabilities else { return }
       
-      porscheConnect.emobility(vehicle: vehicle, capabilities: capabilities) { result in
-        switch result {
-        case .success(let (emobility, _)):
-          if let emobility = emobility {
-            printEmobility(emobility)
-            Porsche.ShowEmobility.exit()
-          }
-        case .failure(let error):
-          Porsche.ShowEmobility.exit(withError: error)
+      do {
+        let result = try await porscheConnect.emobility(vehicle: vehicle, capabilities: capabilities)
+        if let emobility = result.emobility {
+          printEmobility(emobility)
+          Porsche.ShowEmobility.exit()
         }
+      } catch {
+        Porsche.ShowEmobility.exit(withError: error)
       }
     }
     

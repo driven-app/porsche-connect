@@ -14,26 +14,25 @@ extension Porsche {
     
     // MARK: - Lifecycle
     
-    func run() throws {
+    func run() async throws {
       let porscheConnect = PorscheConnect(username: options.username, password: options.password)
       let vehicle = Vehicle(vin: vin)
-      callSummaryService(porscheConnect: porscheConnect, vehicle: vehicle)
+      await callSummaryService(porscheConnect: porscheConnect, vehicle: vehicle)
       dispatchMain()
     }
     
     // MARK: - Private functions
     
-    private func callSummaryService(porscheConnect: PorscheConnect, vehicle: Vehicle) {
-      porscheConnect.summary(vehicle: vehicle) { result in
-        switch result {
-        case .success(let (summary, _)):
-          if let summary = summary {
-            printSummary(summary)
-          }
-          Porsche.ShowSummary.exit()
-        case .failure(let error):
-          Porsche.ShowSummary.exit(withError: error)
+    private func callSummaryService(porscheConnect: PorscheConnect, vehicle: Vehicle) async {
+      
+      do {
+        let result = try await porscheConnect.summary(vehicle: vehicle)
+        if let summary = result.summary {
+          printSummary(summary)
         }
+        Porsche.ShowSummary.exit()
+      } catch {
+        Porsche.ShowSummary.exit(withError: error)
       }
     }
     
