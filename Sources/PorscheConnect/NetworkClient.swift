@@ -54,12 +54,7 @@ struct NetworkClient {
           }
         }
         
-        guard let data1 = data, error == nil, !data1.isEmpty else {
-          continuation.resume(with: .success((nil, response)))
-          return
-        }
-        
-        if !parseResponseBody {
+        guard let data1 = data, error == nil, !data1.isEmpty, parseResponseBody else {
           continuation.resume(with: .success((nil, response)))
           return
         }
