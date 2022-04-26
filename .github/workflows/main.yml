@@ -17,12 +17,12 @@ jobs:
 
   test:
     name: Testing PorscheConnect
-    runs-on: macos-11
+    runs-on: macos-12
     timeout-minutes: 8
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
-      - name: Force XCode 13.2
-        run: sudo xcode-select -switch /Applications/Xcode_13.2.app
+      - name: Force XCode 13.3.1
+        run: sudo xcode-select -switch /Applications/Xcode_13.3.1.app
       - name: Tests
         run: xcodebuild test -destination "platform=macOS,arch=x86_64" -scheme "PorscheConnect"
