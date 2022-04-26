@@ -3,6 +3,7 @@ import ArgumentParser
 
 // MARK: - Main
 
+@main
 struct Porsche: ParsableCommand {
   static let configuration = CommandConfiguration(
     abstract: NSLocalizedString("A command-line tool to call and interact with Porsche Connect services.", comment: ""),
@@ -15,14 +16,5 @@ struct Porsche: ParsableCommand {
     
     @Argument(help: ArgumentHelp(NSLocalizedString("Your MyPorsche password.", comment: "")))
     var password: String
-  }
-}
-
-// MARK: – Async Bootstraping
-
-@main
-struct MainApp {
-  static func main() async {
-    await Porsche.main()
   }
 }
