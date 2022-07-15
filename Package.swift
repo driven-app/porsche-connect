@@ -17,7 +17,7 @@ let package = Package(
   dependencies: [
     .package(url: "https://github.com/envoy/Embassy.git", from: "4.1.3"),
     .package(url: "https://github.com/envoy/Ambassador.git", from: "4.0.5"),
-    .package(url: "https://github.com/apple/swift-argument-parser", from: "1.1.2")
+    .package(url: "https://github.com/apple/swift-argument-parser", from: "1.1.3")
   ],
   targets: [
     .executableTarget(
