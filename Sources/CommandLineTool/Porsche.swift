@@ -4,7 +4,7 @@ import ArgumentParser
 // MARK: - Main
 
 @main
-struct Porsche: ParsableCommand {
+struct Porsche: AsyncParsableCommand {
   static let configuration = CommandConfiguration(
     abstract: NSLocalizedString("A command-line tool to call and interact with Porsche Connect services.", comment: ""),
     version: "0.1.4",

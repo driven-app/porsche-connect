@@ -15,7 +15,7 @@ extension Porsche {
     
     // MARK: - Lifecycle
     
-    func runAsync() async throws {
+    func run() async throws {
       let porscheConnect = PorscheConnect(username: options.username, password: options.password)
       let vehicle = Vehicle(vin: vin)
       await callPositionService(porscheConnect: porscheConnect, vehicle: vehicle)
