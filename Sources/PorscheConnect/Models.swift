@@ -401,7 +401,7 @@ public struct Emobility: Codable {
 // MARK -
 
 public struct RemoteCommandAccepted: Codable {
-  
+
   // MARK: Properties
   
   public let id: String

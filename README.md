@@ -169,6 +169,19 @@ try {
 }
 ```
 
+As Honk and Flash is a remote command that can take time to reach and be executed by the car, you can check the status of the command. You pass in both the vehicle and the response from the `flash()` call above. The `status` is mapped to a strongly typed enum that can be retrieved by accessing the `remoteStatus` calculated property. 
+
+```swift
+try {
+  let result = porscheConnect.checkStatus(vehicle: vehicle, remoteCommand: remoteCommandAccepted)
+  if let remoteCommandStatus = result.remoteCommand, let response = result.response {
+    // Do something with the remote command status or raw response
+  }
+} catch {
+  // Handle the error
+}
+```
+
 # Tests
 
 To run the test suite:

@@ -12,7 +12,8 @@ final class MockNetworkRoutes {
   private static let getPositionPath = "/service-vehicle/car-finder/A1234/position"
   private static let getCapabilitiesPath = "/service-vehicle/vcs/capabilities/A1234"
   private static let getEmobilityPath = "/e-mobility/ie/en_IE/J1/A1234"
-  
+  private static let getHonkAndFlashRemoteCommandStatusPath = "/service-vehicle/honk-and-flash/A1234/999/status"
+
   private static let postLoginAuthPath = "/auth/api/v1/ie/en_IE/public/login"
   private static let postApiTokenPath = "/as/token.oauth2"
   private static let postFlashPath = "/service-vehicle/honk-and-flash/A1234/flash"
@@ -161,6 +162,20 @@ final class MockNetworkRoutes {
   func mockPostHonkAndFlashFailure(router: Router) {
     router[MockNetworkRoutes.postHonkAndFlashPath] = DataResponse(statusCode: 400, statusMessage: "bad request")
   }
+
+  // MARK: – Remote Command Status
+
+  func mockGetHonkAndFlashRemoteCommandStatusInProgress(router: Router) {
+    router[MockNetworkRoutes.getHonkAndFlashRemoteCommandStatusPath] = JSONResponse(statusCode: 200, handler: { (req) -> Any in
+      return self.mockRemoteCommandStatusInProgress()
+    })
+  }
+
+  func mockGetHonkAndFlashRemoteCommandStatusSuccess(router: Router) {
+    router[MockNetworkRoutes.getHonkAndFlashRemoteCommandStatusPath] = JSONResponse(statusCode: 200, handler: { (req) -> Any in
+      return self.mockRemoteCommandStatusSuccess()
+    })
+  }
   
   // MARK: - Mock Responses
   
@@ -224,5 +239,13 @@ final class MockNetworkRoutes {
   
   private func mockRemoteCommandAccepted() -> Dictionary<String, Any> {
     return ["id": "123456789", "lastUpdated": "2022-12-27T13:19:23Z"]
+  }
+
+  private func mockRemoteCommandStatusInProgress() -> Dictionary<String, Any> {
+    return ["status": "IN_PROGRESS"]
+  }
+
+  private func mockRemoteCommandStatusSuccess() -> Dictionary<String, Any> {
+    return ["status": "SUCCESS"]
   }
 }
