@@ -1,5 +1,5 @@
-import Foundation
 import ArgumentParser
+import Foundation
 import PorscheConnect
 
 extension Porsche {
@@ -37,7 +37,9 @@ extension Porsche {
     }
 
     private func printSummary(_ summary: Summary) {
-      let output = NSLocalizedString("Model Description: \(summary.modelDescription); Nickname: \(summary.nickName ?? "None")", comment: "")
+      let output = NSLocalizedString(
+        "Model Description: \(summary.modelDescription); Nickname: \(summary.nickName ?? "None")",
+        comment: "")
       print(output)
     }
   }

@@ -1,5 +1,5 @@
-import Foundation
 import ArgumentParser
+import Foundation
 import PorscheConnect
 
 extension Porsche {
@@ -37,7 +37,9 @@ extension Porsche {
     }
 
     private func printCapabilities(_ capabilities: Capabilities) {
-      let output = NSLocalizedString("Display parking brake: \(capabilities.displayParkingBrake.displayString); Needs SPIN: \(capabilities.needsSPIN.displayString); Has RDK: \(capabilities.hasRDK.displayString); Engine Type: \(capabilities.engineType); Car Model: \(capabilities.carModel); Front Seat Heating: \(capabilities.heatingCapabilities.frontSeatHeatingAvailable.displayString); Rear Seat Heating: \(capabilities.heatingCapabilities.rearSeatHeatingAvailable.displayString); Steering Wheel Position: \(capabilities.steeringWheelPosition); Honk & Flash: \(capabilities.hasHonkAndFlash.displayString)", comment: "")
+      let output = NSLocalizedString(
+        "Display parking brake: \(capabilities.displayParkingBrake.displayString); Needs SPIN: \(capabilities.needsSPIN.displayString); Has RDK: \(capabilities.hasRDK.displayString); Engine Type: \(capabilities.engineType); Car Model: \(capabilities.carModel); Front Seat Heating: \(capabilities.heatingCapabilities.frontSeatHeatingAvailable.displayString); Rear Seat Heating: \(capabilities.heatingCapabilities.rearSeatHeatingAvailable.displayString); Steering Wheel Position: \(capabilities.steeringWheelPosition); Honk & Flash: \(capabilities.hasHonkAndFlash.displayString)",
+        comment: "")
       print(output)
     }
   }

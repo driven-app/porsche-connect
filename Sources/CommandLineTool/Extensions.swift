@@ -1,5 +1,5 @@
-import Foundation
 import ArgumentParser
+import Foundation
 
 extension Bool {
   var displayString: String {

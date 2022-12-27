@@ -60,14 +60,13 @@ public enum PorscheConnectError: Error {
   case NoResult
 }
 
-
 // MARK: - Porsche Connect
 
 public class PorscheConnect {
 
   let environment: Environment
   let username: String
-  var auths: Dictionary<Application, PorscheAuth> = Dictionary()
+  var auths: [Application: PorscheAuth] = Dictionary()
 
   let networkClient = NetworkClient()
   let networkRoutes: NetworkRoutes
@@ -93,11 +92,15 @@ public class PorscheConnect {
     return !auth.expired
   }
 
-  func buildHeaders(accessToken: String, apiKey: String, countryCode: String, languageCode: String) -> Dictionary<String, String> {
-    return ["Authorization": "Bearer \(accessToken)",
-            "apikey": apiKey,
-            "x-vrs-url-country": countryCode,
-            "x-vrs-url-language": "\(languageCode)_\(countryCode.uppercased())"]
+  func buildHeaders(accessToken: String, apiKey: String, countryCode: String, languageCode: String)
+    -> [String: String]
+  {
+    return [
+      "Authorization": "Bearer \(accessToken)",
+      "apikey": apiKey,
+      "x-vrs-url-country": countryCode,
+      "x-vrs-url-language": "\(languageCode)_\(countryCode.uppercased())",
+    ]
   }
 
   func authIfRequired(application: Application) async throws {

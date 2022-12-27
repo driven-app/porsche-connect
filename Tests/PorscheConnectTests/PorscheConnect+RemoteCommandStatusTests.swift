@@ -1,4 +1,5 @@
 import XCTest
+
 @testable import PorscheConnect
 
 final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
@@ -9,13 +10,15 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
   let mockNetworkRoutes = MockNetworkRoutes()
   let application: Application = .carControl
   let vehicle = Vehicle(vin: "A1234")
-  let remoteCommand = RemoteCommandAccepted(id: "999", lastUpdated: Date(), remoteCommand: .honkAndFlash)
+  let remoteCommand = RemoteCommandAccepted(
+    id: "999", lastUpdated: Date(), remoteCommand: .honkAndFlash)
 
   // MARK: - Lifecycle
 
   override func setUp() {
     super.setUp()
-    connect = PorscheConnect(username: "homer.simpson@icloud.example", password: "Duh!", environment: .test)
+    connect = PorscheConnect(
+      username: "homer.simpson@icloud.example", password: "Duh!", environment: .test)
     connect.auths[application] = kTestPorschePortalAuth
   }
 
@@ -28,7 +31,8 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
     mockNetworkRoutes.mockPostLoginAuthSuccessful(router: MockServer.shared.router)
     mockNetworkRoutes.mockGetApiAuthSuccessful(router: MockServer.shared.router)
     mockNetworkRoutes.mockPostApiTokenSuccessful(router: MockServer.shared.router)
-    mockNetworkRoutes.mockGetHonkAndFlashRemoteCommandStatusInProgress(router: MockServer.shared.router)
+    mockNetworkRoutes.mockGetHonkAndFlashRemoteCommandStatusInProgress(
+      router: MockServer.shared.router)
 
     XCTAssertFalse(connect.authorized(application: application))
 
@@ -49,7 +53,8 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
     mockNetworkRoutes.mockPostLoginAuthSuccessful(router: MockServer.shared.router)
     mockNetworkRoutes.mockGetApiAuthSuccessful(router: MockServer.shared.router)
     mockNetworkRoutes.mockPostApiTokenSuccessful(router: MockServer.shared.router)
-    mockNetworkRoutes.mockGetHonkAndFlashRemoteCommandStatusSuccess(router: MockServer.shared.router)
+    mockNetworkRoutes.mockGetHonkAndFlashRemoteCommandStatusSuccess(
+      router: MockServer.shared.router)
 
     XCTAssertFalse(connect.authorized(application: application))
 

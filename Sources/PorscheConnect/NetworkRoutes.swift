@@ -10,9 +10,12 @@ struct NetworkRoutes {
   var loginAuthURL: URL {
     switch environment {
     case .production:
-      return URL(string: "https://login.porsche.com/auth/api/v1/\(environment.regionCode)/public/login")!
+      return URL(
+        string: "https://login.porsche.com/auth/api/v1/\(environment.regionCode)/public/login")!
     case .test:
-      return URL(string: "http://localhost:\(kTestServerPort)/auth/api/v1/\(environment.regionCode)/public/login")!
+      return URL(
+        string:
+          "http://localhost:\(kTestServerPort)/auth/api/v1/\(environment.regionCode)/public/login")!
     }
   }
 
@@ -39,7 +42,9 @@ struct NetworkRoutes {
     case .production:
       return URL(string: "https://api.porsche.com/core/api/v3/\(environment.regionCode)/vehicles")!
     case .test:
-      return URL(string: "http://localhost:\(kTestServerPort)/core/api/v3/\(environment.regionCode)/vehicles")!
+      return URL(
+        string: "http://localhost:\(kTestServerPort)/core/api/v3/\(environment.regionCode)/vehicles"
+      )!
     }
   }
 
@@ -50,16 +55,21 @@ struct NetworkRoutes {
     case .production:
       return URL(string: "https://api.porsche.com/service-vehicle/vehicle-summary/\(vehicle.vin)")!
     case .test:
-      return URL(string: "http://localhost:\(kTestServerPort)/service-vehicle/vehicle-summary/\(vehicle.vin)")!
+      return URL(
+        string: "http://localhost:\(kTestServerPort)/service-vehicle/vehicle-summary/\(vehicle.vin)"
+      )!
     }
   }
 
   func vehiclePositionURL(vehicle: Vehicle) -> URL {
     switch environment {
     case .production:
-      return URL(string: "https://api.porsche.com/service-vehicle/car-finder/\(vehicle.vin)/position")!
+      return URL(
+        string: "https://api.porsche.com/service-vehicle/car-finder/\(vehicle.vin)/position")!
     case .test:
-      return URL(string: "http://localhost:\(kTestServerPort)/service-vehicle/car-finder/\(vehicle.vin)/position")!
+      return URL(
+        string:
+          "http://localhost:\(kTestServerPort)/service-vehicle/car-finder/\(vehicle.vin)/position")!
     }
   }
 
@@ -68,43 +78,67 @@ struct NetworkRoutes {
     case .production:
       return URL(string: "https://api.porsche.com/service-vehicle/vcs/capabilities/\(vehicle.vin)")!
     case .test:
-      return URL(string: "http://localhost:\(kTestServerPort)/service-vehicle/vcs/capabilities/\(vehicle.vin)")!
+      return URL(
+        string:
+          "http://localhost:\(kTestServerPort)/service-vehicle/vcs/capabilities/\(vehicle.vin)")!
     }
   }
 
-  func vehicleEmobilityURL(vehicle: Vehicle, capabilities: Capabilities ) -> URL {
+  func vehicleEmobilityURL(vehicle: Vehicle, capabilities: Capabilities) -> URL {
     switch environment {
     case .production:
-      return URL(string: "https://api.porsche.com/e-mobility/\(environment.regionCode)/\(capabilities.carModel)/\(vehicle.vin)?timezone=Europe/Dublin")!
+      return URL(
+        string:
+          "https://api.porsche.com/e-mobility/\(environment.regionCode)/\(capabilities.carModel)/\(vehicle.vin)?timezone=Europe/Dublin"
+      )!
     case .test:
-      return URL(string: "http://localhost:\(kTestServerPort)/e-mobility/\(environment.regionCode)/\(capabilities.carModel)/\(vehicle.vin)?timezone=Europe/Dublin")!
+      return URL(
+        string:
+          "http://localhost:\(kTestServerPort)/e-mobility/\(environment.regionCode)/\(capabilities.carModel)/\(vehicle.vin)?timezone=Europe/Dublin"
+      )!
     }
   }
 
   func vehicleFlashURL(vehicle: Vehicle) -> URL {
     switch environment {
     case .production:
-      return URL(string: "https://api.porsche.com/service-vehicle/honk-and-flash/\(vehicle.vin)/flash")!
+      return URL(
+        string: "https://api.porsche.com/service-vehicle/honk-and-flash/\(vehicle.vin)/flash")!
     case .test:
-      return URL(string: "http://localhost:\(kTestServerPort)/service-vehicle/honk-and-flash/\(vehicle.vin)/flash")!
+      return URL(
+        string:
+          "http://localhost:\(kTestServerPort)/service-vehicle/honk-and-flash/\(vehicle.vin)/flash")!
     }
   }
 
   func vehicleHonkAndFlashURL(vehicle: Vehicle) -> URL {
     switch environment {
     case .production:
-      return URL(string: "https://api.porsche.com/service-vehicle/honk-and-flash/\(vehicle.vin)/honk-and-flash")!
+      return URL(
+        string:
+          "https://api.porsche.com/service-vehicle/honk-and-flash/\(vehicle.vin)/honk-and-flash")!
     case .test:
-      return URL(string: "http://localhost:\(kTestServerPort)/service-vehicle/honk-and-flash/\(vehicle.vin)/honk-and-flash")!
+      return URL(
+        string:
+          "http://localhost:\(kTestServerPort)/service-vehicle/honk-and-flash/\(vehicle.vin)/honk-and-flash"
+      )!
     }
   }
 
-  func vehicleHonkAndFlashRemoteCommandStatusURL(vehicle: Vehicle, remoteCommand: RemoteCommandAccepted) -> URL {
+  func vehicleHonkAndFlashRemoteCommandStatusURL(
+    vehicle: Vehicle, remoteCommand: RemoteCommandAccepted
+  ) -> URL {
     switch environment {
     case .production:
-      return URL(string: "https://api.porsche.com/service-vehicle/honk-and-flash/\(vehicle.vin)/\(remoteCommand.id)/status")!
+      return URL(
+        string:
+          "https://api.porsche.com/service-vehicle/honk-and-flash/\(vehicle.vin)/\(remoteCommand.id)/status"
+      )!
     case .test:
-      return URL(string: "http://localhost:\(kTestServerPort)/service-vehicle/honk-and-flash/\(vehicle.vin)/\(remoteCommand.id)/status")!
+      return URL(
+        string:
+          "http://localhost:\(kTestServerPort)/service-vehicle/honk-and-flash/\(vehicle.vin)/\(remoteCommand.id)/status"
+      )!
     }
   }
 }

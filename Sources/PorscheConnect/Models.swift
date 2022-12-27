@@ -1,6 +1,6 @@
+import CoreLocation
 import Foundation
 import SwiftUI
-import CoreLocation
 
 public struct PorscheAuth: Codable {
 
@@ -14,12 +14,16 @@ public struct PorscheAuth: Codable {
 
   public var apiKey: String? {
     let idTokenComponents = idToken.components(separatedBy: ".")
-    let paddedBase64EncodedString = idTokenComponents[1].padding(toLength: ((idTokenComponents[1].count+3)/4)*4, withPad: "=", startingAt: 0)
+    let paddedBase64EncodedString = idTokenComponents[1].padding(
+      toLength: ((idTokenComponents[1].count + 3) / 4) * 4, withPad: "=", startingAt: 0)
 
-    if let decodedString = String(data: Data(base64Encoded: paddedBase64EncodedString) ?? kBlankData, encoding: .utf8),
-       let data = decodedString.data(using: .utf8),
-       let dict = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? Dictionary<String, Any>,
-       let apiKey = dict["aud"] as? String {
+    if let decodedString = String(
+      data: Data(base64Encoded: paddedBase64EncodedString) ?? kBlankData, encoding: .utf8),
+      let data = decodedString.data(using: .utf8),
+      let dict = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers)
+        as? [String: Any],
+      let apiKey = dict["aud"] as? String
+    {
       return apiKey
     } else {
       return nil
@@ -101,7 +105,11 @@ public struct Vehicle: Codable {
 
   // MARK: - Public
 
-  public init(vin: String, modelDescription: String, modelType: String, modelYear: String, exteriorColor: String?, exteriorColorHex: String?, attributes: [VehicleAttribute]?, pictures: [VehiclePicture]?) {
+  public init(
+    vin: String, modelDescription: String, modelType: String, modelYear: String,
+    exteriorColor: String?, exteriorColorHex: String?, attributes: [VehicleAttribute]?,
+    pictures: [VehiclePicture]?
+  ) {
     self.vin = vin
     self.modelDescription = modelDescription
     self.modelType = modelType
@@ -227,7 +235,8 @@ public struct Capabilities: Codable {
     self.steeringWheelPosition = kBlankString
     self.hasHonkAndFlash = false
     self.onlineRemoteUpdateStatus = OnlineRemoteUpdateStatus(editableByUser: true, active: true)
-    self.heatingCapabilities = HeatingCapabilities(frontSeatHeatingAvailable: true, rearSeatHeatingAvailable: false)
+    self.heatingCapabilities = HeatingCapabilities(
+      frontSeatHeatingAvailable: true, rearSeatHeatingAvailable: false)
   }
 }
 
@@ -242,7 +251,7 @@ public struct Emobility: Codable {
   public let directClimatisation: DirectClimatisation
   public let chargingStatus: String
   public let chargingProfiles: ChargingProfiles
-  public let climateTimer: String? // TBD when set
+  public let climateTimer: String?  // TBD when set
   public let timers: [Timer]?
 
   // MARK: -
@@ -262,9 +271,9 @@ public struct Emobility: Codable {
     public let stateOfChargeInPercentage: Int
     public let remainingChargeTimeUntil100PercentInMinutes: Int?
     public let remainingERange: RemainingERange
-    public let remainingCRange: String? // TBD while charging
-    public let chargingTargetDateTime: String //2021-02-19T01:09
-    public let status: String? // TBD while charging
+    public let remainingCRange: String?  // TBD while charging
+    public let chargingTargetDateTime: String  //2021-02-19T01:09
+    public let status: String?  // TBD while charging
     public let chargeRate: ChargeRate
     public let chargingPower: Double
     public let chargingInDCMode: Bool
@@ -292,7 +301,7 @@ public struct Emobility: Codable {
       public let value: Double
       public let unit: String
       public let valueInKmPerHour: Int
-      public let unitTranslationKey: String // "EC.COMMON.UNIT.KM_PER_MIN"
+      public let unitTranslationKey: String  // "EC.COMMON.UNIT.KM_PER_MIN"
     }
   }
 
@@ -313,7 +322,7 @@ public struct Emobility: Codable {
     // MARK: Properties
 
     public let climatisationState: String
-    public let remainingClimatisationTime: String? // TBD when set
+    public let remainingClimatisationTime: String?  // TBD when set
   }
 
   // MARK: -
@@ -403,7 +412,7 @@ public struct Emobility: Codable {
 public struct RemoteCommandAccepted: Codable {
 
   public enum RemoteCommand: Codable {
-    case honkAndFlash //, lockAndUnlock
+    case honkAndFlash  //, lockAndUnlock
   }
 
   // MARK: Properties

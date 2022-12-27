@@ -1,7 +1,8 @@
 import XCTest
+
 @testable import PorscheConnect
 
-fileprivate struct HelloWorld: Codable {
+private struct HelloWorld: Codable {
   let message: String
 }
 
@@ -47,7 +48,7 @@ final class NetworkClientTests: BaseMockNetworkTestCase {
       XCTAssertEqual(HttpStatusCode.Unauthorized, error as! HttpStatusCode)
     }
 
-    await  waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
 
   func testPostSuccess() async {
@@ -56,7 +57,8 @@ final class NetworkClientTests: BaseMockNetworkTestCase {
     let expectation = expectation(description: "Network Expectation")
     let body = ["param_key": "param_value"]
 
-    let result = try! await client.post(HelloWorld.self, url: url, body: buildPostFormBodyFrom(dictionary: body))
+    let result = try! await client.post(
+      HelloWorld.self, url: url, body: buildPostFormBodyFrom(dictionary: body))
     expectation.fulfill()
 
     XCTAssertEqual("Hello World!", result.data!.message)
@@ -66,18 +68,23 @@ final class NetworkClientTests: BaseMockNetworkTestCase {
   }
 
   func testUrlExtensionAddSingleParam() {
-    let url = URL(string: "https://api.porsche.example")!.addParams(params: ["param_key": "param_value"])
+    let url = URL(string: "https://api.porsche.example")!.addParams(params: [
+      "param_key": "param_value"
+    ])
     XCTAssert(url.query!.contains("param_key=param_value"))
   }
 
   func testUrlExtensionAddMultipleParams() {
-    let url = URL(string: "https://api.porsche.example")!.addParams(params: ["param_key_1": "param_value_1", "param_key_2": "param_value_2"])
+    let url = URL(string: "https://api.porsche.example")!.addParams(params: [
+      "param_key_1": "param_value_1", "param_key_2": "param_value_2",
+    ])
     XCTAssert(url.query!.contains("param_key_1=param_value_1"))
     XCTAssert(url.query!.contains("param_key_2=param_value_2"))
   }
 
   func testUrlExtensionAddMultipleParamsToUrlWithExistingParam() {
-    let url = URL(string: "https://api.porsche.example?param_key_1=param_value_1")!.addParams(params: ["param_key_2": "param_value_2"])
+    let url = URL(string: "https://api.porsche.example?param_key_1=param_value_1")!.addParams(
+      params: ["param_key_2": "param_value_2"])
     XCTAssert(url.query!.contains("param_key_1=param_value_1"))
     XCTAssert(url.query!.contains("param_key_2=param_value_2"))
   }
@@ -88,7 +95,9 @@ final class NetworkClientTests: BaseMockNetworkTestCase {
   }
 
   func testBuildPostFormBodyMultipleKeys() {
-    let data = buildPostFormBodyFrom(dictionary: ["param_key_1": "param_value_1", "param_key_2": "param_value_2"])
+    let data = buildPostFormBodyFrom(dictionary: [
+      "param_key_1": "param_value_1", "param_key_2": "param_value_2",
+    ])
     let query = String(data: data, encoding: .utf8)!
     XCTAssert(query.contains("param_key_1=param_value_1"))
     XCTAssert(query.contains("param_key_2=param_value_2"))

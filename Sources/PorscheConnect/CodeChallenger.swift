@@ -1,5 +1,5 @@
-import Foundation
 import CryptoKit
+import Foundation
 
 /// A utility for generating code verifier and code challenge as part of the OAuth2 specification:
 /// https://www.oauth.com/oauth2-servers/pkce/authorization-request/

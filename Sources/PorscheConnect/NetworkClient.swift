@@ -5,7 +5,7 @@ import Foundation
 struct NetworkClient {
   private let session: URLSession
 
-  init(timeoutIntervalForRequest:TimeInterval = 30) {
+  init(timeoutIntervalForRequest: TimeInterval = 30) {
     let configuration = URLSessionConfiguration.default
     configuration.httpCookieAcceptPolicy = .always
     configuration.httpCookieStorage = .shared
@@ -15,19 +15,39 @@ struct NetworkClient {
 
   // MARK: - Public
 
-  func get<D: Decodable>(_ responseType: D.Type, url: URL, params: Dictionary<String, String>? = nil, headers: Dictionary<String, String>? = nil, parseResponseBody: Bool = true, jsonKeyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase) async throws -> (data: D?, response: HTTPURLResponse?) {
-    let request = createRequest(url: url.addParams(params: params), method: HttpMethod.get.rawValue, headers: headers, contentType: .json, bodyData: nil)
-    return try await performRequest(responseType, request: request, parseResponseBody: parseResponseBody, jsonKeyDecodingStrategy: jsonKeyDecodingStrategy)
+  func get<D: Decodable>(
+    _ responseType: D.Type, url: URL, params: [String: String]? = nil,
+    headers: [String: String]? = nil, parseResponseBody: Bool = true,
+    jsonKeyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase
+  ) async throws -> (data: D?, response: HTTPURLResponse?) {
+    let request = createRequest(
+      url: url.addParams(params: params), method: HttpMethod.get.rawValue, headers: headers,
+      contentType: .json, bodyData: nil)
+    return try await performRequest(
+      responseType, request: request, parseResponseBody: parseResponseBody,
+      jsonKeyDecodingStrategy: jsonKeyDecodingStrategy)
   }
 
-  func post<E: Encodable, D: Decodable>(_ responseType: D.Type, url: URL, params: Dictionary<String, String>? = nil, body: E?, headers: Dictionary<String, String>? = nil, contentType: HttpRequestContentType = .json, parseResponseBody: Bool = true, jsonKeyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase) async throws -> (data: D?, response: HTTPURLResponse?) {
-    let request = buildModifyingRequest(url: url.addParams(params: params), method: HttpMethod.post.rawValue, headers: headers, contentType: contentType, body: body)
-    return try await performRequest(responseType, request: request, contentType: contentType, parseResponseBody: parseResponseBody, jsonKeyDecodingStrategy: jsonKeyDecodingStrategy)
+  func post<E: Encodable, D: Decodable>(
+    _ responseType: D.Type, url: URL, params: [String: String]? = nil, body: E?,
+    headers: [String: String]? = nil, contentType: HttpRequestContentType = .json,
+    parseResponseBody: Bool = true,
+    jsonKeyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase
+  ) async throws -> (data: D?, response: HTTPURLResponse?) {
+    let request = buildModifyingRequest(
+      url: url.addParams(params: params), method: HttpMethod.post.rawValue, headers: headers,
+      contentType: contentType, body: body)
+    return try await performRequest(
+      responseType, request: request, contentType: contentType,
+      parseResponseBody: parseResponseBody, jsonKeyDecodingStrategy: jsonKeyDecodingStrategy)
   }
 
   // MARK: - Private
 
-  private func createRequest(url: URL, method: String, headers: Dictionary<String, String>?, contentType: HttpRequestContentType, bodyData: Data?) -> URLRequest {
+  private func createRequest(
+    url: URL, method: String, headers: [String: String]?, contentType: HttpRequestContentType,
+    bodyData: Data?
+  ) -> URLRequest {
     var request = URLRequest(url: url)
     request.httpMethod = method
     if let headers = headers {
@@ -41,7 +61,11 @@ struct NetworkClient {
     return request
   }
 
-  private func performRequest<D: Decodable>(_ responseType: D.Type, request: URLRequest, contentType: HttpRequestContentType = .json, parseResponseBody: Bool = true, jsonKeyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase) async throws -> (D?, HTTPURLResponse?) {
+  private func performRequest<D: Decodable>(
+    _ responseType: D.Type, request: URLRequest, contentType: HttpRequestContentType = .json,
+    parseResponseBody: Bool = true,
+    jsonKeyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase
+  ) async throws -> (D?, HTTPURLResponse?) {
     return try await withCheckedThrowingContinuation { continuation in
       let task = session.dataTask(with: request) { (data, urlResponse, error) in
         let response = urlResponse as? HTTPURLResponse
@@ -74,9 +98,13 @@ struct NetworkClient {
     }
   }
 
-  private func buildModifyingRequest<E: Encodable>(url: URL, method: String, headers: Dictionary<String, String>?, contentType: HttpRequestContentType = .json ,body: E?) -> URLRequest {
+  private func buildModifyingRequest<E: Encodable>(
+    url: URL, method: String, headers: [String: String]?,
+    contentType: HttpRequestContentType = .json, body: E?
+  ) -> URLRequest {
     let bodyData: Data? = contentType == .json ? buildJsonBody(body: body) : body as? Data
-    return createRequest(url: url, method: method, headers: headers, contentType: contentType, bodyData: bodyData)
+    return createRequest(
+      url: url, method: method, headers: headers, contentType: contentType, bodyData: bodyData)
   }
 
   private func buildJsonBody<E: Encodable>(body: E?) -> Data? {
@@ -92,7 +120,7 @@ struct NetworkClient {
   }
 }
 
-public func buildPostFormBodyFrom(dictionary: Dictionary<String, String>) -> Data {
+public func buildPostFormBodyFrom(dictionary: [String: String]) -> Data {
   var urlComponents = URLComponents()
   urlComponents.queryItems = dictionary.map {
     URLQueryItem(name: $0.key, value: $0.value)
@@ -103,7 +131,7 @@ public func buildPostFormBodyFrom(dictionary: Dictionary<String, String>) -> Dat
 
 // MARK: - Enums
 
-fileprivate enum HttpMethod: String {
+private enum HttpMethod: String {
   case get = "GET"
   case post = "POST"
 }

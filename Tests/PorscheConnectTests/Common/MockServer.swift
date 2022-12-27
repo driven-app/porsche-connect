@@ -1,7 +1,7 @@
+import Ambassador
+import Embassy
 import Foundation
 import Network
-import Embassy
-import Ambassador
 
 class MockServer {
   static let shared = MockServer()
@@ -32,11 +32,13 @@ class MockServer {
 
   private func waitForServer() {
     let semaphore = DispatchSemaphore(value: 0)
-    let connection = NWConnection(host: "localhost", port: NWEndpoint.Port(rawValue: NWEndpoint.Port.RawValue(server.port))!, using: .tcp)
+    let connection = NWConnection(
+      host: "localhost", port: NWEndpoint.Port(rawValue: NWEndpoint.Port.RawValue(server.port))!,
+      using: .tcp)
 
     connection.start(queue: .init(label: "Socket Q"))
     connection.stateUpdateHandler = { (newState) in
-      switch (newState) {
+      switch newState {
       case .ready:
         semaphore.signal()
       default:
