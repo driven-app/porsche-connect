@@ -3,24 +3,25 @@ import ArgumentParser
 import PorscheConnect
 
 extension Porsche {
-  
+
   struct Flash: AsyncParsableCommand {
+
     // MARK: - Properties
-    
+
     @OptionGroup() var options: Options
-    
+
     @Argument(help: ArgumentHelp(NSLocalizedString("Your vehicle VIN.", comment: "")))
     var vin: String
-    
+
     // MARK: - Lifecycle
-    
+
     func run() async throws {
       let porscheConnect = PorscheConnect(username: options.username, password: options.password)
       let vehicle = Vehicle(vin: vin)
       await callFlash(porscheConnect: porscheConnect, vehicle: vehicle)
       dispatchMain()
     }
-    
+
     // MARK: - Private functions
     
     private func callFlash(porscheConnect: PorscheConnect, vehicle: Vehicle) async {
