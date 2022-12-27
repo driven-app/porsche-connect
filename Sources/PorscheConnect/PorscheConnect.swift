@@ -3,11 +3,11 @@ import Foundation
 // MARK: - Enums
 
 public enum Environment: String {
-  case germany, test
+  case production, test
   
   public var countryCode: String {
     switch self {
-    case .germany:
+    case .production:
       return "de"
     case .test:
       return "ie"
@@ -16,7 +16,7 @@ public enum Environment: String {
   
   public var languageCode: String {
     switch self {
-    case .germany:
+    case .production:
       return "de"
     case .test:
       return "en"
@@ -25,7 +25,7 @@ public enum Environment: String {
   
   public var regionCode: String {
     switch self {
-    case .germany:
+    case .production:
       return "de/de_DE"
     case .test:
       return "ie/en_IE"
@@ -76,7 +76,7 @@ public class PorscheConnect {
   
   // MARK: - Init & configuration
   
-  public init(username: String, password: String, environment: Environment = .germany) {
+  public init(username: String, password: String, environment: Environment = .production) {
     self.username = username
     self.password = password
     self.environment = environment

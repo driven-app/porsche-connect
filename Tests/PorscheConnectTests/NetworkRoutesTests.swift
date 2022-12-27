@@ -25,8 +25,8 @@ final class NetworkRoutesTests: XCTestCase {
     XCTAssertEqual(URL(string: "https://my.porsche.com/myservices/auth/auth.html")!, application.redirectURL)
   }
   
-  func testNetworkRoutesGermany() {
-    let networkRoute = NetworkRoutes(environment: .germany)
+  func testNetworkRoutesProduction() {
+    let networkRoute = NetworkRoutes(environment: .production)
     XCTAssertEqual(URL(string: "https://login.porsche.com/auth/api/v1/de/de_DE/public/login")!, networkRoute.loginAuthURL)
     XCTAssertEqual(URL(string: "https://login.porsche.com/as/authorization.oauth2")!, networkRoute.apiAuthURL)
     XCTAssertEqual(URL(string: "https://login.porsche.com/as/token.oauth2")!, networkRoute.apiTokenURL)

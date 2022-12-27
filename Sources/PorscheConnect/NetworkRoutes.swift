@@ -9,7 +9,7 @@ struct NetworkRoutes {
   
   var loginAuthURL: URL {
     switch environment {
-    case .germany:
+    case .production:
       return URL(string: "https://login.porsche.com/auth/api/v1/\(environment.regionCode)/public/login")!
     case .test:
       return URL(string: "http://localhost:\(kTestServerPort)/auth/api/v1/\(environment.regionCode)/public/login")!
@@ -18,7 +18,7 @@ struct NetworkRoutes {
   
   var apiAuthURL: URL {
     switch environment {
-    case .germany:
+    case .production:
       return URL(string: "https://login.porsche.com/as/authorization.oauth2")!
     case .test:
       return URL(string: "http://localhost:\(kTestServerPort)/as/authorization.oauth2")!
@@ -27,7 +27,7 @@ struct NetworkRoutes {
   
   var apiTokenURL: URL {
     switch environment {
-    case .germany:
+    case .production:
       return URL(string: "https://login.porsche.com/as/token.oauth2")!
     case .test:
       return URL(string: "http://localhost:\(kTestServerPort)/as/token.oauth2")!
@@ -36,7 +36,7 @@ struct NetworkRoutes {
   
   var vehiclesURL: URL {
     switch environment {
-    case .germany:
+    case .production:
       return URL(string: "https://api.porsche.com/core/api/v3/\(environment.regionCode)/vehicles")!
     case .test:
       return URL(string: "http://localhost:\(kTestServerPort)/core/api/v3/\(environment.regionCode)/vehicles")!
@@ -47,7 +47,7 @@ struct NetworkRoutes {
   
   func vehicleSummaryURL(vehicle: Vehicle) -> URL {
     switch environment {
-    case .germany:
+    case .production:
       return URL(string: "https://api.porsche.com/service-vehicle/vehicle-summary/\(vehicle.vin)")!
     case .test:
       return URL(string: "http://localhost:\(kTestServerPort)/service-vehicle/vehicle-summary/\(vehicle.vin)")!
@@ -56,7 +56,7 @@ struct NetworkRoutes {
   
   func vehiclePositionURL(vehicle: Vehicle) -> URL {
     switch environment {
-    case .germany:
+    case .production:
       return URL(string: "https://api.porsche.com/service-vehicle/car-finder/\(vehicle.vin)/position")!
     case .test:
       return URL(string: "http://localhost:\(kTestServerPort)/service-vehicle/car-finder/\(vehicle.vin)/position")!
@@ -65,7 +65,7 @@ struct NetworkRoutes {
   
   func vehicleCapabilitiesURL(vehicle: Vehicle) -> URL {
     switch environment { 
-    case .germany:
+    case .production:
       return URL(string: "https://api.porsche.com/service-vehicle/vcs/capabilities/\(vehicle.vin)")!
     case .test:
       return URL(string: "http://localhost:\(kTestServerPort)/service-vehicle/vcs/capabilities/\(vehicle.vin)")!
@@ -74,7 +74,7 @@ struct NetworkRoutes {
   
   func vehicleEmobilityURL(vehicle: Vehicle, capabilities: Capabilities ) -> URL {
     switch environment {
-    case .germany:
+    case .production:
       return URL(string: "https://api.porsche.com/service-vehicle/\(environment.regionCode)/e-mobility/\(capabilities.carModel)/\(vehicle.vin)?timezone=Europe/Dublin")!
     case .test:
       return URL(string: "http://localhost:\(kTestServerPort)/service-vehicle/\(environment.regionCode)/e-mobility/\(capabilities.carModel)/\(vehicle.vin)?timezone=Europe/Dublin")!
