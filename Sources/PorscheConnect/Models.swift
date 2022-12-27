@@ -60,14 +60,18 @@ public struct Vehicle: Codable {
   public let modelDescription: String
   public let modelType: String
   public let modelYear: String
-  public let exteriorColorHex: String
+  public let exteriorColor: String?
+  public let exteriorColorHex: String?
   public let attributes: [VehicleAttribute]?
   public let pictures: [VehiclePicture]?
   
   // MARK: Computed Properties
   
-  public var externalColor: Color {
-    return Color(hex: exteriorColorHex)
+  public var color: Color? {
+    if let hex = exteriorColorHex {
+      return Color(hex: hex)
+    }
+    return nil
   }
   
   // MARK: -
@@ -102,6 +106,7 @@ public struct Vehicle: Codable {
     self.modelDescription = modelDescription
     self.modelType = modelType
     self.modelYear = modelYear
+    self.exteriorColor = kBlankString
     self.exteriorColorHex = exteriorColorHex
     self.attributes = attributes
     self.pictures = pictures
@@ -112,6 +117,7 @@ public struct Vehicle: Codable {
     self.modelDescription = modelDescription
     self.modelType = modelType
     self.modelYear = modelYear
+    self.exteriorColor = kBlankString
     self.exteriorColorHex = kBlankString
     self.attributes = nil
     self.pictures = nil
@@ -122,6 +128,7 @@ public struct Vehicle: Codable {
     self.modelDescription = kBlankString
     self.modelType = kBlankString
     self.modelYear = kBlankString
+    self.exteriorColor = kBlankString
     self.exteriorColorHex = kBlankString
     self.attributes = nil
     self.pictures = nil
