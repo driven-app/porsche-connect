@@ -4,7 +4,7 @@ import XCTest
 @testable import PorscheConnect
 
 class BaseMockNetworkTestCase: XCTestCase {
-      
+
   // MARK: - Lifecycle
 
   override func setUp() {

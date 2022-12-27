@@ -23,9 +23,9 @@ extension Porsche {
     }
 
     // MARK: - Private functions
-    
+
     private func callFlash(porscheConnect: PorscheConnect, vehicle: Vehicle) async {
-      
+
       do {
         let result = try await porscheConnect.flash(vehicle: vehicle)
         if let remoteCommandAccepted = result.remoteCommandAccepted {
@@ -36,7 +36,7 @@ extension Porsche {
         Porsche.Flash.exit(withError: error)
       }
     }
-    
+
     private func printRemoteCommandAccepted(_ remoteCommandAccepted: RemoteCommandAccepted) {
       print(NSLocalizedString("Remote command \"Flash\" accepted by Porsche API with ID \(remoteCommandAccepted.id)", comment: ""))
     }

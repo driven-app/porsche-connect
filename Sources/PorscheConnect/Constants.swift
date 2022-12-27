@@ -20,7 +20,7 @@ enum HttpStatusCode: Int, Error {
   case Continue = 100
   case SwitchingProtocols
   case Processing
-  
+
   // 200 Success
   case OK = 200
   case Created
@@ -32,7 +32,7 @@ enum HttpStatusCode: Int, Error {
   case MultiStatus
   case AlreadyReported
   case IMUsed = 226
-  
+
   // 300 Redirection
   case MultipleChoices = 300
   case MovedPermanently
@@ -43,7 +43,7 @@ enum HttpStatusCode: Int, Error {
   case SwitchProxy
   case TemporaryRedirect
   case PermanentRedirect
-  
+
   // 400 Client Error
   case BadRequest = 400
   case Unauthorized
@@ -73,7 +73,7 @@ enum HttpStatusCode: Int, Error {
   case TooManyRequests
   case RequestHeaderFieldsTooLarge = 431
   case UnavailableForLegalReasons = 451
-  
+
   // 500 Server Error
   case InternalServerError = 500
   case NotImplemented
@@ -86,7 +86,7 @@ enum HttpStatusCode: Int, Error {
   case LoopDetected
   case NotExtended = 510
   case NetworkAuthenticationRequired
-  
+
   var localizedDescription: String {
     return String(rawValue)
   }
