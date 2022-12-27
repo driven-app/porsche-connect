@@ -49,4 +49,17 @@ public extension PorscheConnect {
     let result = try await networkClient.get(Emobility.self, url: networkRoutes.vehicleEmobilityURL(vehicle: vehicle, capabilities: capabilities), headers: headers, jsonKeyDecodingStrategy: .useDefaultKeys)
     return (emobility: result.data, response: result.response)
   }
+  
+  func flash(vehicle: Vehicle, andHonk honk: Bool = false) async throws -> (remoteCommandAccepted: RemoteCommandAccepted?, response: HTTPURLResponse?) {
+    let application: Application = .carControl
+    
+    _ = try await authIfRequired(application: application)
+    
+    guard let auth = auths[application], let apiKey = auth.apiKey else { throw PorscheConnectError.AuthFailure }
+    let headers = buildHeaders(accessToken: auth.accessToken, apiKey: apiKey, countryCode: environment.countryCode, languageCode: environment.languageCode)
+    let url = honk ? networkRoutes.vehicleHonkAndFlashURL(vehicle: vehicle) : networkRoutes.vehicleFlashURL(vehicle: vehicle)
+    
+    let result = try await networkClient.post(RemoteCommandAccepted.self, url: url, body: kBlankString, headers: headers, jsonKeyDecodingStrategy: .useDefaultKeys)
+    return (remoteCommandAccepted: result.data, response: result.response)
+  }
 }

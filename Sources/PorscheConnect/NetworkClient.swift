@@ -41,7 +41,6 @@ struct NetworkClient {
     return request
   }
   
-  
   private func performRequest<D: Decodable>(_ responseType: D.Type, request: URLRequest, contentType: HttpRequestContentType = .json, parseResponseBody: Bool = true, jsonKeyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase) async throws -> (D?, HTTPURLResponse?) {
     return try await withCheckedThrowingContinuation { continuation in
       let task = session.dataTask(with: request) { (data, urlResponse, error) in
@@ -61,6 +60,7 @@ struct NetworkClient {
         
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = jsonKeyDecodingStrategy
+        decoder.dateDecodingStrategy = .iso8601
         
         do {
           let result = try decoder.decode(D.self, from: data1)

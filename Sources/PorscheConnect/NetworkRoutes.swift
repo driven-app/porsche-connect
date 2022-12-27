@@ -80,4 +80,22 @@ struct NetworkRoutes {
       return URL(string: "http://localhost:\(kTestServerPort)/service-vehicle/\(environment.regionCode)/e-mobility/\(capabilities.carModel)/\(vehicle.vin)?timezone=Europe/Dublin")!
     }
   }
+  
+  func vehicleFlashURL(vehicle: Vehicle) -> URL {
+    switch environment {
+    case .production:
+      return URL(string: "https://api.porsche.com/service-vehicle/honk-and-flash/\(vehicle.vin)/flash")!
+    case .test:
+      return URL(string: "http://localhost:\(kTestServerPort)/service-vehicle/honk-and-flash/\(vehicle.vin)/flash")!
+    }
+  }
+  
+  func vehicleHonkAndFlashURL(vehicle: Vehicle) -> URL {
+    switch environment {
+    case .production:
+      return URL(string: "https://api.porsche.com/service-vehicle/honk-and-flash/\(vehicle.vin)/honk-and-flash")!
+    case .test:
+      return URL(string: "http://localhost:\(kTestServerPort)/service-vehicle/honk-and-flash/\(vehicle.vin)/honk-and-flash")!
+    }
+  }
 }

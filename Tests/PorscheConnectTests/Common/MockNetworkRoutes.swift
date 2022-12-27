@@ -15,7 +15,9 @@ final class MockNetworkRoutes {
   
   private static let postLoginAuthPath = "/auth/api/v1/ie/en_IE/public/login"
   private static let postApiTokenPath = "/as/token.oauth2"
-  
+  private static let postFlashPath = "/service-vehicle/honk-and-flash/A1234/flash"
+  private static let postHonkAndFlashPath = "/service-vehicle/honk-and-flash/A1234/honk-and-flash"
+
   // MARK: - Hello World
   
   func mockGetHelloWorldSuccessful(router: Router) {
@@ -138,6 +140,28 @@ final class MockNetworkRoutes {
     router[MockNetworkRoutes.getEmobilityPath] = DataResponse(statusCode: 400, statusMessage: "bad request")
   }
   
+  // MARK: – Get Honk and Flash
+  
+  func mockPostFlashSuccessful(router: Router) {
+    router[MockNetworkRoutes.postFlashPath] = JSONResponse(statusCode: 200, handler: { (req) -> Any in
+      return self.mockRemoteCommandAccepted()
+    })
+  }
+  
+  func mockPostFlashFailure(router: Router) {
+    router[MockNetworkRoutes.postFlashPath] = DataResponse(statusCode: 400, statusMessage: "bad request")
+  }
+  
+  func mockPostHonkAndFlashSuccessful(router: Router) {
+    router[MockNetworkRoutes.postHonkAndFlashPath] = JSONResponse(statusCode: 200, handler: { (req) -> Any in
+      return self.mockRemoteCommandAccepted()
+    })
+  }
+  
+  func mockPostHonkAndFlashFailure(router: Router) {
+    router[MockNetworkRoutes.postHonkAndFlashPath] = DataResponse(statusCode: 400, statusMessage: "bad request")
+  }
+  
   // MARK: - Mock Responses
   
   private func mockHelloWorldResponse() -> Dictionary<String, Any> {
@@ -196,5 +220,9 @@ final class MockNetworkRoutes {
   
   private func mockEmobilityResponse(mockedResponse: Data) -> Dictionary<String, Any> {
     return try! (JSONSerialization.jsonObject(with: mockedResponse, options: []) as! Dictionary<String, Any>)
+  }
+  
+  private func mockRemoteCommandAccepted() -> Dictionary<String, Any> {
+    return ["id": "123456789", "lastUpdated": "2022-12-27T13:19:23Z"]
   }
 }
