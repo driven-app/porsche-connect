@@ -375,7 +375,7 @@ public struct Emobility: Codable {
     public let preferredChargingEndTime: String?
     public let frequency: String
     public let climatised: Bool
-    public let weekDays: Weekdays
+    public let weekDays: Weekdays?
     public let active: Bool
     public let chargeOption: Bool
     public let targetChargeLevel: Int

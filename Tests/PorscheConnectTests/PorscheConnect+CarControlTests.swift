@@ -603,14 +603,15 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertFalse(timer.climatisationTimer)
     
     XCTAssertNotNil(timer.weekDays)
-    let weekdays = timer.weekDays
-    XCTAssertTrue(weekdays.SUNDAY)
-    XCTAssertTrue(weekdays.MONDAY)
-    XCTAssertTrue(weekdays.TUESDAY)
-    XCTAssertTrue(weekdays.WEDNESDAY)
-    XCTAssertTrue(weekdays.THURSDAY)
-    XCTAssertTrue(weekdays.FRIDAY)
-    XCTAssertTrue(weekdays.SATURDAY)
+    if let weekdays = timer.weekDays {
+      XCTAssertTrue(weekdays.SUNDAY)
+      XCTAssertTrue(weekdays.MONDAY)
+      XCTAssertTrue(weekdays.TUESDAY)
+      XCTAssertTrue(weekdays.WEDNESDAY)
+      XCTAssertTrue(weekdays.THURSDAY)
+      XCTAssertTrue(weekdays.FRIDAY)
+      XCTAssertTrue(weekdays.SATURDAY)
+    }
   }
   
   private func assertEmobilityWhenACTimerCharging(_ emobility: Emobility) {
@@ -728,14 +729,15 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertFalse(timer.climatisationTimer)
     
     XCTAssertNotNil(timer.weekDays)
-    let weekdays = timer.weekDays
-    XCTAssertTrue(weekdays.SUNDAY)
-    XCTAssertTrue(weekdays.MONDAY)
-    XCTAssertTrue(weekdays.TUESDAY)
-    XCTAssertTrue(weekdays.WEDNESDAY)
-    XCTAssertTrue(weekdays.THURSDAY)
-    XCTAssertTrue(weekdays.FRIDAY)
-    XCTAssertTrue(weekdays.SATURDAY)
+    if let weekdays = timer.weekDays {
+      XCTAssertTrue(weekdays.SUNDAY)
+      XCTAssertTrue(weekdays.MONDAY)
+      XCTAssertTrue(weekdays.TUESDAY)
+      XCTAssertTrue(weekdays.WEDNESDAY)
+      XCTAssertTrue(weekdays.THURSDAY)
+      XCTAssertTrue(weekdays.FRIDAY)
+      XCTAssertTrue(weekdays.SATURDAY)
+    }
   }
   
   private func assertEmobilityWhenACDirectCharging(_ emobility: Emobility) {
@@ -853,14 +855,15 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertFalse(timer.climatisationTimer)
     
     XCTAssertNotNil(timer.weekDays)
-    let weekdays = timer.weekDays
-    XCTAssertTrue(weekdays.SUNDAY)
-    XCTAssertTrue(weekdays.MONDAY)
-    XCTAssertTrue(weekdays.TUESDAY)
-    XCTAssertTrue(weekdays.WEDNESDAY)
-    XCTAssertTrue(weekdays.THURSDAY)
-    XCTAssertTrue(weekdays.FRIDAY)
-    XCTAssertTrue(weekdays.SATURDAY)
+    if let weekdays = timer.weekDays {
+      XCTAssertTrue(weekdays.SUNDAY)
+      XCTAssertTrue(weekdays.MONDAY)
+      XCTAssertTrue(weekdays.TUESDAY)
+      XCTAssertTrue(weekdays.WEDNESDAY)
+      XCTAssertTrue(weekdays.THURSDAY)
+      XCTAssertTrue(weekdays.FRIDAY)
+      XCTAssertTrue(weekdays.SATURDAY)
+    }
   }
   
   private func assertEmobilityWhenDCCharging(_ emobility: Emobility) {
@@ -978,14 +981,15 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertFalse(timer.climatisationTimer)
     
     XCTAssertNotNil(timer.weekDays)
-    let weekdays = timer.weekDays
-    XCTAssertTrue(weekdays.SUNDAY)
-    XCTAssertTrue(weekdays.MONDAY)
-    XCTAssertTrue(weekdays.TUESDAY)
-    XCTAssertTrue(weekdays.WEDNESDAY)
-    XCTAssertTrue(weekdays.THURSDAY)
-    XCTAssertTrue(weekdays.FRIDAY)
-    XCTAssertTrue(weekdays.SATURDAY)
+    if let weekdays = timer.weekDays {
+      XCTAssertTrue(weekdays.SUNDAY)
+      XCTAssertTrue(weekdays.MONDAY)
+      XCTAssertTrue(weekdays.TUESDAY)
+      XCTAssertTrue(weekdays.WEDNESDAY)
+      XCTAssertTrue(weekdays.THURSDAY)
+      XCTAssertTrue(weekdays.FRIDAY)
+      XCTAssertTrue(weekdays.SATURDAY)
+    }
   }
   
   private func assertRemoteCommandAccepted(_ remoteCommandAccepted: RemoteCommandAccepted) {
