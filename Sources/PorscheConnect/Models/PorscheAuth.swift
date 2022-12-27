@@ -17,10 +17,10 @@ public struct PorscheAuth: Codable {
 
     if let decodedString = String(
       data: Data(base64Encoded: paddedBase64EncodedString) ?? kBlankData, encoding: .utf8),
-       let data = decodedString.data(using: .utf8),
-       let dict = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers)
+      let data = decodedString.data(using: .utf8),
+      let dict = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers)
         as? [String: Any],
-       let apiKey = dict["aud"] as? String
+      let apiKey = dict["aud"] as? String
     {
       return apiKey
     } else {
