@@ -75,9 +75,9 @@ struct NetworkRoutes {
   func vehicleEmobilityURL(vehicle: Vehicle, capabilities: Capabilities ) -> URL {
     switch environment {
     case .production:
-      return URL(string: "https://api.porsche.com/service-vehicle/\(environment.regionCode)/e-mobility/\(capabilities.carModel)/\(vehicle.vin)?timezone=Europe/Dublin")!
+      return URL(string: "https://api.porsche.com/e-mobility/\(environment.regionCode)/\(capabilities.carModel)/\(vehicle.vin)?timezone=Europe/Dublin")!
     case .test:
-      return URL(string: "http://localhost:\(kTestServerPort)/service-vehicle/\(environment.regionCode)/e-mobility/\(capabilities.carModel)/\(vehicle.vin)?timezone=Europe/Dublin")!
+      return URL(string: "http://localhost:\(kTestServerPort)/e-mobility/\(environment.regionCode)/\(capabilities.carModel)/\(vehicle.vin)?timezone=Europe/Dublin")!
     }
   }
   

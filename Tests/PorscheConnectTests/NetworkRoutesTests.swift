@@ -35,7 +35,7 @@ final class NetworkRoutesTests: XCTestCase {
     XCTAssertEqual(URL(string: "https://api.porsche.com/service-vehicle/vehicle-summary/12345X"), networkRoute.vehicleSummaryURL(vehicle: vehicle))
     XCTAssertEqual(URL(string: "https://api.porsche.com/service-vehicle/car-finder/12345X/position"), networkRoute.vehiclePositionURL(vehicle: vehicle))
     XCTAssertEqual(URL(string: "https://api.porsche.com/service-vehicle/vcs/capabilities/12345X"), networkRoute.vehicleCapabilitiesURL(vehicle: vehicle))
-    XCTAssertEqual(URL(string: "https://api.porsche.com/service-vehicle/de/de_DE/e-mobility/J1/12345X?timezone=Europe/Dublin"), networkRoute.vehicleEmobilityURL(vehicle: vehicle, capabilities: capabilities!))
+    XCTAssertEqual(URL(string: "https://api.porsche.com/e-mobility/de/de_DE/J1/12345X?timezone=Europe/Dublin"), networkRoute.vehicleEmobilityURL(vehicle: vehicle, capabilities: capabilities!))
     XCTAssertEqual(URL(string: "https://api.porsche.com/service-vehicle/honk-and-flash/12345X/flash"), networkRoute.vehicleFlashURL(vehicle: vehicle))
     XCTAssertEqual(URL(string: "https://api.porsche.com/service-vehicle/honk-and-flash/12345X/honk-and-flash"), networkRoute.vehicleHonkAndFlashURL(vehicle: vehicle))
   }
@@ -50,7 +50,7 @@ final class NetworkRoutesTests: XCTestCase {
     XCTAssertEqual(URL(string: "http://localhost:\(kTestServerPort)/service-vehicle/vehicle-summary/12345X"), networkRoute.vehicleSummaryURL(vehicle: vehicle))
     XCTAssertEqual(URL(string: "http://localhost:\(kTestServerPort)/service-vehicle/car-finder/12345X/position"), networkRoute.vehiclePositionURL(vehicle: vehicle))
     XCTAssertEqual(URL(string: "http://localhost:\(kTestServerPort)/service-vehicle/vcs/capabilities/12345X"), networkRoute.vehicleCapabilitiesURL(vehicle: vehicle))
-    XCTAssertEqual(URL(string: "http://localhost:\(kTestServerPort)/service-vehicle/ie/en_IE/e-mobility/J1/12345X?timezone=Europe/Dublin"), networkRoute.vehicleEmobilityURL(vehicle: vehicle, capabilities: capabilities!))
+    XCTAssertEqual(URL(string: "http://localhost:\(kTestServerPort)/e-mobility/ie/en_IE/J1/12345X?timezone=Europe/Dublin"), networkRoute.vehicleEmobilityURL(vehicle: vehicle, capabilities: capabilities!))
     XCTAssertEqual(URL(string: "http://localhost:\(kTestServerPort)/service-vehicle/honk-and-flash/12345X/flash"), networkRoute.vehicleFlashURL(vehicle: vehicle))
     XCTAssertEqual(URL(string: "http://localhost:\(kTestServerPort)/service-vehicle/honk-and-flash/12345X/honk-and-flash"), networkRoute.vehicleHonkAndFlashURL(vehicle: vehicle))
   }
