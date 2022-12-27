@@ -368,14 +368,15 @@ final class ModelsTests: XCTestCase {
     XCTAssertFalse(timer.climatisationTimer)
     
     XCTAssertNotNil(timer.weekDays)
-    let weekdays = timer.weekDays
-    XCTAssertTrue(weekdays.SUNDAY)
-    XCTAssertTrue(weekdays.MONDAY)
-    XCTAssertTrue(weekdays.TUESDAY)
-    XCTAssertTrue(weekdays.WEDNESDAY)
-    XCTAssertTrue(weekdays.THURSDAY)
-    XCTAssertTrue(weekdays.FRIDAY)
-    XCTAssertTrue(weekdays.SATURDAY)
+    if let weekdays = timer.weekDays {
+      XCTAssertTrue(weekdays.SUNDAY)
+      XCTAssertTrue(weekdays.MONDAY)
+      XCTAssertTrue(weekdays.TUESDAY)
+      XCTAssertTrue(weekdays.WEDNESDAY)
+      XCTAssertTrue(weekdays.THURSDAY)
+      XCTAssertTrue(weekdays.FRIDAY)
+      XCTAssertTrue(weekdays.SATURDAY)
+    }
   }
   
   // MARK: - Flash & Honk
