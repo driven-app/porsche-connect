@@ -26,8 +26,8 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
     XCTAssertFalse(connect.authorized(application: .carControl))
   }
   
-  func testEnvironmentGermany() {
-    let environment = Environment.germany
+  func testEnvironmentProduction() {
+    let environment = Environment.production
     XCTAssertNotNil(environment)
     XCTAssertEqual("de/de_DE", environment.regionCode)
     XCTAssertEqual("de", environment.languageCode)
