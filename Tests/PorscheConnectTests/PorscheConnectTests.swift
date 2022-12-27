@@ -2,21 +2,21 @@ import XCTest
 @testable import PorscheConnect
 
 final class PorscheConnectTests: BaseMockNetworkTestCase {
-  
+
   // MARK: - Properties
-  
+
   var connect: PorscheConnect!
   let mockNetworkRoutes = MockNetworkRoutes()
-  
+
   // MARK: - Lifecycle
-  
+
   override func setUp() {
     super.setUp()
     connect = PorscheConnect(username: "homer.simpson@icloud.example", password: "Duh!", environment: .test)
   }
-  
+
   // MARK: - Tests
-  
+
   func testConstruction() {
     XCTAssertNotNil(connect)
     XCTAssertEqual(Environment.test, connect.environment)
@@ -25,7 +25,7 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
     XCTAssertFalse(connect.authorized(application: .api))
     XCTAssertFalse(connect.authorized(application: .carControl))
   }
-  
+
   func testEnvironmentProduction() {
     let environment = Environment.production
     XCTAssertNotNil(environment)
@@ -33,7 +33,7 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
     XCTAssertEqual("de", environment.languageCode)
     XCTAssertEqual("de", environment.countryCode)
   }
-  
+
   func testEnvironmentTest() {
     let environment = Environment.test
     XCTAssertNotNil(environment)
@@ -41,17 +41,17 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
     XCTAssertEqual("en", environment.languageCode)
     XCTAssertEqual("ie", environment.countryCode)
   }
-  
+
   func testApplicationClientIdPortal() {
     let application = Application.api
     XCTAssertEqual("4mPO3OE5Srjb1iaUGWsbqKBvvesya8oA", application.clientId)
   }
-  
+
   func testApplicationClientIdCarControl() {
     let application = Application.carControl
     XCTAssertEqual("Ux8WmyzsOAGGmvmWnW7GLEjIILHEztAs", application.clientId)
   }
-  
+
   func testAuthLoggerIsDefined() {
     XCTAssertNotNil(AuthLogger)
   }

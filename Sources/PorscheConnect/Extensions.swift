@@ -18,7 +18,7 @@ extension Color {
     default:
       (a, r, g, b) = (1, 1, 1, 0)
     }
-    
+
     self.init(
       .sRGB,
       red: Double(r) / 255,
@@ -36,10 +36,10 @@ extension URL {
     guard let params = params else {
       return self
     }
-    
+
     var urlComponents = URLComponents(url: self, resolvingAgainstBaseURL: true)!
     var queryItems = [URLQueryItem]()
-    
+
     let existingQueryItems = query?.components(separatedBy: "&").map({
       $0.components(separatedBy: "=")
     }).reduce(into: [URLQueryItem](), { queryItems, pair in
@@ -47,17 +47,17 @@ extension URL {
         queryItems.append(URLQueryItem(name: pair[0], value: pair[1]))
       }
     })
-    
+
     if let existingQueryItems = existingQueryItems {
       queryItems.append(contentsOf: existingQueryItems)
     }
-    
+
     for (key, value) in params {
       queryItems.append(URLQueryItem(name: key, value: value))
     }
-    
+
     urlComponents.queryItems = queryItems
-    
+
     return urlComponents.url!
   }
 }
