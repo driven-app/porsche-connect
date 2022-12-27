@@ -57,7 +57,7 @@ Create an instance of the library:
                                      password: "Duh!")
 ```
 
-Currently the following environments are supported:
+The following environments are supported:
 
 * **Production** (default)
 * **Test** (used by the test suite against a mocked server)
