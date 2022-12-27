@@ -227,6 +227,8 @@ SUBCOMMANDS:
   show-position
   show-capabilities
   show-emobility
+  flash
+  honk-and-flash
   
   See 'porsche help <subcommand>' for detailed help.
 ```
