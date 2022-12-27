@@ -11,7 +11,7 @@ final class MockNetworkRoutes {
   private static let getSummaryPath = "/service-vehicle/vehicle-summary/A1234"
   private static let getPositionPath = "/service-vehicle/car-finder/A1234/position"
   private static let getCapabilitiesPath = "/service-vehicle/vcs/capabilities/A1234"
-  private static let getEmobilityPath = "/service-vehicle/ie/en_IE/e-mobility/J1/A1234"
+  private static let getEmobilityPath = "/e-mobility/ie/en_IE/J1/A1234"
   
   private static let postLoginAuthPath = "/auth/api/v1/ie/en_IE/public/login"
   private static let postApiTokenPath = "/as/token.oauth2"
