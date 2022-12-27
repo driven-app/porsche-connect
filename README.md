@@ -154,6 +154,21 @@ try {
 }
 ```
 
+### Honk and Flash
+
+To ask the vehicle to flash its indicators and optionally honk the horn. This call will return a `RemoteCommandAccepted` struct when the request has been accepted. The `andHorn` paramater is optional and defaults to false.
+
+```swift
+try {
+  let result = porscheConnect.flash(vehicle: vehicle, andHorn: true)
+  if let remoteCommandAccepted = result.remoteCommandAccepted, let response = result.response {
+    // Do something with the remote command or raw response
+  }
+} catch {
+  // Handle the error
+}
+```
+
 # Tests
 
 To run the test suite:
@@ -212,6 +227,8 @@ SUBCOMMANDS:
   show-position
   show-capabilities
   show-emobility
+  flash
+  honk-and-flash
   
   See 'porsche help <subcommand>' for detailed help.
 ```
@@ -257,6 +274,23 @@ $ porsche show-emobility <username> <password> <vin>
 
 Battery Level: 53%; Remaining Range: 180 KM; Charging Status: NOT_CHARGING; Plug Status: DISCONNECTED
 ```
+
+To flash the indicators of a vehicle:
+
+```bash
+$ porsche flash <username> <password> <vin>
+
+Remote command \"Flash\" accepted by Porsche API with ID 123456
+```
+
+To flash and honk the indicators of a vehicle:
+
+```bash
+$ porsche honk-and-flash <username> <password> <vin>
+
+Remote command \"Honk and Flash\" accepted by Porsche API with ID 123456
+```
+
 # Install
 
 ### Package Manager
