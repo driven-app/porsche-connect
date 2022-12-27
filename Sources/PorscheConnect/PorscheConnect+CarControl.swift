@@ -59,7 +59,8 @@ public extension PorscheConnect {
     let headers = buildHeaders(accessToken: auth.accessToken, apiKey: apiKey, countryCode: environment.countryCode, languageCode: environment.languageCode)
     let url = honk ? networkRoutes.vehicleHonkAndFlashURL(vehicle: vehicle) : networkRoutes.vehicleFlashURL(vehicle: vehicle)
     
-    let result = try await networkClient.post(RemoteCommandAccepted.self, url: url, body: kBlankString, headers: headers, jsonKeyDecodingStrategy: .useDefaultKeys)
+    var result = try await networkClient.post(RemoteCommandAccepted.self, url: url, body: kBlankString, headers: headers, jsonKeyDecodingStrategy: .useDefaultKeys)
+    result.data?.remoteCommand = .honkAndFlash
     return (remoteCommandAccepted: result.data, response: result.response)
   }
 }

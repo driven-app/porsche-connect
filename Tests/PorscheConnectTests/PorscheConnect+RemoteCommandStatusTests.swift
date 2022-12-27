@@ -9,7 +9,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
   let mockNetworkRoutes = MockNetworkRoutes()
   let application: Application = .carControl
   let vehicle = Vehicle(vin: "A1234")
-  let remoteCommand = RemoteCommandAccepted(id: "999", lastUpdated: Date())
+  let remoteCommand = RemoteCommandAccepted(id: "999", lastUpdated: Date(), remoteCommand: .honkAndFlash)
 
   // MARK: - Lifecycle
 
