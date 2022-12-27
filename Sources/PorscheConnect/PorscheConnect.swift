@@ -3,12 +3,10 @@ import Foundation
 // MARK: - Enums
 
 public enum Environment: String {
-  case ireland, germany, test
+  case germany, test
   
   public var countryCode: String {
     switch self {
-    case .ireland:
-      return "ie"
     case .germany:
       return "de"
     case .test:
@@ -18,8 +16,6 @@ public enum Environment: String {
   
   public var languageCode: String {
     switch self {
-    case .ireland:
-      return "en"
     case .germany:
       return "de"
     case .test:
@@ -29,8 +25,6 @@ public enum Environment: String {
   
   public var regionCode: String {
     switch self {
-    case .ireland:
-      return "ie/en_GB"
     case .germany:
       return "de/de_DE"
     case .test:
