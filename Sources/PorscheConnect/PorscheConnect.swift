@@ -78,7 +78,7 @@ public class PorscheConnect {
   let networkClient = NetworkClient()
   let networkRoutes: NetworkRoutes
   let password: String
-  let codeChallenger = CodeChallenger(length: 40)
+  let codeChallenger = CodeChallenger()
   
   // MARK: - Init & configuration
   
