@@ -367,6 +367,95 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
       await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
     }
   
+  // MARK: - Honk and Flash Tests
+  
+  func testFlashAuthRequiredSuccessful() async {
+    connect.auths[application] = nil
+    let expectation = expectation(description: "Network Expectation")
+    
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: MockServer.shared.router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: MockServer.shared.router)
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: MockServer.shared.router)
+    mockNetworkRoutes.mockPostFlashSuccessful(router: MockServer.shared.router)
+    
+    XCTAssertFalse(connect.authorized(application: application))
+    
+    let result = try! await connect.flash(vehicle: vehicle)
+    
+    expectation.fulfill()
+    XCTAssertNotNil(result)
+    XCTAssertNotNil(result.remoteCommandAccepted)
+    assertRemoteCommandAccepted(result.remoteCommandAccepted!)
+    
+    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  }
+  
+  func testFlashAuthRequiredFailure() async {
+    connect.auths[application] = nil
+    let expectation = expectation(description: "Network Expectation")
+    
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: MockServer.shared.router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: MockServer.shared.router)
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: MockServer.shared.router)
+    mockNetworkRoutes.mockPostFlashFailure(router: MockServer.shared.router)
+    
+    XCTAssertFalse(connect.authorized(application: application))
+    
+    do {
+      _ = try await connect.flash(vehicle: vehicle)
+    } catch {
+      expectation.fulfill()
+      XCTAssert(connect.authorized(application: application))
+      XCTAssertEqual(HttpStatusCode.BadRequest, error as! HttpStatusCode)
+    }
+    
+    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  }
+  
+  func testHonkAndFlashAuthRequiredSuccessful() async {
+    connect.auths[application] = nil
+    let expectation = expectation(description: "Network Expectation")
+    
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: MockServer.shared.router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: MockServer.shared.router)
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: MockServer.shared.router)
+    mockNetworkRoutes.mockPostHonkAndFlashSuccessful(router: MockServer.shared.router)
+    
+    XCTAssertFalse(connect.authorized(application: application))
+    
+    let result = try! await connect.flash(vehicle: vehicle, andHonk: true)
+    
+    expectation.fulfill()
+    XCTAssertNotNil(result)
+    XCTAssertNotNil(result.remoteCommandAccepted)
+    assertRemoteCommandAccepted(result.remoteCommandAccepted!)
+    
+    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  }
+  
+  func testHonkAndFlashAuthRequiredFailure() async {
+    connect.auths[application] = nil
+    let expectation = expectation(description: "Network Expectation")
+    
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: MockServer.shared.router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: MockServer.shared.router)
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: MockServer.shared.router)
+    mockNetworkRoutes.mockPostHonkAndFlashFailure(router: MockServer.shared.router)
+    
+    XCTAssertFalse(connect.authorized(application: application))
+    
+    do {
+      _ = try await connect.flash(vehicle: vehicle, andHonk: true)
+    } catch {
+      expectation.fulfill()
+      XCTAssert(connect.authorized(application: application))
+      XCTAssertEqual(HttpStatusCode.BadRequest, error as! HttpStatusCode)
+    }
+    
+    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  }
+  
+  
   // MARK: - Private functions
   
   private func assertSummary(_ summary: Summary) {
@@ -897,5 +986,11 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertTrue(weekdays.THURSDAY)
     XCTAssertTrue(weekdays.FRIDAY)
     XCTAssertTrue(weekdays.SATURDAY)
+  }
+  
+  private func assertRemoteCommandAccepted(_ remoteCommandAccepted: RemoteCommandAccepted) {
+    XCTAssertNotNil(remoteCommandAccepted)
+    XCTAssertEqual("123456789", remoteCommandAccepted.id)
+    XCTAssertEqual(ISO8601DateFormatter().date(from: "2022-12-27T13:19:23Z"), remoteCommandAccepted.lastUpdated)
   }
 }
