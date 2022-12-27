@@ -1,4 +1,5 @@
 import XCTest
+
 @testable import PorscheConnect
 
 final class PorscheConnectPortalTests: BaseMockNetworkTestCase {
@@ -13,7 +14,8 @@ final class PorscheConnectPortalTests: BaseMockNetworkTestCase {
 
   override func setUp() {
     super.setUp()
-    connect = PorscheConnect(username: "homer.simpson@icloud.example", password: "Duh!", environment: .test)
+    connect = PorscheConnect(
+      username: "homer.simpson@icloud.example", password: "Duh!", environment: .test)
     connect.auths[application] = kTestPorschePortalAuth
   }
 
@@ -67,7 +69,7 @@ final class PorscheConnectPortalTests: BaseMockNetworkTestCase {
     XCTAssert(connect.authorized(application: application))
 
     do {
-      _  = try await connect.vehicles()
+      _ = try await connect.vehicles()
     } catch {
       expectation.fulfill()
       XCTAssertEqual(HttpStatusCode.BadRequest, error as! HttpStatusCode)
@@ -84,7 +86,7 @@ final class PorscheConnectPortalTests: BaseMockNetworkTestCase {
     XCTAssertFalse(connect.authorized(application: application))
 
     do {
-      _  = try await connect.vehicles()
+      _ = try await connect.vehicles()
     } catch {
       expectation.fulfill()
       XCTAssertEqual(PorscheConnectError.AuthFailure, error as! PorscheConnectError)

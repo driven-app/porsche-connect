@@ -1,4 +1,5 @@
 import XCTest
+
 @testable import PorscheConnect
 
 final class PorscheConnectTests: BaseMockNetworkTestCase {
@@ -12,7 +13,8 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
 
   override func setUp() {
     super.setUp()
-    connect = PorscheConnect(username: "homer.simpson@icloud.example", password: "Duh!", environment: .test)
+    connect = PorscheConnect(
+      username: "homer.simpson@icloud.example", password: "Duh!", environment: .test)
   }
 
   // MARK: - Tests

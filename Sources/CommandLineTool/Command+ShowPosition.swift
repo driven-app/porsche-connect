@@ -1,5 +1,5 @@
-import Foundation
 import ArgumentParser
+import Foundation
 import PorscheConnect
 
 extension Porsche {
@@ -37,7 +37,9 @@ extension Porsche {
     }
 
     private func printPosition(_ position: Position) {
-      let output = NSLocalizedString("Latitude: \(position.carCoordinate.latitude); Longitude: \(position.carCoordinate.longitude); Heading: \(String(format: "%.0f" ,position.heading))", comment: "")
+      let output = NSLocalizedString(
+        "Latitude: \(position.carCoordinate.latitude); Longitude: \(position.carCoordinate.longitude); Heading: \(String(format: "%.0f" ,position.heading))",
+        comment: "")
       print(output)
     }
   }

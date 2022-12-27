@@ -1,5 +1,5 @@
-import Foundation
 import ArgumentParser
+import Foundation
 import PorscheConnect
 
 extension Porsche {
@@ -38,7 +38,10 @@ extension Porsche {
     }
 
     private func printRemoteCommandAccepted(_ remoteCommandAccepted: RemoteCommandAccepted) {
-      print(NSLocalizedString("Remote command \"Flash\" accepted by Porsche API with ID \(remoteCommandAccepted.id)", comment: ""))
+      print(
+        NSLocalizedString(
+          "Remote command \"Flash\" accepted by Porsche API with ID \(remoteCommandAccepted.id)",
+          comment: ""))
     }
   }
 }

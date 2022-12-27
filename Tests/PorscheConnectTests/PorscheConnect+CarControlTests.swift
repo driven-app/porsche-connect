@@ -1,4 +1,5 @@
 import XCTest
+
 @testable import PorscheConnect
 
 final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
@@ -15,7 +16,8 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
 
   override func setUp() {
     super.setUp()
-    connect = PorscheConnect(username: "homer.simpson@icloud.example", password: "Duh!", environment: .test)
+    connect = PorscheConnect(
+      username: "homer.simpson@icloud.example", password: "Duh!", environment: .test)
     connect.auths[application] = kTestPorschePortalAuth
   }
 
@@ -454,7 +456,6 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
 
     await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
-
 
   // MARK: - Private functions
 
@@ -995,6 +996,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
   private func assertRemoteCommandAccepted(_ remoteCommandAccepted: RemoteCommandAccepted) {
     XCTAssertNotNil(remoteCommandAccepted)
     XCTAssertEqual("123456789", remoteCommandAccepted.id)
-    XCTAssertEqual(ISO8601DateFormatter().date(from: "2022-12-27T13:19:23Z"), remoteCommandAccepted.lastUpdated)
+    XCTAssertEqual(
+      ISO8601DateFormatter().date(from: "2022-12-27T13:19:23Z"), remoteCommandAccepted.lastUpdated)
   }
 }
