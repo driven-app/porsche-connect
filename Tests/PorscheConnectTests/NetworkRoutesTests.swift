@@ -38,6 +38,7 @@ final class NetworkRoutesTests: XCTestCase {
     XCTAssertEqual(URL(string: "https://api.porsche.com/e-mobility/de/de_DE/J1/12345X?timezone=Europe/Dublin"), networkRoute.vehicleEmobilityURL(vehicle: vehicle, capabilities: capabilities!))
     XCTAssertEqual(URL(string: "https://api.porsche.com/service-vehicle/honk-and-flash/12345X/flash"), networkRoute.vehicleFlashURL(vehicle: vehicle))
     XCTAssertEqual(URL(string: "https://api.porsche.com/service-vehicle/honk-and-flash/12345X/honk-and-flash"), networkRoute.vehicleHonkAndFlashURL(vehicle: vehicle))
+    XCTAssertEqual(URL(string: "https://api.porsche.com/service-vehicle/honk-and-flash/12345X/123456/status"), networkRoute.vehicleHonkAndFlashRemoteCommandStatusURL(vehicle: vehicle, remoteCommand: RemoteCommandAccepted(id: "123456", lastUpdated: Date())))
   }
   
   func testNetworkRoutesTest() {
@@ -53,5 +54,6 @@ final class NetworkRoutesTests: XCTestCase {
     XCTAssertEqual(URL(string: "http://localhost:\(kTestServerPort)/e-mobility/ie/en_IE/J1/12345X?timezone=Europe/Dublin"), networkRoute.vehicleEmobilityURL(vehicle: vehicle, capabilities: capabilities!))
     XCTAssertEqual(URL(string: "http://localhost:\(kTestServerPort)/service-vehicle/honk-and-flash/12345X/flash"), networkRoute.vehicleFlashURL(vehicle: vehicle))
     XCTAssertEqual(URL(string: "http://localhost:\(kTestServerPort)/service-vehicle/honk-and-flash/12345X/honk-and-flash"), networkRoute.vehicleHonkAndFlashURL(vehicle: vehicle))
+    XCTAssertEqual(URL(string: "http://localhost:\(kTestServerPort)/service-vehicle/honk-and-flash/12345X/123456/status"), networkRoute.vehicleHonkAndFlashRemoteCommandStatusURL(vehicle: vehicle, remoteCommand: RemoteCommandAccepted(id: "123456", lastUpdated: Date())))
   }
 }

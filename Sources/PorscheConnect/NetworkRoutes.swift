@@ -98,4 +98,13 @@ struct NetworkRoutes {
       return URL(string: "http://localhost:\(kTestServerPort)/service-vehicle/honk-and-flash/\(vehicle.vin)/honk-and-flash")!
     }
   }
+
+  func vehicleHonkAndFlashRemoteCommandStatusURL(vehicle: Vehicle, remoteCommand: RemoteCommandAccepted) -> URL {
+    switch environment {
+    case .production:
+      return URL(string: "https://api.porsche.com/service-vehicle/honk-and-flash/\(vehicle.vin)/\(remoteCommand.id)/status")!
+    case .test:
+      return URL(string: "http://localhost:\(kTestServerPort)/service-vehicle/honk-and-flash/\(vehicle.vin)/\(remoteCommand.id)/status")!
+    }
+  }
 }
