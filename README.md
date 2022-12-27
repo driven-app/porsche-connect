@@ -57,7 +57,7 @@ Create an instance of the library:
                                      password: "Duh!")
 ```
 
-Currently the following environments are supported:
+The following environments are supported:
 
 * **Production** (default)
 * **Test** (used by the test suite against a mocked server)
@@ -87,7 +87,7 @@ try {
   let result = porscheConnect.vehicles()
   if let vehicles = result.vehicles {
     let firstVehicle = vehicles.first!
-    let color: Color = firstVehicle.externalColor
+    let color: Color = firstVehicle.color
   }
 } catch {
   // Handle the error

@@ -1,16 +1,10 @@
 import XCTest
+import SwiftUI
 @testable import PorscheConnect
 
 final class ModelsTests: XCTestCase {
   
   let porscheAuth = kTestPorschePortalAuth
-  let vehicle = Vehicle(vin: "WP0ZZZY4MSA38703",
-                        modelDescription: "Taycan 4S",
-                        modelType: "Y1ADB1",
-                        modelYear: "2021",
-                        exteriorColorHex: "#47402e",
-                        attributes: nil,
-                        pictures: nil)
     
   // MARK: - Auth tests
   
@@ -48,8 +42,21 @@ final class ModelsTests: XCTestCase {
   // MARK: - Vehicle tests
   
   func testVehicleConstructionVariantOne() {
+    let vehicle = Vehicle(vin: "WP0ZZZY4MSA38703",
+                          modelDescription: "Taycan 4S",
+                          modelType: "Y1ADB1",
+                          modelYear: "2021",
+                          exteriorColor: "neptunblau/neptunblau",
+                          exteriorColorHex: "#47402e",
+                          attributes: nil,
+                          pictures: nil)
+    
     XCTAssertNotNil(vehicle)
-    XCTAssertNotNil(vehicle.externalColor)
+    XCTAssertEqual("neptunblau/neptunblau", vehicle.exteriorColor)
+    XCTAssertEqual("#47402e", vehicle.exteriorColorHex)
+    XCTAssertEqual(Color(hex: "#47402e"), vehicle.color)
+    XCTAssertNil(vehicle.attributes)
+    XCTAssertNil(vehicle.pictures)
   }
   
   func testVehicleConstructionVariantTwo() {
@@ -62,6 +69,23 @@ final class ModelsTests: XCTestCase {
     XCTAssertEqual("Taycan 4S", vehicle.modelDescription)
     XCTAssertEqual("Y1ADB1", vehicle.modelType)
     XCTAssertEqual("2021", vehicle.modelYear)
+    XCTAssertNil(vehicle.exteriorColor)
+    XCTAssertNil(vehicle.exteriorColorHex)
+    XCTAssertNil(vehicle.attributes)
+    XCTAssertNil(vehicle.pictures)
+  }
+  
+  func testVehicleConstructionVariantThree() {
+    let vehicle = Vehicle(vin: "VIN12345")
+    
+    XCTAssertEqual("VIN12345", vehicle.vin)
+    XCTAssertEqual(kBlankString, vehicle.modelDescription)
+    XCTAssertEqual(kBlankString, vehicle.modelType)
+    XCTAssertEqual(kBlankString, vehicle.modelYear)
+    XCTAssertNil(vehicle.exteriorColor)
+    XCTAssertNil(vehicle.exteriorColorHex)
+    XCTAssertNil(vehicle.attributes)
+    XCTAssertNil(vehicle.pictures)
   }
   
   func testVehicleDecodingJsonIntoModel() {
