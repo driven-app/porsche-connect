@@ -5,7 +5,7 @@ import SwiftUI
 final class ModelsTests: XCTestCase {
   
   let porscheAuth = kTestPorschePortalAuth
-    
+
   // MARK: - Auth tests
   
   func testPorscheAuthConstruction() {
@@ -388,6 +388,31 @@ final class ModelsTests: XCTestCase {
     XCTAssertEqual(ISO8601DateFormatter().date(from: "2022-12-27T13:19:23Z"), remoteCommandAccepted.lastUpdated)
   }
   
+  // MARK: – Remote Command Status
+  
+  func testRemoteCommandStatusInProgress() {
+    let remoteCommandStatus = buildRemoteCommandStatusInProgress()
+    
+    XCTAssertNotNil(remoteCommandStatus)
+    XCTAssertEqual("IN_PROGRESS", remoteCommandStatus.status)
+    XCTAssertEqual(RemoteCommandStatus.RemoteStatus.inProgress, remoteCommandStatus.remoteStatus)
+  }
+  
+  func testRemoteCommandStatusSuccess() {
+    let remoteCommandStatus = buildRemoteCommandStatusInSuccess()
+    
+    XCTAssertNotNil(remoteCommandStatus)
+    XCTAssertEqual("SUCCESS", remoteCommandStatus.status)
+    XCTAssertEqual(RemoteCommandStatus.RemoteStatus.success, remoteCommandStatus.remoteStatus)
+  }
+
+  func testRemoteCommandStatusUnknown() {
+    let remoteCommandStatus = buildRemoteCommandStatusInUnknown()
+
+    XCTAssertNotNil(remoteCommandStatus)
+    XCTAssertNil(remoteCommandStatus.remoteStatus)
+  }
+  
   // MARK: - Private functions
   
   private func buildPosition() -> Position {
@@ -414,5 +439,32 @@ final class ModelsTests: XCTestCase {
     decoder.dateDecodingStrategy = .iso8601
     
     return try! decoder.decode(RemoteCommandAccepted.self, from: json)
+  }
+  
+  private func buildRemoteCommandStatusInProgress() -> RemoteCommandStatus {
+    let json = "{\"status\" : \"IN_PROGRESS\"}".data(using: .utf8)!
+    
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .useDefaultKeys
+    
+    return try! decoder.decode(RemoteCommandStatus.self, from: json)
+  }
+  
+  private func buildRemoteCommandStatusInSuccess() -> RemoteCommandStatus {
+    let json = "{\"status\" : \"SUCCESS\"}".data(using: .utf8)!
+    
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .useDefaultKeys
+    
+    return try! decoder.decode(RemoteCommandStatus.self, from: json)
+  }
+
+  private func buildRemoteCommandStatusInUnknown() -> RemoteCommandStatus {
+    let json = "{\"status\" : \"Not Known\"}".data(using: .utf8)!
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .useDefaultKeys
+
+    return try! decoder.decode(RemoteCommandStatus.self, from: json)
   }
 }
