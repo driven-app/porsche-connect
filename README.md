@@ -62,7 +62,7 @@ Currently the following environments are supported:
 * **Germany** (default)
 * **Test** (used by the test suite against a mocked server)
 
-A valid [MyPorsche](https://connect-portal.porsche.com) username (email) and password is required to use this library.
+A valid [MyPorsche](https://my.porsche.com) username (email) and password is required to use this library.
 
 
 ### List Vehicles

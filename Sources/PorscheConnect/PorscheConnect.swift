@@ -39,24 +39,24 @@ public enum Environment: String {
   }
 }
 
-public enum Application {
-  case Portal, CarControl
+public enum Application {  
+  case Api, CarControl
   
   public var clientId: String {
     switch self {
-    case .Portal:
-      return "TZ4Vf5wnKeipJxvatJ60lPHYEzqZ4WNp"
+    case .Api:
+      return "4mPO3OE5Srjb1iaUGWsbqKBvvesya8oA"
     case .CarControl:
-      return "gZLSI7ThXFB4d2ld9t8Cx2DBRvGr1zN2"
+      return "Ux8WmyzsOAGGmvmWnW7GLEjIILHEztAs"
     }
   }
   
   public var redirectURL: URL {
     switch self {
-    case .Portal:
-      return URL(string: "https://my-static02.porsche.com/static/cms/auth.html")!
+    case .Api:
+      return URL(string: "https://my.porsche.com/core/de/de_DE")!
     case .CarControl:
-      return URL(string: "https://connect-portal.porsche.com/myservices/auth/auth.html")!
+      return URL(string: "https://my.porsche.com/myservices/auth/auth.html")!
     }
   }
 }

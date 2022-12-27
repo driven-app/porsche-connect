@@ -22,7 +22,7 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
     XCTAssertEqual(Environment.Test, connect.environment)
     XCTAssertEqual("homer.simpson@icloud.example", connect.username)
     XCTAssertNotNil(connect.auths)
-    XCTAssertFalse(connect.authorized(application: .Portal))
+    XCTAssertFalse(connect.authorized(application: .Api))
     XCTAssertFalse(connect.authorized(application: .CarControl))
   }
   
@@ -51,13 +51,13 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
   }
   
   func testApplicationClientIdPortal() {
-    let application = Application.Portal
-    XCTAssertEqual("TZ4Vf5wnKeipJxvatJ60lPHYEzqZ4WNp", application.clientId)
+    let application = Application.Api
+    XCTAssertEqual("4mPO3OE5Srjb1iaUGWsbqKBvvesya8oA", application.clientId)
   }
   
   func testApplicationClientIdCarControl() {
     let application = Application.CarControl
-    XCTAssertEqual("gZLSI7ThXFB4d2ld9t8Cx2DBRvGr1zN2", application.clientId)
+    XCTAssertEqual("Ux8WmyzsOAGGmvmWnW7GLEjIILHEztAs", application.clientId)
   }
   
   func testAuthLoggerIsDefined() {

@@ -15,8 +15,8 @@
         "repositoryURL": "https://github.com/envoy/Embassy.git",
         "state": {
           "branch": null,
-          "revision": "065b6ce52596bd06b867cfe17fea2c56dcb53b30",
-          "version": "4.1.3"
+          "revision": "72e53b2b76023556febdfe0cf5bc8d64018f9c18",
+          "version": "4.1.4"
         }
       },
       {
@@ -24,8 +24,8 @@
         "repositoryURL": "https://github.com/apple/swift-argument-parser",
         "state": {
           "branch": null,
-          "revision": "df9ee6676cd5b3bf5b330ec7568a5644f547201b",
-          "version": "1.1.3"
+          "revision": "fddd1c00396eed152c45a46bea9f47b98e59301d",
+          "version": "1.2.0"
         }
       }
     ]

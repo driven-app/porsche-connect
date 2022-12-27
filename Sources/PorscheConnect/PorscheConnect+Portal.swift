@@ -3,7 +3,7 @@ import Foundation
 public extension PorscheConnect {
   
   func vehicles() async throws -> (vehicles: [Vehicle]?, response: HTTPURLResponse?) {
-    let application: Application = .Portal
+    let application: Application = .Api
     
     _ = try await authIfRequired(application: application)
     

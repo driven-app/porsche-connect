@@ -7,7 +7,7 @@ final class PorscheConnectPortalTests: BaseMockNetworkTestCase {
   
   var connect: PorscheConnect!
   let mockNetworkRoutes = MockNetworkRoutes()
-  let application: Application = .Portal
+  let application: Application = .Api
   
   // MARK: - Lifecycle
   
