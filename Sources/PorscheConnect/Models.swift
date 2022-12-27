@@ -101,12 +101,12 @@ public struct Vehicle: Codable {
   
   // MARK: - Public
   
-  public init(vin: String, modelDescription: String, modelType: String, modelYear: String, exteriorColorHex: String, attributes: [VehicleAttribute]?, pictures: [VehiclePicture]?) {
+  public init(vin: String, modelDescription: String, modelType: String, modelYear: String, exteriorColor: String?, exteriorColorHex: String?, attributes: [VehicleAttribute]?, pictures: [VehiclePicture]?) {
     self.vin = vin
     self.modelDescription = modelDescription
     self.modelType = modelType
     self.modelYear = modelYear
-    self.exteriorColor = kBlankString
+    self.exteriorColor = exteriorColor
     self.exteriorColorHex = exteriorColorHex
     self.attributes = attributes
     self.pictures = pictures
@@ -117,8 +117,8 @@ public struct Vehicle: Codable {
     self.modelDescription = modelDescription
     self.modelType = modelType
     self.modelYear = modelYear
-    self.exteriorColor = kBlankString
-    self.exteriorColorHex = kBlankString
+    self.exteriorColor = nil
+    self.exteriorColorHex = nil
     self.attributes = nil
     self.pictures = nil
   }
@@ -128,8 +128,8 @@ public struct Vehicle: Codable {
     self.modelDescription = kBlankString
     self.modelType = kBlankString
     self.modelYear = kBlankString
-    self.exteriorColor = kBlankString
-    self.exteriorColorHex = kBlankString
+    self.exteriorColor = nil
+    self.exteriorColorHex = nil
     self.attributes = nil
     self.pictures = nil
   }

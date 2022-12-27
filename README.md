@@ -87,7 +87,7 @@ try {
   let result = porscheConnect.vehicles()
   if let vehicles = result.vehicles {
     let firstVehicle = vehicles.first!
-    let color: Color = firstVehicle.externalColor
+    let color: Color = firstVehicle.color
   }
 } catch {
   // Handle the error
