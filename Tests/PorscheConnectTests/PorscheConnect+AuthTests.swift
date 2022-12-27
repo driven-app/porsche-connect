@@ -12,13 +12,13 @@ final class PorscheConnectAuthTests: BaseMockNetworkTestCase {
   
   override func setUp() {
     super.setUp()
-    connect = PorscheConnect(username: "homer.simpson@icloud.example", password: "Duh!", environment: .Test)
+    connect = PorscheConnect(username: "homer.simpson@icloud.example", password: "Duh!", environment: .test)
   }
   
   // MARK: - Tests
   
   func testRequestTokenSuccessful() async {
-    let application: Application = .Portal
+    let application: Application = .api
     let expectation = expectation(description: "Network Expectation")
     mockNetworkRoutes.mockPostLoginAuthSuccessful(router: MockServer.shared.router)
     mockNetworkRoutes.mockGetApiAuthSuccessful(router: MockServer.shared.router)
@@ -49,7 +49,7 @@ final class PorscheConnectAuthTests: BaseMockNetworkTestCase {
   }
   
   func testRequestTokenFailureAtLoginToRetrieveCookies() async {
-    let application: Application = .Portal
+    let application: Application = .api
     let expectation = expectation(description: "Network Expectation")
     mockNetworkRoutes.mockPostLoginAuthFailure(router: MockServer.shared.router)
     
@@ -68,7 +68,7 @@ final class PorscheConnectAuthTests: BaseMockNetworkTestCase {
   }
   
   func testRequestTokenFailureAtGetApiAuthCode() async {
-    let application: Application = .Portal
+    let application: Application = .api
     let expectation = expectation(description: "Network Expectation")
     mockNetworkRoutes.mockPostLoginAuthSuccessful(router: MockServer.shared.router)
     mockNetworkRoutes.mockGetApiAuthFailure(router: MockServer.shared.router)
@@ -87,7 +87,7 @@ final class PorscheConnectAuthTests: BaseMockNetworkTestCase {
   }
   
   func testRequestTokenFailureAtGetApiAuthToken() async {
-    let application: Application = .Portal
+    let application: Application = .api
     let expectation = expectation(description: "Network Expectation")
     mockNetworkRoutes.mockPostLoginAuthSuccessful(router: MockServer.shared.router)
     mockNetworkRoutes.mockGetApiAuthSuccessful(router: MockServer.shared.router)

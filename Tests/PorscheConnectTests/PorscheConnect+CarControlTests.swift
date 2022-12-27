@@ -7,7 +7,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
   
   var connect: PorscheConnect!
   let mockNetworkRoutes = MockNetworkRoutes()
-  let application: Application = .CarControl
+  let application: Application = .carControl
   let vehicle = Vehicle(vin: "A1234")
   let capabilites = buildCapabilites()
   
@@ -15,7 +15,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
   
   override func setUp() {
     super.setUp()
-    connect = PorscheConnect(username: "homer.simpson@icloud.example", password: "Duh!", environment: .Test)
+    connect = PorscheConnect(username: "homer.simpson@icloud.example", password: "Duh!", environment: .test)
     connect.auths[application] = kTestPorschePortalAuth
   }
   

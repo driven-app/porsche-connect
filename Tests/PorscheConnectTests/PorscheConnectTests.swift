@@ -12,22 +12,22 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
   
   override func setUp() {
     super.setUp()
-    connect = PorscheConnect(username: "homer.simpson@icloud.example", password: "Duh!", environment: .Test)
+    connect = PorscheConnect(username: "homer.simpson@icloud.example", password: "Duh!", environment: .test)
   }
   
   // MARK: - Tests
   
   func testConstruction() {
     XCTAssertNotNil(connect)
-    XCTAssertEqual(Environment.Test, connect.environment)
+    XCTAssertEqual(Environment.test, connect.environment)
     XCTAssertEqual("homer.simpson@icloud.example", connect.username)
     XCTAssertNotNil(connect.auths)
-    XCTAssertFalse(connect.authorized(application: .Portal))
-    XCTAssertFalse(connect.authorized(application: .CarControl))
+    XCTAssertFalse(connect.authorized(application: .api))
+    XCTAssertFalse(connect.authorized(application: .carControl))
   }
   
   func testEnvironmentIreland() {
-    let environment = Environment.Ireland
+    let environment = Environment.ireland
     XCTAssertNotNil(environment)
     XCTAssertEqual("ie/en_GB", environment.regionCode)
     XCTAssertEqual("en", environment.languageCode)
@@ -35,7 +35,7 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
   }
   
   func testEnvironmentGermany() {
-    let environment = Environment.Germany
+    let environment = Environment.germany
     XCTAssertNotNil(environment)
     XCTAssertEqual("de/de_DE", environment.regionCode)
     XCTAssertEqual("de", environment.languageCode)
@@ -43,7 +43,7 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
   }
   
   func testEnvironmentTest() {
-    let environment = Environment.Test
+    let environment = Environment.test
     XCTAssertNotNil(environment)
     XCTAssertEqual("ie/en_IE", environment.regionCode)
     XCTAssertEqual("en", environment.languageCode)
@@ -51,13 +51,13 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
   }
   
   func testApplicationClientIdPortal() {
-    let application = Application.Portal
-    XCTAssertEqual("TZ4Vf5wnKeipJxvatJ60lPHYEzqZ4WNp", application.clientId)
+    let application = Application.api
+    XCTAssertEqual("4mPO3OE5Srjb1iaUGWsbqKBvvesya8oA", application.clientId)
   }
   
   func testApplicationClientIdCarControl() {
-    let application = Application.CarControl
-    XCTAssertEqual("gZLSI7ThXFB4d2ld9t8Cx2DBRvGr1zN2", application.clientId)
+    let application = Application.carControl
+    XCTAssertEqual("Ux8WmyzsOAGGmvmWnW7GLEjIILHEztAs", application.clientId)
   }
   
   func testAuthLoggerIsDefined() {

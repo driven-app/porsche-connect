@@ -7,13 +7,13 @@ final class PorscheConnectPortalTests: BaseMockNetworkTestCase {
   
   var connect: PorscheConnect!
   let mockNetworkRoutes = MockNetworkRoutes()
-  let application: Application = .Portal
+  let application: Application = .api
   
   // MARK: - Lifecycle
   
   override func setUp() {
     super.setUp()
-    connect = PorscheConnect(username: "homer.simpson@icloud.example", password: "Duh!", environment: .Test)
+    connect = PorscheConnect(username: "homer.simpson@icloud.example", password: "Duh!", environment: .test)
     connect.auths[application] = kTestPorschePortalAuth
   }
   
