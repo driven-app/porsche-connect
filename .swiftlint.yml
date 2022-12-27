@@ -1,2 +1,2 @@
 disabled_rules:
-  - disabled_rules
+  - trailing_whitespace
