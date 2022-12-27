@@ -3,7 +3,7 @@ import Foundation
 public extension PorscheConnect {
   
   func summary(vehicle: Vehicle) async throws -> (summary: Summary?, response: HTTPURLResponse?) {
-    let application: Application = .CarControl
+    let application: Application = .carControl
     
     _ = try await authIfRequired(application: application)
     
@@ -15,7 +15,7 @@ public extension PorscheConnect {
   }
   
   func position(vehicle: Vehicle) async throws -> (position: Position?, response: HTTPURLResponse?) {
-    let application: Application = .CarControl
+    let application: Application = .carControl
     
     _ = try await authIfRequired(application: application)
     
@@ -27,7 +27,7 @@ public extension PorscheConnect {
   }
   
   func capabilities(vehicle: Vehicle) async throws -> (capabilities: Capabilities?, response: HTTPURLResponse?) {
-    let application: Application = .CarControl
+    let application: Application = .carControl
     
     _ = try await authIfRequired(application: application)
 
@@ -39,7 +39,7 @@ public extension PorscheConnect {
   }
   
   func emobility(vehicle: Vehicle, capabilities: Capabilities) async throws -> (emobility: Emobility?, response: HTTPURLResponse?) {
-    let application: Application = .CarControl
+    let application: Application = .carControl
     
     _ = try await authIfRequired(application: application)
     

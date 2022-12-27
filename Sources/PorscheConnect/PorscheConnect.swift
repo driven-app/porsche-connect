@@ -3,59 +3,59 @@ import Foundation
 // MARK: - Enums
 
 public enum Environment: String {
-  case Ireland, Germany, Test
+  case ireland, germany, test
   
   public var countryCode: String {
     switch self {
-    case .Ireland:
+    case .ireland:
       return "ie"
-    case .Germany:
+    case .germany:
       return "de"
-    case .Test:
+    case .test:
       return "ie"
     }
   }
   
   public var languageCode: String {
     switch self {
-    case .Ireland:
+    case .ireland:
       return "en"
-    case .Germany:
+    case .germany:
       return "de"
-    case .Test:
+    case .test:
       return "en"
     }
   }
   
   public var regionCode: String {
     switch self {
-    case .Ireland:
+    case .ireland:
       return "ie/en_GB"
-    case .Germany:
+    case .germany:
       return "de/de_DE"
-    case .Test:
+    case .test:
       return "ie/en_IE"
     }
   }
 }
 
-public enum Application {  
-  case Api, CarControl
+public enum Application {
+  case api, carControl
   
   public var clientId: String {
     switch self {
-    case .Api:
+    case .api:
       return "4mPO3OE5Srjb1iaUGWsbqKBvvesya8oA"
-    case .CarControl:
+    case .carControl:
       return "Ux8WmyzsOAGGmvmWnW7GLEjIILHEztAs"
     }
   }
   
   public var redirectURL: URL {
     switch self {
-    case .Api:
+    case .api:
       return URL(string: "https://my.porsche.com/core/de/de_DE")!
-    case .CarControl:
+    case .carControl:
       return URL(string: "https://my.porsche.com/myservices/auth/auth.html")!
     }
   }
@@ -82,7 +82,7 @@ public class PorscheConnect {
   
   // MARK: - Init & configuration
   
-  public init(username: String, password: String, environment: Environment = .Germany) {
+  public init(username: String, password: String, environment: Environment = .germany) {
     self.username = username
     self.password = password
     self.environment = environment
