@@ -272,6 +272,23 @@ $ porsche show-emobility <username> <password> <vin>
 
 Battery Level: 53%; Remaining Range: 180 KM; Charging Status: NOT_CHARGING; Plug Status: DISCONNECTED
 ```
+
+To flash the indicators of a vehicle:
+
+```bash
+$ porsche flash <username> <password> <vin>
+
+Remote command \"Flash\" accepted by Porsche API with ID 123456
+```
+
+To flash and honk the indicators of a vehicle:
+
+```bash
+$ porsche honk-and-flash <username> <password> <vin>
+
+Remote command \"Honk and Flash\" accepted by Porsche API with ID 123456
+```
+
 # Install
 
 ### Package Manager
