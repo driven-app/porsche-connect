@@ -16,8 +16,11 @@ struct NetworkClient {
   // MARK: - Public
 
   func get<D: Decodable>(
-    _ responseType: D.Type, url: URL, params: [String: String]? = nil,
-    headers: [String: String]? = nil, parseResponseBody: Bool = true,
+    _ responseType: D.Type,
+    url: URL,
+    params: [String: String]? = nil,
+    headers: [String: String]? = nil,
+    parseResponseBody: Bool = true,
     jsonKeyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase
   ) async throws -> (data: D?, response: HTTPURLResponse?) {
     let request = createRequest(
@@ -29,8 +32,12 @@ struct NetworkClient {
   }
 
   func post<E: Encodable, D: Decodable>(
-    _ responseType: D.Type, url: URL, params: [String: String]? = nil, body: E?,
-    headers: [String: String]? = nil, contentType: HttpRequestContentType = .json,
+    _ responseType: D.Type,
+    url: URL,
+    params: [String: String]? = nil,
+    body: E?,
+    headers: [String: String]? = nil,
+    contentType: HttpRequestContentType = .json,
     parseResponseBody: Bool = true,
     jsonKeyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase
   ) async throws -> (data: D?, response: HTTPURLResponse?) {
@@ -45,7 +52,10 @@ struct NetworkClient {
   // MARK: - Private
 
   private func createRequest(
-    url: URL, method: String, headers: [String: String]?, contentType: HttpRequestContentType,
+    url: URL,
+    method: String,
+    headers: [String: String]?,
+    contentType: HttpRequestContentType,
     bodyData: Data?
   ) -> URLRequest {
     var request = URLRequest(url: url)
@@ -62,7 +72,9 @@ struct NetworkClient {
   }
 
   private func performRequest<D: Decodable>(
-    _ responseType: D.Type, request: URLRequest, contentType: HttpRequestContentType = .json,
+    _ responseType: D.Type,
+    request: URLRequest,
+    contentType: HttpRequestContentType = .json,
     parseResponseBody: Bool = true,
     jsonKeyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase
   ) async throws -> (D?, HTTPURLResponse?) {
