@@ -480,6 +480,71 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
 
+  func testToggleDirectChargingOffAuthRequiredSuccessful() async {
+    connect.auths[application] = nil
+    let expectation = expectation(description: "Network Expectation")
+
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: MockServer.shared.router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: MockServer.shared.router)
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: MockServer.shared.router)
+    mockNetworkRoutes.mockPostToggleDirectChargingOffSuccessful(router: MockServer.shared.router)
+
+    XCTAssertFalse(connect.authorized(application: application))
+
+    let result = try! await connect.toggleDirectCharging(vehicle: vehicle, capabilities: capabilites, enable: false)
+
+    expectation.fulfill()
+    XCTAssertNotNil(result)
+    XCTAssertNotNil(result.remoteCommandAccepted)
+    assertRemoteCommandAcceptedResponseVariantTwo(result.remoteCommandAccepted!)
+
+    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  }
+
+  func testToggleDirectChargingOnFailureAuthRequiredSuccessful() async {
+    connect.auths[application] = nil
+    let expectation = expectation(description: "Network Expectation")
+
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: MockServer.shared.router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: MockServer.shared.router)
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: MockServer.shared.router)
+    mockNetworkRoutes.mockPostToggleDirectChargingOnFailure(router: MockServer.shared.router)
+
+    XCTAssertFalse(connect.authorized(application: application))
+
+    do {
+      _ = try await connect.toggleDirectCharging(vehicle: vehicle, capabilities: capabilites)
+    } catch {
+      expectation.fulfill()
+      XCTAssert(connect.authorized(application: application))
+      XCTAssertEqual(HttpStatusCode.BadRequest, error as! HttpStatusCode)
+    }
+
+    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  }
+
+  func testToggleDirectChargingOffFailureAuthRequiredSuccessful() async {
+    connect.auths[application] = nil
+    let expectation = expectation(description: "Network Expectation")
+
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: MockServer.shared.router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: MockServer.shared.router)
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: MockServer.shared.router)
+    mockNetworkRoutes.mockPostToggleDirectChargingOffFailure(router: MockServer.shared.router)
+
+    XCTAssertFalse(connect.authorized(application: application))
+
+    do {
+      _ = try await connect.toggleDirectCharging(vehicle: vehicle, capabilities: capabilites, enable: false)
+    } catch {
+      expectation.fulfill()
+      XCTAssert(connect.authorized(application: application))
+      XCTAssertEqual(HttpStatusCode.BadRequest, error as! HttpStatusCode)
+    }
+
+    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  }
+
   // MARK: - Private functions
 
   private func assertRemoteCommandAcceptedResponseVariantOne(_ remoteCommandAccepted: RemoteCommandAccepted) {
