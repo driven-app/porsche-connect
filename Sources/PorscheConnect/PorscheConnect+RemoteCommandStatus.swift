@@ -5,7 +5,7 @@ extension PorscheConnect {
   public func checkStatus(vehicle: Vehicle, remoteCommand: RemoteCommandAccepted) async throws -> (
     status: RemoteCommandStatus?, response: HTTPURLResponse?
   ) {
-    let application: Application = .carControl
+    let application: OAuthApplication = .carControl
 
     _ = try await authIfRequired(application: application)
 

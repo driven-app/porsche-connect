@@ -8,7 +8,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
 
   var connect: PorscheConnect!
   let mockNetworkRoutes = MockNetworkRoutes()
-  let application: Application = .carControl
+  let application: OAuthApplication = .carControl
   let vehicle = Vehicle(vin: "A1234")
   let remoteCommand = RemoteCommandAccepted(
     id: "999", lastUpdated: Date(), remoteCommand: .honkAndFlash)
@@ -19,7 +19,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
     super.setUp()
     connect = PorscheConnect(
       username: "homer.simpson@icloud.example", password: "Duh!", environment: .test)
-    connect.auths[application] = kTestPorschePortalAuth
+    connect.auths[application] = OAuthToken(authResponse: kTestPorschePortalAuth)
   }
 
   // MARK: - Tests

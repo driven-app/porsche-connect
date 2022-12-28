@@ -2,28 +2,6 @@ import Foundation
 
 // MARK: - Enums
 
-public enum Application {
-  case api, carControl
-
-  public var clientId: String {
-    switch self {
-    case .api:
-      return "4mPO3OE5Srjb1iaUGWsbqKBvvesya8oA"
-    case .carControl:
-      return "Ux8WmyzsOAGGmvmWnW7GLEjIILHEztAs"
-    }
-  }
-
-  public var redirectURL: URL {
-    switch self {
-    case .api:
-      return URL(string: "https://my.porsche.com/core/de/de_DE")!
-    case .carControl:
-      return URL(string: "https://my.porsche.com/myservices/auth/auth.html")!
-    }
-  }
-}
-
 public enum PorscheConnectError: Error {
   case AuthFailure
   case NoResult
@@ -35,7 +13,7 @@ public class PorscheConnect {
 
   let environment: Environment
   let username: String
-  var auths: [Application: PorscheAuth] = Dictionary()
+  var auths: [OAuthApplication: OAuthToken] = Dictionary()
 
   let networkClient = NetworkClient()
   let networkRoutes: NetworkRoutes
@@ -53,7 +31,7 @@ public class PorscheConnect {
 
   // MARK: - Common functions
 
-  func authorized(application: Application) -> Bool {
+  func authorized(application: OAuthApplication) -> Bool {
     guard let auth = auths[application] else {
       return false
     }
@@ -74,7 +52,7 @@ public class PorscheConnect {
     ]
   }
 
-  func authIfRequired(application: Application) async throws {
+  func authIfRequired(application: OAuthApplication) async throws {
     if !authorized(application: application) {
       do {
         _ = try await auth(application: application)
