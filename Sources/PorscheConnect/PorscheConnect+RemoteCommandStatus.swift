@@ -3,7 +3,7 @@ import Foundation
 extension PorscheConnect {
 
   public func checkStatus(vehicle: Vehicle, remoteCommand: RemoteCommandAccepted) async throws -> (
-    status: RemoteCommandStatus?, response: HTTPURLResponse?
+    status: RemoteCommandStatus?, response: URLResponse?
   ) {
     let application: OAuthApplication = .carControl
 

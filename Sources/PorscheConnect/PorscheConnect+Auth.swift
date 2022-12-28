@@ -28,8 +28,7 @@ extension PorscheConnect {
       String.self, url: networkRoutes.loginAuthURL,
       body: buildPostFormBodyFrom(dictionary: loginBody), contentType: .form,
       parseResponseBody: false)
-    if let response = result.response,
-      let statusCode = HttpStatusCode(rawValue: response.statusCode),
+    if let statusCode = HttpStatusCode(rawValue: result.response.statusCode),
       statusCode == .OK
     {
       AuthLogger.info("Login to retrieve cookies successful")
@@ -49,12 +48,11 @@ extension PorscheConnect {
       codeVerifier: codeVerifier)
     let result = try await networkClient.get(
       String.self, url: networkRoutes.apiAuthURL, params: apiAuthParams, parseResponseBody: false)
-    if let response = result.response,
-      let url = response.value(forHTTPHeaderField: "cdn-original-uri"),
+    if let url = result.response.value(forHTTPHeaderField: "cdn-original-uri"),
       let code = URLComponents(string: url)?.queryItems?.first(where: { $0.name == "code" })?.value
     {
       AuthLogger.info("Api Auth call for code successful")
-      return (code, codeVerifier, response)
+      return (code, codeVerifier, result.response)
     } else {
       throw PorscheConnectError.AuthFailure
     }
@@ -69,8 +67,7 @@ extension PorscheConnect {
     let result = try await networkClient.post(
       AuthResponse.self, url: networkRoutes.apiTokenURL,
       body: buildPostFormBodyFrom(dictionary: apiTokenBody), contentType: .form)
-    if let response = result.response,
-      let statusCode = HttpStatusCode(rawValue: response.statusCode),
+    if let statusCode = HttpStatusCode(rawValue: result.response.statusCode),
       statusCode == .OK
     {
       AuthLogger.info("Api Auth call for token successful")
