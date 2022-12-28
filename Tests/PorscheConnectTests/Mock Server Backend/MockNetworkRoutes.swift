@@ -19,6 +19,8 @@ final class MockNetworkRoutes {
   private static let postApiTokenPath = "/as/token.oauth2"
   private static let postFlashPath = "/service-vehicle/honk-and-flash/A1234/flash"
   private static let postHonkAndFlashPath = "/service-vehicle/honk-and-flash/A1234/honk-and-flash"
+  private static let postToggleDirectChargingOnPath = "/e-mobility/ie/en_IE/J1/A1234/toggle-direct-charging/true"
+  private static let postToggleDirectChargingOffPath = "/e-mobility/ie/en_IE/J1/A1234/toggle-direct-charging/false"
 
   // MARK: - Hello World
 
@@ -162,7 +164,7 @@ final class MockNetworkRoutes {
     router[MockNetworkRoutes.postFlashPath] = JSONResponse(
       statusCode: 200,
       handler: { (req) -> Any in
-        return self.mockRemoteCommandAccepted()
+        return self.mockRemoteCommandAcceptedVariantOne()
       })
   }
 
@@ -175,12 +177,40 @@ final class MockNetworkRoutes {
     router[MockNetworkRoutes.postHonkAndFlashPath] = JSONResponse(
       statusCode: 200,
       handler: { (req) -> Any in
-        return self.mockRemoteCommandAccepted()
+        return self.mockRemoteCommandAcceptedVariantOne()
       })
   }
 
   func mockPostHonkAndFlashFailure(router: Router) {
     router[MockNetworkRoutes.postHonkAndFlashPath] = DataResponse(
+      statusCode: 400, statusMessage: "bad request")
+  }
+
+  // MARK: – Post Toggle Direct Charging
+
+  func mockPostToggleDirectChargingOnSuccessful(router: Router) {
+    router[MockNetworkRoutes.postToggleDirectChargingOnPath] = JSONResponse(
+      statusCode: 200,
+      handler: { (req) -> Any in
+        return self.mockRemoteCommandAcceptedVariantTwo()
+      })
+  }
+
+  func mockPostToggleDirectChargingOnFailure(router: Router) {
+    router[MockNetworkRoutes.postToggleDirectChargingOnPath] = DataResponse(
+      statusCode: 400, statusMessage: "bad request")
+  }
+
+  func mockPostToggleDirectChargingOffSuccessful(router: Router) {
+    router[MockNetworkRoutes.postToggleDirectChargingOffPath] = JSONResponse(
+      statusCode: 200,
+      handler: { (req) -> Any in
+        return self.mockRemoteCommandAcceptedVariantTwo()
+      })
+  }
+
+  func mockPostToggleDirectChargingOffFailure(router: Router) {
+    router[MockNetworkRoutes.postToggleDirectChargingOffPath] = DataResponse(
       statusCode: 400, statusMessage: "bad request")
   }
 
@@ -274,8 +304,12 @@ final class MockNetworkRoutes {
     return try! (JSONSerialization.jsonObject(with: mockedResponse, options: []) as! [String: Any])
   }
 
-  private func mockRemoteCommandAccepted() -> [String: Any] {
+  private func mockRemoteCommandAcceptedVariantOne() -> [String: Any] {
     return ["id": "123456789", "lastUpdated": "2022-12-27T13:19:23Z"]
+  }
+
+  private func mockRemoteCommandAcceptedVariantTwo() -> [String: Any] {
+    return ["requestId": "123456789"]
   }
 
   private func mockRemoteCommandStatusInProgress() -> [String: Any] {

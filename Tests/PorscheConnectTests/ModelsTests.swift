@@ -413,12 +413,26 @@ final class ModelsTests: XCTestCase {
   // MARK: - Flash & Honk
 
   func testFlashDecodingJsonIntoModel() {
-    let remoteCommandAccepted = buildRemoteCommandAccepted()
+    let remoteCommandAccepted = buildRemoteCommandVariantOneAccepted()
 
     XCTAssertNotNil(remoteCommandAccepted)
+    XCTAssertEqual("2119999", remoteCommandAccepted.identifier)
     XCTAssertEqual("2119999", remoteCommandAccepted.id)
+    XCTAssertNil(remoteCommandAccepted.requestId)
     XCTAssertEqual(
       ISO8601DateFormatter().date(from: "2022-12-27T13:19:23Z"), remoteCommandAccepted.lastUpdated)
+  }
+
+  // MARK: – Direct Charging
+
+  func testDirectChargingDecodingJsonIntoModel() {
+    let remoteCommandAccepted = buildRemoteCommandVariantTwoAccepted()
+
+    XCTAssertNotNil(remoteCommandAccepted)
+    XCTAssertEqual("2119999", remoteCommandAccepted.identifier)
+    XCTAssertEqual("2119999", remoteCommandAccepted.requestId)
+    XCTAssertNil(remoteCommandAccepted.id)
+    XCTAssertNil(remoteCommandAccepted.lastUpdated)
   }
 
   // MARK: – Remote Command Status
@@ -466,8 +480,19 @@ final class ModelsTests: XCTestCase {
     return try! decoder.decode(Emobility.self, from: kEmobilityNotChargingJson)
   }
 
-  private func buildRemoteCommandAccepted() -> RemoteCommandAccepted {
+  private func buildRemoteCommandVariantOneAccepted() -> RemoteCommandAccepted {
     let json = "{\"id\" : \"2119999\", \"lastUpdated\" : \"2022-12-27T13:19:23Z\"}".data(
+      using: .utf8)!
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .useDefaultKeys
+    decoder.dateDecodingStrategy = .iso8601
+
+    return try! decoder.decode(RemoteCommandAccepted.self, from: json)
+  }
+
+  private func buildRemoteCommandVariantTwoAccepted() -> RemoteCommandAccepted {
+    let json = "{\"requestId\" : \"2119999\"}".data(
       using: .utf8)!
 
     let decoder = JSONDecoder()
