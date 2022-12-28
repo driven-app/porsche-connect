@@ -196,23 +196,23 @@ final class MockNetworkRoutes {
       })
   }
 
-  func mockPostToggleDirectChargingOnFailure(router: Router) {
-    router[MockNetworkRoutes.postToggleDirectChargingOnPath] = DataResponse(
-      statusCode: 400, statusMessage: "bad request")
-  }
-
-  func mockPostToggleDirectChargingOffSuccessful(router: Router) {
-    router[MockNetworkRoutes.postToggleDirectChargingOffPath] = JSONResponse(
-      statusCode: 200,
-      handler: { (req) -> Any in
-        return self.mockRemoteCommandAcceptedVariantTwo()
-      })
-  }
-
-  func mockPostToggleDirectChargingOffFailure(router: Router) {
-    router[MockNetworkRoutes.postToggleDirectChargingOffPath] = DataResponse(
-      statusCode: 400, statusMessage: "bad request")
-  }
+//  func mockPostToggleDirectChargingOnFailure(router: Router) {
+//    router[MockNetworkRoutes.postToggleDirectChargingOnPath] = DataResponse(
+//      statusCode: 400, statusMessage: "bad request")
+//  }
+//
+//  func mockPostToggleDirectChargingOffSuccessful(router: Router) {
+//    router[MockNetworkRoutes.postToggleDirectChargingOffPath] = JSONResponse(
+//      statusCode: 200,
+//      handler: { (req) -> Any in
+//        return self.mockRemoteCommandAcceptedVariantTwo()
+//      })
+//  }
+//
+//  func mockPostToggleDirectChargingOffFailure(router: Router) {
+//    router[MockNetworkRoutes.postToggleDirectChargingOffPath] = DataResponse(
+//      statusCode: 400, statusMessage: "bad request")
+//  }
 
   // MARK: – Remote Command Status
 
