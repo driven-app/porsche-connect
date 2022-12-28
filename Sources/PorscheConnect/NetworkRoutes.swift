@@ -9,7 +9,8 @@ struct NetworkRoutes {
 
   var loginAuthURL: URL {
     return URL(
-      string: "\(host("https://login.porsche.com"))/auth/api/v1/\(environment.regionCode)/public/login")!
+      string:
+        "\(host("https://login.porsche.com"))/auth/api/v1/\(environment.regionCode)/public/login")!
   }
 
   var apiAuthURL: URL {
@@ -21,22 +22,26 @@ struct NetworkRoutes {
   }
 
   var vehiclesURL: URL {
-    return URL(string: "\(host("https://api.porsche.com"))/core/api/v3/\(environment.regionCode)/vehicles")!
+    return URL(
+      string: "\(host("https://api.porsche.com"))/core/api/v3/\(environment.regionCode)/vehicles")!
   }
 
   // MARK: - Functions
 
   func vehicleSummaryURL(vehicle: Vehicle) -> URL {
-    return URL(string: "\(host("https://api.porsche.com"))/service-vehicle/vehicle-summary/\(vehicle.vin)")!
+    return URL(
+      string: "\(host("https://api.porsche.com"))/service-vehicle/vehicle-summary/\(vehicle.vin)")!
   }
 
   func vehiclePositionURL(vehicle: Vehicle) -> URL {
     return URL(
-      string: "\(host("https://api.porsche.com"))/service-vehicle/car-finder/\(vehicle.vin)/position")!
+      string:
+        "\(host("https://api.porsche.com"))/service-vehicle/car-finder/\(vehicle.vin)/position")!
   }
 
   func vehicleCapabilitiesURL(vehicle: Vehicle) -> URL {
-    return URL(string: "\(host("https://api.porsche.com"))/service-vehicle/vcs/capabilities/\(vehicle.vin)")!
+    return URL(
+      string: "\(host("https://api.porsche.com"))/service-vehicle/vcs/capabilities/\(vehicle.vin)")!
   }
 
   func vehicleEmobilityURL(vehicle: Vehicle, capabilities: Capabilities) -> URL {
@@ -48,13 +53,15 @@ struct NetworkRoutes {
 
   func vehicleFlashURL(vehicle: Vehicle) -> URL {
     return URL(
-      string: "\(host("https://api.porsche.com"))/service-vehicle/honk-and-flash/\(vehicle.vin)/flash")!
+      string:
+        "\(host("https://api.porsche.com"))/service-vehicle/honk-and-flash/\(vehicle.vin)/flash")!
   }
 
   func vehicleHonkAndFlashURL(vehicle: Vehicle) -> URL {
     return URL(
       string:
-        "\(host("https://api.porsche.com"))/service-vehicle/honk-and-flash/\(vehicle.vin)/honk-and-flash")!
+        "\(host("https://api.porsche.com"))/service-vehicle/honk-and-flash/\(vehicle.vin)/honk-and-flash"
+    )!
   }
 
   func vehicleHonkAndFlashRemoteCommandStatusURL(

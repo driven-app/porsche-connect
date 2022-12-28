@@ -61,7 +61,9 @@ public class PorscheConnect {
     return !auth.expired
   }
 
-  func buildHeaders(accessToken: String, apiKey: String, countryCode: CountryCode, languageCode: LanguageCode)
+  func buildHeaders(
+    accessToken: String, apiKey: String, countryCode: CountryCode, languageCode: LanguageCode
+  )
     -> [String: String]
   {
     return [

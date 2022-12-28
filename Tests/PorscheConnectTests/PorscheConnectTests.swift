@@ -37,7 +37,8 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
   }
 
   func testEnvironmentCustom() {
-    let environment = Environment(countryCode: .unitedStates, languageCode: .english, regionCode: "us/en_US")
+    let environment = Environment(
+      countryCode: .unitedStates, languageCode: .english, regionCode: "us/en_US")
     XCTAssertNotNil(environment)
     XCTAssertEqual(environment.regionCode, "us/en_US")
     XCTAssertEqual(environment.languageCode, .english)

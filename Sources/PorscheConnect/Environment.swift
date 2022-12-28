@@ -8,8 +8,10 @@ public struct Environment: Hashable {
   public let languageCode: LanguageCode
   public let regionCode: String
 
-  static public let germany = Environment(countryCode: .germany, languageCode: .german, regionCode: "de/de_DE")
-  static let test = Environment(countryCode: .ireland, languageCode: .english, regionCode: "ie/en_IE")
+  static public let germany = Environment(
+    countryCode: .germany, languageCode: .german, regionCode: "de/de_DE")
+  static let test = Environment(
+    countryCode: .ireland, languageCode: .english, regionCode: "ie/en_IE")
 }
 
 public enum CountryCode: String, Equatable {
