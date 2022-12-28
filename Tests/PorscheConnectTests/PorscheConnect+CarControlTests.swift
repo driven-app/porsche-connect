@@ -457,7 +457,45 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
 
+  // MARK: - Toggle Direct Charging Tests
+
+  func testToggleDirectChargingOnAuthRequiredSuccessful() async {
+    connect.auths[application] = nil
+    let expectation = expectation(description: "Network Expectation")
+
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: MockServer.shared.router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: MockServer.shared.router)
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: MockServer.shared.router)
+    mockNetworkRoutes.mockPostToggleDirectChargingOnSuccessful(router: MockServer.shared.router)
+
+    XCTAssertFalse(connect.authorized(application: application))
+
+    let result = try! await connect.toggleDirectCharging(vehicle: vehicle, capabilities: capabilites)
+
+    expectation.fulfill()
+    XCTAssertNotNil(result)
+    XCTAssertNotNil(result.remoteCommandAccepted)
+    assertRemoteCommandAcceptedResponseVariantTwo(result.remoteCommandAccepted!)
+
+    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  }
+
   // MARK: - Private functions
+
+  private func assertRemoteCommandAcceptedResponseVariantOne(_ remoteCommandAccepted: RemoteCommandAccepted) {
+    XCTAssertEqual("123456789", remoteCommandAccepted.identifier)
+    XCTAssertEqual("123456789", remoteCommandAccepted.id)
+    XCTAssertNil(remoteCommandAccepted.requestId)
+    XCTAssertEqual(
+      ISO8601DateFormatter().date(from: "2022-12-27T13:19:23Z"), remoteCommandAccepted.lastUpdated)
+  }
+  
+  private func assertRemoteCommandAcceptedResponseVariantTwo(_ remoteCommandAccepted: RemoteCommandAccepted) {
+//    XCTAssertEqual("123456789", remoteCommandAccepted.identifier)
+//    XCTAssertEqual("123456789", remoteCommandAccepted.requestId)
+    XCTAssertNil(remoteCommandAccepted.id)
+    XCTAssertNil(remoteCommandAccepted.lastUpdated)
+  }
 
   private func assertSummary(_ summary: Summary) {
     XCTAssertEqual("Taycan 4S", summary.modelDescription)
@@ -991,24 +1029,5 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
       XCTAssertTrue(weekdays.FRIDAY)
       XCTAssertTrue(weekdays.SATURDAY)
     }
-  }
-
-  private func assertRemoteCommandAcceptedResponseVariantOne(_ remoteCommandAccepted: RemoteCommandAccepted) {
-    XCTAssertNotNil(remoteCommandAccepted)
-    XCTAssertEqual("123456789", remoteCommandAccepted.identifier)
-    XCTAssertNotNil(remoteCommandAccepted.id)
-    XCTAssertEqual("123456789", remoteCommandAccepted.id)
-    XCTAssertNil(remoteCommandAccepted.requestId)
-    XCTAssertEqual(
-      ISO8601DateFormatter().date(from: "2022-12-27T13:19:23Z"), remoteCommandAccepted.lastUpdated)
-  }
-
-  private func assertRemoteCommandAcceptedResponseVariantTwo(_ remoteCommandAccepted: RemoteCommandAccepted) {
-    XCTAssertNotNil(remoteCommandAccepted)
-    XCTAssertEqual("123456789", remoteCommandAccepted.identifier)
-    XCTAssertNotNil(remoteCommandAccepted.requestId)
-    XCTAssertEqual("123456789", remoteCommandAccepted.requestId)
-    XCTAssertNil(remoteCommandAccepted.id)
-    XCTAssertNil(remoteCommandAccepted.lastUpdated)
   }
 }
