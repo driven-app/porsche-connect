@@ -7,6 +7,19 @@ public enum PorscheConnectError: Error {
   case NoResult
 }
 
+// MARK: - Porsche-specific OAuth applications
+
+extension OAuthApplication {
+  static let api = OAuthApplication(
+    clientId: "4mPO3OE5Srjb1iaUGWsbqKBvvesya8oA",
+    redirectURL: URL(string: "https://my.porsche.com/core/de/de_DE")!
+  )
+  static let carControl = OAuthApplication(
+    clientId: "Ux8WmyzsOAGGmvmWnW7GLEjIILHEztAs",
+    redirectURL: URL(string: "https://my.porsche.com/myservices/auth/auth.html")!
+  )
+}
+
 // MARK: - Porsche Connect
 
 public class PorscheConnect {

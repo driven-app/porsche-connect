@@ -8,15 +8,6 @@ import Foundation
 public struct OAuthApplication: Hashable {
   let clientId: String
   let redirectURL: URL
-
-  static let api = OAuthApplication(
-    clientId: "4mPO3OE5Srjb1iaUGWsbqKBvvesya8oA",
-    redirectURL: URL(string: "https://my.porsche.com/core/de/de_DE")!
-  )
-  static let carControl = OAuthApplication(
-    clientId: "Ux8WmyzsOAGGmvmWnW7GLEjIILHEztAs",
-    redirectURL: URL(string: "https://my.porsche.com/myservices/auth/auth.html")!
-  )
 }
 
 /// An OAuthToken is created as a result of a successful user authentication for a specific OAuthApplication.
