@@ -387,7 +387,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     expectation.fulfill()
     XCTAssertNotNil(result)
     XCTAssertNotNil(result.remoteCommandAccepted)
-    assertRemoteCommandAccepted(result.remoteCommandAccepted!)
+    assertRemoteCommandAcceptedResponseVariantOne(result.remoteCommandAccepted!)
 
     await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
@@ -430,7 +430,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     expectation.fulfill()
     XCTAssertNotNil(result)
     XCTAssertNotNil(result.remoteCommandAccepted)
-    assertRemoteCommandAccepted(result.remoteCommandAccepted!)
+    assertRemoteCommandAcceptedResponseVariantOne(result.remoteCommandAccepted!)
 
     await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
@@ -993,10 +993,22 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     }
   }
 
-  private func assertRemoteCommandAccepted(_ remoteCommandAccepted: RemoteCommandAccepted) {
+  private func assertRemoteCommandAcceptedResponseVariantOne(_ remoteCommandAccepted: RemoteCommandAccepted) {
     XCTAssertNotNil(remoteCommandAccepted)
+    XCTAssertEqual("123456789", remoteCommandAccepted.identifier)
+    XCTAssertNotNil(remoteCommandAccepted.id)
     XCTAssertEqual("123456789", remoteCommandAccepted.id)
+    XCTAssertNil(remoteCommandAccepted.requestId)
     XCTAssertEqual(
       ISO8601DateFormatter().date(from: "2022-12-27T13:19:23Z"), remoteCommandAccepted.lastUpdated)
+  }
+
+  private func assertRemoteCommandAcceptedResponseVariantTwo(_ remoteCommandAccepted: RemoteCommandAccepted) {
+    XCTAssertNotNil(remoteCommandAccepted)
+    XCTAssertEqual("123456789", remoteCommandAccepted.identifier)
+    XCTAssertNotNil(remoteCommandAccepted.requestId)
+    XCTAssertEqual("123456789", remoteCommandAccepted.requestId)
+    XCTAssertNil(remoteCommandAccepted.id)
+    XCTAssertNil(remoteCommandAccepted.lastUpdated)
   }
 }

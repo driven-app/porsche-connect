@@ -107,4 +107,26 @@ extension PorscheConnect {
     result.data?.remoteCommand = .honkAndFlash
     return (remoteCommandAccepted: result.data, response: result.response)
   }
+
+  public func toggleDirectCharging(vehicle: Vehicle, capabilities: Capabilities, enable: Bool = true) async throws -> (
+    remoteCommandAccepted: RemoteCommandAccepted?, response: HTTPURLResponse?
+  ) {
+    let application: OAuthApplication = .carControl
+
+    _ = try await authIfRequired(application: application)
+
+    guard let auth = auths[application], let apiKey = auth.apiKey else {
+      throw PorscheConnectError.AuthFailure
+    }
+    let headers = buildHeaders(
+      accessToken: auth.accessToken, apiKey: apiKey, countryCode: environment.countryCode,
+      languageCode: environment.languageCode)
+    let url = networkRoutes.vehicleToggleDirectChargingURL(vehicle: vehicle, capabilities: capabilities, enable: enable)
+
+    var result = try await networkClient.post(
+      RemoteCommandAccepted.self, url: url, body: kBlankString, headers: headers,
+      jsonKeyDecodingStrategy: .useDefaultKeys)
+    result.data?.remoteCommand = .honkAndFlash //TODO: update to toggleDirectCharge
+    return (remoteCommandAccepted: result.data, response: result.response)
+  }
 }
