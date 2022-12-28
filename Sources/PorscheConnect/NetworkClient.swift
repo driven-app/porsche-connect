@@ -24,8 +24,12 @@ struct NetworkClient {
     jsonKeyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase
   ) async throws -> (data: D?, response: HTTPURLResponse?) {
     let request = createRequest(
-      url: url.addParams(params: params), method: HttpMethod.get.rawValue, headers: headers,
-      contentType: .json, bodyData: nil)
+      url: url.addParams(params: params),
+      method: HttpMethod.get.rawValue,
+      headers: headers,
+      contentType: .json,
+      bodyData: nil
+    )
     return try await performRequest(
       responseType, request: request, parseResponseBody: parseResponseBody,
       jsonKeyDecodingStrategy: jsonKeyDecodingStrategy)
@@ -42,8 +46,12 @@ struct NetworkClient {
     jsonKeyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase
   ) async throws -> (data: D?, response: HTTPURLResponse?) {
     let request = buildModifyingRequest(
-      url: url.addParams(params: params), method: HttpMethod.post.rawValue, headers: headers,
-      contentType: contentType, body: body)
+      url: url.addParams(params: params),
+      method: HttpMethod.post.rawValue,
+      headers: headers,
+      contentType: contentType,
+      body: body
+    )
     return try await performRequest(
       responseType, request: request, contentType: contentType,
       parseResponseBody: parseResponseBody, jsonKeyDecodingStrategy: jsonKeyDecodingStrategy)
@@ -60,12 +68,7 @@ struct NetworkClient {
   ) -> URLRequest {
     var request = URLRequest(url: url)
     request.httpMethod = method
-    if let headers = headers {
-      for (key, value) in headers {
-        request.addValue(value, forHTTPHeaderField: key)
-      }
-    }
-
+    request.allHTTPHeaderFields = headers
     request.addValue(contentType.mimeDescription, forHTTPHeaderField: "Content-Type")
     request.httpBody = bodyData
     return request
