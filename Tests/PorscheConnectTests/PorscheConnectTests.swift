@@ -28,30 +28,38 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
     XCTAssertFalse(connect.authorized(application: .carControl))
   }
 
-  func testEnvironmentProduction() {
-    let environment = Environment.production
+  func testEnvironmentGermany() {
+    let environment = Environment.germany
     XCTAssertNotNil(environment)
-    XCTAssertEqual("de/de_DE", environment.regionCode)
-    XCTAssertEqual("de", environment.languageCode)
-    XCTAssertEqual("de", environment.countryCode)
+    XCTAssertEqual(environment.regionCode, "de/de_DE")
+    XCTAssertEqual(environment.languageCode, .german)
+    XCTAssertEqual(environment.countryCode, .germany)
+  }
+
+  func testEnvironmentCustom() {
+    let environment = Environment(countryCode: .unitedStates, languageCode: .english, regionCode: "us/en_US")
+    XCTAssertNotNil(environment)
+    XCTAssertEqual(environment.regionCode, "us/en_US")
+    XCTAssertEqual(environment.languageCode, .english)
+    XCTAssertEqual(environment.countryCode, .unitedStates)
   }
 
   func testEnvironmentTest() {
     let environment = Environment.test
     XCTAssertNotNil(environment)
-    XCTAssertEqual("ie/en_IE", environment.regionCode)
-    XCTAssertEqual("en", environment.languageCode)
-    XCTAssertEqual("ie", environment.countryCode)
+    XCTAssertEqual(environment.regionCode, "ie/en_IE")
+    XCTAssertEqual(environment.languageCode, .english)
+    XCTAssertEqual(environment.countryCode, .ireland)
   }
 
   func testApplicationClientIdPortal() {
     let application = Application.api
-    XCTAssertEqual("4mPO3OE5Srjb1iaUGWsbqKBvvesya8oA", application.clientId)
+    XCTAssertEqual(application.clientId, "4mPO3OE5Srjb1iaUGWsbqKBvvesya8oA")
   }
 
   func testApplicationClientIdCarControl() {
     let application = Application.carControl
-    XCTAssertEqual("Ux8WmyzsOAGGmvmWnW7GLEjIILHEztAs", application.clientId)
+    XCTAssertEqual(application.clientId, "Ux8WmyzsOAGGmvmWnW7GLEjIILHEztAs")
   }
 
   func testAuthLoggerIsDefined() {

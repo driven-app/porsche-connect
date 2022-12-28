@@ -67,11 +67,9 @@ struct NetworkRoutes {
   }
 
   private func host(_ defaultHost: String) -> String {
-    switch environment {
-    case .production:
-      return defaultHost
-    case .test:
+    if environment == Environment.test {
       return "http://localhost:\(kTestServerPort)"
     }
+    return defaultHost
   }
 }

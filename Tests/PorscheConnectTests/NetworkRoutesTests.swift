@@ -28,7 +28,7 @@ final class NetworkRoutesTests: XCTestCase {
   }
 
   func testNetworkRoutesProduction() {
-    let networkRoute = NetworkRoutes(environment: .production)
+    let networkRoute = NetworkRoutes(environment: .germany)
     XCTAssertEqual(
       URL(string: "https://login.porsche.com/auth/api/v1/de/de_DE/public/login")!,
       networkRoute.loginAuthURL)
