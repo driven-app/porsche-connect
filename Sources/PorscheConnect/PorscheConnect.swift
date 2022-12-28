@@ -2,37 +2,6 @@ import Foundation
 
 // MARK: - Enums
 
-public enum Environment: String {
-  case production, test
-
-  public var countryCode: String {
-    switch self {
-    case .production:
-      return "de"
-    case .test:
-      return "ie"
-    }
-  }
-
-  public var languageCode: String {
-    switch self {
-    case .production:
-      return "de"
-    case .test:
-      return "en"
-    }
-  }
-
-  public var regionCode: String {
-    switch self {
-    case .production:
-      return "de/de_DE"
-    case .test:
-      return "ie/en_IE"
-    }
-  }
-}
-
 public enum Application {
   case api, carControl
 
@@ -75,7 +44,7 @@ public class PorscheConnect {
 
   // MARK: - Init & configuration
 
-  public init(username: String, password: String, environment: Environment = .production) {
+  public init(username: String, password: String, environment: Environment = .germany) {
     self.username = username
     self.password = password
     self.environment = environment
@@ -92,14 +61,16 @@ public class PorscheConnect {
     return !auth.expired
   }
 
-  func buildHeaders(accessToken: String, apiKey: String, countryCode: String, languageCode: String)
+  func buildHeaders(
+    accessToken: String, apiKey: String, countryCode: CountryCode, languageCode: LanguageCode
+  )
     -> [String: String]
   {
     return [
       "Authorization": "Bearer \(accessToken)",
       "apikey": apiKey,
-      "x-vrs-url-country": countryCode,
-      "x-vrs-url-language": "\(languageCode)_\(countryCode.uppercased())",
+      "x-vrs-url-country": countryCode.rawValue,
+      "x-vrs-url-language": "\(languageCode.rawValue)_\(countryCode.rawValue.uppercased())",
     ]
   }
 
