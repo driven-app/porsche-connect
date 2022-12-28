@@ -39,7 +39,7 @@ extension Porsche {
     private func printRemoteCommandAccepted(_ remoteCommandAccepted: RemoteCommandAccepted) {
       print(
         NSLocalizedString(
-          "Remote command \"Honk and Flash\" accepted by Porsche API with ID \(remoteCommandAccepted.id)",
+          "Remote command \"Honk and Flash\" accepted by Porsche API with ID \(remoteCommandAccepted.identifier!)",
           comment: ""))
     }
   }

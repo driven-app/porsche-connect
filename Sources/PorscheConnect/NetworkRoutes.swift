@@ -69,9 +69,27 @@ struct NetworkRoutes {
   ) -> URL {
     return URL(
       string:
-        "\(host("https://api.porsche.com"))/service-vehicle/honk-and-flash/\(vehicle.vin)/\(remoteCommand.id)/status"
+        "\(host("https://api.porsche.com"))/service-vehicle/honk-and-flash/\(vehicle.vin)/\(remoteCommand.identifier!)/status"
     )!
   }
+
+  func vehicleToggleDirectChargingURL(
+    vehicle: Vehicle, capabilities: Capabilities, enable: Bool
+  ) -> URL {
+    return URL(
+      string: "\(host("https://api.porsche.com"))/e-mobility/\(environment.regionCode)/\(capabilities.carModel)/\(vehicle.vin)/toggle-direct-charging/\(enable)"
+    )!
+  }
+
+  func vehicleToggleDirectChargingRemoteCommandStatusURL(
+    vehicle: Vehicle, capabilities: Capabilities, remoteCommand: RemoteCommandAccepted
+  ) -> URL {
+    return URL(
+      string: "\(host("https://api.porsche.com"))/e-mobility/\(environment.regionCode)/\(capabilities.carModel)/\(vehicle.vin)/toggle-direct-charging/status/\(remoteCommand.identifier!)"
+    )!
+  }
+
+// MARK: - Private
 
   private func host(_ defaultHost: String) -> String {
     if environment == Environment.test {
