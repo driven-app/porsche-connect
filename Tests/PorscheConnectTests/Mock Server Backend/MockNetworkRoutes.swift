@@ -11,6 +11,7 @@ final class MockNetworkRoutes {
   private static let getSummaryPath = "/service-vehicle/vehicle-summary/A1234"
   private static let getPositionPath = "/service-vehicle/car-finder/A1234/position"
   private static let getCapabilitiesPath = "/service-vehicle/vcs/capabilities/A1234"
+  private static let getStatusPath = "/vehicle-data/ie/en_IE/status/A1234"
   private static let getEmobilityPath = "/e-mobility/ie/en_IE/J1/A1234"
 
   private static let getHonkAndFlashRemoteCommandStatusPath =
@@ -133,6 +134,19 @@ final class MockNetworkRoutes {
 
   func mockGetCapabilitiesFailure(router: Router) {
     router[MockNetworkRoutes.getCapabilitiesPath] = DataResponse(
+      statusCode: 400, statusMessage: "bad request")
+  }
+
+  // MARK: - Get Status
+
+  func mockGetStatusSuccessful(router: Router) {
+    router[MockNetworkRoutes.getStatusPath] = JSONResponse(statusCode: 200) { _ -> Any in
+      return self.mockStatusResponse()
+    }
+  }
+
+  func mockGetStatusFailure(router: Router) {
+    router[MockNetworkRoutes.getStatusPath] = DataResponse(
       statusCode: 400, statusMessage: "bad request")
   }
 
@@ -411,6 +425,71 @@ final class MockNetworkRoutes {
       ],
       "steeringWheelPosition": "RIGHT",
       "hasHonkAndFlash": true,
+    ]
+  }
+
+  private func mockStatusResponse() -> [String: Any?] {
+    return [
+      "vin" : "ABC123",
+      "fuelLevel" : nil,
+      "oilLevel" : nil,
+      "batteryLevel" : [
+        "value" : 73,
+        "unit" : "PERCENT",
+        "unitTranslationKey" : "GRAY_SLICE_UNIT_PERCENT",
+        "unitTranslationKeyV2" : "TC.UNIT.PERCENT"
+      ],
+      "mileage" : [
+        "value" : 2195,
+        "unit" : "KILOMETERS",
+        "originalValue" : 2195,
+        "originalUnit" : "KILOMETERS",
+        "valueInKilometers" : 2195,
+        "unitTranslationKey" : "GRAY_SLICE_UNIT_KILOMETER",
+        "unitTranslationKeyV2" : "TC.UNIT.KILOMETER"
+      ],
+      "overallLockStatus" : "CLOSED_LOCKED",
+      "serviceIntervals" : [
+        "oilService" : [
+          "distance" : nil,
+          "time" : nil
+        ],
+        "inspection" : [
+          "distance" : [
+            "value" : -27842,
+            "unit" : "KILOMETERS",
+            "originalValue" : -27842,
+            "originalUnit" : "KILOMETERS",
+            "valueInKilometers" : -27842,
+            "unitTranslationKey" : "GRAY_SLICE_UNIT_KILOMETER",
+            "unitTranslationKeyV2" : "TC.UNIT.KILOMETER"
+          ],
+          "time" : [
+            "value" : -710,
+            "unit" : "DAYS",
+            "unitTranslationKey" : "GRAY_SLICE_UNIT_DAY",
+            "unitTranslationKeyV2" : "TC.UNIT.DAYS"
+          ]
+        ]
+      ],
+      "remainingRanges" : [
+        "conventionalRange" : [
+          "distance" : nil,
+          "engineType" : "UNSUPPORTED"
+        ],
+        "electricalRange" : [
+          "distance" : [
+            "value" : 294,
+            "unit" : "KILOMETERS",
+            "originalValue" : 294,
+            "originalUnit" : "KILOMETERS",
+            "valueInKilometers" : 294,
+            "unitTranslationKey" : "GRAY_SLICE_UNIT_KILOMETER",
+            "unitTranslationKeyV2" : "TC.UNIT.KILOMETER"
+          ],
+          "engineType" : "ELECTRIC"
+        ]
+      ]
     ]
   }
 

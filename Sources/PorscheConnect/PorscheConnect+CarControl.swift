@@ -47,6 +47,17 @@ extension PorscheConnect {
     return (emobility: result.data, response: result.response)
   }
 
+  public func status(vehicle: Vehicle) async throws -> (
+    status: Status?, response: HTTPURLResponse
+  ) {
+    let headers = try await performAuthFor(application: .api)
+
+    let result = try await networkClient.get(
+      Status.self, url: networkRoutes.vehicleStatusURL(vehicle: vehicle), headers: headers,
+      jsonKeyDecodingStrategy: .useDefaultKeys)
+    return (status: result.data, response: result.response)
+  }
+
   public func flash(vehicle: Vehicle, andHonk honk: Bool = false) async throws -> (
     remoteCommandAccepted: RemoteCommandAccepted?, response: HTTPURLResponse
   ) {

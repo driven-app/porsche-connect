@@ -245,6 +245,49 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
 
+  // MARK: - Status Tests
+
+  func testStatusAuthRequiredSuccessful() async {
+    connect.auths[application] = nil
+    connect.auths[.api] = nil
+    let expectation = expectation(description: "Network Expectation")
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockGetStatusSuccessful(router: router)
+
+    XCTAssertFalse(connect.authorized(application: .api))
+
+    let result = try! await connect.status(vehicle: vehicle)
+
+    expectation.fulfill()
+    XCTAssert(connect.authorized(application: .api))
+    XCTAssertNotNil(result.response)
+    XCTAssertNotNil(result.status)
+    assertStatus(result.status!)
+
+    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  }
+
+  func testStatusAuthRequiredAuthFailure() async {
+    connect.auths[application] = nil
+    connect.auths[.api] = nil
+    let expectation = expectation(description: "Network Expectation")
+    mockNetworkRoutes.mockPostLoginAuthFailure(router: router)
+
+    XCTAssertFalse(connect.authorized(application: .api))
+
+    do {
+      _ = try await connect.status(vehicle: vehicle)
+    } catch {
+      expectation.fulfill()
+      XCTAssertFalse(connect.authorized(application: .api))
+      XCTAssertEqual(PorscheConnectError.AuthFailure, error as! PorscheConnectError)
+    }
+
+    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  }
+
   // MARK: - Emobility Tests
 
   func testEmobilityAuthRequiredSuccessful() async {
@@ -739,6 +782,20 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertFalse(capabilities.heatingCapabilities.rearSeatHeatingAvailable)
     XCTAssertEqual("RIGHT", capabilities.steeringWheelPosition)
     XCTAssertTrue(capabilities.hasHonkAndFlash)
+  }
+
+  private func assertStatus(_ status: Status) {
+    XCTAssertEqual(status.vin, "ABC123")
+    XCTAssertEqual(status.batteryLevel.value, 73)
+    XCTAssertEqual(status.batteryLevel.unit, "PERCENT")
+    XCTAssertEqual(status.mileage.value, 2195)
+    XCTAssertEqual(status.mileage.unit, "KILOMETERS")
+    XCTAssertEqual(status.overallLockStatus, "CLOSED_LOCKED")
+    XCTAssertEqual(status.serviceIntervals.inspection.distance.value, -27842)
+    XCTAssertEqual(status.serviceIntervals.inspection.time.value, -710)
+    XCTAssertEqual(status.remainingRanges.electricalRange.engineType, "ELECTRIC")
+    XCTAssertEqual(status.remainingRanges.electricalRange.distance?.value, 294)
+    XCTAssertEqual(status.remainingRanges.electricalRange.distance?.unit, "KILOMETERS")
   }
 
   private func assertEmobilityWhenNotCharging(_ emobility: Emobility) {
