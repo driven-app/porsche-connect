@@ -25,7 +25,8 @@ final class ModelsTests: XCTestCase {
     let decoder = JSONDecoder()
     decoder.keyDecodingStrategy = .convertFromSnakeCase
 
-    let decodedPorscheAuth = OAuthToken(authResponse: try! decoder.decode(AuthResponse.self, from: json))
+    let decodedPorscheAuth = OAuthToken(
+      authResponse: try! decoder.decode(AuthResponse.self, from: json))
     XCTAssertNotNil(decodedPorscheAuth)
     XCTAssertEqual("Kpjg2m1ZXd8GM0pvNIB3jogWd0o6", decodedPorscheAuth.accessToken)
     XCTAssertEqual(
