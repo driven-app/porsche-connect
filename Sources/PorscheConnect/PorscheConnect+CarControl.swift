@@ -3,7 +3,7 @@ import Foundation
 extension PorscheConnect {
 
   public func summary(vehicle: Vehicle) async throws -> (
-    summary: Summary?, response: URLResponse?
+    summary: Summary?, response: HTTPURLResponse
   ) {
     let application: OAuthApplication = .carControl
 
@@ -23,7 +23,7 @@ extension PorscheConnect {
   }
 
   public func position(vehicle: Vehicle) async throws -> (
-    position: Position?, response: URLResponse?
+    position: Position?, response: HTTPURLResponse
   ) {
     let application: OAuthApplication = .carControl
 
@@ -43,7 +43,7 @@ extension PorscheConnect {
   }
 
   public func capabilities(vehicle: Vehicle) async throws -> (
-    capabilities: Capabilities?, response: URLResponse?
+    capabilities: Capabilities?, response: HTTPURLResponse
   ) {
     let application: OAuthApplication = .carControl
 
@@ -63,7 +63,7 @@ extension PorscheConnect {
   }
 
   public func emobility(vehicle: Vehicle, capabilities: Capabilities) async throws -> (
-    emobility: Emobility?, response: URLResponse?
+    emobility: Emobility?, response: HTTPURLResponse
   ) {
     let application: OAuthApplication = .carControl
 
@@ -84,7 +84,7 @@ extension PorscheConnect {
   }
 
   public func flash(vehicle: Vehicle, andHonk honk: Bool = false) async throws -> (
-    remoteCommandAccepted: RemoteCommandAccepted?, response: URLResponse?
+    remoteCommandAccepted: RemoteCommandAccepted?, response: HTTPURLResponse
   ) {
     let application: OAuthApplication = .carControl
 
