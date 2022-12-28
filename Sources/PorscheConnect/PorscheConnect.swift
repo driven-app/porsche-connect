@@ -13,14 +13,26 @@ public enum PorscheConnectError: Error {
 // MARK: - Porsche-specific OAuth applications
 
 extension OAuthApplication {
-  static let api = OAuthApplication(
+  public static let api = OAuthApplication(
     clientId: "4mPO3OE5Srjb1iaUGWsbqKBvvesya8oA",
     redirectURL: URL(string: "https://my.porsche.com/core/de/de_DE")!
   )
-  static let carControl = OAuthApplication(
+  public static let carControl = OAuthApplication(
     clientId: "Ux8WmyzsOAGGmvmWnW7GLEjIILHEztAs",
     redirectURL: URL(string: "https://my.porsche.com/myservices/auth/auth.html")!
   )
+}
+
+final class SimpleAuthStorage: AuthStoring {
+  public var auths: [String: OAuthToken] = [:]
+
+  func storeAuthentication(token: OAuthToken?, for key: String) {
+    auths[key] = token
+  }
+
+  func authentication(for key: String) -> OAuthToken? {
+    return auths[key]
+  }
 }
 
 // MARK: - Porsche Connect
@@ -29,7 +41,7 @@ public class PorscheConnect {
 
   let environment: Environment
   let username: String
-  var auths: [OAuthApplication: OAuthToken] = Dictionary()
+  var authStorage: AuthStoring
 
   let networkClient = NetworkClient()
   let networkRoutes: NetworkRoutes
@@ -38,17 +50,36 @@ public class PorscheConnect {
 
   // MARK: - Init & configuration
 
-  public init(username: String, password: String, environment: Environment = .germany) {
+  public init(
+    username: String,
+    password: String,
+    environment: Environment = .germany,
+    authStorage: AuthStoring
+  ) {
     self.username = username
     self.password = password
     self.environment = environment
     self.networkRoutes = NetworkRoutes(environment: environment)
+    self.authStorage = authStorage
+  }
+
+  convenience public init(
+    username: String,
+    password: String,
+    environment: Environment = .germany
+  ) {
+    self.init(
+      username: username,
+      password: password,
+      environment: environment,
+      authStorage: SimpleAuthStorage()
+    )
   }
 
   // MARK: - Common functions
 
   func authorized(application: OAuthApplication) -> Bool {
-    guard let auth = auths[application] else {
+    guard let auth = authStorage.authentication(for: application.clientId) else {
       return false
     }
 
@@ -60,7 +91,7 @@ public class PorscheConnect {
   internal func performAuthFor(application: OAuthApplication) async throws -> [String: String] {
     _ = try await authIfRequired(application: application)
 
-    guard let auth = auths[application], let apiKey = auth.apiKey else {
+    guard let auth = authStorage.authentication(for: application.clientId), let apiKey = auth.apiKey else {
       throw PorscheConnectError.AuthFailure
     }
 
