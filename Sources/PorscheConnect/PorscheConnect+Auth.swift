@@ -2,7 +2,7 @@ import Foundation
 
 extension PorscheConnect {
 
-  public func auth(application: Application) async throws -> PorscheAuth {
+  public func auth(application: OAuthApplication) async throws -> OAuthToken {
     let loginToRetrieveCookiesResponse = try await loginToRetrieveCookies()
     guard loginToRetrieveCookiesResponse != nil else { throw PorscheConnectError.NoResult }
 
@@ -37,7 +37,7 @@ extension PorscheConnect {
     return result.response
   }
 
-  private func getApiAuthCode(application: Application) async throws -> (
+  private func getApiAuthCode(application: OAuthApplication) async throws -> (
     code: String?, codeVerifier: String?, response: HTTPURLResponse?
   ) {
     let codeVerifier = codeChallenger.generateCodeVerifier()!  //TODO: handle null
@@ -59,14 +59,14 @@ extension PorscheConnect {
     }
   }
 
-  private func getApiToken(application: Application, codeVerifier: String, code: String)
-    async throws -> (data: PorscheAuth?, response: HTTPURLResponse?)
+  private func getApiToken(application: OAuthApplication, codeVerifier: String, code: String)
+    async throws -> (data: OAuthToken?, response: HTTPURLResponse?)
   {
     let apiTokenBody = buildApiTokenBody(
       clientId: application.clientId, redirectURL: application.redirectURL, code: code,
       codeVerifier: codeVerifier)
     let result = try await networkClient.post(
-      PorscheAuth.self, url: networkRoutes.apiTokenURL,
+      OAuthToken.self, url: networkRoutes.apiTokenURL,
       body: buildPostFormBodyFrom(dictionary: apiTokenBody), contentType: .form)
     if let response = result.response,
       let statusCode = HttpStatusCode(rawValue: response.statusCode),

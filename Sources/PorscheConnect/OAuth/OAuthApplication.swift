@@ -1,6 +1,26 @@
 import Foundation
 
-public struct PorscheAuth: Codable {
+/// The Porsche Connect service is composed of various independent OAuth applications, each providing
+/// access to specific services and endpoints once authenticated.
+///
+/// Once authenticated, an instance of this type will typically be associated with an OAuthToken instance that
+/// represents the user's authentication.
+public struct OAuthApplication: Hashable {
+  let clientId: String
+  let redirectURL: URL
+
+  static let api = OAuthApplication(
+    clientId: "4mPO3OE5Srjb1iaUGWsbqKBvvesya8oA",
+    redirectURL: URL(string: "https://my.porsche.com/core/de/de_DE")!
+  )
+  static let carControl = OAuthApplication(
+    clientId: "Ux8WmyzsOAGGmvmWnW7GLEjIILHEztAs",
+    redirectURL: URL(string: "https://my.porsche.com/myservices/auth/auth.html")!
+  )
+}
+
+/// An OAuthToken is created as a result of a successful user authentication for a specific OAuthApplication.
+public struct OAuthToken: Codable {
 
   // MARK: Properties
 
@@ -11,6 +31,10 @@ public struct PorscheAuth: Codable {
   public let expiresAt: Date
 
   public var apiKey: String? {
+    // Standard OAuth JWT decoding. See
+    // https://www.oauth.com/oauth2-servers/access-tokens/self-encoded-access-tokens/
+    // for more details. Porsche Connect requires an apikey field as part of all authenticated
+    // requests. The apikey can be extracted from the jwt's "aud" field.
     let idTokenComponents = idToken.components(separatedBy: ".")
     let paddedBase64EncodedString = idTokenComponents[1].padding(
       toLength: ((idTokenComponents[1].count + 3) / 4) * 4, withPad: "=", startingAt: 0)

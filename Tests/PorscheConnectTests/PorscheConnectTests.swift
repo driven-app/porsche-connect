@@ -54,12 +54,12 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
   }
 
   func testApplicationClientIdPortal() {
-    let application = Application.api
+    let application = OAuthApplication.api
     XCTAssertEqual(application.clientId, "4mPO3OE5Srjb1iaUGWsbqKBvvesya8oA")
   }
 
   func testApplicationClientIdCarControl() {
-    let application = Application.carControl
+    let application = OAuthApplication.carControl
     XCTAssertEqual(application.clientId, "Ux8WmyzsOAGGmvmWnW7GLEjIILHEztAs")
   }
 

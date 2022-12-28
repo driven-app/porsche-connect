@@ -8,7 +8,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
 
   var connect: PorscheConnect!
   let mockNetworkRoutes = MockNetworkRoutes()
-  let application: Application = .carControl
+  let application: OAuthApplication = .carControl
   let vehicle = Vehicle(vin: "A1234")
   let capabilites = buildCapabilites()
 
