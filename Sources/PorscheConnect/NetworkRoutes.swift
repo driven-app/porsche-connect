@@ -69,7 +69,7 @@ struct NetworkRoutes {
   ) -> URL {
     return URL(
       string:
-        "\(host("https://api.porsche.com"))/service-vehicle/honk-and-flash/\(vehicle.vin)/\(remoteCommand.id)/status"
+        "\(host("https://api.porsche.com"))/service-vehicle/honk-and-flash/\(vehicle.vin)/\(remoteCommand.identifier!)/status"
     )!
   }
 
