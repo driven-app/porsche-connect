@@ -3,7 +3,7 @@ import Foundation
 /// The locale from which all API calls should be made.
 ///
 /// The environment affects the units and localization of API responses.
-public struct Environment: Hashable {
+public struct Environment: Equatable {
   public let countryCode: CountryCode
   public let languageCode: LanguageCode
   public let regionCode: String
@@ -14,7 +14,7 @@ public struct Environment: Hashable {
     countryCode: .ireland, languageCode: .english, regionCode: "ie/en_IE")
 }
 
-public enum CountryCode: String, Equatable {
+public enum CountryCode: String {
   case germany = "de"
   case ireland = "ie"
   case unitedStates = "us"
