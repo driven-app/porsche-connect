@@ -10,7 +10,7 @@ public struct RemoteCommandAccepted: Codable {
 
   public var id: String? = nil
   public var requestId: String? = nil
-  public let lastUpdated: Date?
+  public var lastUpdated: Date? = nil
   public var remoteCommand: RemoteCommand?
 
   // MARK: Computed Properties
