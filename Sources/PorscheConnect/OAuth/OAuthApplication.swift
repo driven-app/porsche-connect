@@ -27,7 +27,6 @@ public struct OAuthToken: Codable {
   public let accessToken: String
   public let idToken: String
   public let tokenType: String
-  public let expiresIn: Double
   public let expiresAt: Date
 
   public var apiKey: String? {
@@ -58,20 +57,10 @@ public struct OAuthToken: Codable {
 
   // MARK: Lifecycle
 
-  public init(from decoder: Decoder) throws {
-    let values = try decoder.container(keyedBy: CodingKeys.self)
-    self.accessToken = try values.decode(String.self, forKey: .accessToken)
-    self.idToken = try values.decode(String.self, forKey: .idToken)
-    self.tokenType = try values.decode(String.self, forKey: .tokenType)
-    self.expiresIn = try values.decode(Double.self, forKey: .expiresIn)
-    self.expiresAt = Date().addingTimeInterval(self.expiresIn)
-  }
-
-  public init(accessToken: String, idToken: String, tokenType: String, expiresIn: Double) {
-    self.accessToken = accessToken
-    self.idToken = idToken
-    self.tokenType = tokenType
-    self.expiresIn = expiresIn
-    self.expiresAt = Date().addingTimeInterval(self.expiresIn)
+  public init(authResponse: AuthResponse) {
+    self.accessToken = authResponse.accessToken
+    self.idToken = authResponse.idToken
+    self.tokenType = authResponse.tokenType
+    self.expiresAt = Date().addingTimeInterval(authResponse.expiresIn)
   }
 }

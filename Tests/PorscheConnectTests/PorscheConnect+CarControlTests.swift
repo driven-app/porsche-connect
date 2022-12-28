@@ -18,7 +18,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     super.setUp()
     connect = PorscheConnect(
       username: "homer.simpson@icloud.example", password: "Duh!", environment: .test)
-    connect.auths[application] = kTestPorschePortalAuth
+    connect.auths[application] = OAuthToken(authResponse: kTestPorschePortalAuth)
   }
 
   // MARK: - Summary Tests

@@ -17,8 +17,9 @@ extension PorscheConnect {
       apiTokenResult.response != nil
     else { throw PorscheConnectError.NoResult }
 
-    auths[application] = porscheAuth
-    return porscheAuth
+    let token = OAuthToken(authResponse: porscheAuth)
+    auths[application] = token
+    return token
   }
 
   private func loginToRetrieveCookies() async throws -> HTTPURLResponse? {
@@ -60,13 +61,13 @@ extension PorscheConnect {
   }
 
   private func getApiToken(application: OAuthApplication, codeVerifier: String, code: String)
-    async throws -> (data: OAuthToken?, response: HTTPURLResponse?)
+    async throws -> (data: AuthResponse?, response: HTTPURLResponse?)
   {
     let apiTokenBody = buildApiTokenBody(
       clientId: application.clientId, redirectURL: application.redirectURL, code: code,
       codeVerifier: codeVerifier)
     let result = try await networkClient.post(
-      OAuthToken.self, url: networkRoutes.apiTokenURL,
+      AuthResponse.self, url: networkRoutes.apiTokenURL,
       body: buildPostFormBodyFrom(dictionary: apiTokenBody), contentType: .form)
     if let response = result.response,
       let statusCode = HttpStatusCode(rawValue: response.statusCode),
