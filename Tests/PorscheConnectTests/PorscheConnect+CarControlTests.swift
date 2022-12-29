@@ -556,8 +556,8 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
   }
   
   private func assertRemoteCommandAcceptedResponseVariantTwo(_ remoteCommandAccepted: RemoteCommandAccepted) {
-//    XCTAssertEqual("123456789", remoteCommandAccepted.identifier)
-//    XCTAssertEqual("123456789", remoteCommandAccepted.requestId)
+    XCTAssertEqual("123456789", remoteCommandAccepted.identifier)
+    XCTAssertEqual("123456789", remoteCommandAccepted.requestId)
     XCTAssertNil(remoteCommandAccepted.id)
     XCTAssertNil(remoteCommandAccepted.lastUpdated)
   }

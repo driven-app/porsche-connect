@@ -481,8 +481,7 @@ final class ModelsTests: XCTestCase {
   }
 
   private func buildRemoteCommandVariantOneAccepted() -> RemoteCommandAccepted {
-    let json = "{\"id\" : \"2119999\", \"lastUpdated\" : \"2022-12-27T13:19:23Z\"}".data(
-      using: .utf8)!
+    let json = "{\"id\" : \"2119999\", \"lastUpdated\" : \"2022-12-27T13:19:23Z\"}".data(using: .utf8)!
 
     let decoder = JSONDecoder()
     decoder.keyDecodingStrategy = .useDefaultKeys
@@ -492,8 +491,7 @@ final class ModelsTests: XCTestCase {
   }
 
   private func buildRemoteCommandVariantTwoAccepted() -> RemoteCommandAccepted {
-    let json = "{\"requestId\" : \"2119999\"}".data(
-      using: .utf8)!
+    let json = "{\"requestId\" : \"2119999\"}".data(using: .utf8)!
 
     let decoder = JSONDecoder()
     decoder.keyDecodingStrategy = .useDefaultKeys
