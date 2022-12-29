@@ -31,7 +31,7 @@ final class NetworkClientTests: BaseMockNetworkTestCase {
     expectation.fulfill()
 
     XCTAssertEqual("Hello World!", result.data!.message)
-    XCTAssertEqual(200, result.response!.statusCode)
+    XCTAssertEqual(200, result.response.statusCode)
 
     await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
@@ -62,7 +62,7 @@ final class NetworkClientTests: BaseMockNetworkTestCase {
     expectation.fulfill()
 
     XCTAssertEqual("Hello World!", result.data!.message)
-    XCTAssertEqual(200, result.response!.statusCode)
+    XCTAssertEqual(200, result.response.statusCode)
 
     await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }

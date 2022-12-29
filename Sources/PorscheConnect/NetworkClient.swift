@@ -22,7 +22,7 @@ struct NetworkClient {
     headers: [String: String]? = nil,
     parseResponseBody: Bool = true,
     jsonKeyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase
-  ) async throws -> (data: D?, response: HTTPURLResponse?) {
+  ) async throws -> (data: D?, response: HTTPURLResponse) {
     let request = createRequest(
       url: url.addParams(params: params),
       method: HttpMethod.get.rawValue,
@@ -44,7 +44,7 @@ struct NetworkClient {
     contentType: HttpRequestContentType = .json,
     parseResponseBody: Bool = true,
     jsonKeyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase
-  ) async throws -> (data: D?, response: HTTPURLResponse?) {
+  ) async throws -> (data: D?, response: HTTPURLResponse) {
     let request = buildModifyingRequest(
       url: url.addParams(params: params),
       method: HttpMethod.post.rawValue,
@@ -80,16 +80,21 @@ struct NetworkClient {
     contentType: HttpRequestContentType = .json,
     parseResponseBody: Bool = true,
     jsonKeyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase
-  ) async throws -> (D?, HTTPURLResponse?) {
+  ) async throws -> (D?, HTTPURLResponse) {
     return try await withCheckedThrowingContinuation { continuation in
-      let task = session.dataTask(with: request) { (data, urlResponse, error) in
-        let response = urlResponse as? HTTPURLResponse
+      let task = session.dataTask(with: request) { (data, response, error) in
+        if let error = error {
+          continuation.resume(with: .failure(error))
+          return
+        }
+        guard let response = response as? HTTPURLResponse else {
+          continuation.resume(with: .failure(PorscheConnectError.NoResult))
+          return
+        }
 
-        if let response = response {
-          if isErrorStatusCode(response) {
-            continuation.resume(with: .failure(HttpStatusCode(rawValue: response.statusCode)!))
-            return
-          }
+        if isErrorStatusCode(response) {
+          continuation.resume(with: .failure(HttpStatusCode(rawValue: response.statusCode)!))
+          return
         }
 
         guard let data1 = data, error == nil, !data1.isEmpty, parseResponseBody else {
