@@ -10,7 +10,7 @@ class MockServer {
   let loop = try! SelectorEventLoop(selector: try! KqueueSelector())
   var server: DefaultHTTPServer!
 
-  private init() {
+  public init() {
     setupMockWebServer()
   }
 
