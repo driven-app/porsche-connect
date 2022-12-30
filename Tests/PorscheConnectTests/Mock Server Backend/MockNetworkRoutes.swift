@@ -24,210 +24,210 @@ final class MockNetworkRoutes {
 
   // MARK: - Hello World
 
-  func mockGetHelloWorldSuccessful(router: Router) {
-    router[MockNetworkRoutes.getHelloWorldPath] = JSONResponse(statusCode: 200) { (req) -> Any in
+  func mockGetHelloWorldSuccessful() {
+    MockServer.shared.router[MockNetworkRoutes.getHelloWorldPath] = JSONResponse(statusCode: 200) { _ -> Any in
       return self.mockHelloWorldResponse()
     }
   }
 
-  func mockGetHelloWorldFailure(router: Router) {
-    router[MockNetworkRoutes.getHelloWorldPath] = JSONResponse(
+  func mockGetHelloWorldFailure() {
+    MockServer.shared.router[MockNetworkRoutes.getHelloWorldPath] = JSONResponse(
       statusCode: 401, statusMessage: "unauthorized")
   }
 
   // MARK: - Post Login Auth
 
-  func mockPostLoginAuthSuccessful(router: Router) {
-    router[MockNetworkRoutes.postLoginAuthPath] = DataResponse(
+  func mockPostLoginAuthSuccessful() {
+    MockServer.shared.router[MockNetworkRoutes.postLoginAuthPath] = DataResponse(
       statusCode: 200, statusMessage: "ok", headers: [("Set-Cookie", "CIAM.status=mockValue")])
   }
 
-  func mockPostLoginAuthFailure(router: Router) {
-    router[MockNetworkRoutes.postLoginAuthPath] = DataResponse(
+  func mockPostLoginAuthFailure() {
+    MockServer.shared.router[MockNetworkRoutes.postLoginAuthPath] = DataResponse(
       statusCode: 400, statusMessage: "bad request")
   }
 
   // MARK: - Get Api Auth
 
-  func mockGetApiAuthSuccessful(router: Router) {
-    router[MockNetworkRoutes.getApiAuthPath] = DataResponse(
+  func mockGetApiAuthSuccessful() {
+    MockServer.shared.router[MockNetworkRoutes.getApiAuthPath] = DataResponse(
       statusCode: 200, statusMessage: "ok",
       headers: [
         ("cdn-original-uri", "/static/cms/auth.html?code=fqFQlQSUfNkMGtMLj0zRK0RriKdPySGVMmVXPAAC")
       ])
   }
 
-  func mockGetApiAuthFailure(router: Router) {
-    router[MockNetworkRoutes.getApiAuthPath] = DataResponse(
+  func mockGetApiAuthFailure() {
+    MockServer.shared.router[MockNetworkRoutes.getApiAuthPath] = DataResponse(
       statusCode: 400, statusMessage: "bad request")
   }
 
   // MARK: - Post Api Token
 
-  func mockPostApiTokenSuccessful(router: Router) {
-    router[MockNetworkRoutes.postApiTokenPath] = JSONResponse(statusCode: 200) { (req) -> Any in
+  func mockPostApiTokenSuccessful() {
+    MockServer.shared.router[MockNetworkRoutes.postApiTokenPath] = JSONResponse(statusCode: 200) { _ -> Any in
       return self.mockApiTokenResponse()
     }
   }
 
-  func mockPostApiTokenFailure(router: Router) {
-    router[MockNetworkRoutes.postApiTokenPath] = DataResponse(
+  func mockPostApiTokenFailure() {
+    MockServer.shared.router[MockNetworkRoutes.postApiTokenPath] = DataResponse(
       statusCode: 400, statusMessage: "bad request")
   }
 
   // MARK: - Get Vehicles
 
-  func mockGetVehiclesSuccessful(router: Router) {
-    router[MockNetworkRoutes.getVehiclesPath] = JSONResponse(statusCode: 200) { (req) -> Any in
+  func mockGetVehiclesSuccessful() {
+    MockServer.shared.router[MockNetworkRoutes.getVehiclesPath] = JSONResponse(statusCode: 200) { _ -> Any in
       return self.mockVehiclesResponse()
     }
   }
 
-  func mockGetVehiclesFailure(router: Router) {
-    router[MockNetworkRoutes.getVehiclesPath] = DataResponse(
+  func mockGetVehiclesFailure() {
+    MockServer.shared.router[MockNetworkRoutes.getVehiclesPath] = DataResponse(
       statusCode: 400, statusMessage: "bad request")
   }
 
   // MARK: - Get Summary
 
-  func mockGetSummarySuccessful(router: Router) {
-    router[MockNetworkRoutes.getSummaryPath] = JSONResponse(statusCode: 200) { (req) -> Any in
+  func mockGetSummarySuccessful() {
+    MockServer.shared.router[MockNetworkRoutes.getSummaryPath] = JSONResponse(statusCode: 200) { _ -> Any in
       return self.mockSummaryResponse()
     }
   }
 
-  func mockGetSummaryFailure(router: Router) {
-    router[MockNetworkRoutes.getSummaryPath] = DataResponse(
+  func mockGetSummaryFailure() {
+    MockServer.shared.router[MockNetworkRoutes.getSummaryPath] = DataResponse(
       statusCode: 400, statusMessage: "bad request")
   }
 
   // MARK: - Get Position
 
-  func mockGetPositionSuccessful(router: Router) {
-    router[MockNetworkRoutes.getPositionPath] = JSONResponse(statusCode: 200) { (req) -> Any in
+  func mockGetPositionSuccessful() {
+    MockServer.shared.router[MockNetworkRoutes.getPositionPath] = JSONResponse(statusCode: 200) { _ -> Any in
       return self.mockPositionResponse()
     }
   }
 
-  func mockGetPositionFailure(router: Router) {
-    router[MockNetworkRoutes.getPositionPath] = DataResponse(
+  func mockGetPositionFailure() {
+    MockServer.shared.router[MockNetworkRoutes.getPositionPath] = DataResponse(
       statusCode: 400, statusMessage: "bad request")
   }
 
   // MARK: - Get Capabilities
 
-  func mockGetCapabilitiesSuccessful(router: Router) {
-    router[MockNetworkRoutes.getCapabilitiesPath] = JSONResponse(statusCode: 200) { (req) -> Any in
+  func mockGetCapabilitiesSuccessful() {
+    MockServer.shared.router[MockNetworkRoutes.getCapabilitiesPath] = JSONResponse(statusCode: 200) { _ -> Any in
       return self.mockCapabilitiesResponse()
     }
   }
 
-  func mockGetCapabilitiesFailure(router: Router) {
-    router[MockNetworkRoutes.getCapabilitiesPath] = DataResponse(
+  func mockGetCapabilitiesFailure() {
+    MockServer.shared.router[MockNetworkRoutes.getCapabilitiesPath] = DataResponse(
       statusCode: 400, statusMessage: "bad request")
   }
 
   // MARK: - Get Emobility
 
-  func mockGetEmobilityNotChargingSuccessful(router: Router) {
-    router[MockNetworkRoutes.getEmobilityPath] = JSONResponse(statusCode: 200) { (req) -> Any in
+  func mockGetEmobilityNotChargingSuccessful() {
+    MockServer.shared.router[MockNetworkRoutes.getEmobilityPath] = JSONResponse(statusCode: 200) { _ -> Any in
       return self.mockEmobilityResponse(mockedResponse: kEmobilityNotChargingJson)
     }
   }
 
-  func mockGetEmobilityACTimerChargingSuccessful(router: Router) {
-    router[MockNetworkRoutes.getEmobilityPath] = JSONResponse(statusCode: 200) { (req) -> Any in
+  func mockGetEmobilityACTimerChargingSuccessful() {
+    MockServer.shared.router[MockNetworkRoutes.getEmobilityPath] = JSONResponse(statusCode: 200) { _ -> Any in
       return self.mockEmobilityResponse(mockedResponse: kEmobilityACTimerChargingJson)
     }
   }
 
-  func mockGetEmobilityACDirectChargingSuccessful(router: Router) {
-    router[MockNetworkRoutes.getEmobilityPath] = JSONResponse(statusCode: 200) { (req) -> Any in
+  func mockGetEmobilityACDirectChargingSuccessful() {
+    MockServer.shared.router[MockNetworkRoutes.getEmobilityPath] = JSONResponse(statusCode: 200) { _ -> Any in
       return self.mockEmobilityResponse(mockedResponse: kEmobilityACDirectChargingJson)
     }
   }
 
-  func mockGetEmobilityDCChargingSuccessful(router: Router) {
-    router[MockNetworkRoutes.getEmobilityPath] = JSONResponse(statusCode: 200) { (req) -> Any in
+  func mockGetEmobilityDCChargingSuccessful() {
+    MockServer.shared.router[MockNetworkRoutes.getEmobilityPath] = JSONResponse(statusCode: 200) { _ -> Any in
       return self.mockEmobilityResponse(mockedResponse: kEmobilityDCChargingJson)
     }
   }
 
-  func mockGetEmobilityFailure(router: Router) {
-    router[MockNetworkRoutes.getEmobilityPath] = DataResponse(
+  func mockGetEmobilityFailure() {
+    MockServer.shared.router[MockNetworkRoutes.getEmobilityPath] = DataResponse(
       statusCode: 400, statusMessage: "bad request")
   }
 
   // MARK: – Get Honk and Flash
 
-  func mockPostFlashSuccessful(router: Router) {
-    router[MockNetworkRoutes.postFlashPath] = JSONResponse(
+  func mockPostFlashSuccessful() {
+    MockServer.shared.router[MockNetworkRoutes.postFlashPath] = JSONResponse(
       statusCode: 200,
-      handler: { (req) -> Any in
+      handler: { _ -> Any in
         return self.mockRemoteCommandAcceptedVariantOne()
       })
   }
 
-  func mockPostFlashFailure(router: Router) {
-    router[MockNetworkRoutes.postFlashPath] = DataResponse(
+  func mockPostFlashFailure() {
+    MockServer.shared.router[MockNetworkRoutes.postFlashPath] = DataResponse(
       statusCode: 400, statusMessage: "bad request")
   }
 
-  func mockPostHonkAndFlashSuccessful(router: Router) {
-    router[MockNetworkRoutes.postHonkAndFlashPath] = JSONResponse(
+  func mockPostHonkAndFlashSuccessful() {
+    MockServer.shared.router[MockNetworkRoutes.postHonkAndFlashPath] = JSONResponse(
       statusCode: 200,
-      handler: { (req) -> Any in
+      handler: { _ -> Any in
         return self.mockRemoteCommandAcceptedVariantOne()
       })
   }
 
-  func mockPostHonkAndFlashFailure(router: Router) {
-    router[MockNetworkRoutes.postHonkAndFlashPath] = DataResponse(
+  func mockPostHonkAndFlashFailure() {
+    MockServer.shared.router[MockNetworkRoutes.postHonkAndFlashPath] = DataResponse(
       statusCode: 400, statusMessage: "bad request")
   }
 
   // MARK: – Post Toggle Direct Charging
 
-  func mockPostToggleDirectChargingOnSuccessful(router: Router) {
-    router[MockNetworkRoutes.postToggleDirectChargingOnPath] = JSONResponse(
+  func mockPostToggleDirectChargingOnSuccessful() {
+    MockServer.shared.router[MockNetworkRoutes.postToggleDirectChargingOnPath] = JSONResponse(
       statusCode: 200,
-      handler: { (req) -> Any in
+      handler: { _ -> Any in
         return self.mockRemoteCommandAcceptedVariantTwo()
       })
   }
 
-  func mockPostToggleDirectChargingOnFailure(router: Router) {
-    router[MockNetworkRoutes.postToggleDirectChargingOnPath] = DataResponse(
+  func mockPostToggleDirectChargingOnFailure() {
+    MockServer.shared.router[MockNetworkRoutes.postToggleDirectChargingOnPath] = DataResponse(
       statusCode: 400, statusMessage: "bad request")
   }
 
-  func mockPostToggleDirectChargingOffSuccessful(router: Router) {
-    router[MockNetworkRoutes.postToggleDirectChargingOffPath] = JSONResponse(
+  func mockPostToggleDirectChargingOffSuccessful() {
+    MockServer.shared.router[MockNetworkRoutes.postToggleDirectChargingOffPath] = JSONResponse(
       statusCode: 200,
-      handler: { (req) -> Any in
+      handler: { _ -> Any in
         return self.mockRemoteCommandAcceptedVariantTwo()
       })
   }
 
-  func mockPostToggleDirectChargingOffFailure(router: Router) {
-    router[MockNetworkRoutes.postToggleDirectChargingOffPath] = DataResponse(
+  func mockPostToggleDirectChargingOffFailure() {
+    MockServer.shared.router[MockNetworkRoutes.postToggleDirectChargingOffPath] = DataResponse(
       statusCode: 400, statusMessage: "bad request")
   }
 
   // MARK: – Remote Command Status
 
-  func mockGetHonkAndFlashRemoteCommandStatusInProgress(router: Router) {
-    router[MockNetworkRoutes.getHonkAndFlashRemoteCommandStatusPath] = JSONResponse(
+  func mockGetHonkAndFlashRemoteCommandStatusInProgress() {
+    MockServer.shared.router[MockNetworkRoutes.getHonkAndFlashRemoteCommandStatusPath] = JSONResponse(
       statusCode: 200,
-      handler: { (req) -> Any in
+      handler: { _ -> Any in
         return self.mockRemoteCommandStatusInProgress()
       })
   }
 
-  func mockGetHonkAndFlashRemoteCommandStatusSuccess(router: Router) {
-    router[MockNetworkRoutes.getHonkAndFlashRemoteCommandStatusPath] = JSONResponse(
+  func mockGetHonkAndFlashRemoteCommandStatusSuccess() {
+    MockServer.shared.router[MockNetworkRoutes.getHonkAndFlashRemoteCommandStatusPath] = JSONResponse(
       statusCode: 200,
-      handler: { (req) -> Any in
+      handler: { _ -> Any in
         return self.mockRemoteCommandStatusSuccess()
       })
   }

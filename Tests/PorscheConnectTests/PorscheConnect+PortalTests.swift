@@ -25,10 +25,10 @@ final class PorscheConnectPortalTests: BaseMockNetworkTestCase {
     connect.auths[application] = nil
     let expectation = expectation(description: "Network Expectation")
 
-    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: MockServer.shared.router)
-    mockNetworkRoutes.mockGetApiAuthSuccessful(router: MockServer.shared.router)
-    mockNetworkRoutes.mockPostApiTokenSuccessful(router: MockServer.shared.router)
-    mockNetworkRoutes.mockGetVehiclesSuccessful(router: MockServer.shared.router)
+    mockNetworkRoutes.mockPostLoginAuthSuccessful()
+    mockNetworkRoutes.mockGetApiAuthSuccessful()
+    mockNetworkRoutes.mockPostApiTokenSuccessful()
+    mockNetworkRoutes.mockGetVehiclesSuccessful()
 
     XCTAssertFalse(connect.authorized(application: application))
 
@@ -46,7 +46,7 @@ final class PorscheConnectPortalTests: BaseMockNetworkTestCase {
 
   func testVehiclesNoAuthRequiredSuccessful() async {
     let expectation = expectation(description: "Network Expectation")
-    mockNetworkRoutes.mockGetVehiclesSuccessful(router: MockServer.shared.router)
+    mockNetworkRoutes.mockGetVehiclesSuccessful()
 
     XCTAssert(connect.authorized(application: application))
 
@@ -64,7 +64,7 @@ final class PorscheConnectPortalTests: BaseMockNetworkTestCase {
 
   func testVehiclesNoAuthRequiredFailure() async {
     let expectation = expectation(description: "Network Expectation")
-    mockNetworkRoutes.mockGetVehiclesFailure(router: MockServer.shared.router)
+    mockNetworkRoutes.mockGetVehiclesFailure()
 
     XCTAssert(connect.authorized(application: application))
 
@@ -81,7 +81,7 @@ final class PorscheConnectPortalTests: BaseMockNetworkTestCase {
   func testVehiclesAuthRequiredAuthFailure() async {
     connect.auths[application] = nil
     let expectation = expectation(description: "Network Expectation")
-    mockNetworkRoutes.mockPostLoginAuthFailure(router: MockServer.shared.router)
+    mockNetworkRoutes.mockPostLoginAuthFailure()
 
     XCTAssertFalse(connect.authorized(application: application))
 
