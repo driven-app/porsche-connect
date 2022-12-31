@@ -6,16 +6,7 @@ extension PorscheConnect {
                           remoteCommand: RemoteCommandAccepted) async throws -> (
     status: RemoteCommandStatus?, response: HTTPURLResponse?
   ) {
-    let application: OAuthApplication = .carControl
-
-    _ = try await authIfRequired(application: application)
-
-    guard let auth = auths[application], let apiKey = auth.apiKey else {
-      throw PorscheConnectError.AuthFailure
-    }
-    let headers = buildHeaders(
-      accessToken: auth.accessToken, apiKey: apiKey, countryCode: environment.countryCode,
-      languageCode: environment.languageCode)
+    let headers = try await performAuthFor(application: .carControl)
 
     let result = try await networkClient.get(
       RemoteCommandStatus.self, url: urlForCommand(vehicle: vehicle, capabilities: capabilities, remoteCommand: remoteCommand),
