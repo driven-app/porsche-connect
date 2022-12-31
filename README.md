@@ -218,6 +218,21 @@ try {
 }
 ```
 
+### Lock Vehicle
+
+To ask the vehicle to remote lock. This call will return a `RemoteCommandAccepted` struct when the request has been accepted. 
+
+```swift
+try {
+  let result = porscheConnect.lock(vehicle: vehicle)
+  if let remoteCommandAccepted = result.remoteCommandAccepted {
+    // Do something with the remote command
+  }
+} catch {
+  // Handle the error
+}
+```
+
 # Tests
 
 To run the test suite:
