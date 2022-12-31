@@ -234,6 +234,14 @@ final class MockNetworkRoutes {
       })
   }
 
+  func mockGetHonkAndFlashRemoteCommandStatusFailure(router: Router) {
+    router[MockNetworkRoutes.getHonkAndFlashRemoteCommandStatusPath] = JSONResponse(
+      statusCode: 200,
+      handler: { _ -> Any in
+        return self.mockRemoteCommandStatusFailure()
+      })
+  }
+
   func mockGetToggleDirectChargingRemoteCommandStatusInProgress(router: Router) {
     router[MockNetworkRoutes.getToggleDirectChargingRemoteCommandStatusPath] = JSONResponse(
       statusCode: 200,
@@ -247,6 +255,14 @@ final class MockNetworkRoutes {
       statusCode: 200,
       handler: { _ -> Any in
         return self.mockRemoteCommandStatusSuccess()
+      })
+  }
+
+  func mockGetToggleDirectChargingRemoteCommandStatusFailure(router: Router) {
+    router[MockNetworkRoutes.getToggleDirectChargingRemoteCommandStatusPath] = JSONResponse(
+      statusCode: 200,
+      handler: { _ -> Any in
+        return self.mockRemoteCommandStatusFailure()
       })
   }
 
@@ -336,5 +352,9 @@ final class MockNetworkRoutes {
 
   private func mockRemoteCommandStatusSuccess() -> [String: Any] {
     return ["status": "SUCCESS"]
+  }
+
+  private func mockRemoteCommandStatusFailure() -> [String: Any] {
+    return ["status": "FAILURE", "errorType": "INTERNAL"]
   }
 }
