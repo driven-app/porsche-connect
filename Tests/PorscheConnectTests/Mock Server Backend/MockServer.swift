@@ -14,10 +14,8 @@ class MockServer {
   // MARK: - Private
 
   private func setupMockWebServer(router: Router) {
-    if let delayServer = ProcessInfo.processInfo.environment["DELAY_MOCK_SERVER_START"] {
-      print("Delaying Mock Server start for \(delayServer) seconds")
-      Thread.sleep(forTimeInterval: (delayServer as NSString).doubleValue)
-    }
+    introduceDelayIfConfigured()
+
     server = DefaultHTTPServer(eventLoop: loop, port: kTestServerPort, app: router.app)
 
     try! server.start()
@@ -49,5 +47,12 @@ class MockServer {
 
     semaphore.wait()
     print("Mock Web Server at port \(server.port): started")
+  }
+
+  private func introduceDelayIfConfigured() {
+    if let delayServer = ProcessInfo.processInfo.environment["DELAY_MOCK_SERVER_START"] {
+      print("Delaying Mock Server start for \(delayServer) seconds")
+      Thread.sleep(forTimeInterval: (delayServer as NSString).doubleValue)
+    }
   }
 }
