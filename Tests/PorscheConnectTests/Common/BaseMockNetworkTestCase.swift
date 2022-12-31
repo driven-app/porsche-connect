@@ -9,7 +9,7 @@ class BaseMockNetworkTestCase: XCTestCase {
   // MARK: – Properties
 
   var router = Router()
-  var mockServer: MockServer?
+  var mockServer: MockServer!
 
   // MARK: - Lifecycle
 
@@ -21,9 +21,8 @@ class BaseMockNetworkTestCase: XCTestCase {
 
   override func tearDown() {
     super.tearDown()
-    if let mockServer = mockServer {
-      mockServer.server.stop()
-      router = Router()
-    }
+    mockServer.server.stopAndWait()
+    print("Mock Web Server at port \(mockServer.server.port): stopped")
+    router = Router()
   }
 }
