@@ -34,7 +34,7 @@ extension Porsche {
           porscheConnect: porscheConnect, vehicle: vehicle, capabilities: result.capabilities,
           enable: toggleDirectChargingOn)
       } catch {
-        Porsche.ShowEmobility.exit(withError: error)
+        Porsche.ToggleDirectCharging.exit(withError: error)
       }
     }
 
@@ -51,7 +51,7 @@ extension Porsche {
           Porsche.ToggleDirectCharging.exit()
         }
       } catch {
-        Porsche.ShowEmobility.exit(withError: error)
+        Porsche.ToggleDirectCharging.exit(withError: error)
       }
     }
 
