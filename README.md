@@ -197,7 +197,7 @@ try {
 }
 ```
 
-As Toggle Direct Charging is a remote command that can take time to reach and be executed by the car, you can check the status of the command. You pass in both the vehicle, the vehicles capabilities and the response from the `toggleDirectCharging()` call above. The `status` is mapped to a strongly typed enum that can be retrieved by accessing the `remoteStatus` calculated property. Passing in a vehicles `Capabilites` is optional – if none is passed in, the library will assume the vehicle is based on the `J1` (Taycan) platform.
+As Toggle Direct Charging is a remote command that can take time to reach and be executed by the car, you can check the status of the command. You pass in the vehicle, optionally the vehicles capabilities and the response from the `toggleDirectCharging()` call above. The `status` is mapped to a strongly typed enum that can be retrieved by accessing the `remoteStatus` calculated property. Passing in a vehicles `Capabilites` is optional – if none is passed in, the library will assume the vehicle is based on the `J1` (Taycan) platform.
 
 ```swift
 try {
