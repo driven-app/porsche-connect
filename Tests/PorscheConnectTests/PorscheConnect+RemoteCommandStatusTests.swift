@@ -159,4 +159,144 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
 
     await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
+
+  // MARK: - Lock Tests
+
+  func testRemoteCommandLockStatusInProgressAuthRequiredSuccessful() async {
+    connect.auths[application] = nil
+    let remoteCommand = RemoteCommandAccepted(requestId: "999", remoteCommand: .lock)
+    let expectation = expectation(description: "Network Expectation")
+
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockGetLockUnlockRemoteCommandStatusInProgress(router: router)
+
+    XCTAssertFalse(connect.authorized(application: application))
+
+    let result = try! await connect.checkStatus(vehicle: vehicle, remoteCommand: remoteCommand)
+
+    expectation.fulfill()
+    XCTAssertNotNil(result)
+    XCTAssertEqual("IN_PROGRESS", result.status!.status)
+    XCTAssertEqual(RemoteCommandStatus.RemoteStatus.inProgress, result.status!.remoteStatus)
+
+    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  }
+
+  func testRemoteCommandLockStatusSuccessfulAuthRequiredSuccessful() async {
+    connect.auths[application] = nil
+    let remoteCommand = RemoteCommandAccepted(requestId: "999", remoteCommand: .lock)
+    let expectation = expectation(description: "Network Expectation")
+
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockGetLockUnlockRemoteCommandStatusSuccess(router: router)
+
+    XCTAssertFalse(connect.authorized(application: application))
+
+    let result = try! await connect.checkStatus(vehicle: vehicle, remoteCommand: remoteCommand)
+
+    expectation.fulfill()
+    XCTAssertNotNil(result)
+    XCTAssertEqual("SUCCESS", result.status!.status)
+    XCTAssertEqual(RemoteCommandStatus.RemoteStatus.success, result.status!.remoteStatus)
+
+    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  }
+
+  func testRemoteCommandLockStatusFailureAuthRequiredSuccessful() async {
+    connect.auths[application] = nil
+    let remoteCommand = RemoteCommandAccepted(requestId: "999", remoteCommand: .lock)
+    let expectation = expectation(description: "Network Expectation")
+
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockGetLockUnlockRemoteCommandStatusFailure(router: router)
+
+    XCTAssertFalse(connect.authorized(application: application))
+
+    let result = try! await connect.checkStatus(vehicle: vehicle, remoteCommand: remoteCommand)
+
+    expectation.fulfill()
+    XCTAssertNotNil(result)
+    XCTAssertNotNil(result.status)
+    XCTAssertEqual("FAILURE", result.status!.status)
+    XCTAssertEqual(RemoteCommandStatus.RemoteStatus.failure, result.status!.remoteStatus)
+    XCTAssertEqual("INTERNAL", result.status!.errorType)
+
+    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  }
+
+  // MARK: - Unlock Tests
+
+  func testRemoteCommandUnlockStatusInProgressAuthRequiredSuccessful() async {
+    connect.auths[application] = nil
+    let remoteCommand = RemoteCommandAccepted(requestId: "999", remoteCommand: .lock)
+    let expectation = expectation(description: "Network Expectation")
+
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockGetLockUnlockRemoteCommandStatusInProgress(router: router)
+
+    XCTAssertFalse(connect.authorized(application: application))
+
+    let result = try! await connect.checkStatus(vehicle: vehicle, remoteCommand: remoteCommand)
+
+    expectation.fulfill()
+    XCTAssertNotNil(result)
+    XCTAssertEqual("IN_PROGRESS", result.status!.status)
+    XCTAssertEqual(RemoteCommandStatus.RemoteStatus.inProgress, result.status!.remoteStatus)
+
+    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  }
+
+  func testRemoteCommandUnlockStatusSuccessfulAuthRequiredSuccessful() async {
+    connect.auths[application] = nil
+    let remoteCommand = RemoteCommandAccepted(requestId: "999", remoteCommand: .lock)
+    let expectation = expectation(description: "Network Expectation")
+
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockGetLockUnlockRemoteCommandStatusSuccess(router: router)
+
+    XCTAssertFalse(connect.authorized(application: application))
+
+    let result = try! await connect.checkStatus(vehicle: vehicle, remoteCommand: remoteCommand)
+
+    expectation.fulfill()
+    XCTAssertNotNil(result)
+    XCTAssertEqual("SUCCESS", result.status!.status)
+    XCTAssertEqual(RemoteCommandStatus.RemoteStatus.success, result.status!.remoteStatus)
+
+    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  }
+
+  func testRemoteCommandUnlockStatusFailureAuthRequiredSuccessful() async {
+    connect.auths[application] = nil
+    let remoteCommand = RemoteCommandAccepted(requestId: "999", remoteCommand: .lock)
+    let expectation = expectation(description: "Network Expectation")
+
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockGetLockUnlockRemoteCommandStatusFailure(router: router)
+
+    XCTAssertFalse(connect.authorized(application: application))
+
+    let result = try! await connect.checkStatus(vehicle: vehicle, remoteCommand: remoteCommand)
+
+    expectation.fulfill()
+    XCTAssertNotNil(result)
+    XCTAssertNotNil(result.status)
+    XCTAssertEqual("FAILURE", result.status!.status)
+    XCTAssertEqual(RemoteCommandStatus.RemoteStatus.failure, result.status!.remoteStatus)
+    XCTAssertEqual("INTERNAL", result.status!.errorType)
+
+    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  }
 }

@@ -86,7 +86,7 @@ extension PorscheConnect {
     var result = try await networkClient.post(
       RemoteCommandAccepted.self, url: url, body: kBlankString, headers: headers,
       jsonKeyDecodingStrategy: .useDefaultKeys)
-    result.data?.remoteCommand = .toggleDirectCharge //TODO: set this to unlock
+    result.data?.remoteCommand = .lock
     return (remoteCommandAccepted: result.data, response: result.response)
   }
 
@@ -110,7 +110,7 @@ extension PorscheConnect {
     var result = try await networkClient.post(
       RemoteCommandAccepted.self, url: url, body: unlockSecurity, headers: headers,
       jsonKeyDecodingStrategy: .useDefaultKeys)
-    result.data?.remoteCommand = .toggleDirectCharge //TODO: set this to unlock
+    result.data?.remoteCommand = .unlock
     return (remoteCommandAccepted: result.data, response: result.response)
   }
 }

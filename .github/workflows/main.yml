@@ -29,3 +29,5 @@ jobs:
         run: sudo xcode-select -switch /Applications/Xcode_14.2.app
       - name: Tests
         run: xcodebuild test -destination "platform=macOS,arch=x86_64" -scheme "PorscheConnect"
+        env:
+          DELAY_MOCK_SERVER_START: 0.25
