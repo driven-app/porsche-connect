@@ -294,6 +294,7 @@ SUBCOMMANDS:
   flash
   honk-and-flash
   toggle-direct-charging
+  lock
   
   See 'porsche help <subcommand>' for detailed help.
 ```
@@ -362,6 +363,14 @@ To toggle the direct charging mode of a vehicle:
 $ porsche toggle-direct-charging <username> <password> <vin> <toggle-direct-charging-on>
 
 Remote command \"Toggle Direct Charging\" accepted by Porsche API with ID 123456
+```
+
+To lock a vehicle:
+
+```bash
+$ porsche lock <username> <password> <vin>
+
+Remote command \"Lock\" accepted by Porsche API with ID 123456
 ```
 
 # Install
