@@ -10,8 +10,6 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
   let mockNetworkRoutes = MockNetworkRoutes()
   let application: OAuthApplication = .carControl
   let vehicle = Vehicle(vin: "A1234")
-  let remoteCommand = RemoteCommandAccepted(
-    id: "999", lastUpdated: Date(), remoteCommand: .honkAndFlash)
 
   // MARK: - Lifecycle
 
@@ -22,10 +20,11 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
     connect.auths[application] = OAuthToken(authResponse: kTestPorschePortalAuth)
   }
 
-  // MARK: - Tests
+  // MARK: - Honk and Flash Tests
 
   func testRemoteCommandHonkAndFlashStatusInProgressAuthRequiredSuccessful() async {
     connect.auths[application] = nil
+    let remoteCommand = RemoteCommandAccepted(id: "999", lastUpdated: Date(), remoteCommand: .honkAndFlash)
     let expectation = expectation(description: "Network Expectation")
 
     mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
@@ -47,12 +46,59 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
 
   func testRemoteCommandHonkAndFlashStatusSuccessAuthRequiredSuccessful() async {
     connect.auths[application] = nil
+    let remoteCommand = RemoteCommandAccepted(id: "999", lastUpdated: Date(), remoteCommand: .honkAndFlash)
     let expectation = expectation(description: "Network Expectation")
 
     mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
     mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
     mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
     mockNetworkRoutes.mockGetHonkAndFlashRemoteCommandStatusSuccess(router: router)
+
+    XCTAssertFalse(connect.authorized(application: application))
+
+    let result = try! await connect.checkStatus(vehicle: vehicle, remoteCommand: remoteCommand)
+
+    expectation.fulfill()
+    XCTAssertNotNil(result)
+    XCTAssertEqual("SUCCESS", result.status!.status)
+    XCTAssertEqual(RemoteCommandStatus.RemoteStatus.success, result.status!.remoteStatus)
+
+    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  }
+
+  // MARK: - Toggle Direct Charging Tests
+
+  func testRemoteCommandToggleDirectChargingStatusInProgressAuthRequiredSuccessful() async {
+    connect.auths[application] = nil
+    let remoteCommand = RemoteCommandAccepted(id: "999", remoteCommand: .toggleDirectCharge)
+    let expectation = expectation(description: "Network Expectation")
+
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockGetToggleDirectChargingRemoteCommandStatusInProgress(router: router)
+
+    XCTAssertFalse(connect.authorized(application: application))
+
+    let result = try! await connect.checkStatus(vehicle: vehicle, remoteCommand: remoteCommand)
+
+    expectation.fulfill()
+    XCTAssertNotNil(result)
+    XCTAssertEqual("IN_PROGRESS", result.status!.status)
+    XCTAssertEqual(RemoteCommandStatus.RemoteStatus.inProgress, result.status!.remoteStatus)
+
+    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  }
+
+  func testRemoteCommandToggleDirectChargingStatusSuccessAuthRequiredSuccessful() async {
+    connect.auths[application] = nil
+    let remoteCommand = RemoteCommandAccepted(id: "999", remoteCommand: .toggleDirectCharge)
+    let expectation = expectation(description: "Network Expectation")
+
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockGetToggleDirectChargingRemoteCommandStatusSuccess(router: router)
 
     XCTAssertFalse(connect.authorized(application: application))
 

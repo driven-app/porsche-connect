@@ -122,11 +122,10 @@ extension PorscheConnect {
       accessToken: auth.accessToken, apiKey: apiKey, countryCode: environment.countryCode,
       languageCode: environment.languageCode)
     let url = networkRoutes.vehicleToggleDirectChargingURL(vehicle: vehicle, capabilities: capabilities, enable: enable)
-print("**** URL is \(url) ***")
     var result = try await networkClient.post(
       RemoteCommandAccepted.self, url: url, body: kBlankString, headers: headers,
       jsonKeyDecodingStrategy: .useDefaultKeys)
-    result.data?.remoteCommand = .honkAndFlash //TODO: update to toggleDirectCharge
+    result.data?.remoteCommand = .toggleDirectCharge
     return (remoteCommandAccepted: result.data, response: result.response)
   }
 }
