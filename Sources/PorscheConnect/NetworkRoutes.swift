@@ -44,10 +44,10 @@ struct NetworkRoutes {
       string: "\(host("https://api.porsche.com"))/service-vehicle/vcs/capabilities/\(vehicle.vin)")!
   }
 
-  func vehicleEmobilityURL(vehicle: Vehicle, capabilities: Capabilities) -> URL {
+  func vehicleEmobilityURL(vehicle: Vehicle, capabilities: Capabilities? = nil) -> URL {
     return URL(
       string:
-        "\(host("https://api.porsche.com"))/e-mobility/\(environment.regionCode)/\(capabilities.carModel)/\(vehicle.vin)?timezone=Europe/Dublin"
+        "\(host("https://api.porsche.com"))/e-mobility/\(environment.regionCode)/\(capabilities?.carModel ?? kDefaultCarModel)/\(vehicle.vin)?timezone=Europe/Dublin"
     )!
   }
 
@@ -74,18 +74,18 @@ struct NetworkRoutes {
   }
 
   func vehicleToggleDirectChargingURL(
-    vehicle: Vehicle, capabilities: Capabilities, enable: Bool
+    vehicle: Vehicle, capabilities: Capabilities? = nil, enable: Bool
   ) -> URL {
     return URL(
-      string: "\(host("https://api.porsche.com"))/e-mobility/\(environment.regionCode)/\(capabilities.carModel)/\(vehicle.vin)/toggle-direct-charging/\(enable)"
+      string: "\(host("https://api.porsche.com"))/e-mobility/\(environment.regionCode)/\(capabilities?.carModel ?? kDefaultCarModel)/\(vehicle.vin)/toggle-direct-charging/\(enable)"
     )!
   }
 
   func vehicleToggleDirectChargingRemoteCommandStatusURL(
-    vehicle: Vehicle, capabilities: Capabilities, remoteCommand: RemoteCommandAccepted
+    vehicle: Vehicle, capabilities: Capabilities? = nil, remoteCommand: RemoteCommandAccepted
   ) -> URL {
     return URL(
-      string: "\(host("https://api.porsche.com"))/e-mobility/\(environment.regionCode)/\(capabilities.carModel)/\(vehicle.vin)/toggle-direct-charging/status/\(remoteCommand.identifier!)"
+      string: "\(host("https://api.porsche.com"))/e-mobility/\(environment.regionCode)/\(capabilities?.carModel ?? kDefaultCarModel)/\(vehicle.vin)/toggle-direct-charging/status/\(remoteCommand.identifier!)"
     )!
   }
 
