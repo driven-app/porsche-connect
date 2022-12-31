@@ -278,6 +278,7 @@ SUBCOMMANDS:
   show-emobility
   flash
   honk-and-flash
+  toggle-direct-charging
   
   See 'porsche help <subcommand>' for detailed help.
 ```
@@ -338,6 +339,14 @@ To flash and honk the indicators of a vehicle:
 $ porsche honk-and-flash <username> <password> <vin>
 
 Remote command \"Honk and Flash\" accepted by Porsche API with ID 123456
+```
+
+To toggle the direct charging mode of a vehicle:
+
+```bash
+$ porsche toggle-direct-charging <username> <password> <vin> <toggle-direct-charging-on>
+
+Remote command \"Toggle Direct Charging\" accepted by Porsche API with ID 123456
 ```
 
 # Install

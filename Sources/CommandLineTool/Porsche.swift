@@ -8,10 +8,10 @@ struct Porsche: AsyncParsableCommand {
   static let configuration = CommandConfiguration(
     abstract: NSLocalizedString(
       "A command-line tool to call and interact with Porsche Connect services.", comment: ""),
-    version: "0.1.4",
+    version: "0.1.19",
     subcommands: [
       ListVehicles.self, ShowSummary.self, ShowPosition.self, ShowCapabilities.self,
-      ShowEmobility.self, Flash.self, HonkAndFlash.self,
+      ShowEmobility.self, Flash.self, HonkAndFlash.self, ToggleDirectCharging.self
     ])
 
   struct Options: ParsableArguments {
