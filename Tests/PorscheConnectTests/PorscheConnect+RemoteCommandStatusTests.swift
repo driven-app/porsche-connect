@@ -28,10 +28,10 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
     connect.auths[application] = nil
     let expectation = expectation(description: "Network Expectation")
 
-    mockNetworkRoutes.mockPostLoginAuthSuccessful()
-    mockNetworkRoutes.mockGetApiAuthSuccessful()
-    mockNetworkRoutes.mockPostApiTokenSuccessful()
-    mockNetworkRoutes.mockGetHonkAndFlashRemoteCommandStatusInProgress()
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockGetHonkAndFlashRemoteCommandStatusInProgress(router: router)
 
     XCTAssertFalse(connect.authorized(application: application))
 
@@ -49,10 +49,10 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
     connect.auths[application] = nil
     let expectation = expectation(description: "Network Expectation")
 
-    mockNetworkRoutes.mockPostLoginAuthSuccessful()
-    mockNetworkRoutes.mockGetApiAuthSuccessful()
-    mockNetworkRoutes.mockPostApiTokenSuccessful()
-    mockNetworkRoutes.mockGetHonkAndFlashRemoteCommandStatusSuccess()
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockGetHonkAndFlashRemoteCommandStatusSuccess(router: router)
 
     XCTAssertFalse(connect.authorized(application: application))
 

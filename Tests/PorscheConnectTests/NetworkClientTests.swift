@@ -24,7 +24,7 @@ final class NetworkClientTests: BaseMockNetworkTestCase {
 
   func testGetSuccessful() async {
     let url = URL(string: "http://localhost:\(kTestServerPort)/hello_world.json")!
-    mockNetworkRoutes.mockGetHelloWorldSuccessful()
+    mockNetworkRoutes.mockGetHelloWorldSuccessful(router: router)
     let expectation = expectation(description: "Network Expectation")
 
     let result = try! await client.get(HelloWorld.self, url: url)
@@ -38,7 +38,7 @@ final class NetworkClientTests: BaseMockNetworkTestCase {
 
   func testGetFailure() async {
     let url = URL(string: "http://localhost:\(kTestServerPort)/hello_world.json")!
-    mockNetworkRoutes.mockGetHelloWorldFailure()
+    mockNetworkRoutes.mockGetHelloWorldFailure(router: router)
     let expectation = expectation(description: "Network Expectation")
 
     do {
@@ -53,7 +53,7 @@ final class NetworkClientTests: BaseMockNetworkTestCase {
 
   func testPostSuccess() async {
     let url = URL(string: "http://localhost:\(kTestServerPort)/hello_world.json")!
-    mockNetworkRoutes.mockGetHelloWorldSuccessful()
+    mockNetworkRoutes.mockGetHelloWorldSuccessful(router: router)
     let expectation = expectation(description: "Network Expectation")
     let body = ["param_key": "param_value"]
 

@@ -22,9 +22,9 @@ final class PorscheConnectAuthTests: BaseMockNetworkTestCase {
   func testRequestTokenSuccessful() async {
     let application: OAuthApplication = .api
     let expectation = expectation(description: "Network Expectation")
-    mockNetworkRoutes.mockPostLoginAuthSuccessful()
-    mockNetworkRoutes.mockGetApiAuthSuccessful()
-    mockNetworkRoutes.mockPostApiTokenSuccessful()
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
 
     XCTAssertFalse(connect.authorized(application: application))
     let porscheAuth = try! await connect.auth(application: application)
@@ -57,7 +57,7 @@ final class PorscheConnectAuthTests: BaseMockNetworkTestCase {
   func testRequestTokenFailureAtLoginToRetrieveCookies() async {
     let application: OAuthApplication = .api
     let expectation = expectation(description: "Network Expectation")
-    mockNetworkRoutes.mockPostLoginAuthFailure()
+    mockNetworkRoutes.mockPostLoginAuthFailure(router: router)
 
     XCTAssertFalse(connect.authorized(application: application))
 
@@ -76,8 +76,8 @@ final class PorscheConnectAuthTests: BaseMockNetworkTestCase {
   func testRequestTokenFailureAtGetApiAuthCode() async {
     let application: OAuthApplication = .api
     let expectation = expectation(description: "Network Expectation")
-    mockNetworkRoutes.mockPostLoginAuthSuccessful()
-    mockNetworkRoutes.mockGetApiAuthFailure()
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
+    mockNetworkRoutes.mockGetApiAuthFailure(router: router)
 
     XCTAssertFalse(connect.authorized(application: application))
 
@@ -95,9 +95,9 @@ final class PorscheConnectAuthTests: BaseMockNetworkTestCase {
   func testRequestTokenFailureAtGetApiAuthToken() async {
     let application: OAuthApplication = .api
     let expectation = expectation(description: "Network Expectation")
-    mockNetworkRoutes.mockPostLoginAuthSuccessful()
-    mockNetworkRoutes.mockGetApiAuthSuccessful()
-    mockNetworkRoutes.mockPostApiTokenFailure()
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostApiTokenFailure(router: router)
 
     XCTAssertFalse(connect.authorized(application: application))
 
