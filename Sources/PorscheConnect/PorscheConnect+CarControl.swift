@@ -109,7 +109,7 @@ extension PorscheConnect {
   }
 
   public func toggleDirectCharging(vehicle: Vehicle, capabilities: Capabilities, enable: Bool = true) async throws -> (
-    remoteCommandAccepted: RemoteCommandAccepted?, response: HTTPURLResponse?
+    remoteCommandAccepted: RemoteCommandAccepted?, response: HTTPURLResponse
   ) {
     let application: OAuthApplication = .carControl
 
@@ -122,7 +122,7 @@ extension PorscheConnect {
       accessToken: auth.accessToken, apiKey: apiKey, countryCode: environment.countryCode,
       languageCode: environment.languageCode)
     let url = networkRoutes.vehicleToggleDirectChargingURL(vehicle: vehicle, capabilities: capabilities, enable: enable)
-
+print("**** URL is \(url) ***")
     var result = try await networkClient.post(
       RemoteCommandAccepted.self, url: url, body: kBlankString, headers: headers,
       jsonKeyDecodingStrategy: .useDefaultKeys)

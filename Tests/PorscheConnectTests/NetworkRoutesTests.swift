@@ -102,6 +102,11 @@ final class NetworkRoutesTests: XCTestCase {
       ), networkRoute.vehicleEmobilityURL(vehicle: vehicle, capabilities: capabilities!))
     XCTAssertEqual(
       URL(
+        string:
+          "http://localhost:\(kTestServerPort)/e-mobility/ie/en_IE/J1/12345X?timezone=Europe/Dublin"
+      ), networkRoute.vehicleEmobilityURL(vehicle: vehicle))
+    XCTAssertEqual(
+      URL(
         string: "http://localhost:\(kTestServerPort)/service-vehicle/honk-and-flash/12345X/flash"),
       networkRoute.vehicleFlashURL(vehicle: vehicle))
     XCTAssertEqual(
@@ -119,13 +124,24 @@ final class NetworkRoutesTests: XCTestCase {
       URL(string: "http://localhost:\(kTestServerPort)/e-mobility/ie/en_IE/J1/12345X/toggle-direct-charging/true"),
       networkRoute.vehicleToggleDirectChargingURL(vehicle: vehicle, capabilities: capabilities!, enable: true))
     XCTAssertEqual(
+      URL(string: "http://localhost:\(kTestServerPort)/e-mobility/ie/en_IE/J1/12345X/toggle-direct-charging/true"),
+      networkRoute.vehicleToggleDirectChargingURL(vehicle: vehicle, enable: true))
+    XCTAssertEqual(
       URL(string: "http://localhost:\(kTestServerPort)/e-mobility/ie/en_IE/J1/12345X/toggle-direct-charging/false"),
       networkRoute.vehicleToggleDirectChargingURL(vehicle: vehicle, capabilities: capabilities!, enable: false))
+    XCTAssertEqual(
+      URL(string: "http://localhost:\(kTestServerPort)/e-mobility/ie/en_IE/J1/12345X/toggle-direct-charging/false"),
+      networkRoute.vehicleToggleDirectChargingURL(vehicle: vehicle, enable: false))
     XCTAssertEqual(
       URL(string: "http://localhost:\(kTestServerPort)/e-mobility/ie/en_IE/J1/12345X/toggle-direct-charging/status/123456"),
       networkRoute.vehicleToggleDirectChargingRemoteCommandStatusURL(
         vehicle: vehicle,
         capabilities: capabilities!,
+        remoteCommand: RemoteCommandAccepted(requestId: "123456")))
+    XCTAssertEqual(
+      URL(string: "http://localhost:\(kTestServerPort)/e-mobility/ie/en_IE/J1/12345X/toggle-direct-charging/status/123456"),
+      networkRoute.vehicleToggleDirectChargingRemoteCommandStatusURL(
+        vehicle: vehicle,
         remoteCommand: RemoteCommandAccepted(requestId: "123456")))
   }
 }

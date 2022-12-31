@@ -1,4 +1,5 @@
 import XCTest
+import Ambassador
 
 @testable import PorscheConnect
 
@@ -27,10 +28,10 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     connect.auths[application] = nil
     let expectation = expectation(description: "Network Expectation")
 
-    mockNetworkRoutes.mockPostLoginAuthSuccessful()
-    mockNetworkRoutes.mockGetApiAuthSuccessful()
-    mockNetworkRoutes.mockPostApiTokenSuccessful()
-    mockNetworkRoutes.mockGetSummarySuccessful()
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockGetSummarySuccessful(router: router)
 
     XCTAssertFalse(connect.authorized(application: application))
 
@@ -46,7 +47,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
 
   func testSummaryNoAuthRequiredSuccessful() async {
     let expectation = expectation(description: "Network Expectation")
-    mockNetworkRoutes.mockGetSummarySuccessful()
+    mockNetworkRoutes.mockGetSummarySuccessful(router: router)
 
     XCTAssert(connect.authorized(application: application))
 
@@ -63,7 +64,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
 
   func testSummaryNoAuthRequiredFailure() async {
     let expectation = expectation(description: "Network Expectation")
-    mockNetworkRoutes.mockGetSummaryFailure()
+    mockNetworkRoutes.mockGetSummaryFailure(router: router)
 
     XCTAssert(connect.authorized(application: application))
 
@@ -81,7 +82,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
   func testSummaryAuthRequiredAuthFailure() async {
     connect.auths[application] = nil
     let expectation = expectation(description: "Network Expectation")
-    mockNetworkRoutes.mockPostLoginAuthFailure()
+    mockNetworkRoutes.mockPostLoginAuthFailure(router: router)
 
     XCTAssertFalse(connect.authorized(application: application))
 
@@ -101,10 +102,10 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
   func testPositionAuthRequiredSuccessful() async {
     connect.auths[application] = nil
     let expectation = expectation(description: "Network Expectation")
-    mockNetworkRoutes.mockPostLoginAuthSuccessful()
-    mockNetworkRoutes.mockGetApiAuthSuccessful()
-    mockNetworkRoutes.mockPostApiTokenSuccessful()
-    mockNetworkRoutes.mockGetPositionSuccessful()
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockGetPositionSuccessful(router: router)
 
     XCTAssertFalse(connect.authorized(application: application))
 
@@ -121,7 +122,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
 
   func testPositionNoAuthRequiredSuccessful() async {
     let expectation = expectation(description: "Network Expectation")
-    mockNetworkRoutes.mockGetPositionSuccessful()
+    mockNetworkRoutes.mockGetPositionSuccessful(router: router)
 
     XCTAssert(connect.authorized(application: application))
 
@@ -137,7 +138,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
 
   func testPositionNoAuthRequiredFailure() async {
     let expectation = expectation(description: "Network Expectation")
-    mockNetworkRoutes.mockGetPositionFailure()
+    mockNetworkRoutes.mockGetPositionFailure(router: router)
 
     XCTAssert(connect.authorized(application: application))
 
@@ -155,7 +156,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
   func testPositionAuthRequiredAuthFailure() async {
     connect.auths[application] = nil
     let expectation = expectation(description: "Network Expectation")
-    mockNetworkRoutes.mockPostLoginAuthFailure()
+    mockNetworkRoutes.mockPostLoginAuthFailure(router: router)
 
     XCTAssertFalse(connect.authorized(application: application))
 
@@ -175,10 +176,10 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
   func testCapabilitiesAuthRequiredSuccessful() async {
     connect.auths[application] = nil
     let expectation = expectation(description: "Network Expectation")
-    mockNetworkRoutes.mockPostLoginAuthSuccessful()
-    mockNetworkRoutes.mockGetApiAuthSuccessful()
-    mockNetworkRoutes.mockPostApiTokenSuccessful()
-    mockNetworkRoutes.mockGetCapabilitiesSuccessful()
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockGetCapabilitiesSuccessful(router: router)
 
     XCTAssertFalse(connect.authorized(application: application))
 
@@ -195,7 +196,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
 
   func testCapabilitiesNoAuthRequiredSuccessful() async {
     let expectation = expectation(description: "Network Expectation")
-    mockNetworkRoutes.mockGetCapabilitiesSuccessful()
+    mockNetworkRoutes.mockGetCapabilitiesSuccessful(router: router)
 
     XCTAssert(connect.authorized(application: application))
 
@@ -212,7 +213,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
 
   func testCapabilitiesNoAuthRequiredFailure() async {
     let expectation = expectation(description: "Network Expectation")
-    mockNetworkRoutes.mockGetCapabilitiesFailure()
+    mockNetworkRoutes.mockGetCapabilitiesFailure(router: router)
 
     XCTAssert(connect.authorized(application: application))
 
@@ -229,7 +230,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
   func testCapabilitiesAuthRequiredAuthFailure() async {
     connect.auths[application] = nil
     let expectation = expectation(description: "Network Expectation")
-    mockNetworkRoutes.mockPostLoginAuthFailure()
+    mockNetworkRoutes.mockPostLoginAuthFailure(router: router)
 
     XCTAssertFalse(connect.authorized(application: application))
 
@@ -249,10 +250,10 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
   func testEmobilityAuthRequiredSuccessful() async {
     connect.auths[application] = nil
     let expectation = expectation(description: "Network Expectation")
-    mockNetworkRoutes.mockPostLoginAuthSuccessful()
-    mockNetworkRoutes.mockGetApiAuthSuccessful()
-    mockNetworkRoutes.mockPostApiTokenSuccessful()
-    mockNetworkRoutes.mockGetEmobilityNotChargingSuccessful()
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockGetEmobilityNotChargingSuccessful(router: router)
 
     XCTAssertFalse(connect.authorized(application: application))
 
@@ -268,7 +269,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
 
   func testEmobilityNotChargingNoAuthRequiredSuccessful() async {
     let expectation = expectation(description: "Network Expectation")
-    mockNetworkRoutes.mockGetEmobilityNotChargingSuccessful()
+    mockNetworkRoutes.mockGetEmobilityNotChargingSuccessful(router: router)
 
     XCTAssert(connect.authorized(application: application))
 
@@ -284,7 +285,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
 
   func testEmobilityACTimerChargingNoAuthRequiredSuccessful() async {
     let expectation = expectation(description: "Network Expectation")
-    mockNetworkRoutes.mockGetEmobilityACTimerChargingSuccessful()
+    mockNetworkRoutes.mockGetEmobilityACTimerChargingSuccessful(router: router)
 
     XCTAssert(connect.authorized(application: application))
 
@@ -301,7 +302,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
 
   func testEmobilityACDirectChargingNoAuthRequiredSuccessful() async {
     let expectation = expectation(description: "Network Expectation")
-    mockNetworkRoutes.mockGetEmobilityACDirectChargingSuccessful()
+    mockNetworkRoutes.mockGetEmobilityACDirectChargingSuccessful(router: router)
 
     XCTAssert(connect.authorized(application: application))
 
@@ -318,7 +319,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
 
   func testEmobilityDCChargingNoAuthRequiredSuccessful() async {
     let expectation = expectation(description: "Network Expectation")
-    mockNetworkRoutes.mockGetEmobilityDCChargingSuccessful()
+    mockNetworkRoutes.mockGetEmobilityDCChargingSuccessful(router: router)
 
     XCTAssert(connect.authorized(application: application))
 
@@ -335,7 +336,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
 
   func testEmobilityNoAuthRequiredFailure() async {
     let expectation = expectation(description: "Network Expectation")
-    mockNetworkRoutes.mockGetEmobilityFailure()
+    mockNetworkRoutes.mockGetEmobilityFailure(router: router)
 
     XCTAssert(connect.authorized(application: application))
 
@@ -354,7 +355,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     connect.auths[application] = nil
     let expectation = expectation(description: "Network Expectation")
 
-    mockNetworkRoutes.mockPostLoginAuthFailure()
+    mockNetworkRoutes.mockPostLoginAuthFailure(router: router)
 
     XCTAssertFalse(connect.authorized(application: application))
 
@@ -375,10 +376,10 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     connect.auths[application] = nil
     let expectation = expectation(description: "Network Expectation")
 
-    mockNetworkRoutes.mockPostLoginAuthSuccessful()
-    mockNetworkRoutes.mockGetApiAuthSuccessful()
-    mockNetworkRoutes.mockPostApiTokenSuccessful()
-    mockNetworkRoutes.mockPostFlashSuccessful()
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockPostFlashSuccessful(router: router)
 
     XCTAssertFalse(connect.authorized(application: application))
 
@@ -396,10 +397,10 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     connect.auths[application] = nil
     let expectation = expectation(description: "Network Expectation")
 
-    mockNetworkRoutes.mockPostLoginAuthSuccessful()
-    mockNetworkRoutes.mockGetApiAuthSuccessful()
-    mockNetworkRoutes.mockPostApiTokenSuccessful()
-    mockNetworkRoutes.mockPostFlashFailure()
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockPostFlashFailure(router: router)
 
     XCTAssertFalse(connect.authorized(application: application))
 
@@ -418,10 +419,10 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     connect.auths[application] = nil
     let expectation = expectation(description: "Network Expectation")
 
-    mockNetworkRoutes.mockPostLoginAuthSuccessful()
-    mockNetworkRoutes.mockGetApiAuthSuccessful()
-    mockNetworkRoutes.mockPostApiTokenSuccessful()
-    mockNetworkRoutes.mockPostHonkAndFlashSuccessful()
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockPostHonkAndFlashSuccessful(router: router)
 
     XCTAssertFalse(connect.authorized(application: application))
 
@@ -439,10 +440,10 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     connect.auths[application] = nil
     let expectation = expectation(description: "Network Expectation")
 
-    mockNetworkRoutes.mockPostLoginAuthSuccessful()
-    mockNetworkRoutes.mockGetApiAuthSuccessful()
-    mockNetworkRoutes.mockPostApiTokenSuccessful()
-    mockNetworkRoutes.mockPostHonkAndFlashFailure()
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockPostHonkAndFlashFailure(router: router)
 
     XCTAssertFalse(connect.authorized(application: application))
 
@@ -459,91 +460,91 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
 
   // MARK: - Toggle Direct Charging Tests
 
-//  func testToggleDirectChargingOnAuthRequiredSuccessful() async {
-//    connect.auths[application] = nil
-//    let expectation = expectation(description: "Network Expectation")
-//
-//    mockNetworkRoutes.mockPostLoginAuthSuccessful()
-//    mockNetworkRoutes.mockGetApiAuthSuccessful()
-//    mockNetworkRoutes.mockPostApiTokenSuccessful()
-//    mockNetworkRoutes.mockPostToggleDirectChargingOnSuccessful()
-//
-//    XCTAssertFalse(connect.authorized(application: application))
-//
-//    let result = try! await connect.toggleDirectCharging(vehicle: vehicle, capabilities: capabilites)
-//
-//    expectation.fulfill()
-//    XCTAssertNotNil(result)
-//    XCTAssertNotNil(result.remoteCommandAccepted)
-//    assertRemoteCommandAcceptedResponseVariantTwo(result.remoteCommandAccepted!)
-//
-//    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
-//  }
-//
-//  func testToggleDirectChargingOffAuthRequiredSuccessful() async {
-//    connect.auths[application] = nil
-//    let expectation = expectation(description: "Network Expectation")
-//
-//    mockNetworkRoutes.mockPostLoginAuthSuccessful()
-//    mockNetworkRoutes.mockGetApiAuthSuccessful()
-//    mockNetworkRoutes.mockPostApiTokenSuccessful()
-//    mockNetworkRoutes.mockPostToggleDirectChargingOffSuccessful()
-//
-//    XCTAssertFalse(connect.authorized(application: application))
-//
-//    let result = try! await connect.toggleDirectCharging(vehicle: vehicle, capabilities: capabilites, enable: false)
-//
-//    expectation.fulfill()
-//    XCTAssertNotNil(result)
-//    XCTAssertNotNil(result.remoteCommandAccepted)
-//    assertRemoteCommandAcceptedResponseVariantTwo(result.remoteCommandAccepted!)
-//
-//    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
-//  }
-//
-//  func testToggleDirectChargingOnFailureAuthRequiredSuccessful() async {
-//    connect.auths[application] = nil
-//    let expectation = expectation(description: "Network Expectation")
-//
-//    mockNetworkRoutes.mockPostLoginAuthSuccessful()
-//    mockNetworkRoutes.mockGetApiAuthSuccessful()
-//    mockNetworkRoutes.mockPostApiTokenSuccessful()
-//    mockNetworkRoutes.mockPostToggleDirectChargingOnFailure()
-//
-//    XCTAssertFalse(connect.authorized(application: application))
-//
-//    do {
-//      _ = try await connect.toggleDirectCharging(vehicle: vehicle, capabilities: capabilites)
-//    } catch {
-//      expectation.fulfill()
-//      XCTAssert(connect.authorized(application: application))
-//      XCTAssertEqual(HttpStatusCode.BadRequest, error as! HttpStatusCode)
-//    }
-//
-//    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
-//  }
-//
-//  func testToggleDirectChargingOffFailureAuthRequiredSuccessful() async {
-//    connect.auths[application] = nil
-//    let expectation = expectation(description: "Network Expectation")
-//
-//    mockNetworkRoutes.mockPostLoginAuthSuccessful()
-//    mockNetworkRoutes.mockGetApiAuthSuccessful()
-//    mockNetworkRoutes.mockPostApiTokenSuccessful()
-//    mockNetworkRoutes.mockPostToggleDirectChargingOffFailure()
-//
-//    XCTAssertFalse(connect.authorized(application: application))
-//
-//    do {
-//      _ = try await connect.toggleDirectCharging(vehicle: vehicle, capabilities: capabilites, enable: false)
-//    } catch {
-//      expectation.fulfill()
-//      XCTAssert(connect.authorized(application: application))
-//      XCTAssertEqual(HttpStatusCode.BadRequest, error as! HttpStatusCode)
-//    }
-//
-//    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
-//  }
+  func testToggleDirectChargingOnAuthRequiredSuccessful() async {
+    connect.auths[application] = nil
+    let expectation = expectation(description: "Network Expectation")
+
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockPostToggleDirectChargingOnSuccessful(router: router)
+
+    XCTAssertFalse(connect.authorized(application: application))
+
+    let result = try! await connect.toggleDirectCharging(vehicle: vehicle, capabilities: capabilites)
+
+    expectation.fulfill()
+    XCTAssertNotNil(result)
+    XCTAssertNotNil(result.remoteCommandAccepted)
+    assertRemoteCommandAcceptedResponseVariantTwo(result.remoteCommandAccepted!)
+
+    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  }
+
+  func testToggleDirectChargingOffAuthRequiredSuccessful() async {
+    connect.auths[application] = nil
+    let expectation = expectation(description: "Network Expectation")
+
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockPostToggleDirectChargingOffSuccessful(router: router)
+
+    XCTAssertFalse(connect.authorized(application: application))
+
+    let result = try! await connect.toggleDirectCharging(vehicle: vehicle, capabilities: capabilites, enable: false)
+
+    expectation.fulfill()
+    XCTAssertNotNil(result)
+    XCTAssertNotNil(result.remoteCommandAccepted)
+    assertRemoteCommandAcceptedResponseVariantTwo(result.remoteCommandAccepted!)
+
+    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  }
+
+  func testToggleDirectChargingOnFailureAuthRequiredSuccessful() async {
+    connect.auths[application] = nil
+    let expectation = expectation(description: "Network Expectation")
+
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockPostToggleDirectChargingOnFailure(router: router)
+
+    XCTAssertFalse(connect.authorized(application: application))
+
+    do {
+      _ = try await connect.toggleDirectCharging(vehicle: vehicle, capabilities: capabilites)
+    } catch {
+      expectation.fulfill()
+      XCTAssert(connect.authorized(application: application))
+      XCTAssertEqual(HttpStatusCode.BadRequest, error as! HttpStatusCode)
+    }
+
+    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  }
+
+  func testToggleDirectChargingOffFailureAuthRequiredSuccessful() async {
+    connect.auths[application] = nil
+    let expectation = expectation(description: "Network Expectation")
+
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockPostToggleDirectChargingOffFailure(router: router)
+
+    XCTAssertFalse(connect.authorized(application: application))
+
+    do {
+      _ = try await connect.toggleDirectCharging(vehicle: vehicle, capabilities: capabilites, enable: false)
+    } catch {
+      expectation.fulfill()
+      XCTAssert(connect.authorized(application: application))
+      XCTAssertEqual(HttpStatusCode.BadRequest, error as! HttpStatusCode)
+    }
+
+    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  }
 
   // MARK: - Private functions
 
@@ -556,8 +557,8 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
   }
   
   private func assertRemoteCommandAcceptedResponseVariantTwo(_ remoteCommandAccepted: RemoteCommandAccepted) {
-//    XCTAssertEqual("123456789", remoteCommandAccepted.identifier)
-//    XCTAssertEqual("123456789", remoteCommandAccepted.requestId)
+    XCTAssertEqual("123456789", remoteCommandAccepted.identifier)
+    XCTAssertEqual("123456789", remoteCommandAccepted.requestId)
     XCTAssertNil(remoteCommandAccepted.id)
     XCTAssertNil(remoteCommandAccepted.lastUpdated)
   }

@@ -52,7 +52,7 @@ public class PorscheConnect {
     return !auth.expired
   }
 
-  func buildHeaders(
+  internal func buildHeaders(
     accessToken: String, apiKey: String, countryCode: CountryCode, languageCode: LanguageCode
   )
     -> [String: String]
@@ -65,7 +65,7 @@ public class PorscheConnect {
     ]
   }
 
-  func authIfRequired(application: OAuthApplication) async throws {
+  internal func authIfRequired(application: OAuthApplication) async throws {
     if !authorized(application: application) {
       do {
         _ = try await auth(application: application)
