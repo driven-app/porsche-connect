@@ -10,6 +10,7 @@ public struct RemoteCommandAccepted: Codable {
 
   public var id: String? = nil
   public var requestId: String? = nil
+  public var vin: String? = nil
   public var lastUpdated: Date? = nil
   public var remoteCommand: RemoteCommand?
 

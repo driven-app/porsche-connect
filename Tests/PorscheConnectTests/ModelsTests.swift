@@ -419,6 +419,7 @@ final class ModelsTests: XCTestCase {
     XCTAssertEqual("2119999", remoteCommandAccepted.identifier)
     XCTAssertEqual("2119999", remoteCommandAccepted.id)
     XCTAssertNil(remoteCommandAccepted.requestId)
+    XCTAssertNil(remoteCommandAccepted.vin)
     XCTAssertEqual(
       ISO8601DateFormatter().date(from: "2022-12-27T13:19:23Z"), remoteCommandAccepted.lastUpdated)
   }
@@ -431,6 +432,20 @@ final class ModelsTests: XCTestCase {
     XCTAssertNotNil(remoteCommandAccepted)
     XCTAssertEqual("2119999", remoteCommandAccepted.identifier)
     XCTAssertEqual("2119999", remoteCommandAccepted.requestId)
+    XCTAssertNil(remoteCommandAccepted.id)
+    XCTAssertNil(remoteCommandAccepted.lastUpdated)
+    XCTAssertNil(remoteCommandAccepted.vin)
+  }
+
+  // MARK: – Lock Vehicle
+
+  func testLockVehicleDecodingJsonIntoModel() {
+    let remoteCommandAccepted = buildRemoteCommandVariantThreeAccepted()
+
+    XCTAssertNotNil(remoteCommandAccepted)
+    XCTAssertEqual("2119999", remoteCommandAccepted.identifier)
+    XCTAssertEqual("2119999", remoteCommandAccepted.requestId)
+    XCTAssertEqual("WP0ZZZY4MSA38703", remoteCommandAccepted.vin)
     XCTAssertNil(remoteCommandAccepted.id)
     XCTAssertNil(remoteCommandAccepted.lastUpdated)
   }
@@ -514,6 +529,16 @@ final class ModelsTests: XCTestCase {
 
   private func buildRemoteCommandVariantTwoAccepted() -> RemoteCommandAccepted {
     let json = "{\"requestId\" : \"2119999\"}".data(using: .utf8)!
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .useDefaultKeys
+    decoder.dateDecodingStrategy = .iso8601
+
+    return try! decoder.decode(RemoteCommandAccepted.self, from: json)
+  }
+
+  private func buildRemoteCommandVariantThreeAccepted() -> RemoteCommandAccepted {
+    let json = "{\"requestId\" : \"2119999\", \"vin\" : \"WP0ZZZY4MSA38703\"}".data(using: .utf8)!
 
     let decoder = JSONDecoder()
     decoder.keyDecodingStrategy = .useDefaultKeys
