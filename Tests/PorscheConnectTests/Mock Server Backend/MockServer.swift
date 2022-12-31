@@ -14,6 +14,10 @@ class MockServer {
   // MARK: - Private
 
   private func setupMockWebServer(router: Router) {
+    if let delayServer = ProcessInfo.processInfo.environment["DELAY_MOCK_SERVER_START"] {
+      print("Delaying Mock Server start for \(delayServer) seconds")
+      Thread.sleep(forTimeInterval: (delayServer as NSString).doubleValue)
+    }
     server = DefaultHTTPServer(eventLoop: loop, port: kTestServerPort, app: router.app)
 
     try! server.start()
