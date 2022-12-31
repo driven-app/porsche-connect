@@ -419,6 +419,7 @@ final class ModelsTests: XCTestCase {
     XCTAssertEqual("2119999", remoteCommandAccepted.identifier)
     XCTAssertEqual("2119999", remoteCommandAccepted.id)
     XCTAssertNil(remoteCommandAccepted.requestId)
+    XCTAssertNil(remoteCommandAccepted.vin)
     XCTAssertEqual(
       ISO8601DateFormatter().date(from: "2022-12-27T13:19:23Z"), remoteCommandAccepted.lastUpdated)
   }
@@ -431,6 +432,20 @@ final class ModelsTests: XCTestCase {
     XCTAssertNotNil(remoteCommandAccepted)
     XCTAssertEqual("2119999", remoteCommandAccepted.identifier)
     XCTAssertEqual("2119999", remoteCommandAccepted.requestId)
+    XCTAssertNil(remoteCommandAccepted.id)
+    XCTAssertNil(remoteCommandAccepted.lastUpdated)
+    XCTAssertNil(remoteCommandAccepted.vin)
+  }
+
+  // MARK: – Lock Vehicle
+
+  func testLockVehicleDecodingJsonIntoModel() {
+    let remoteCommandAccepted = buildRemoteCommandVariantThreeAccepted()
+
+    XCTAssertNotNil(remoteCommandAccepted)
+    XCTAssertEqual("2119999", remoteCommandAccepted.identifier)
+    XCTAssertEqual("2119999", remoteCommandAccepted.requestId)
+    XCTAssertEqual("WP0ZZZY4MSA38703", remoteCommandAccepted.vin)
     XCTAssertNil(remoteCommandAccepted.id)
     XCTAssertNil(remoteCommandAccepted.lastUpdated)
   }
@@ -458,6 +473,28 @@ final class ModelsTests: XCTestCase {
 
     XCTAssertNotNil(remoteCommandStatus)
     XCTAssertNil(remoteCommandStatus.remoteStatus)
+  }
+
+  // MARK: – Pin Security Challenge
+
+  func testPinSecurity() {
+    let pinSecurity = buildPinSecurity()
+
+    XCTAssertEqual("62xuTQXWgJgnCNsqPoWv8emAeFKCMhPWH6mVwp0OaKqT61uuGxptmNVaq4evL", pinSecurity.securityToken)
+    XCTAssertEqual("D951A4D79D90EFE70C9F75A100632D756625A326110E921566B3336C32DFAE32", pinSecurity.challenge)
+    XCTAssertEqual("EC6CE40B8981D8DD56F59C1FFEBA7FFA8BFE72CA226C23C6AD110AC4FB634FA02A8C3C26A43E88859464F32EF9A8D26B273E4B89CF658CC185A8677212D6DF5F", pinSecurity.computeHash(pin: "1234"))
+  }
+
+  func testUnlockSecurity() {
+    let pinSecurity = buildPinSecurity()
+
+    let unlockSecurity = UnlockSecurity(challenge: pinSecurity.challenge,
+                                        securityPinHash: pinSecurity.computeHash(pin: "1234")!,
+                                        securityToken: pinSecurity.securityToken)
+
+    XCTAssertEqual("62xuTQXWgJgnCNsqPoWv8emAeFKCMhPWH6mVwp0OaKqT61uuGxptmNVaq4evL", unlockSecurity.securityToken)
+    XCTAssertEqual("D951A4D79D90EFE70C9F75A100632D756625A326110E921566B3336C32DFAE32", unlockSecurity.challenge)
+    XCTAssertEqual("EC6CE40B8981D8DD56F59C1FFEBA7FFA8BFE72CA226C23C6AD110AC4FB634FA02A8C3C26A43E88859464F32EF9A8D26B273E4B89CF658CC185A8677212D6DF5F", unlockSecurity.securityPinHash)
   }
 
   // MARK: - Private functions
@@ -500,6 +537,16 @@ final class ModelsTests: XCTestCase {
     return try! decoder.decode(RemoteCommandAccepted.self, from: json)
   }
 
+  private func buildRemoteCommandVariantThreeAccepted() -> RemoteCommandAccepted {
+    let json = "{\"requestId\" : \"2119999\", \"vin\" : \"WP0ZZZY4MSA38703\"}".data(using: .utf8)!
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .useDefaultKeys
+    decoder.dateDecodingStrategy = .iso8601
+
+    return try! decoder.decode(RemoteCommandAccepted.self, from: json)
+  }
+
   private func buildRemoteCommandStatusInProgress() -> RemoteCommandStatus {
     let json = "{\"status\" : \"IN_PROGRESS\"}".data(using: .utf8)!
 
@@ -525,5 +572,14 @@ final class ModelsTests: XCTestCase {
     decoder.keyDecodingStrategy = .useDefaultKeys
 
     return try! decoder.decode(RemoteCommandStatus.self, from: json)
+  }
+
+  private func buildPinSecurity() -> PinSecurity {
+    let json = "{\"securityToken\" : \"62xuTQXWgJgnCNsqPoWv8emAeFKCMhPWH6mVwp0OaKqT61uuGxptmNVaq4evL\", \"challenge\" : \"D951A4D79D90EFE70C9F75A100632D756625A326110E921566B3336C32DFAE32\"}".data(using: .utf8)!
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .useDefaultKeys
+
+    return try! decoder.decode(PinSecurity.self, from: json)
   }
 }

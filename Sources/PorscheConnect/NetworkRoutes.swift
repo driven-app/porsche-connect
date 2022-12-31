@@ -89,6 +89,14 @@ struct NetworkRoutes {
     )!
   }
 
+  func vehicleLockUnlockURL(
+    vehicle: Vehicle, lock: Bool
+  ) -> URL {
+    return URL(
+      string: "\(host("https://api.porsche.com"))/service-vehicle/remote-lock-unlock/\(vehicle.vin)/\(lock ? "quick-lock" : "security-pin/unlock")"
+    )!
+  }
+
 // MARK: - Private
 
   private func host(_ defaultHost: String) -> String {

@@ -23,6 +23,7 @@ final class MockNetworkRoutes {
   private static let postHonkAndFlashPath = "/service-vehicle/honk-and-flash/A1234/honk-and-flash"
   private static let postToggleDirectChargingOnPath = "/e-mobility/ie/en_IE/J1/A1234/toggle-direct-charging/true"
   private static let postToggleDirectChargingOffPath = "/e-mobility/ie/en_IE/J1/A1234/toggle-direct-charging/false"
+  private static let postLockPath = "/service-vehicle/remote-lock-unlock/A1234/quick-lock"
 
   // MARK: - Hello World
 
@@ -216,6 +217,21 @@ final class MockNetworkRoutes {
       statusCode: 400, statusMessage: "bad request")
   }
 
+  // MARK: – Post Lock Vehicle
+
+  func mockPostLockSuccessful(router: Router) {
+    router[MockNetworkRoutes.postLockPath] = JSONResponse(
+      statusCode: 200,
+      handler: { _ -> Any in
+        return self.mockRemoteCommandAcceptedVariantThree()
+      })
+  }
+
+  func mockPostLockFailure(router: Router) {
+    router[MockNetworkRoutes.postLockPath] = DataResponse(
+      statusCode: 400, statusMessage: "bad request")
+  }
+
   // MARK: – Remote Command Status
 
   func mockGetHonkAndFlashRemoteCommandStatusInProgress(router: Router) {
@@ -344,6 +360,10 @@ final class MockNetworkRoutes {
 
   private func mockRemoteCommandAcceptedVariantTwo() -> [String: Any] {
     return ["requestId": "123456789"]
+  }
+
+  private func mockRemoteCommandAcceptedVariantThree() -> [String: Any] {
+    return ["requestId": "123456789", "vin": "WP0ZZZY4MSA38703"]
   }
 
   private func mockRemoteCommandStatusInProgress() -> [String: Any] {

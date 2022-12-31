@@ -72,6 +72,12 @@ final class NetworkRoutesTests: XCTestCase {
         vehicle: vehicle,
         capabilities: capabilities!,
         remoteCommand: RemoteCommandAccepted(requestId: "123456")))
+    XCTAssertEqual(
+      URL(string: "https://api.porsche.com/service-vehicle/remote-lock-unlock/12345X/quick-lock"),
+      networkRoute.vehicleLockUnlockURL(vehicle: vehicle, lock: true))
+    XCTAssertEqual(
+      URL(string: "https://api.porsche.com/service-vehicle/remote-lock-unlock/12345X/security-pin/unlock"),
+      networkRoute.vehicleLockUnlockURL(vehicle: vehicle, lock: false))
   }
 
   func testNetworkRoutesTest() {
@@ -143,5 +149,11 @@ final class NetworkRoutesTests: XCTestCase {
       networkRoute.vehicleToggleDirectChargingRemoteCommandStatusURL(
         vehicle: vehicle,
         remoteCommand: RemoteCommandAccepted(requestId: "123456")))
+    XCTAssertEqual(
+      URL(string: "http://localhost:\(kTestServerPort)/service-vehicle/remote-lock-unlock/12345X/quick-lock"),
+      networkRoute.vehicleLockUnlockURL(vehicle: vehicle, lock: true))
+    XCTAssertEqual(
+      URL(string: "http://localhost:\(kTestServerPort)/service-vehicle/remote-lock-unlock/12345X/security-pin/unlock"),
+      networkRoute.vehicleLockUnlockURL(vehicle: vehicle, lock: false))
   }
 }
