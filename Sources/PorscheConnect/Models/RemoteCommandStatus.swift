@@ -3,14 +3,15 @@ import Foundation
 public struct RemoteCommandStatus: Codable {
 
   public enum RemoteStatus: String {
-    // TODO: handle failure status (when we see what one looks like in real world)
     case inProgress = "IN_PROGRESS"
     case success = "SUCCESS"
+    case failure = "FAILURE"
   }
 
   // MARK: Properties
 
   public let status: String
+  public let errorType: String?
 
   // MARK: Computed Properties
 
