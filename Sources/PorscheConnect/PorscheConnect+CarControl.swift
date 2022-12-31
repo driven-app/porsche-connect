@@ -125,7 +125,7 @@ extension PorscheConnect {
     var result = try await networkClient.post(
       RemoteCommandAccepted.self, url: url, body: kBlankString, headers: headers,
       jsonKeyDecodingStrategy: .useDefaultKeys)
-    result.data?.remoteCommand = .honkAndFlash //TODO: update to toggleDirectCharge
+    result.data?.remoteCommand = .toggleDirectCharge
     return (remoteCommandAccepted: result.data, response: result.response)
   }
 }

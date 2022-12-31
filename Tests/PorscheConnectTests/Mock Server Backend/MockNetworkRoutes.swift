@@ -14,6 +14,8 @@ final class MockNetworkRoutes {
   private static let getEmobilityPath = "/e-mobility/ie/en_IE/J1/A1234"
   private static let getHonkAndFlashRemoteCommandStatusPath =
     "/service-vehicle/honk-and-flash/A1234/999/status"
+  private static let getToggleDirectChargingRemoteCommandStatusPath =
+    "/e-mobility/ie/en_IE/J1/A1234/toggle-direct-charging/status/999"
 
   private static let postLoginAuthPath = "/auth/api/v1/ie/en_IE/public/login"
   private static let postApiTokenPath = "/as/token.oauth2"
@@ -226,6 +228,22 @@ final class MockNetworkRoutes {
 
   func mockGetHonkAndFlashRemoteCommandStatusSuccess(router: Router) {
     router[MockNetworkRoutes.getHonkAndFlashRemoteCommandStatusPath] = JSONResponse(
+      statusCode: 200,
+      handler: { _ -> Any in
+        return self.mockRemoteCommandStatusSuccess()
+      })
+  }
+
+  func mockGetToggleDirectChargingRemoteCommandStatusInProgress(router: Router) {
+    router[MockNetworkRoutes.getToggleDirectChargingRemoteCommandStatusPath] = JSONResponse(
+      statusCode: 200,
+      handler: { _ -> Any in
+        return self.mockRemoteCommandStatusInProgress()
+      })
+  }
+
+  func mockGetToggleDirectChargingRemoteCommandStatusSuccess(router: Router) {
+    router[MockNetworkRoutes.getToggleDirectChargingRemoteCommandStatusPath] = JSONResponse(
       statusCode: 200,
       handler: { _ -> Any in
         return self.mockRemoteCommandStatusSuccess()
