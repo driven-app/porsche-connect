@@ -460,6 +460,28 @@ final class ModelsTests: XCTestCase {
     XCTAssertNil(remoteCommandStatus.remoteStatus)
   }
 
+  // MARK: – Pin Security Challenge
+
+  func testPinSecurity() {
+    let pinSecurity = buildPinSecurity()
+
+    XCTAssertEqual("62xuTQXWgJgnCNsqPoWv8emAeFKCMhPWH6mVwp0OaKqT61uuGxptmNVaq4evL", pinSecurity.securityToken)
+    XCTAssertEqual("D951A4D79D90EFE70C9F75A100632D756625A326110E921566B3336C32DFAE32", pinSecurity.challenge)
+    XCTAssertEqual("EC6CE40B8981D8DD56F59C1FFEBA7FFA8BFE72CA226C23C6AD110AC4FB634FA02A8C3C26A43E88859464F32EF9A8D26B273E4B89CF658CC185A8677212D6DF5F", pinSecurity.computeHash(pin: "1234"))
+  }
+
+  func testUnlockSecurity() {
+    let pinSecurity = buildPinSecurity()
+
+    let unlockSecurity = UnlockSecurity(challenge: pinSecurity.challenge,
+                                        securityPinHash: pinSecurity.computeHash(pin: "1234")!,
+                                        securityToken: pinSecurity.securityToken)
+
+    XCTAssertEqual("62xuTQXWgJgnCNsqPoWv8emAeFKCMhPWH6mVwp0OaKqT61uuGxptmNVaq4evL", unlockSecurity.securityToken)
+    XCTAssertEqual("D951A4D79D90EFE70C9F75A100632D756625A326110E921566B3336C32DFAE32", unlockSecurity.challenge)
+    XCTAssertEqual("EC6CE40B8981D8DD56F59C1FFEBA7FFA8BFE72CA226C23C6AD110AC4FB634FA02A8C3C26A43E88859464F32EF9A8D26B273E4B89CF658CC185A8677212D6DF5F", unlockSecurity.securityPinHash)
+  }
+
   // MARK: - Private functions
 
   private func buildPosition() -> Position {
@@ -525,5 +547,14 @@ final class ModelsTests: XCTestCase {
     decoder.keyDecodingStrategy = .useDefaultKeys
 
     return try! decoder.decode(RemoteCommandStatus.self, from: json)
+  }
+
+  private func buildPinSecurity() -> PinSecurity {
+    let json = "{\"securityToken\" : \"62xuTQXWgJgnCNsqPoWv8emAeFKCMhPWH6mVwp0OaKqT61uuGxptmNVaq4evL\", \"challenge\" : \"D951A4D79D90EFE70C9F75A100632D756625A326110E921566B3336C32DFAE32\"}".data(using: .utf8)!
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .useDefaultKeys
+
+    return try! decoder.decode(PinSecurity.self, from: json)
   }
 }

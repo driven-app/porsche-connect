@@ -524,7 +524,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
 
-  func testToggleDirectChargingOffFailureAuthRequiredSuccessful() async {
+  func testToggleDirectChargingOffFailureAuthRequired() async {
     connect.auths[application] = nil
     let expectation = expectation(description: "Network Expectation")
 

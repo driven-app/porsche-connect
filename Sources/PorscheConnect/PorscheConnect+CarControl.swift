@@ -76,4 +76,41 @@ extension PorscheConnect {
     result.data?.remoteCommand = .toggleDirectCharge
     return (remoteCommandAccepted: result.data, response: result.response)
   }
+
+  public func lock(vehicle: Vehicle) async throws -> (
+    remoteCommandAccepted: RemoteCommandAccepted?, response: HTTPURLResponse
+  ) {
+    let headers = try await performAuthFor(application: .carControl)
+    let url = networkRoutes.vehicleLockUnlockURL(vehicle: vehicle, lock: true)
+
+    var result = try await networkClient.post(
+      RemoteCommandAccepted.self, url: url, body: kBlankString, headers: headers,
+      jsonKeyDecodingStrategy: .useDefaultKeys)
+    result.data?.remoteCommand = .toggleDirectCharge //TODO: set this to unlock
+    return (remoteCommandAccepted: result.data, response: result.response)
+  }
+
+  public func unlock(vehicle: Vehicle, pin: String) async throws -> (
+    remoteCommandAccepted: RemoteCommandAccepted?, response: HTTPURLResponse
+  ) {
+    let headers = try await performAuthFor(application: .carControl)
+    let url = networkRoutes.vehicleLockUnlockURL(vehicle: vehicle, lock: false)
+
+    let pinSecurity = try await networkClient.get(
+      PinSecurity.self, url: url, headers: headers, jsonKeyDecodingStrategy: .useDefaultKeys).data
+
+    guard let pinSecurity = pinSecurity, let pinHash = pinSecurity.computeHash(pin: pin) else {
+      throw PorscheConnectError.UnlockChallengeFailure
+    }
+
+    let unlockSecurity = UnlockSecurity(challenge: pinSecurity.challenge,
+                                        securityPinHash: pinHash,
+                                        securityToken: pinSecurity.securityToken)
+
+    var result = try await networkClient.post(
+      RemoteCommandAccepted.self, url: url, body: unlockSecurity, headers: headers,
+      jsonKeyDecodingStrategy: .useDefaultKeys)
+    result.data?.remoteCommand = .toggleDirectCharge //TODO: set this to unlock
+    return (remoteCommandAccepted: result.data, response: result.response)
+  }
 }

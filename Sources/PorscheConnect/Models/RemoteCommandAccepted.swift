@@ -15,7 +15,6 @@ public struct RemoteCommandAccepted: Codable {
 
   // MARK: Computed Properties
 
-
   // Porsche Connect remote command endpoints can return either an "id" or a "requestId"
   public var identifier: String? {
     return id ?? requestId

@@ -5,6 +5,7 @@ import Foundation
 public enum PorscheConnectError: Error {
   case AuthFailure
   case NoResult
+  case UnlockChallengeFailure
 }
 
 // MARK: - Porsche-specific OAuth applications
