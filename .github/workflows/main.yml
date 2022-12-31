@@ -5,6 +5,9 @@ name: PorscheConnect
 # ---- trigger ---------------------------------------------------------------------------------------------------
 
 on:
+  push:
+    branches:
+      - '**'        # matches every branch
   pull_request:
     branches:
       - '**'        # matches every branch	
@@ -21,7 +24,7 @@ jobs:
     timeout-minutes: 8
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Force XCode 14.2
         run: sudo xcode-select -switch /Applications/Xcode_14.2.app
       - name: Tests
