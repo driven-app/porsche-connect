@@ -12,6 +12,7 @@ final class MockNetworkRoutes {
   private static let getPositionPath = "/service-vehicle/car-finder/A1234/position"
   private static let getCapabilitiesPath = "/service-vehicle/vcs/capabilities/A1234"
   private static let getEmobilityPath = "/e-mobility/ie/en_IE/J1/A1234"
+
   private static let getHonkAndFlashRemoteCommandStatusPath =
     "/service-vehicle/honk-and-flash/A1234/999/status"
   private static let getToggleDirectChargingRemoteCommandStatusPath =
@@ -26,6 +27,9 @@ final class MockNetworkRoutes {
   private static let postToggleDirectChargingOnPath = "/e-mobility/ie/en_IE/J1/A1234/toggle-direct-charging/true"
   private static let postToggleDirectChargingOffPath = "/e-mobility/ie/en_IE/J1/A1234/toggle-direct-charging/false"
   private static let postLockPath = "/service-vehicle/remote-lock-unlock/A1234/quick-lock"
+
+  private static let getPostUnockPath = "/service-vehicle/remote-lock-unlock/A1234/security-pin/unlock"
+
 
   // MARK: - Hello World
 
@@ -234,6 +238,22 @@ final class MockNetworkRoutes {
       statusCode: 400, statusMessage: "bad request")
   }
 
+  // MARK: – Post Unlock Vehicle
+
+  func mockGetPostUnlockSuccessful(router: Router) {
+    router[MockNetworkRoutes.getPostUnockPath] = JSONResponse(
+      statusCode: 200,
+      handler: { (req) -> Any in
+        guard let method = req["REQUEST_METHOD"] as? String else { return }
+        return method == "GET" ? self.mockUnlockSecurityResponse() : self.mockRemoteCommandAcceptedVariantThree()
+      })
+  }
+
+  func mockGetPostUnlockFailure(router: Router) {
+    router[MockNetworkRoutes.getPostUnockPath] = DataResponse(
+      statusCode: 400, statusMessage: "bad request")
+  }
+
   // MARK: – Remote Command Status
 
   func mockGetHonkAndFlashRemoteCommandStatusInProgress(router: Router) {
@@ -402,5 +422,10 @@ final class MockNetworkRoutes {
 
   private func mockRemoteCommandStatusFailure() -> [String: Any] {
     return ["status": "FAILURE", "errorType": "INTERNAL"]
+  }
+
+  private func mockUnlockSecurityResponse() -> [String: Any] {
+    return ["securityToken": "62xuTQXWgJgnCNsqPoWv8emAeFKCMhPWH6mVwp0OaKqT61uuGxptmNVaq4evL",
+            "challenge": "D951A4D79D90EFE70C9F75A100632D756625A326110E921566B3336C32DFAE32"]
   }
 }

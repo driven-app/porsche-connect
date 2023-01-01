@@ -389,6 +389,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertNotNil(result)
     XCTAssertNotNil(result.remoteCommandAccepted)
     assertRemoteCommandAcceptedResponseVariantOne(result.remoteCommandAccepted!)
+    XCTAssertEqual(RemoteCommandAccepted.RemoteCommand.honkAndFlash, result.remoteCommandAccepted!.remoteCommand)
 
     await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
@@ -432,6 +433,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertNotNil(result)
     XCTAssertNotNil(result.remoteCommandAccepted)
     assertRemoteCommandAcceptedResponseVariantOne(result.remoteCommandAccepted!)
+    XCTAssertEqual(RemoteCommandAccepted.RemoteCommand.honkAndFlash, result.remoteCommandAccepted!.remoteCommand)
 
     await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
@@ -477,6 +479,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertNotNil(result)
     XCTAssertNotNil(result.remoteCommandAccepted)
     assertRemoteCommandAcceptedResponseVariantTwo(result.remoteCommandAccepted!)
+    XCTAssertEqual(RemoteCommandAccepted.RemoteCommand.toggleDirectCharge, result.remoteCommandAccepted!.remoteCommand)
 
     await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
@@ -498,6 +501,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertNotNil(result)
     XCTAssertNotNil(result.remoteCommandAccepted)
     assertRemoteCommandAcceptedResponseVariantTwo(result.remoteCommandAccepted!)
+    XCTAssertEqual(RemoteCommandAccepted.RemoteCommand.toggleDirectCharge, result.remoteCommandAccepted!.remoteCommand)
 
     await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
@@ -565,6 +569,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertNotNil(result)
     XCTAssertNotNil(result.remoteCommandAccepted)
     assertRemoteCommandAcceptedResponseVariantThree(result.remoteCommandAccepted!)
+    XCTAssertEqual(RemoteCommandAccepted.RemoteCommand.lock, result.remoteCommandAccepted!.remoteCommand)
 
     await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
@@ -582,6 +587,52 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
 
     do {
       _ =  try await connect.lock(vehicle: vehicle)
+    } catch {
+      expectation.fulfill()
+      XCTAssert(connect.authorized(application: application))
+      XCTAssertEqual(HttpStatusCode.BadRequest, error as! HttpStatusCode)
+    }
+
+    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  }
+
+  // MARK: - Unlock Vehicle
+
+  func testUnlockVehicleSuccessfulAuthRequired() async {
+    connect.auths[application] = nil
+    let expectation = expectation(description: "Network Expectation")
+
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockGetPostUnlockSuccessful(router: router)
+
+    XCTAssertFalse(connect.authorized(application: application))
+
+    let result = try! await connect.unlock(vehicle: vehicle, pin: "1234")
+
+    expectation.fulfill()
+    XCTAssertNotNil(result)
+    XCTAssertNotNil(result.remoteCommandAccepted)
+    assertRemoteCommandAcceptedResponseVariantThree(result.remoteCommandAccepted!)
+    XCTAssertEqual(RemoteCommandAccepted.RemoteCommand.unlock, result.remoteCommandAccepted!.remoteCommand)
+
+    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  }
+
+  func testUnlockVehicleFailureAuthRequired() async {
+    connect.auths[application] = nil
+    let expectation = expectation(description: "Network Expectation")
+
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockGetPostUnlockFailure(router: router)
+
+    XCTAssertFalse(connect.authorized(application: application))
+
+    do {
+      _ =  try await connect.unlock(vehicle: vehicle, pin: "1234")
     } catch {
       expectation.fulfill()
       XCTAssert(connect.authorized(application: application))
