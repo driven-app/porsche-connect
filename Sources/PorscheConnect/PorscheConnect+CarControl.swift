@@ -99,7 +99,7 @@ extension PorscheConnect {
     let pinSecurity = try await networkClient.get(
       PinSecurity.self, url: url, headers: headers, jsonKeyDecodingStrategy: .useDefaultKeys).data
 
-    guard let pinSecurity = pinSecurity, let pinHash = pinSecurity.computeHash(pin: pin) else {
+    guard let pinSecurity = pinSecurity, let pinHash = pinSecurity.generateSecurityPinHash(pin: pin) else {
       throw PorscheConnectError.UnlockChallengeFailure
     }
 
