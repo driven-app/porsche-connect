@@ -450,6 +450,19 @@ final class ModelsTests: XCTestCase {
     XCTAssertNil(remoteCommandAccepted.lastUpdated)
   }
 
+  // MARK: – Unlock Vehicle
+
+  func testUnlockVehicleDecodingJsonIntoModel() {
+    let remoteCommandAccepted = buildRemoteCommandVariantThreeAccepted()
+
+    XCTAssertNotNil(remoteCommandAccepted)
+    XCTAssertEqual("2119999", remoteCommandAccepted.identifier)
+    XCTAssertEqual("2119999", remoteCommandAccepted.requestId)
+    XCTAssertEqual("WP0ZZZY4MSA38703", remoteCommandAccepted.vin)
+    XCTAssertNil(remoteCommandAccepted.id)
+    XCTAssertNil(remoteCommandAccepted.lastUpdated)
+  }
+
   // MARK: – Remote Command Status
 
   func testRemoteCommandStatusInProgress() {
