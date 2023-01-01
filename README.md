@@ -226,6 +226,8 @@ try {
 
 To ask the vehicle to remote lock. This call will return a `RemoteCommandAccepted` struct when the request has been accepted. 
 
+Make sure that there are no vehicle keys, persons or animals in the vehicle.
+
 ```swift
 try {
   let result = porscheConnect.lock(vehicle: vehicle)
