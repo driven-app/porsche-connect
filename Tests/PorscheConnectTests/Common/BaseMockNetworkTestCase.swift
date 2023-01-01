@@ -23,6 +23,7 @@ class BaseMockNetworkTestCase: XCTestCase {
     super.tearDown()
     mockServer.server.stopAndWait()
     print("Mock Web Server at port \(mockServer.server.port): stopped")
+    mockServer.loop.stop()
     router = Router()
   }
 }

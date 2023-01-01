@@ -169,7 +169,11 @@ try {
 }
 ```
 
-As Honk and Flash is a remote command that can take time to reach and be executed by the car, you can check the status of the command. You pass in both the vehicle and the response from the `flash()` call above. The `status` is mapped to a strongly typed enum that can be retrieved by accessing the `remoteStatus` calculated property. Passing in a capabilites paramater is not required to determine the status of a Honk and Flash command.
+As Honk and Flash is a remote command that can take time to reach and be executed by the car, you can check the status of the command. You pass in both the vehicle and the response from the `flash()` call above. 
+
+The `status` is mapped to a strongly typed enum that can be retrieved by accessing the `remoteStatus` calculated property. 
+
+Passing in a capabilites paramater is not required to determine the status of a Honk and Flash command.
 
 ```swift
 try {
@@ -201,7 +205,7 @@ try {
 }
 ```
 
-As Toggle Direct Charging is a remote command that can take time to reach and be executed by the car, you can check the status of the command. You pass in the vehicle, optionally the vehicles capabilities and the response from the `toggleDirectCharging()` call above. 
+As Toggle Direct Charging is a remote command that can take time to reach and be executed by the car, you can check the status of the command. You pass in both the vehicle and the response from the `toggleDirectCharging()` call above. 
 
 The `status` is mapped to a strongly typed enum that can be retrieved by accessing the `remoteStatus` calculated property. 
 
@@ -227,6 +231,55 @@ try {
   let result = porscheConnect.lock(vehicle: vehicle)
   if let remoteCommandAccepted = result.remoteCommandAccepted {
     // Do something with the remote command
+  }
+} catch {
+  // Handle the error
+}
+```
+
+As Lock Vehicle is a remote command that can take time to reach and be executed by the car, you can check the status of the command. You pass in the vehicle, optionally the vehicles capabilities and the response from the `lock()` call above. 
+
+The `status` is mapped to a strongly typed enum that can be retrieved by accessing the `remoteStatus` calculated property. 
+
+Passing in a capabilites paramater is not required to determine the status of a Honk and Flash command.
+
+```swift
+try {
+  let result = porscheConnect.checkStatus(vehicle: vehicle, remoteCommand: remoteCommandAccepted)
+  if let remoteCommandStatus = result.remoteCommand {
+    // Do something with the remote command status
+  }
+} catch {
+  // Handle the error
+}
+```
+
+### Unlock Vehicle
+
+To ask the vehicle to remote unlock. As this action impacts the security of the vehicle (by unlocking it), it also requires the users four digit security (PIN) code. This call will return a `RemoteCommandAccepted` struct when the request has been accepted. 
+
+```swift
+try {
+  let result = porscheConnect.unlock(vehicle: vehicle, pin: "1234")
+  if let remoteCommandAccepted = result.remoteCommandAccepted {
+    // Do something with the remote command
+  }
+} catch {
+  // Handle the error
+}
+```
+
+As Unlock Vehicle is a remote command that can take time to reach and be executed by the car, you can check the status of the command. You pass in the vehicle, optionally the vehicles capabilities and the response from the `unlock()` call above. 
+
+The `status` is mapped to a strongly typed enum that can be retrieved by accessing the `remoteStatus` calculated property. 
+
+Passing in a capabilites paramater is not required to determine the status of a Honk and Flash command.
+
+```swift
+try {
+  let result = porscheConnect.checkStatus(vehicle: vehicle, remoteCommand: remoteCommandAccepted)
+  if let remoteCommandStatus = result.remoteCommand {
+    // Do something with the remote command status
   }
 } catch {
   // Handle the error
@@ -295,6 +348,7 @@ SUBCOMMANDS:
   honk-and-flash
   toggle-direct-charging
   lock
+  unlock
   
   See 'porsche help <subcommand>' for detailed help.
 ```
@@ -372,6 +426,15 @@ $ porsche lock <username> <password> <vin>
 
 Remote command \"Lock\" accepted by Porsche API with ID 123456
 ```
+
+To unlock a vehicle:
+
+```bash
+$ porsche unlock <username> <password> <vin> <pin>
+
+Remote command \"Unlock\" accepted by Porsche API with ID 123456
+```
+
 
 # Install
 
