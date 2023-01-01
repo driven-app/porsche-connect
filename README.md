@@ -348,6 +348,7 @@ SUBCOMMANDS:
   honk-and-flash
   toggle-direct-charging
   lock
+  unlock
   
   See 'porsche help <subcommand>' for detailed help.
 ```
@@ -425,6 +426,15 @@ $ porsche lock <username> <password> <vin>
 
 Remote command \"Lock\" accepted by Porsche API with ID 123456
 ```
+
+To unlock a vehicle:
+
+```bash
+$ porsche unlock <username> <password> <vin> <pin>
+
+Remote command \"Unlock\" accepted by Porsche API with ID 123456
+```
+
 
 # Install
 
