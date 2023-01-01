@@ -226,6 +226,8 @@ try {
 
 To ask the vehicle to remote lock. This call will return a `RemoteCommandAccepted` struct when the request has been accepted. 
 
+Make sure that there are no vehicle keys, persons or animals in the vehicle.
+
 ```swift
 try {
   let result = porscheConnect.lock(vehicle: vehicle)
@@ -317,7 +319,7 @@ cp -f .build/apple/Products/Release/porsche /usr/local/bin
 
 ### Universal binary
 
-If you would like to build a universal binary for both Intel (x86) and Apple (M1) Mac's then run the compiler with:
+If you would like to build a universal binary for both Intel (x86) and Apple (ARC) processors (M-series Mac's, iPhones, iPads, Watches) then run the compiler with:
 
 ```bash
 swift build -c release --arch arm64 --arch x86_64
