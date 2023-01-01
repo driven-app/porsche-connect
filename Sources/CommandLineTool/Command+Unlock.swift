@@ -41,10 +41,31 @@ extension Porsche {
     }
 
     private func printRemoteCommandAccepted(_ remoteCommandAccepted: RemoteCommandAccepted) {
-      print(
-        NSLocalizedString(
-          "Remote command \"Unlock\" accepted by Porsche API with ID \(remoteCommandAccepted.identifier!)",
-          comment: ""))
+      if (remoteCommandAccepted.pcckError != nil) {
+        printError(remoteCommandAccepted)
+      } else {
+        print(
+          NSLocalizedString(
+            "Remote command \"Unlock\" accepted by Porsche API with ID \(remoteCommandAccepted.identifier!)",
+            comment: ""))
+      }
+    }
+
+    private func printError(_ remoteCommandAccepted: RemoteCommandAccepted) {
+      switch remoteCommandAccepted.pcckError {
+      case .lockedFor60Minutes:
+        print(
+          NSLocalizedString(
+            "Remote command \"Unlock\" returned with a \"Locked for 60 minutes\" error",
+            comment: ""))
+      case .incorrectPin:
+        print(
+          NSLocalizedString(
+            "Remote command \"Unlock\" returned with a \"Incorrect PIN\" error",
+            comment: ""))
+      default:
+        break
+      }
     }
   }
 }
