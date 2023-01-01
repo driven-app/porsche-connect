@@ -241,7 +241,7 @@ As Lock Vehicle is a remote command that can take time to reach and be executed 
 
 The `status` is mapped to a strongly typed enum that can be retrieved by accessing the `remoteStatus` calculated property. 
 
-Passing in a capabilites paramater is not required to determine the status of a Honk and Flash command.
+Passing in a capabilites paramater is not required to determine the status of a Lock command.
 
 ```swift
 try {
@@ -273,7 +273,7 @@ As Unlock Vehicle is a remote command that can take time to reach and be execute
 
 The `status` is mapped to a strongly typed enum that can be retrieved by accessing the `remoteStatus` calculated property. 
 
-Passing in a capabilites paramater is not required to determine the status of a Honk and Flash command.
+Passing in a capabilites paramater is not required to determine the status of a Unlock command.
 
 ```swift
 try {
