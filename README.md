@@ -317,7 +317,7 @@ cp -f .build/apple/Products/Release/porsche /usr/local/bin
 
 ### Universal binary
 
-If you would like to build a universal binary for both Intel (x86) and Apple (M1) Mac's then run the compiler with:
+If you would like to build a universal binary for both Intel (x86) and Apple (ARC) processors (M-series Mac's, iPhones, iPads, Watches) then run the compiler with:
 
 ```bash
 swift build -c release --arch arm64 --arch x86_64
