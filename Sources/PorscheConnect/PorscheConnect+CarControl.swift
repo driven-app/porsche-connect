@@ -110,6 +110,16 @@ extension PorscheConnect {
     var result = try await networkClient.post(
       RemoteCommandAccepted.self, url: url, body: unlockSecurity, headers: headers,
       jsonKeyDecodingStrategy: .useDefaultKeys)
+
+    switch result.data?.pcckError {
+    case .lockedFor60Minutes:
+      throw PorscheConnectError.lockedFor60Minutes
+    case .incorrectPin:
+      throw PorscheConnectError.IncorrectPin
+    case .none:
+      break
+    }
+
     result.data?.remoteCommand = .unlock
     return (remoteCommandAccepted: result.data, response: result.response)
   }

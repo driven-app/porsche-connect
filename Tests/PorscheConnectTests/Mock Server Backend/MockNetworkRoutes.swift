@@ -249,6 +249,24 @@ final class MockNetworkRoutes {
       })
   }
 
+  func mockGetPostUnlockLockedError(router: Router) {
+    router[MockNetworkRoutes.getPostUnockPath] = JSONResponse(
+      statusCode: 200,
+      handler: { (req) -> Any in
+        guard let method = req["REQUEST_METHOD"] as? String else { return }
+        return method == "GET" ? self.mockUnlockSecurityResponse() : self.mockRemoteCommandAcceptedLockedError()
+      })
+  }
+
+  func mockGetPostUnlockIncorrectPinError(router: Router) {
+    router[MockNetworkRoutes.getPostUnockPath] = JSONResponse(
+      statusCode: 200,
+      handler: { (req) -> Any in
+        guard let method = req["REQUEST_METHOD"] as? String else { return }
+        return method == "GET" ? self.mockUnlockSecurityResponse() : self.mockRemoteCommandAcceptedIncorrectPinError()
+      })
+  }
+
   func mockGetPostUnlockFailure(router: Router) {
     router[MockNetworkRoutes.getPostUnockPath] = DataResponse(
       statusCode: 400, statusMessage: "bad request")
@@ -427,5 +445,15 @@ final class MockNetworkRoutes {
   private func mockUnlockSecurityResponse() -> [String: Any] {
     return ["securityToken": "62xuTQXWgJgnCNsqPoWv8emAeFKCMhPWH6mVwp0OaKqT61uuGxptmNVaq4evL",
             "challenge": "D951A4D79D90EFE70C9F75A100632D756625A326110E921566B3336C32DFAE32"]
+  }
+
+  private func mockRemoteCommandAcceptedLockedError() -> [String: Any?] {
+    return ["pcckErrorKey": "LOCKED_60_MINUTES", "pcckErrorMessage": nil, "pcckErrorCode": nil,
+            "pcckIsBusinessError": true]
+  }
+
+  private func mockRemoteCommandAcceptedIncorrectPinError() -> [String: Any?] {
+    return ["pcckErrorKey": "INCORRECT", "pcckErrorMessage": nil, "pcckErrorCode": nil,
+            "pcckIsBusinessError": false]
   }
 }

@@ -6,6 +6,8 @@ public enum PorscheConnectError: Error {
   case AuthFailure
   case NoResult
   case UnlockChallengeFailure
+  case lockedFor60Minutes
+  case IncorrectPin
 }
 
 // MARK: - Porsche-specific OAuth applications

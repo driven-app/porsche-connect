@@ -475,6 +475,38 @@ final class ModelsTests: XCTestCase {
     XCTAssertNil(remoteCommandStatus.remoteStatus)
   }
 
+  func testUnlockRemoteCommandSecurityTimeout() {
+    let remoteCommandStatus = buildUnlockRemoteCommandSecurityTimeout()
+
+    XCTAssertNotNil(remoteCommandStatus)
+    XCTAssertNil(remoteCommandStatus.id)
+    XCTAssertNil(remoteCommandStatus.requestId)
+    XCTAssertNil(remoteCommandStatus.vin)
+    XCTAssertNil(remoteCommandStatus.lastUpdated)
+    XCTAssertNil(remoteCommandStatus.remoteCommand)
+    XCTAssertNil(remoteCommandStatus.pcckErrorMessage)
+    XCTAssertNil(remoteCommandStatus.pcckErrorCode)
+    XCTAssert((remoteCommandStatus.pcckIsBusinessError != nil) && remoteCommandStatus.pcckIsBusinessError!)
+    XCTAssertEqual("LOCKED_60_MINUTES", remoteCommandStatus.pcckErrorKey)
+    XCTAssert(remoteCommandStatus.pcckError != nil && remoteCommandStatus.pcckError == .lockedFor60Minutes)
+  }
+
+  func testUnlockRemoteCommandSecurityIncorrect() {
+    let remoteCommandStatus = buildUnlockRemoteCommandSecurityIncorrect()
+
+    XCTAssertNotNil(remoteCommandStatus)
+    XCTAssertNil(remoteCommandStatus.id)
+    XCTAssertNil(remoteCommandStatus.requestId)
+    XCTAssertNil(remoteCommandStatus.vin)
+    XCTAssertNil(remoteCommandStatus.lastUpdated)
+    XCTAssertNil(remoteCommandStatus.remoteCommand)
+    XCTAssertNil(remoteCommandStatus.pcckErrorMessage)
+    XCTAssertNil(remoteCommandStatus.pcckErrorCode)
+    XCTAssert((remoteCommandStatus.pcckIsBusinessError != nil) && !remoteCommandStatus.pcckIsBusinessError!)
+    XCTAssertEqual("INCORRECT", remoteCommandStatus.pcckErrorKey)
+    XCTAssert(remoteCommandStatus.pcckError != nil && remoteCommandStatus.pcckError == .incorrectPin)
+  }
+
   // MARK: – Pin Security Challenge
 
   func testPinSecurity() {
@@ -482,19 +514,18 @@ final class ModelsTests: XCTestCase {
 
     XCTAssertEqual("62xuTQXWgJgnCNsqPoWv8emAeFKCMhPWH6mVwp0OaKqT61uuGxptmNVaq4evL", pinSecurity.securityToken)
     XCTAssertEqual("D951A4D79D90EFE70C9F75A100632D756625A326110E921566B3336C32DFAE32", pinSecurity.challenge)
-    XCTAssertEqual("EC6CE40B8981D8DD56F59C1FFEBA7FFA8BFE72CA226C23C6AD110AC4FB634FA02A8C3C26A43E88859464F32EF9A8D26B273E4B89CF658CC185A8677212D6DF5F", pinSecurity.computeHash(pin: "1234"))
+    XCTAssertEqual("1DC11DC5E032DF0A7FD19D1EF4F3A3F89696EFAF4F6BAE1C45EB5BDD450415C0F386394362BE019D4B8415A62BD6A1EBE5D5AD3DFA9CE42494651F7CB69087F4", pinSecurity.computeHash(pin: "1234"))
   }
 
   func testUnlockSecurity() {
     let pinSecurity = buildPinSecurity()
-
     let unlockSecurity = UnlockSecurity(challenge: pinSecurity.challenge,
                                         securityPinHash: pinSecurity.computeHash(pin: "1234")!,
                                         securityToken: pinSecurity.securityToken)
 
     XCTAssertEqual("62xuTQXWgJgnCNsqPoWv8emAeFKCMhPWH6mVwp0OaKqT61uuGxptmNVaq4evL", unlockSecurity.securityToken)
     XCTAssertEqual("D951A4D79D90EFE70C9F75A100632D756625A326110E921566B3336C32DFAE32", unlockSecurity.challenge)
-    XCTAssertEqual("EC6CE40B8981D8DD56F59C1FFEBA7FFA8BFE72CA226C23C6AD110AC4FB634FA02A8C3C26A43E88859464F32EF9A8D26B273E4B89CF658CC185A8677212D6DF5F", unlockSecurity.securityPinHash)
+    XCTAssertEqual("1DC11DC5E032DF0A7FD19D1EF4F3A3F89696EFAF4F6BAE1C45EB5BDD450415C0F386394362BE019D4B8415A62BD6A1EBE5D5AD3DFA9CE42494651F7CB69087F4", unlockSecurity.securityPinHash)
   }
 
   // MARK: - Private functions
@@ -546,6 +577,27 @@ final class ModelsTests: XCTestCase {
 
     return try! decoder.decode(RemoteCommandAccepted.self, from: json)
   }
+
+  private func buildUnlockRemoteCommandSecurityTimeout() -> RemoteCommandAccepted {
+    let json = "{\"pcckErrorKey\" : \"LOCKED_60_MINUTES\", \"pcckErrorMessage\" : null, \"pcckErrorCode\": null, \"pcckIsBusinessError\": true}".data(using: .utf8)!
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .useDefaultKeys
+    decoder.dateDecodingStrategy = .iso8601
+
+    return try! decoder.decode(RemoteCommandAccepted.self, from: json)
+  }
+
+  private func buildUnlockRemoteCommandSecurityIncorrect() -> RemoteCommandAccepted {
+    let json = "{\"pcckErrorKey\" : \"INCORRECT\", \"pcckErrorMessage\" : null, \"pcckErrorCode\": null, \"pcckIsBusinessError\": false}".data(using: .utf8)!
+
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .useDefaultKeys
+    decoder.dateDecodingStrategy = .iso8601
+
+    return try! decoder.decode(RemoteCommandAccepted.self, from: json)
+  }
+
 
   private func buildRemoteCommandStatusInProgress() -> RemoteCommandStatus {
     let json = "{\"status\" : \"IN_PROGRESS\"}".data(using: .utf8)!

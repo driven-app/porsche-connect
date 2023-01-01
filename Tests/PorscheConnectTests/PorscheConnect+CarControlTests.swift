@@ -642,6 +642,50 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
 
+  func testUnlockVehicleLockedErrorAuthRequired() async {
+    connect.auths[application] = nil
+    let expectation = expectation(description: "Network Expectation")
+
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockGetPostUnlockLockedError(router: router)
+
+    XCTAssertFalse(connect.authorized(application: application))
+
+    do {
+      _ =  try await connect.unlock(vehicle: vehicle, pin: "1234")
+    } catch {
+      expectation.fulfill()
+      XCTAssert(connect.authorized(application: application))
+      XCTAssertEqual(PorscheConnectError.lockedFor60Minutes, error as! PorscheConnectError)
+    }
+
+    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  }
+
+  func testUnlockVehicleIncorrectPinErrorAuthRequired() async {
+    connect.auths[application] = nil
+    let expectation = expectation(description: "Network Expectation")
+
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockGetPostUnlockIncorrectPinError(router: router)
+
+    XCTAssertFalse(connect.authorized(application: application))
+
+    do {
+      _ =  try await connect.unlock(vehicle: vehicle, pin: "1234")
+    } catch {
+      expectation.fulfill()
+      XCTAssert(connect.authorized(application: application))
+      XCTAssertEqual(PorscheConnectError.IncorrectPin, error as! PorscheConnectError)
+    }
+
+    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  }
+
   // MARK: - Private functions
 
   private func assertRemoteCommandAcceptedResponseVariantOne(_ remoteCommandAccepted: RemoteCommandAccepted) {
