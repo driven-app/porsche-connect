@@ -66,8 +66,7 @@ struct Porsche: AsyncParsableCommand {
     }
     @Option(help: ArgumentHelp(NSLocalizedString(
       "The locale to use when making API calls. "
-      + "Defaults to the system locale if possible, otherwise defaults to Germany. "
-      + "Valid values are: \(LocaleOption.allCases.map { $0.rawValue }.joined(separator: ", "))",
+      + "Defaults to the system locale if possible, otherwise defaults to Germany. ",
       comment: ""
     )))
     var locale: LocaleOption? = nil
