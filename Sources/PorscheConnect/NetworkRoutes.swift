@@ -46,7 +46,9 @@ struct NetworkRoutes {
 
   func vehicleStatusURL(vehicle: Vehicle) -> URL {
     return URL(
-      string: "\(host("https://api.porsche.com"))/vehicle-data/\(environment.regionCode)/status/\(vehicle.vin)")!
+      string:
+        "\(host("https://api.porsche.com"))/vehicle-data/\(environment.regionCode)/status/\(vehicle.vin)"
+    )!
   }
 
   func vehicleEmobilityURL(vehicle: Vehicle, capabilities: Capabilities? = nil) -> URL {
@@ -82,7 +84,8 @@ struct NetworkRoutes {
     vehicle: Vehicle, capabilities: Capabilities? = nil, enable: Bool
   ) -> URL {
     return URL(
-      string: "\(host("https://api.porsche.com"))/e-mobility/\(environment.regionCode)/\(capabilities?.carModel ?? kDefaultCarModel)/\(vehicle.vin)/toggle-direct-charging/\(enable)"
+      string:
+        "\(host("https://api.porsche.com"))/e-mobility/\(environment.regionCode)/\(capabilities?.carModel ?? kDefaultCarModel)/\(vehicle.vin)/toggle-direct-charging/\(enable)"
     )!
   }
 
@@ -90,7 +93,8 @@ struct NetworkRoutes {
     vehicle: Vehicle, capabilities: Capabilities? = nil, remoteCommand: RemoteCommandAccepted
   ) -> URL {
     return URL(
-      string: "\(host("https://api.porsche.com"))/e-mobility/\(environment.regionCode)/\(capabilities?.carModel ?? kDefaultCarModel)/\(vehicle.vin)/toggle-direct-charging/status/\(remoteCommand.identifier!)"
+      string:
+        "\(host("https://api.porsche.com"))/e-mobility/\(environment.regionCode)/\(capabilities?.carModel ?? kDefaultCarModel)/\(vehicle.vin)/toggle-direct-charging/status/\(remoteCommand.identifier!)"
     )!
   }
 
@@ -98,7 +102,8 @@ struct NetworkRoutes {
     vehicle: Vehicle, lock: Bool
   ) -> URL {
     return URL(
-      string: "\(host("https://api.porsche.com"))/service-vehicle/remote-lock-unlock/\(vehicle.vin)/\(lock ? "quick-lock" : "security-pin/unlock")"
+      string:
+        "\(host("https://api.porsche.com"))/service-vehicle/remote-lock-unlock/\(vehicle.vin)/\(lock ? "quick-lock" : "security-pin/unlock")"
     )!
   }
 
@@ -106,11 +111,12 @@ struct NetworkRoutes {
     vehicle: Vehicle, remoteCommand: RemoteCommandAccepted
   ) -> URL {
     return URL(
-      string: "\(host("https://api.porsche.com"))/service-vehicle/remote-lock-unlock/\(vehicle.vin)/\(remoteCommand.identifier!)/status"
+      string:
+        "\(host("https://api.porsche.com"))/service-vehicle/remote-lock-unlock/\(vehicle.vin)/\(remoteCommand.identifier!)/status"
     )!
   }
 
-// MARK: - Private
+  // MARK: - Private
 
   private func host(_ defaultHost: String) -> String {
     if environment == Environment.test {

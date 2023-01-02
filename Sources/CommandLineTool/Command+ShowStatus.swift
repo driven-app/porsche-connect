@@ -37,14 +37,22 @@ extension Porsche {
     }
 
     private func printStatus(_ status: Status) {
-      print(NSLocalizedString("Overall lock status: \(formatted(lockStatus: status.overallLockStatus))", comment: ""))
-      print(NSLocalizedString(
-        "Battery level: \(formatted(genericValue: status.batteryLevel)), Mileage: \(formatted(distance: status.mileage))",
-        comment: ""))
+      print(
+        NSLocalizedString(
+          "Overall lock status: \(formatted(lockStatus: status.overallLockStatus))", comment: ""))
+      print(
+        NSLocalizedString(
+          "Battery level: \(formatted(genericValue: status.batteryLevel)), Mileage: \(formatted(distance: status.mileage))",
+          comment: ""))
       if let electricalRangeDistance = status.remainingRanges.electricalRange.distance {
-        print(NSLocalizedString("Remaining range is \(formatted(distance: electricalRangeDistance))", comment: ""))
+        print(
+          NSLocalizedString(
+            "Remaining range is \(formatted(distance: electricalRangeDistance))", comment: ""))
       }
-      print(NSLocalizedString("Next inspection in \(formatted(distance: status.serviceIntervals.inspection.distance, scalar: -1)) or on \(formatted(genericValue: status.serviceIntervals.inspection.time, scalar: -1))", comment: ""))
+      print(
+        NSLocalizedString(
+          "Next inspection in \(formatted(distance: status.serviceIntervals.inspection.distance, scalar: -1)) or on \(formatted(genericValue: status.serviceIntervals.inspection.time, scalar: -1))",
+          comment: ""))
     }
 
     private func formatted(genericValue: Status.GenericValue, scalar: Double = 1) -> String {

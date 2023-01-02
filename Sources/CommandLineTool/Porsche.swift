@@ -12,7 +12,7 @@ struct Porsche: AsyncParsableCommand {
     subcommands: [
       ListVehicles.self, ShowSummary.self, ShowPosition.self, ShowCapabilities.self,
       ShowEmobility.self, ShowStatus.self, Flash.self, HonkAndFlash.self, ToggleDirectCharging.self,
-      Lock.self, Unlock.self
+      Lock.self, Unlock.self,
     ])
 
   struct Options: ParsableArguments {
