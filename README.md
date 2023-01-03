@@ -59,7 +59,7 @@ Create an instance of the library:
 
 The following environments are supported:
 
-* **Production** (default)
+* **Germany** (default)
 * **Test** (used by the test suite against a mocked server)
 
 A valid [MyPorsche](https://my.porsche.com) username (email) and password is required to use this library.

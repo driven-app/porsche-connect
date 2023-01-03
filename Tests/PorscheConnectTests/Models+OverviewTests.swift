@@ -11,7 +11,7 @@ final class ModelsOverviewTests: XCTestCase {
 
     XCTAssertNotNil(overview)
     XCTAssertEqual("WP0ZZZY4MSA38703", overview.vin)
-    XCTAssertEqual("CLOSED", overview.overallOpenStatus)
+    XCTAssertEqual(Overview.OverallOpenStatus.CLOSED, overview.overallOpenStatus)
   }
 
   // MARK: - Private functions
