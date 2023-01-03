@@ -2,7 +2,7 @@ import XCTest
 
 @testable import PorscheConnect
 
-final class ModelsRemoteCommandStatusTests: XCTestCase {
+final class ModelsRemoteCommandAcceptedTests: XCTestCase {
   
   // MARK: – Remote Command Status
 
