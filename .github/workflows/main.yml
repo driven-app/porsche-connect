@@ -1,4 +1,4 @@
-# ---- main workflow ---------------------------------------------------------------------------------------------
+branches: [ main ]# ---- main workflow ---------------------------------------------------------------------------------------------
   
 name: PorscheConnect
 
@@ -7,10 +7,9 @@ name: PorscheConnect
 on:
   push:
     branches:
-      - '**'        # matches every branch
+      - '**'             # matches every branch
   pull_request:
-    branches:
-      - '**'        # matches every branch	
+    branches: [ main ] 
       
 # ---- jobs (run in parallel) ------------------------------------------------------------------------------------
 
