@@ -27,6 +27,7 @@ public struct RemoteCommandAccepted: Codable {
 
   // Porsche Connect remote command endpoints can return either an "id" or a "requestId"
   // or nothing (i.e. unlock credentials error)
+  
   public var identifier: String? {
     return id ?? requestId ?? nil
   }
