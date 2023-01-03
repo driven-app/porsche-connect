@@ -7,19 +7,69 @@ final class ModelsOverviewTests: XCTestCase {
   // MARK: - Overview
 
   func testOverviewDecodingJsonIntoModel() {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "dd.MM.YYYY HH:mm:ss"
     let overview = buildOverview()
 
     XCTAssertNotNil(overview)
     XCTAssertEqual("WP0ZZZY4MSA38703", overview.vin)
-    XCTAssertEqual(Overview.OpenStatus.closed, overview.overallOpenStatus)
+
+    XCTAssertNotNil(overview.batteryLevel)
+    XCTAssertEqual(51, overview.batteryLevel!.value)
+    XCTAssertEqual("PERCENT", overview.batteryLevel!.unit)
+    XCTAssertEqual("GRAY_SLICE_UNIT_PERCENT", overview.batteryLevel!.unitTranslationKey)
+    XCTAssertEqual("TC.UNIT.PERCENT", overview.batteryLevel!.unitTranslationKeyV2)
+
+    XCTAssertNotNil(overview.remainingRanges)
+    XCTAssertNotNil(overview.remainingRanges.electricalRange)
+    XCTAssertEqual(Overview.ElectricalRange.EngineType.electric, overview.remainingRanges.electricalRange.engineType)
+    XCTAssertTrue(overview.remainingRanges.electricalRange.isPrimary)
+
+    XCTAssertNotNil(overview.remainingRanges.electricalRange.distance)
+    XCTAssertEqual(193, overview.remainingRanges.electricalRange.distance!.value)
+    XCTAssertEqual("KILOMETERS", overview.remainingRanges.electricalRange.distance!.unit)
+    XCTAssertEqual(193, overview.remainingRanges.electricalRange.distance!.originalValue)
+    XCTAssertEqual("KILOMETERS", overview.remainingRanges.electricalRange.distance!.originalUnit)
+    XCTAssertEqual(193, overview.remainingRanges.electricalRange.distance!.valueInKilometers)
+    XCTAssertEqual("GRAY_SLICE_UNIT_KILOMETER", overview.remainingRanges.electricalRange.distance!.unitTranslationKey)
+    XCTAssertEqual("TC.UNIT.KILOMETER", overview.remainingRanges.electricalRange.distance!.unitTranslationKeyV2)
+
+    XCTAssertNotNil(overview.mileage)
+    XCTAssertEqual(50819, overview.mileage.value)
+    XCTAssertEqual("KILOMETERS", overview.mileage.unit)
+    XCTAssertEqual(50819, overview.mileage.originalValue)
+    XCTAssertEqual("KILOMETERS", overview.mileage.originalUnit)
+    XCTAssertEqual(50819, overview.mileage.valueInKilometers)
+    XCTAssertEqual("GRAY_SLICE_UNIT_KILOMETER", overview.mileage.unitTranslationKey)
+    XCTAssertEqual("TC.UNIT.KILOMETER", overview.mileage.unitTranslationKeyV2)
+
+    XCTAssertEqual(Overview.ParkingLight.off, overview.parkingLight)
+
+    XCTAssertNotNil(overview.windows)
+    XCTAssertEqual(Overview.PhysicalStatus.closed, overview.windows.frontRight)
+    XCTAssertEqual(Overview.PhysicalStatus.closed, overview.windows.frontLeft)
+    XCTAssertEqual(Overview.PhysicalStatus.closed, overview.windows.backRight)
+    XCTAssertEqual(Overview.PhysicalStatus.closed, overview.windows.backLeft)
+    XCTAssertEqual(Overview.PhysicalStatus.unsupported, overview.windows.roof)
+    XCTAssertEqual(Overview.PhysicalStatus.unsupported, overview.windows.maintenanceHatch)
+
+    XCTAssertNotNil(overview.windows.sunroof)
+    XCTAssertEqual(Overview.PhysicalStatus.unsupported, overview.windows.sunroof.status)
+    XCTAssertNil(overview.windows.sunroof.positionInPercent)
+
+    XCTAssertEqual(formatter.date(from: "30.12.2022 17:39:59"), overview.parkingTime)
+    XCTAssertEqual(Overview.PhysicalStatus.closed, overview.overallOpenStatus)
   }
 
   // MARK: - Private functions
 
   private func buildOverview() -> Overview {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "dd.MM.YYYY HH:mm:ss" // example: 30.12.2022 17:39:59
+
     let decoder = JSONDecoder()
     decoder.keyDecodingStrategy = .useDefaultKeys
-    decoder.dateDecodingStrategy = .iso8601
+    decoder.dateDecodingStrategy = .formatted(formatter)
 
     return try! decoder.decode(Overview.self, from: kOverviewJson)
   }
