@@ -45,6 +45,48 @@ final class ModelsOverviewTests: XCTestCase {
 
     XCTAssertEqual(Overview.ParkingLight.off, overview.parkingLight)
 
+    XCTAssertNotNil(overview.serviceIntervals)
+    XCTAssertNotNil(overview.serviceIntervals.inspection)
+    XCTAssertNotNil(overview.serviceIntervals.inspection.distance)
+    XCTAssertEqual(0, overview.serviceIntervals.inspection.distance!.value)
+    XCTAssertEqual("KILOMETERS", overview.serviceIntervals.inspection.distance!.unit)
+    XCTAssertEqual(0, overview.serviceIntervals.inspection.distance!.originalValue)
+    XCTAssertEqual("KILOMETERS", overview.serviceIntervals.inspection.distance!.originalUnit)
+    XCTAssertEqual(0, overview.serviceIntervals.inspection.distance!.valueInKilometers)
+    XCTAssertEqual("GRAY_SLICE_UNIT_KILOMETER", overview.serviceIntervals.inspection.distance!.unitTranslationKey)
+    XCTAssertEqual("TC.UNIT.KILOMETER", overview.serviceIntervals.inspection.distance!.unitTranslationKeyV2)
+
+    XCTAssertNotNil(overview.serviceIntervals.inspection.time)
+    XCTAssertEqual(2, overview.serviceIntervals.inspection.time!.value)
+    XCTAssertEqual("DAYS", overview.serviceIntervals.inspection.time!.unit)
+    XCTAssertEqual("GRAY_SLICE_UNIT_DAY", overview.serviceIntervals.inspection.time!.unitTranslationKey)
+    XCTAssertEqual("TC.UNIT.DAYS", overview.serviceIntervals.inspection.time!.unitTranslationKeyV2)
+
+    XCTAssertNotNil(overview.tires)
+    XCTAssertNotNil(overview.tires.frontLeft)
+    XCTAssertNil(overview.tires.frontLeft.currentPressure)
+    XCTAssertNil(overview.tires.frontLeft.differencePressure)
+    XCTAssertNil(overview.tires.frontLeft.optimalPressure)
+    XCTAssertEqual(Overview.Tires.TirePressure.DifferenceStatus.unknown, overview.tires.frontLeft.tirePressureDifferenceStatus)
+
+    XCTAssertNotNil(overview.tires.frontRight)
+    XCTAssertNil(overview.tires.frontRight.currentPressure)
+    XCTAssertNil(overview.tires.frontRight.differencePressure)
+    XCTAssertNil(overview.tires.frontRight.optimalPressure)
+    XCTAssertEqual(Overview.Tires.TirePressure.DifferenceStatus.unknown, overview.tires.frontRight.tirePressureDifferenceStatus)
+
+    XCTAssertNotNil(overview.tires.backLeft)
+    XCTAssertNil(overview.tires.backLeft.currentPressure)
+    XCTAssertNil(overview.tires.backLeft.differencePressure)
+    XCTAssertNil(overview.tires.backLeft.optimalPressure)
+    XCTAssertEqual(Overview.Tires.TirePressure.DifferenceStatus.unknown, overview.tires.backLeft.tirePressureDifferenceStatus)
+
+    XCTAssertNotNil(overview.tires.backRight)
+    XCTAssertNil(overview.tires.backRight.currentPressure)
+    XCTAssertNil(overview.tires.backRight.differencePressure)
+    XCTAssertNil(overview.tires.backRight.optimalPressure)
+    XCTAssertEqual(Overview.Tires.TirePressure.DifferenceStatus.unknown, overview.tires.backRight.tirePressureDifferenceStatus)
+
     XCTAssertNotNil(overview.windows)
     XCTAssertEqual(Overview.PhysicalStatus.closed, overview.windows.frontRight)
     XCTAssertEqual(Overview.PhysicalStatus.closed, overview.windows.frontLeft)

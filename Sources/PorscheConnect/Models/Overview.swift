@@ -13,12 +13,14 @@ public struct Overview: Codable {
   // MARK: Properties
 
   public let vin: String
+  public let parkingTime: Date
   public let batteryLevel: BatteryLevel?
   public let remainingRanges: RemaingRanges
   public let mileage: Distance
   public let parkingLight: ParkingLight
+  public let tires: Tires
   public let windows: Windows
-  public let parkingTime: Date
+  public let serviceIntervals: ServiceIntervals
   public let overallOpenStatus: PhysicalStatus
 
   // MARK: -
@@ -59,6 +61,18 @@ public struct Overview: Codable {
 
   // MARK: -
 
+  public struct Time: Codable {
+
+    // MARK: Properties
+
+    public let value: Int
+    public let unit: String
+    public let unitTranslationKey: String
+    public let unitTranslationKeyV2: String
+  }
+
+  // MARK: -
+
   public struct ElectricalRange: Codable {
 
     public enum EngineType: String, Codable {
@@ -70,6 +84,53 @@ public struct Overview: Codable {
     public let distance: Distance?
     public let engineType: EngineType
     public let isPrimary: Bool
+  }
+
+  // MARK: -
+
+  public struct ServiceIntervals: Codable {
+
+    // MARK: Properties
+
+    public let inspection: Inspection
+
+    // MARK: -
+
+    public struct Inspection: Codable {
+
+      // MARK: Properties
+
+      public let distance: Distance?
+      public let time: Time?
+    }
+  }
+
+  // MARK: -
+
+  public struct Tires: Codable {
+
+    // MARK: Properties
+
+    public let frontLeft: TirePressure
+    public let frontRight: TirePressure
+    public let backLeft: TirePressure
+    public let backRight: TirePressure
+
+    // MARK: -
+
+    public struct TirePressure: Codable {
+
+      public enum DifferenceStatus: String, Codable {
+        case unknown = "UNKNOWN"
+      }
+
+      // MARK: Properties
+
+      public let currentPressure: Double?
+      public let optimalPressure: Double?
+      public let differencePressure: Double?
+      public let tirePressureDifferenceStatus: DifferenceStatus
+    }
   }
 
   // MARK: -
