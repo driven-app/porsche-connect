@@ -26,3 +26,16 @@ func buildCapabilites() -> Capabilities {
   decoder.keyDecodingStrategy = .useDefaultKeys
   return try! decoder.decode(Capabilities.self, from: json)
 }
+
+// MARK: - Localization codes
+
+enum CountryCode: String {
+  case germany = "de"
+  case ireland = "ie"
+  case unitedStates = "us"
+}
+
+enum LanguageCode: String {
+  case english = "en"
+  case german = "de"
+}

@@ -67,8 +67,8 @@ public class PorscheConnect {
     return [
       "Authorization": "Bearer \(auth.accessToken)",
       "apikey": apiKey,
-      "x-vrs-url-country": environment.countryCode.rawValue,
-      "x-vrs-url-language": "\(environment.languageCode.rawValue)_\(environment.countryCode.rawValue.uppercased())",
+      "x-vrs-url-country": environment.countryCode,
+      "x-vrs-url-language": "\(environment.languageCode)_\(environment.countryCode.uppercased())",
     ]
   }
 

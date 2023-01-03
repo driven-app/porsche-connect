@@ -13,7 +13,11 @@ extension Porsche {
     // MARK: - Lifecycle
 
     func run() async throws {
-      let porscheConnect = PorscheConnect(username: options.username, password: options.password)
+      let porscheConnect = PorscheConnect(
+        username: options.username,
+        password: options.password,
+        environment: options.resolvedEnvironment
+      )
       await callListVehiclesService(porscheConnect: porscheConnect)
       dispatchMain()
     }

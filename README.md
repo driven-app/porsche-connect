@@ -355,6 +355,11 @@ SUBCOMMANDS:
   See 'porsche help <subcommand>' for detailed help.
 ```
 
+By default, the CLI tool will attempt to use your system locale for all API requests. This will
+affect the localization of the API responses. If your system locale is not supported, Germany will
+be used instead. You can choose one of the supported locales using the `--locale` flag and passing
+one of the supported locales, such as `de_DE` or `en_US`.
+
 To get a list of all the vehicles associated with your My Porsche account:
 
 ```bash

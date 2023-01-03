@@ -4,23 +4,28 @@ import Foundation
 ///
 /// The environment affects the units and localization of API responses.
 public struct Environment: Equatable {
-  public let countryCode: CountryCode
-  public let languageCode: LanguageCode
+  public let countryCode: String
+  public let languageCode: String
   public let regionCode: String
 
-  static public let germany = Environment(
-    countryCode: .germany, languageCode: .german, regionCode: "de/de_DE")
-  static let test = Environment(
-    countryCode: .ireland, languageCode: .english, regionCode: "ie/en_IE")
-}
+  public init(countryCode: String, languageCode: String, regionCode: String) {
+    self.countryCode = countryCode
+    self.languageCode = languageCode
+    self.regionCode = regionCode
+  }
 
-public enum CountryCode: String {
-  case germany = "de"
-  case ireland = "ie"
-  case unitedStates = "us"
-}
-
-public enum LanguageCode: String {
-  case english = "en"
-  case german = "de"
+  /// Initializes the Environment with a given locale, if possible.
+  ///
+  /// - Parameter locale:The Locale must have an identifier consisting of both the country and language,
+  ///   separated by a `-` or `_` character. For example, `de_DE` or `en_US`.
+  public init?(locale: Locale) {
+    guard let regionCode = locale.regionCode, let languageCode = locale.languageCode else {
+      return nil
+    }
+    self.countryCode = regionCode.lowercased()
+    self.languageCode = languageCode.lowercased()
+    self.regionCode = "\(countryCode)/\(locale.identifier.replacingOccurrences(of: "-", with: "_"))"
+  }
+  static public let germany = Environment(locale: Locale(identifier: "de_DE"))!
+  static let test = Environment(locale: Locale(identifier: "en_IE"))!
 }

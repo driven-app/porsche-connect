@@ -32,25 +32,28 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
     let environment = Environment.germany
     XCTAssertNotNil(environment)
     XCTAssertEqual(environment.regionCode, "de/de_DE")
-    XCTAssertEqual(environment.languageCode, .german)
-    XCTAssertEqual(environment.countryCode, .germany)
+    XCTAssertEqual(environment.languageCode, LanguageCode.german.rawValue)
+    XCTAssertEqual(environment.countryCode, CountryCode.germany.rawValue)
   }
 
   func testEnvironmentCustom() {
     let environment = Environment(
-      countryCode: .unitedStates, languageCode: .english, regionCode: "us/en_US")
+      countryCode: CountryCode.unitedStates.rawValue,
+      languageCode: LanguageCode.english.rawValue,
+      regionCode: "us/en_US"
+    )
     XCTAssertNotNil(environment)
     XCTAssertEqual(environment.regionCode, "us/en_US")
-    XCTAssertEqual(environment.languageCode, .english)
-    XCTAssertEqual(environment.countryCode, .unitedStates)
+    XCTAssertEqual(environment.languageCode, LanguageCode.english.rawValue)
+    XCTAssertEqual(environment.countryCode, CountryCode.unitedStates.rawValue)
   }
 
   func testEnvironmentTest() {
     let environment = Environment.test
     XCTAssertNotNil(environment)
     XCTAssertEqual(environment.regionCode, "ie/en_IE")
-    XCTAssertEqual(environment.languageCode, .english)
-    XCTAssertEqual(environment.countryCode, .ireland)
+    XCTAssertEqual(environment.languageCode, LanguageCode.english.rawValue)
+    XCTAssertEqual(environment.countryCode, CountryCode.ireland.rawValue)
   }
 
   func testApplicationClientIdPortal() {
