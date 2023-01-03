@@ -1,5 +1,5 @@
-import XCTest
 import Ambassador
+import XCTest
 
 @testable import PorscheConnect
 
@@ -245,6 +245,49 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
 
+  // MARK: - Status Tests
+
+  func testStatusAuthRequiredSuccessful() async {
+    connect.auths[application] = nil
+    connect.auths[.api] = nil
+    let expectation = expectation(description: "Network Expectation")
+    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
+    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockGetStatusSuccessful(router: router)
+
+    XCTAssertFalse(connect.authorized(application: .api))
+
+    let result = try! await connect.status(vehicle: vehicle)
+
+    expectation.fulfill()
+    XCTAssert(connect.authorized(application: .api))
+    XCTAssertNotNil(result.response)
+    XCTAssertNotNil(result.status)
+    assertStatus(result.status!)
+
+    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  }
+
+  func testStatusAuthRequiredAuthFailure() async {
+    connect.auths[application] = nil
+    connect.auths[.api] = nil
+    let expectation = expectation(description: "Network Expectation")
+    mockNetworkRoutes.mockPostLoginAuthFailure(router: router)
+
+    XCTAssertFalse(connect.authorized(application: .api))
+
+    do {
+      _ = try await connect.status(vehicle: vehicle)
+    } catch {
+      expectation.fulfill()
+      XCTAssertFalse(connect.authorized(application: .api))
+      XCTAssertEqual(PorscheConnectError.AuthFailure, error as! PorscheConnectError)
+    }
+
+    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  }
+
   // MARK: - Emobility Tests
 
   func testEmobilityAuthRequiredSuccessful() async {
@@ -389,7 +432,8 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertNotNil(result)
     XCTAssertNotNil(result.remoteCommandAccepted)
     assertRemoteCommandAcceptedResponseVariantOne(result.remoteCommandAccepted!)
-    XCTAssertEqual(RemoteCommandAccepted.RemoteCommand.honkAndFlash, result.remoteCommandAccepted!.remoteCommand)
+    XCTAssertEqual(
+      RemoteCommandAccepted.RemoteCommand.honkAndFlash, result.remoteCommandAccepted!.remoteCommand)
 
     await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
@@ -433,7 +477,8 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertNotNil(result)
     XCTAssertNotNil(result.remoteCommandAccepted)
     assertRemoteCommandAcceptedResponseVariantOne(result.remoteCommandAccepted!)
-    XCTAssertEqual(RemoteCommandAccepted.RemoteCommand.honkAndFlash, result.remoteCommandAccepted!.remoteCommand)
+    XCTAssertEqual(
+      RemoteCommandAccepted.RemoteCommand.honkAndFlash, result.remoteCommandAccepted!.remoteCommand)
 
     await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
@@ -473,13 +518,16 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
 
     XCTAssertFalse(connect.authorized(application: application))
 
-    let result = try! await connect.toggleDirectCharging(vehicle: vehicle, capabilities: capabilites)
+    let result = try! await connect.toggleDirectCharging(
+      vehicle: vehicle, capabilities: capabilites)
 
     expectation.fulfill()
     XCTAssertNotNil(result)
     XCTAssertNotNil(result.remoteCommandAccepted)
     assertRemoteCommandAcceptedResponseVariantTwo(result.remoteCommandAccepted!)
-    XCTAssertEqual(RemoteCommandAccepted.RemoteCommand.toggleDirectCharge, result.remoteCommandAccepted!.remoteCommand)
+    XCTAssertEqual(
+      RemoteCommandAccepted.RemoteCommand.toggleDirectCharge,
+      result.remoteCommandAccepted!.remoteCommand)
 
     await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
@@ -495,13 +543,16 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
 
     XCTAssertFalse(connect.authorized(application: application))
 
-    let result = try! await connect.toggleDirectCharging(vehicle: vehicle, capabilities: capabilites, enable: false)
+    let result = try! await connect.toggleDirectCharging(
+      vehicle: vehicle, capabilities: capabilites, enable: false)
 
     expectation.fulfill()
     XCTAssertNotNil(result)
     XCTAssertNotNil(result.remoteCommandAccepted)
     assertRemoteCommandAcceptedResponseVariantTwo(result.remoteCommandAccepted!)
-    XCTAssertEqual(RemoteCommandAccepted.RemoteCommand.toggleDirectCharge, result.remoteCommandAccepted!.remoteCommand)
+    XCTAssertEqual(
+      RemoteCommandAccepted.RemoteCommand.toggleDirectCharge,
+      result.remoteCommandAccepted!.remoteCommand)
 
     await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
@@ -540,7 +591,8 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertFalse(connect.authorized(application: application))
 
     do {
-      _ = try await connect.toggleDirectCharging(vehicle: vehicle, capabilities: capabilites, enable: false)
+      _ = try await connect.toggleDirectCharging(
+        vehicle: vehicle, capabilities: capabilites, enable: false)
     } catch {
       expectation.fulfill()
       XCTAssert(connect.authorized(application: application))
@@ -569,7 +621,8 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertNotNil(result)
     XCTAssertNotNil(result.remoteCommandAccepted)
     assertRemoteCommandAcceptedResponseVariantThree(result.remoteCommandAccepted!)
-    XCTAssertEqual(RemoteCommandAccepted.RemoteCommand.lock, result.remoteCommandAccepted!.remoteCommand)
+    XCTAssertEqual(
+      RemoteCommandAccepted.RemoteCommand.lock, result.remoteCommandAccepted!.remoteCommand)
 
     await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
@@ -586,7 +639,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertFalse(connect.authorized(application: application))
 
     do {
-      _ =  try await connect.lock(vehicle: vehicle)
+      _ = try await connect.lock(vehicle: vehicle)
     } catch {
       expectation.fulfill()
       XCTAssert(connect.authorized(application: application))
@@ -615,7 +668,8 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertNotNil(result)
     XCTAssertNotNil(result.remoteCommandAccepted)
     assertRemoteCommandAcceptedResponseVariantThree(result.remoteCommandAccepted!)
-    XCTAssertEqual(RemoteCommandAccepted.RemoteCommand.unlock, result.remoteCommandAccepted!.remoteCommand)
+    XCTAssertEqual(
+      RemoteCommandAccepted.RemoteCommand.unlock, result.remoteCommandAccepted!.remoteCommand)
 
     await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
@@ -632,7 +686,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertFalse(connect.authorized(application: application))
 
     do {
-      _ =  try await connect.unlock(vehicle: vehicle, pin: "1234")
+      _ = try await connect.unlock(vehicle: vehicle, pin: "1234")
     } catch {
       expectation.fulfill()
       XCTAssert(connect.authorized(application: application))
@@ -654,7 +708,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertFalse(connect.authorized(application: application))
 
     do {
-      _ =  try await connect.unlock(vehicle: vehicle, pin: "1234")
+      _ = try await connect.unlock(vehicle: vehicle, pin: "1234")
     } catch {
       expectation.fulfill()
       XCTAssert(connect.authorized(application: application))
@@ -676,7 +730,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertFalse(connect.authorized(application: application))
 
     do {
-      _ =  try await connect.unlock(vehicle: vehicle, pin: "1234")
+      _ = try await connect.unlock(vehicle: vehicle, pin: "1234")
     } catch {
       expectation.fulfill()
       XCTAssert(connect.authorized(application: application))
@@ -688,22 +742,28 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
 
   // MARK: - Private functions
 
-  private func assertRemoteCommandAcceptedResponseVariantOne(_ remoteCommandAccepted: RemoteCommandAccepted) {
+  private func assertRemoteCommandAcceptedResponseVariantOne(
+    _ remoteCommandAccepted: RemoteCommandAccepted
+  ) {
     XCTAssertEqual("123456789", remoteCommandAccepted.identifier)
     XCTAssertEqual("123456789", remoteCommandAccepted.id)
     XCTAssertNil(remoteCommandAccepted.requestId)
     XCTAssertEqual(
       ISO8601DateFormatter().date(from: "2022-12-27T13:19:23Z"), remoteCommandAccepted.lastUpdated)
   }
-  
-  private func assertRemoteCommandAcceptedResponseVariantTwo(_ remoteCommandAccepted: RemoteCommandAccepted) {
+
+  private func assertRemoteCommandAcceptedResponseVariantTwo(
+    _ remoteCommandAccepted: RemoteCommandAccepted
+  ) {
     XCTAssertEqual("123456789", remoteCommandAccepted.identifier)
     XCTAssertEqual("123456789", remoteCommandAccepted.requestId)
     XCTAssertNil(remoteCommandAccepted.id)
     XCTAssertNil(remoteCommandAccepted.lastUpdated)
   }
 
-  private func assertRemoteCommandAcceptedResponseVariantThree(_ remoteCommandAccepted: RemoteCommandAccepted) {
+  private func assertRemoteCommandAcceptedResponseVariantThree(
+    _ remoteCommandAccepted: RemoteCommandAccepted
+  ) {
     XCTAssertEqual("123456789", remoteCommandAccepted.identifier)
     XCTAssertEqual("123456789", remoteCommandAccepted.requestId)
     XCTAssertEqual("WP0ZZZY4MSA38703", remoteCommandAccepted.vin)
@@ -739,6 +799,20 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertFalse(capabilities.heatingCapabilities.rearSeatHeatingAvailable)
     XCTAssertEqual("RIGHT", capabilities.steeringWheelPosition)
     XCTAssertTrue(capabilities.hasHonkAndFlash)
+  }
+
+  private func assertStatus(_ status: Status) {
+    XCTAssertEqual(status.vin, "ABC123")
+    XCTAssertEqual(status.batteryLevel.value, 73)
+    XCTAssertEqual(status.batteryLevel.unit, "PERCENT")
+    XCTAssertEqual(status.mileage.value, 2195)
+    XCTAssertEqual(status.mileage.unit, "KILOMETERS")
+    XCTAssertEqual(status.overallLockStatus, "CLOSED_LOCKED")
+    XCTAssertEqual(status.serviceIntervals.inspection.distance.value, -27842)
+    XCTAssertEqual(status.serviceIntervals.inspection.time.value, -710)
+    XCTAssertEqual(status.remainingRanges.electricalRange.engineType, "ELECTRIC")
+    XCTAssertEqual(status.remainingRanges.electricalRange.distance?.value, 294)
+    XCTAssertEqual(status.remainingRanges.electricalRange.distance?.unit, "KILOMETERS")
   }
 
   private func assertEmobilityWhenNotCharging(_ emobility: Emobility) {

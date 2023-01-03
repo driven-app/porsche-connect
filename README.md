@@ -379,6 +379,17 @@ $ porsche show-position <username> <password> <vin>
 Latitude: 53.395367; Longitude: -6.389296; Heading: 68
 ```
 
+To show the current status of a vehicle:
+
+```bash
+$ porsche show-status <username> <password> <vin>
+
+Overall lock status: Closed and locked
+Battery level: 73.0%, Mileage: 2,206 kilometers
+Remaining range is 292 kilometers
+Next inspection in 27,842 kilometers or on Dec 10, 2024
+```
+
 To show the capabilties of a vehicle:
 
 ```bash

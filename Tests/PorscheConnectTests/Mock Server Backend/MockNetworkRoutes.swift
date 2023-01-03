@@ -11,6 +11,7 @@ final class MockNetworkRoutes {
   private static let getSummaryPath = "/service-vehicle/vehicle-summary/A1234"
   private static let getPositionPath = "/service-vehicle/car-finder/A1234/position"
   private static let getCapabilitiesPath = "/service-vehicle/vcs/capabilities/A1234"
+  private static let getStatusPath = "/vehicle-data/ie/en_IE/status/A1234"
   private static let getEmobilityPath = "/e-mobility/ie/en_IE/J1/A1234"
 
   private static let getHonkAndFlashRemoteCommandStatusPath =
@@ -24,12 +25,14 @@ final class MockNetworkRoutes {
   private static let postApiTokenPath = "/as/token.oauth2"
   private static let postFlashPath = "/service-vehicle/honk-and-flash/A1234/flash"
   private static let postHonkAndFlashPath = "/service-vehicle/honk-and-flash/A1234/honk-and-flash"
-  private static let postToggleDirectChargingOnPath = "/e-mobility/ie/en_IE/J1/A1234/toggle-direct-charging/true"
-  private static let postToggleDirectChargingOffPath = "/e-mobility/ie/en_IE/J1/A1234/toggle-direct-charging/false"
+  private static let postToggleDirectChargingOnPath =
+    "/e-mobility/ie/en_IE/J1/A1234/toggle-direct-charging/true"
+  private static let postToggleDirectChargingOffPath =
+    "/e-mobility/ie/en_IE/J1/A1234/toggle-direct-charging/false"
   private static let postLockPath = "/service-vehicle/remote-lock-unlock/A1234/quick-lock"
 
-  private static let getPostUnockPath = "/service-vehicle/remote-lock-unlock/A1234/security-pin/unlock"
-
+  private static let getPostUnockPath =
+    "/service-vehicle/remote-lock-unlock/A1234/security-pin/unlock"
 
   // MARK: - Hello World
 
@@ -133,6 +136,19 @@ final class MockNetworkRoutes {
 
   func mockGetCapabilitiesFailure(router: Router) {
     router[MockNetworkRoutes.getCapabilitiesPath] = DataResponse(
+      statusCode: 400, statusMessage: "bad request")
+  }
+
+  // MARK: - Get Status
+
+  func mockGetStatusSuccessful(router: Router) {
+    router[MockNetworkRoutes.getStatusPath] = JSONResponse(statusCode: 200) { _ -> Any in
+      return self.mockStatusResponse()
+    }
+  }
+
+  func mockGetStatusFailure(router: Router) {
+    router[MockNetworkRoutes.getStatusPath] = DataResponse(
       statusCode: 400, statusMessage: "bad request")
   }
 
@@ -245,7 +261,8 @@ final class MockNetworkRoutes {
       statusCode: 200,
       handler: { (req) -> Any in
         guard let method = req["REQUEST_METHOD"] as? String else { return }
-        return method == "GET" ? self.mockUnlockSecurityResponse() : self.mockRemoteCommandAcceptedVariantThree()
+        return method == "GET"
+          ? self.mockUnlockSecurityResponse() : self.mockRemoteCommandAcceptedVariantThree()
       })
   }
 
@@ -254,7 +271,8 @@ final class MockNetworkRoutes {
       statusCode: 200,
       handler: { (req) -> Any in
         guard let method = req["REQUEST_METHOD"] as? String else { return }
-        return method == "GET" ? self.mockUnlockSecurityResponse() : self.mockRemoteCommandAcceptedLockedError()
+        return method == "GET"
+          ? self.mockUnlockSecurityResponse() : self.mockRemoteCommandAcceptedLockedError()
       })
   }
 
@@ -263,7 +281,8 @@ final class MockNetworkRoutes {
       statusCode: 200,
       handler: { (req) -> Any in
         guard let method = req["REQUEST_METHOD"] as? String else { return }
-        return method == "GET" ? self.mockUnlockSecurityResponse() : self.mockRemoteCommandAcceptedIncorrectPinError()
+        return method == "GET"
+          ? self.mockUnlockSecurityResponse() : self.mockRemoteCommandAcceptedIncorrectPinError()
       })
   }
 
@@ -414,6 +433,71 @@ final class MockNetworkRoutes {
     ]
   }
 
+  private func mockStatusResponse() -> [String: Any?] {
+    return [
+      "vin": "ABC123",
+      "fuelLevel": nil,
+      "oilLevel": nil,
+      "batteryLevel": [
+        "value": 73,
+        "unit": "PERCENT",
+        "unitTranslationKey": "GRAY_SLICE_UNIT_PERCENT",
+        "unitTranslationKeyV2": "TC.UNIT.PERCENT",
+      ],
+      "mileage": [
+        "value": 2195,
+        "unit": "KILOMETERS",
+        "originalValue": 2195,
+        "originalUnit": "KILOMETERS",
+        "valueInKilometers": 2195,
+        "unitTranslationKey": "GRAY_SLICE_UNIT_KILOMETER",
+        "unitTranslationKeyV2": "TC.UNIT.KILOMETER",
+      ],
+      "overallLockStatus": "CLOSED_LOCKED",
+      "serviceIntervals": [
+        "oilService": [
+          "distance": nil,
+          "time": nil,
+        ],
+        "inspection": [
+          "distance": [
+            "value": -27842,
+            "unit": "KILOMETERS",
+            "originalValue": -27842,
+            "originalUnit": "KILOMETERS",
+            "valueInKilometers": -27842,
+            "unitTranslationKey": "GRAY_SLICE_UNIT_KILOMETER",
+            "unitTranslationKeyV2": "TC.UNIT.KILOMETER",
+          ],
+          "time": [
+            "value": -710,
+            "unit": "DAYS",
+            "unitTranslationKey": "GRAY_SLICE_UNIT_DAY",
+            "unitTranslationKeyV2": "TC.UNIT.DAYS",
+          ],
+        ],
+      ],
+      "remainingRanges": [
+        "conventionalRange": [
+          "distance": nil,
+          "engineType": "UNSUPPORTED",
+        ],
+        "electricalRange": [
+          "distance": [
+            "value": 294,
+            "unit": "KILOMETERS",
+            "originalValue": 294,
+            "originalUnit": "KILOMETERS",
+            "valueInKilometers": 294,
+            "unitTranslationKey": "GRAY_SLICE_UNIT_KILOMETER",
+            "unitTranslationKeyV2": "TC.UNIT.KILOMETER",
+          ],
+          "engineType": "ELECTRIC",
+        ],
+      ],
+    ]
+  }
+
   private func mockEmobilityResponse(mockedResponse: Data) -> [String: Any] {
     return try! (JSONSerialization.jsonObject(with: mockedResponse, options: []) as! [String: Any])
   }
@@ -443,17 +527,23 @@ final class MockNetworkRoutes {
   }
 
   private func mockUnlockSecurityResponse() -> [String: Any] {
-    return ["securityToken": "62xuTQXWgJgnCNsqPoWv8emAeFKCMhPWH6mVwp0OaKqT61uuGxptmNVaq4evL",
-            "challenge": "D951A4D79D90EFE70C9F75A100632D756625A326110E921566B3336C32DFAE32"]
+    return [
+      "securityToken": "62xuTQXWgJgnCNsqPoWv8emAeFKCMhPWH6mVwp0OaKqT61uuGxptmNVaq4evL",
+      "challenge": "D951A4D79D90EFE70C9F75A100632D756625A326110E921566B3336C32DFAE32",
+    ]
   }
 
   private func mockRemoteCommandAcceptedLockedError() -> [String: Any?] {
-    return ["pcckErrorKey": "LOCKED_60_MINUTES", "pcckErrorMessage": nil, "pcckErrorCode": nil,
-            "pcckIsBusinessError": true]
+    return [
+      "pcckErrorKey": "LOCKED_60_MINUTES", "pcckErrorMessage": nil, "pcckErrorCode": nil,
+      "pcckIsBusinessError": true,
+    ]
   }
 
   private func mockRemoteCommandAcceptedIncorrectPinError() -> [String: Any?] {
-    return ["pcckErrorKey": "INCORRECT", "pcckErrorMessage": nil, "pcckErrorCode": nil,
-            "pcckIsBusinessError": false]
+    return [
+      "pcckErrorKey": "INCORRECT", "pcckErrorMessage": nil, "pcckErrorCode": nil,
+      "pcckIsBusinessError": false,
+    ]
   }
 }
