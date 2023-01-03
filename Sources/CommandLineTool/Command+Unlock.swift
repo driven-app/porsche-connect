@@ -45,7 +45,7 @@ extension Porsche {
     }
 
     private func printRemoteCommandAccepted(_ remoteCommandAccepted: RemoteCommandAccepted) {
-      if (remoteCommandAccepted.pcckError != nil) {
+      if (remoteCommandAccepted.pcckErrorKey != nil) {
         printError(remoteCommandAccepted)
       } else {
         print(
@@ -56,7 +56,7 @@ extension Porsche {
     }
 
     private func printError(_ remoteCommandAccepted: RemoteCommandAccepted) {
-      switch remoteCommandAccepted.pcckError {
+      switch remoteCommandAccepted.pcckErrorKey {
       case .lockedFor60Minutes:
         print(
           NSLocalizedString(
