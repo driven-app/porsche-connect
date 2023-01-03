@@ -128,7 +128,7 @@ extension PorscheConnect {
       RemoteCommandAccepted.self, url: url, body: unlockSecurity, headers: headers,
       jsonKeyDecodingStrategy: .useDefaultKeys)
 
-    switch result.data?.pcckError {
+    switch result.data?.pcckErrorKey {
     case .lockedFor60Minutes:
       throw PorscheConnectError.lockedFor60Minutes
     case .incorrectPin:

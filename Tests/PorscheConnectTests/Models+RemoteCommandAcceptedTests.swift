@@ -41,8 +41,8 @@ final class ModelsRemoteCommandAcceptedTests: XCTestCase {
     XCTAssertNil(remoteCommandStatus.pcckErrorMessage)
     XCTAssertNil(remoteCommandStatus.pcckErrorCode)
     XCTAssert((remoteCommandStatus.pcckIsBusinessError != nil) && remoteCommandStatus.pcckIsBusinessError!)
-    XCTAssertEqual("LOCKED_60_MINUTES", remoteCommandStatus.pcckErrorKey)
-    XCTAssert(remoteCommandStatus.pcckError != nil && remoteCommandStatus.pcckError == .lockedFor60Minutes)
+    XCTAssertEqual(RemoteCommandAccepted.PcckErrorKey.lockedFor60Minutes, remoteCommandStatus.pcckErrorKey)
+    XCTAssert(remoteCommandStatus.pcckErrorKey != nil && remoteCommandStatus.pcckErrorKey == .lockedFor60Minutes)
   }
 
   func testUnlockRemoteCommandSecurityIncorrect() {
@@ -57,8 +57,8 @@ final class ModelsRemoteCommandAcceptedTests: XCTestCase {
     XCTAssertNil(remoteCommandStatus.pcckErrorMessage)
     XCTAssertNil(remoteCommandStatus.pcckErrorCode)
     XCTAssert((remoteCommandStatus.pcckIsBusinessError != nil) && !remoteCommandStatus.pcckIsBusinessError!)
-    XCTAssertEqual("INCORRECT", remoteCommandStatus.pcckErrorKey)
-    XCTAssert(remoteCommandStatus.pcckError != nil && remoteCommandStatus.pcckError == .incorrectPin)
+    XCTAssertEqual(RemoteCommandAccepted.PcckErrorKey.incorrectPin, remoteCommandStatus.pcckErrorKey)
+    XCTAssert(remoteCommandStatus.pcckErrorKey != nil && remoteCommandStatus.pcckErrorKey == .incorrectPin)
   }
 
   // MARK: - Private functions
