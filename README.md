@@ -154,6 +154,21 @@ try {
 }
 ```
 
+### Status of a vehicle
+
+To get the status for a vehicle. This call will return a `Status` struct. This struct has nested `ServiceIntervals`, and `RemainingRanges` structs as appropriate for the vehicle.
+
+```swift
+try {
+  let result = porscheConnect.status(vehicle: vehicle)
+  if let status = result.status {
+    // Do something with the status
+  }
+} catch {
+  // Handle the error
+}
+```
+
 ### Honk and Flash
 
 To ask the vehicle to flash its indicators and optionally honk the horn. This call will return a `RemoteCommandAccepted` struct when the request has been accepted. The `andHorn` paramater is optional and defaults to false.
