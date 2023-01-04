@@ -35,8 +35,9 @@ extension Porsche {
         if let capabilities = result.capabilities {
           printCapabilities(capabilities)
         }
+        Porsche.ShowCapabilities.exit()
       } catch {
-        Porsche.ShowEmobility.exit(withError: error)
+        Porsche.ShowCapabilities.exit(withError: error)
       }
     }
 
