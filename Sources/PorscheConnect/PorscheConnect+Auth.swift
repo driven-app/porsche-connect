@@ -3,9 +3,6 @@ import Foundation
 extension PorscheConnect {
 
   public func auth(application: OAuthApplication) async throws -> OAuthToken {
-    let loginToRetrieveCookiesResponse = try await loginToRetrieveCookies()
-    guard loginToRetrieveCookiesResponse != nil else { throw PorscheConnectError.NoResult }
-
     let apiAuthCodeResult = try await getApiAuthCode(application: application)
     guard let codeVerifier = apiAuthCodeResult.codeVerifier,
       let code = apiAuthCodeResult.code
@@ -20,21 +17,6 @@ extension PorscheConnect {
     let token = OAuthToken(authResponse: porscheAuth)
     auths[application] = token
     return token
-  }
-
-  private func loginToRetrieveCookies() async throws -> HTTPURLResponse? {
-    let loginBody = buildLoginBody(username: username, password: password)
-    let result = try await networkClient.post(
-      String.self, url: networkRoutes.loginAuthURL,
-      body: buildPostFormBodyFrom(dictionary: loginBody), contentType: .form,
-      parseResponseBody: false)
-    if let statusCode = HttpStatusCode(rawValue: result.response.statusCode),
-      statusCode == .OK
-    {
-      AuthLogger.info("Login to retrieve cookies successful")
-    }
-
-    return result.response
   }
 
   private func getApiAuthCode(application: OAuthApplication) async throws -> (

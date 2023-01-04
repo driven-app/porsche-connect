@@ -7,12 +7,6 @@ struct NetworkRoutes {
 
   // MARK: - Calculated properties
 
-  var loginAuthURL: URL {
-    return URL(
-      string:
-        "\(host("https://login.porsche.com"))/auth/api/v1/\(environment.regionCode)/public/login")!
-  }
-
   var apiAuthURL: URL {
     return URL(string: "\(host("https://login.porsche.com"))/as/authorization.oauth2")!
   }

@@ -30,9 +30,6 @@ final class NetworkRoutesTests: XCTestCase {
   func testNetworkRoutesGermany() {
     let networkRoute = NetworkRoutes(environment: .germany)
     XCTAssertEqual(
-      URL(string: "https://login.porsche.com/auth/api/v1/de/de_DE/public/login")!,
-      networkRoute.loginAuthURL)
-    XCTAssertEqual(
       URL(string: "https://login.porsche.com/as/authorization.oauth2")!, networkRoute.apiAuthURL)
     XCTAssertEqual(
       URL(string: "https://login.porsche.com/as/token.oauth2")!, networkRoute.apiTokenURL)
@@ -86,9 +83,6 @@ final class NetworkRoutesTests: XCTestCase {
 
   func testNetworkRoutesTest() {
     let networkRoute = NetworkRoutes(environment: .test)
-    XCTAssertEqual(
-      URL(string: "http://localhost:\(kTestServerPort)/auth/api/v1/ie/en_IE/public/login")!,
-      networkRoute.loginAuthURL)
     XCTAssertEqual(
       URL(string: "http://localhost:\(kTestServerPort)/as/authorization.oauth2")!,
       networkRoute.apiAuthURL)
