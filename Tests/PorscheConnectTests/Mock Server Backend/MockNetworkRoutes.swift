@@ -21,7 +21,6 @@ final class MockNetworkRoutes {
   private static let getLockUnlockRemoteCommandStatusPath =
     "service-vehicle/remote-lock-unlock/A1234/999/status"
 
-  private static let postLoginAuthPath = "/auth/api/v1/ie/en_IE/public/login"
   private static let postApiTokenPath = "/as/token.oauth2"
   private static let postFlashPath = "/service-vehicle/honk-and-flash/A1234/flash"
   private static let postHonkAndFlashPath = "/service-vehicle/honk-and-flash/A1234/honk-and-flash"
@@ -45,18 +44,6 @@ final class MockNetworkRoutes {
   func mockGetHelloWorldFailure(router: Router) {
     router[MockNetworkRoutes.getHelloWorldPath] = JSONResponse(
       statusCode: 401, statusMessage: "unauthorized")
-  }
-
-  // MARK: - Post Login Auth
-
-  func mockPostLoginAuthSuccessful(router: Router) {
-    router[MockNetworkRoutes.postLoginAuthPath] = DataResponse(
-      statusCode: 200, statusMessage: "ok", headers: [("Set-Cookie", "CIAM.status=mockValue")])
-  }
-
-  func mockPostLoginAuthFailure(router: Router) {
-    router[MockNetworkRoutes.postLoginAuthPath] = DataResponse(
-      statusCode: 400, statusMessage: "bad request")
   }
 
   // MARK: - Get Api Auth

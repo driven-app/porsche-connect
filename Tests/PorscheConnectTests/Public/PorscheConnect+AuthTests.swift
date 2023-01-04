@@ -22,7 +22,6 @@ final class PorscheConnectAuthTests: BaseMockNetworkTestCase {
   func testRequestTokenSuccessful() async {
     let application: OAuthApplication = .api
     let expectation = expectation(description: "Network Expectation")
-    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
     mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
     mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
 
@@ -31,7 +30,6 @@ final class PorscheConnectAuthTests: BaseMockNetworkTestCase {
     expectation.fulfill()
 
     XCTAssert(connect.authorized(application: application))
-    assertCookiesPresent()
 
     XCTAssertNotNil(porscheAuth)
     XCTAssertEqual("Kpjg2m1ZXd8GM0pvNIB3jogWd0o6", porscheAuth.accessToken)
@@ -57,7 +55,6 @@ final class PorscheConnectAuthTests: BaseMockNetworkTestCase {
   func testRequestTokenFailureAtLoginToRetrieveCookies() async {
     let application: OAuthApplication = .api
     let expectation = expectation(description: "Network Expectation")
-    mockNetworkRoutes.mockPostLoginAuthFailure(router: router)
 
     XCTAssertFalse(connect.authorized(application: application))
 
@@ -76,7 +73,6 @@ final class PorscheConnectAuthTests: BaseMockNetworkTestCase {
   func testRequestTokenFailureAtGetApiAuthCode() async {
     let application: OAuthApplication = .api
     let expectation = expectation(description: "Network Expectation")
-    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
     mockNetworkRoutes.mockGetApiAuthFailure(router: router)
 
     XCTAssertFalse(connect.authorized(application: application))
@@ -86,7 +82,6 @@ final class PorscheConnectAuthTests: BaseMockNetworkTestCase {
     } catch {
       expectation.fulfill()
       XCTAssertFalse(connect.authorized(application: application))
-      assertCookiesPresent()
     }
 
     await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
@@ -95,7 +90,6 @@ final class PorscheConnectAuthTests: BaseMockNetworkTestCase {
   func testRequestTokenFailureAtGetApiAuthToken() async {
     let application: OAuthApplication = .api
     let expectation = expectation(description: "Network Expectation")
-    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
     mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
     mockNetworkRoutes.mockPostApiTokenFailure(router: router)
 
@@ -106,7 +100,6 @@ final class PorscheConnectAuthTests: BaseMockNetworkTestCase {
     } catch {
       expectation.fulfill()
       XCTAssertFalse(connect.authorized(application: application))
-      assertCookiesPresent()
     }
 
     await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
@@ -117,14 +110,5 @@ final class PorscheConnectAuthTests: BaseMockNetworkTestCase {
   private func assertCookiesNotPresent() {
     let cookies = HTTPCookieStorage.shared.cookies!
     XCTAssertEqual(0, cookies.count)
-  }
-
-  private func assertCookiesPresent() {
-    let cookies = HTTPCookieStorage.shared.cookies!
-    XCTAssertEqual(1, cookies.count)
-
-    let cookie = cookies.first!
-    XCTAssertEqual("CIAM.status", cookie.name)
-    XCTAssertEqual("mockValue", cookie.value)
   }
 }
