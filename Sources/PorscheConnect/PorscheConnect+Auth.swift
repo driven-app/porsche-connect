@@ -3,21 +3,23 @@ import Foundation
 extension PorscheConnect {
 
   public func auth(application: OAuthApplication) async throws -> OAuthToken {
-    let loginToRetrieveCookiesResponse = try await loginToRetrieveCookies()
-    guard loginToRetrieveCookiesResponse != nil else { throw PorscheConnectError.NoResult }
+    let token: OAuthToken = try await networkClient.interceptCookiesOnWatchOS {
+      let loginToRetrieveCookiesResponse = try await loginToRetrieveCookies()
+      guard loginToRetrieveCookiesResponse != nil else { throw PorscheConnectError.NoResult }
 
-    let apiAuthCodeResult = try await getApiAuthCode(application: application)
-    guard let codeVerifier = apiAuthCodeResult.codeVerifier,
-      let code = apiAuthCodeResult.code
-    else { throw PorscheConnectError.NoResult }
+      let apiAuthCodeResult = try await getApiAuthCode(application: application)
+      guard let codeVerifier = apiAuthCodeResult.codeVerifier,
+            let code = apiAuthCodeResult.code
+      else { throw PorscheConnectError.NoResult }
 
-    let apiTokenResult = try await getApiToken(
-      application: application, codeVerifier: codeVerifier, code: code)
-    guard let porscheAuth = apiTokenResult.data,
-      apiTokenResult.response != nil
-    else { throw PorscheConnectError.NoResult }
+      let apiTokenResult = try await getApiToken(
+        application: application, codeVerifier: codeVerifier, code: code)
+      guard let porscheAuth = apiTokenResult.data,
+            apiTokenResult.response != nil
+      else { throw PorscheConnectError.NoResult }
 
-    let token = OAuthToken(authResponse: porscheAuth)
+      return OAuthToken(authResponse: porscheAuth)
+    }
     auths[application] = token
     return token
   }
