@@ -4,13 +4,28 @@ import Foundation
 
 struct NetworkClient {
   private let session: URLSession
+  private let delegate: FixWatchOSCookiesURLSessionDataDelegate
 
   init(timeoutIntervalForRequest: TimeInterval = 30) {
+    delegate = FixWatchOSCookiesURLSessionDataDelegate()
     let configuration = URLSessionConfiguration.default
     configuration.httpCookieAcceptPolicy = .always
     configuration.httpCookieStorage = .shared
     configuration.timeoutIntervalForRequest = timeoutIntervalForRequest
-    session = URLSession(configuration: configuration)
+    session = URLSession(configuration: configuration, delegate: delegate, delegateQueue: nil)
+  }
+
+  /// On watchOS, any network invocations made within `block` will have cookies injected across all HTTP redirects.
+  /// Cookies are only injected for the lifetime of the block. Upon completion of the block all cookies will be released.
+  func interceptCookiesOnWatchOS<T>(_ block: () async throws -> T) async throws -> T {
+#if os(watchOS)
+    delegate.interceptCookies = true
+    let result = try await block()
+    delegate.interceptCookies = false
+    return result
+#else
+    return try await block()
+#endif
   }
 
   // MARK: - Public
@@ -81,8 +96,9 @@ struct NetworkClient {
     parseResponseBody: Bool = true,
     jsonKeyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase
   ) async throws -> (D?, HTTPURLResponse) {
+    let modifiedRequest = delegate.injectCookies(into: request)
     return try await withCheckedThrowingContinuation { continuation in
-      let task = session.dataTask(with: request) { (data, response, error) in
+      let task = session.dataTask(with: modifiedRequest) { (data, response, error) in
         if let error = error {
           continuation.resume(with: .failure(error))
           return
