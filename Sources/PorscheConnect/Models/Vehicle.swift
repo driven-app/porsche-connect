@@ -26,6 +26,10 @@ public struct Vehicle: Codable {
   // MARK: -
 
   public struct VehicleAttribute: Codable {
+    public init(name: String, value: String) {
+      self.name = name
+      self.value = value
+    }
 
     // MARK: Properties
 
@@ -36,6 +40,23 @@ public struct Vehicle: Codable {
   // MARK: -
 
   public struct VehiclePicture: Codable {
+    public init(
+      url: URL,
+      view: String,
+      size: Int,
+      width: Int,
+      height: Int,
+      transparent: Bool,
+      placeholder: String? = nil
+    ) {
+      self.url = url
+      self.view = view
+      self.size = size
+      self.width = width
+      self.height = height
+      self.transparent = transparent
+      self.placeholder = placeholder
+    }
 
     // MARK: Properties
 
