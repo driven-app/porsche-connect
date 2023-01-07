@@ -4,6 +4,8 @@ import Foundation
 ///
 /// All properties will be formatted based on the provided locale.
 public final class StatusFormatter {
+  public init() {}
+
   /// The locale to use for all textual representations.
   public var locale: Locale = Locale.current
 
