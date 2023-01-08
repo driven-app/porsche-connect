@@ -205,7 +205,7 @@ try {
 
 To toggle a battery electric vehicle (BEV) direct charging mode to on or off. This call will return a `RemoteCommandAccepted` struct when the request has been accepted. 
 
-The `enable` paramater is optional and defaults to true. 
+The `enable` parameter is optional and defaults to true. 
 
 Passing in a vehicles `Capabilites` is optional – if none is passed in, the library will assume the vehicle is based on the `J1` (Taycan) platform.
 
@@ -237,11 +237,11 @@ try {
 }
 ```
 
-### Toggle Climatisation
+### Toggle Direct Climatisation
 
 To toggle climatisation mode to on or off. This call will return a `RemoteCommandAccepted` struct when the request has been accepted. 
 
-The `enable` paramater is optional and defaults to true. 
+The `enable` parameter is optional and defaults to true. 
 
 ```swift
 try {
@@ -254,7 +254,7 @@ try {
 }
 ```
 
-As Toggle Climatisation is a remote command that can take time to reach and be executed by the car, you can check the status of the command. You pass in both the vehicle and the response from the `toggleClimatisation()` call above. 
+As Toggle Direct Climatisation is a remote command that can take time to reach and be executed by the car, you can check the status of the command. You pass in both the vehicle and the response from the `toggleClimatisation()` call above. 
 
 The `status` is mapped to a strongly typed enum that can be retrieved by accessing the `remoteStatus` calculated property.
 
