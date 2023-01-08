@@ -18,6 +18,8 @@ final class MockNetworkRoutes {
     "/service-vehicle/honk-and-flash/A1234/999/status"
   private static let getToggleDirectChargingRemoteCommandStatusPath =
     "/e-mobility/ie/en_IE/J1/A1234/toggle-direct-charging/status/999"
+  private static let getToggleDirectClimatisationRemoteCommandStatusPath =
+    "/e-mobility/ie/en_IE/A1234/toggle-direct-climatisation/status/999"
   private static let getLockUnlockRemoteCommandStatusPath =
     "service-vehicle/remote-lock-unlock/A1234/999/status"
 
@@ -335,6 +337,30 @@ final class MockNetworkRoutes {
 
   func mockGetToggleDirectChargingRemoteCommandStatusFailure(router: Router) {
     router[MockNetworkRoutes.getToggleDirectChargingRemoteCommandStatusPath] = JSONResponse(
+      statusCode: 200,
+      handler: { _ -> Any in
+        return self.mockRemoteCommandStatusFailure()
+      })
+  }
+  
+  func mockGetToggleDirectClimatisationRemoteCommandStatusInProgress(router: Router) {
+    router[MockNetworkRoutes.getToggleDirectClimatisationRemoteCommandStatusPath] = JSONResponse(
+      statusCode: 200,
+      handler: { _ -> Any in
+        return self.mockRemoteCommandStatusInProgress()
+      })
+  }
+
+  func mockGetToggleDirectClimatisationRemoteCommandStatusSuccess(router: Router) {
+    router[MockNetworkRoutes.getToggleDirectClimatisationRemoteCommandStatusPath] = JSONResponse(
+      statusCode: 200,
+      handler: { _ -> Any in
+        return self.mockRemoteCommandStatusSuccess()
+      })
+  }
+
+  func mockGetToggleDirectClimatisationRemoteCommandStatusFailure(router: Router) {
+    router[MockNetworkRoutes.getToggleDirectClimatisationRemoteCommandStatusPath] = JSONResponse(
       statusCode: 200,
       handler: { _ -> Any in
         return self.mockRemoteCommandStatusFailure()

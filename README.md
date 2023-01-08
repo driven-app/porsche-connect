@@ -237,6 +237,38 @@ try {
 }
 ```
 
+### Toggle Climatisation
+
+To toggle climatisation mode to on or off. This call will return a `RemoteCommandAccepted` struct when the request has been accepted. 
+
+The `enable` paramater is optional and defaults to true. 
+
+```swift
+try {
+  let result = porscheConnect.toggleClimatisation(vehicle: vehicle, enable: false)
+  if let remoteCommandAccepted = result.remoteCommandAccepted {
+    // Do something with the remote command
+  }
+} catch {
+  // Handle the error
+}
+```
+
+As Toggle Climatisation is a remote command that can take time to reach and be executed by the car, you can check the status of the command. You pass in both the vehicle and the response from the `toggleClimatisation()` call above. 
+
+The `status` is mapped to a strongly typed enum that can be retrieved by accessing the `remoteStatus` calculated property.
+
+```swift
+try {
+  let result = porscheConnect.checkStatus(vehicle: vehicle, remoteCommand: remoteCommandAccepted)
+  if let remoteCommandStatus = result.remoteCommand {
+    // Do something with the remote command status
+  }
+} catch {
+  // Handle the error
+}
+```
+
 ### Lock Vehicle
 
 To ask the vehicle to remote lock. This call will return a `RemoteCommandAccepted` struct when the request has been accepted. 
@@ -364,6 +396,7 @@ SUBCOMMANDS:
   flash
   honk-and-flash
   toggle-direct-charging
+  toggle-direct-climatisation
   lock
   unlock
   
@@ -450,6 +483,14 @@ To toggle the direct charging mode of a vehicle:
 $ porsche toggle-direct-charging <username> <password> <vin> <toggle-direct-charging-on>
 
 Remote command \"Toggle Direct Charging\" accepted by Porsche API with ID 123456
+```
+
+To toggle climatisation mode of a vehicle:
+
+```bash
+$ porsche toggle-direct-climatisation <username> <password> <vin> <toggle-climatisation-on>
+
+Remote command \"Toggle Direct Climatisation\" accepted by Porsche API with ID 123456
 ```
 
 To lock a vehicle:

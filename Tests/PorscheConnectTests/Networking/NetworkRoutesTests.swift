@@ -73,6 +73,17 @@ final class NetworkRoutesTests: XCTestCase {
         capabilities: capabilities!,
         remoteCommand: RemoteCommandAccepted(requestId: "123456")))
     XCTAssertEqual(
+      URL(string: "https://api.porsche.com/e-mobility/de/de_DE/12345X/toggle-direct-climatisation/true"),
+      networkRoute.vehicleToggleDirectClimatisationURL(vehicle: vehicle, enable: true))
+    XCTAssertEqual(
+      URL(string: "https://api.porsche.com/e-mobility/de/de_DE/12345X/toggle-direct-climatisation/false"),
+      networkRoute.vehicleToggleDirectClimatisationURL(vehicle: vehicle, enable: false))
+    XCTAssertEqual(
+      URL(string: "https://api.porsche.com/e-mobility/de/de_DE/12345X/toggle-direct-climatisation/status/123456"),
+      networkRoute.vehicleToggleDirectClimatisationRemoteCommandStatusURL(
+        vehicle: vehicle,
+        remoteCommand: RemoteCommandAccepted(requestId: "123456")))
+    XCTAssertEqual(
       URL(string: "https://api.porsche.com/service-vehicle/remote-lock-unlock/12345X/quick-lock"),
       networkRoute.vehicleLockUnlockURL(vehicle: vehicle, lock: true))
     XCTAssertEqual(
@@ -151,6 +162,17 @@ final class NetworkRoutesTests: XCTestCase {
     XCTAssertEqual(
       URL(string: "http://localhost:\(kTestServerPort)/e-mobility/ie/en_IE/J1/12345X/toggle-direct-charging/status/123456"),
       networkRoute.vehicleToggleDirectChargingRemoteCommandStatusURL(
+        vehicle: vehicle,
+        remoteCommand: RemoteCommandAccepted(requestId: "123456")))
+    XCTAssertEqual(
+      URL(string: "http://localhost:\(kTestServerPort)/e-mobility/ie/en_IE/12345X/toggle-direct-climatisation/true"),
+      networkRoute.vehicleToggleDirectClimatisationURL(vehicle: vehicle, enable: true))
+    XCTAssertEqual(
+      URL(string: "http://localhost:\(kTestServerPort)/e-mobility/ie/en_IE/12345X/toggle-direct-climatisation/false"),
+      networkRoute.vehicleToggleDirectClimatisationURL(vehicle: vehicle, enable: false))
+    XCTAssertEqual(
+      URL(string: "http://localhost:\(kTestServerPort)/e-mobility/ie/en_IE/12345X/toggle-direct-climatisation/status/123456"),
+      networkRoute.vehicleToggleDirectClimatisationRemoteCommandStatusURL(
         vehicle: vehicle,
         remoteCommand: RemoteCommandAccepted(requestId: "123456")))
     XCTAssertEqual(
