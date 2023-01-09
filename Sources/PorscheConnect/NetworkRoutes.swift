@@ -98,6 +98,24 @@ struct NetworkRoutes {
     )!
   }
 
+  func vehicleToggleDirectClimatisationURL(
+    vehicle: Vehicle, enable: Bool
+  ) -> URL {
+    return URL(
+      string:
+        "\(host("https://api.porsche.com"))/e-mobility/\(environment.regionCode)/\(vehicle.vin)/toggle-direct-climatisation/\(enable ? "true" : "false")"
+    )!
+  }
+  
+  func vehicleToggleDirectClimatisationRemoteCommandStatusURL(
+    vehicle: Vehicle, remoteCommand: RemoteCommandAccepted
+  ) -> URL {
+    return URL(
+      string:
+        "\(host("https://api.porsche.com"))/e-mobility/\(environment.regionCode)/\(vehicle.vin)/toggle-direct-climatisation/status/\(remoteCommand.identifier!)"
+    )!
+  }
+  
   func vehicleLockUnlockURL(
     vehicle: Vehicle, lock: Bool
   ) -> URL {

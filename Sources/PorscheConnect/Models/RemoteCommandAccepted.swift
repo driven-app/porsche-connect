@@ -3,7 +3,7 @@ import Foundation
 public struct RemoteCommandAccepted: Codable {
 
   public enum RemoteCommand: Codable {
-    case honkAndFlash, toggleDirectCharge, lock, unlock
+    case honkAndFlash, toggleDirectCharge, toggleDirectClimatisation, lock, unlock
   }
 
   public enum PcckErrorKey: String, Codable {
