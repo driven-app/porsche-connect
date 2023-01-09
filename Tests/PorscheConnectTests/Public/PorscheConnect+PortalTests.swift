@@ -16,13 +16,14 @@ final class PorscheConnectPortalTests: BaseMockNetworkTestCase {
     super.setUp()
     connect = PorscheConnect(
       username: "homer.simpson@icloud.example", password: "Duh!", environment: .test)
-    connect.auths[application] = OAuthToken(authResponse: kTestPorschePortalAuth)
+    connect.authStorage.storeAuthentication(token: OAuthToken(authResponse: kTestPorschePortalAuth),
+                                            for: application.clientId) 
   }
 
   // MARK: - Tests
 
   func testVehiclesAuthRequiredSuccessful() async {
-    connect.auths[application] = nil
+    connect.authStorage.storeAuthentication(token: nil, for: application.clientId)
     let expectation = expectation(description: "Network Expectation")
 
     mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
@@ -79,7 +80,7 @@ final class PorscheConnectPortalTests: BaseMockNetworkTestCase {
   }
 
   func testVehiclesAuthRequiredAuthFailure() async {
-    connect.auths[application] = nil
+    connect.authStorage.storeAuthentication(token: nil, for: application.clientId)
     let expectation = expectation(description: "Network Expectation")
     mockNetworkRoutes.mockPostLoginAuthFailure(router: router)
 

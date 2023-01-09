@@ -17,13 +17,14 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
     super.setUp()
     connect = PorscheConnect(
       username: "homer.simpson@icloud.example", password: "Duh!", environment: .test)
-    connect.auths[application] = OAuthToken(authResponse: kTestPorschePortalAuth)
+    connect.authStorage.storeAuthentication(token: OAuthToken(authResponse: kTestPorschePortalAuth),
+                                            for: application.clientId)
   }
 
   // MARK: - Honk and Flash Tests
 
   func testRemoteCommandHonkAndFlashStatusInProgressAuthRequiredSuccessful() async {
-    connect.auths[application] = nil
+    connect.authStorage.storeAuthentication(token: nil, for: application.clientId)
     let remoteCommand = RemoteCommandAccepted(id: "999", lastUpdated: Date(), remoteCommand: .honkAndFlash)
     let expectation = expectation(description: "Network Expectation")
 
@@ -45,7 +46,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
   }
 
   func testRemoteCommandHonkAndFlashStatusSuccessAuthRequiredSuccessful() async {
-    connect.auths[application] = nil
+    connect.authStorage.storeAuthentication(token: nil, for: application.clientId)
     let remoteCommand = RemoteCommandAccepted(id: "999", lastUpdated: Date(), remoteCommand: .honkAndFlash)
     let expectation = expectation(description: "Network Expectation")
 
@@ -67,7 +68,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
   }
 
   func testRemoteCommandHonkAndFlashStatusFailureAuthRequiredSuccessful() async {
-    connect.auths[application] = nil
+    connect.authStorage.storeAuthentication(token: nil, for: application.clientId)
     let remoteCommand = RemoteCommandAccepted(id: "999", lastUpdated: Date(), remoteCommand: .honkAndFlash)
     let expectation = expectation(description: "Network Expectation")
 
@@ -93,7 +94,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
   // MARK: - Toggle Direct Charging Tests
 
   func testRemoteCommandToggleDirectChargingStatusInProgressAuthRequiredSuccessful() async {
-    connect.auths[application] = nil
+    connect.authStorage.storeAuthentication(token: nil, for: application.clientId)
     let remoteCommand = RemoteCommandAccepted(requestId: "999", remoteCommand: .toggleDirectCharge)
     let expectation = expectation(description: "Network Expectation")
 
@@ -115,7 +116,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
   }
 
   func testRemoteCommandToggleDirectChargingStatusSuccessAuthRequiredSuccessful() async {
-    connect.auths[application] = nil
+    connect.authStorage.storeAuthentication(token: nil, for: application.clientId)
     let remoteCommand = RemoteCommandAccepted(requestId: "999", remoteCommand: .toggleDirectCharge)
     let expectation = expectation(description: "Network Expectation")
 
@@ -137,7 +138,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
   }
 
   func testRemoteCommandToggleDirectChargingStatusFailureAuthRequiredSuccessful() async {
-    connect.auths[application] = nil
+    connect.authStorage.storeAuthentication(token: nil, for: application.clientId)
     let remoteCommand = RemoteCommandAccepted(requestId: "999", remoteCommand: .toggleDirectCharge)
     let expectation = expectation(description: "Network Expectation")
 
@@ -163,7 +164,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
   // MARK: - Lock Tests
 
   func testRemoteCommandLockStatusInProgressAuthRequiredSuccessful() async {
-    connect.auths[application] = nil
+    connect.authStorage.storeAuthentication(token: nil, for: application.clientId)
     let remoteCommand = RemoteCommandAccepted(requestId: "999", remoteCommand: .lock)
     let expectation = expectation(description: "Network Expectation")
 
@@ -185,7 +186,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
   }
 
   func testRemoteCommandLockStatusSuccessfulAuthRequiredSuccessful() async {
-    connect.auths[application] = nil
+    connect.authStorage.storeAuthentication(token: nil, for: application.clientId)
     let remoteCommand = RemoteCommandAccepted(requestId: "999", remoteCommand: .lock)
     let expectation = expectation(description: "Network Expectation")
 
@@ -207,7 +208,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
   }
 
   func testRemoteCommandLockStatusFailureAuthRequiredSuccessful() async {
-    connect.auths[application] = nil
+    connect.authStorage.storeAuthentication(token: nil, for: application.clientId)
     let remoteCommand = RemoteCommandAccepted(requestId: "999", remoteCommand: .lock)
     let expectation = expectation(description: "Network Expectation")
 
@@ -233,7 +234,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
   // MARK: - Unlock Tests
 
   func testRemoteCommandUnlockStatusInProgressAuthRequiredSuccessful() async {
-    connect.auths[application] = nil
+    connect.authStorage.storeAuthentication(token: nil, for: application.clientId)
     let remoteCommand = RemoteCommandAccepted(requestId: "999", remoteCommand: .lock)
     let expectation = expectation(description: "Network Expectation")
 
@@ -255,7 +256,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
   }
 
   func testRemoteCommandUnlockStatusSuccessfulAuthRequiredSuccessful() async {
-    connect.auths[application] = nil
+    connect.authStorage.storeAuthentication(token: nil, for: application.clientId)
     let remoteCommand = RemoteCommandAccepted(requestId: "999", remoteCommand: .lock)
     let expectation = expectation(description: "Network Expectation")
 
@@ -277,7 +278,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
   }
 
   func testRemoteCommandUnlockStatusFailureAuthRequiredSuccessful() async {
-    connect.auths[application] = nil
+    connect.authStorage.storeAuthentication(token: nil, for: application.clientId)
     let remoteCommand = RemoteCommandAccepted(requestId: "999", remoteCommand: .lock)
     let expectation = expectation(description: "Network Expectation")
 
