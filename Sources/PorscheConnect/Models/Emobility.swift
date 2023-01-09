@@ -8,6 +8,8 @@ public struct Emobility: Codable {
   public let batteryChargeStatus: BatteryChargeStatus
   public let directCharge: DirectCharge
   public let directClimatisation: DirectClimatisation
+  /// Can be any of:
+  /// - `INSTANT_CHARGING`
   public let chargingStatus: String
   public let chargingProfiles: ChargingProfiles
   public let climateTimer: String?  // TBD when set
@@ -19,13 +21,29 @@ public struct Emobility: Codable {
 
     // MARK: Properties
 
+    /// Can be any of:
+    /// - `CONNECTED`
     public let plugState: String
+    /// Can be any of:
+    /// - `LOCKED`
     public let lockState: String
+    /// Can be any of:
+    /// - `CHARGING`
     public let chargingState: String
+    /// Can be any of:
+    /// - `IMMEDIATE`
     public let chargingReason: String
+    /// Can be any of:
+    /// - `AVAILABLE`
     public let externalPowerSupplyState: String
+    /// Can be any of:
+    /// - `GREEN`
     public let ledColor: String
+    /// Can be any of:
+    /// - `BLINK`
     public let ledState: String
+    /// Can be any of:
+    /// - `AC`
     public let chargingMode: String
     public let stateOfChargeInPercentage: Int
     public let remainingChargeTimeUntil100PercentInMinutes: Int?
@@ -43,9 +61,12 @@ public struct Emobility: Codable {
 
       // MARK: Properties
 
-      public let value: Int
+      public let value: Double
+      /// Can be any of:
+      /// - `MILES`
+      /// - `KILOMETERS`
       public let unit: String
-      public let originalValue: Int
+      public let originalValue: Double
       public let originalUnit: String
       public let valueInKilometers: Int
       public let unitTranslationKey: String
@@ -58,8 +79,10 @@ public struct Emobility: Codable {
       // MARK: Properties
 
       public let value: Double
+      /// Can be any of:
+      /// - `MILES_PER_MIN`
       public let unit: String
-      public let valueInKmPerHour: Int
+      public let valueInKmPerHour: Double
       public let unitTranslationKey: String  // "EC.COMMON.UNIT.KM_PER_MIN"
     }
   }
@@ -80,8 +103,17 @@ public struct Emobility: Codable {
 
     // MARK: Properties
 
+    /// Can be any of:
+    /// - `OFF`
     public let climatisationState: String
     public let remainingClimatisationTime: String?  // TBD when set
+    public let targetTemperature: String
+    /// Can be any of:
+    /// - `false`
+    public let climatisationWithoutHVpower: String
+    /// Can be any of:
+    /// - `electric`
+    public let heaterSource: String
   }
 
   // MARK: -
@@ -115,7 +147,9 @@ public struct Emobility: Codable {
       public let minimumChargeLevel: Int
       public let smartChargingEnabled: Bool
       public let preferredChargingEnabled: Bool
+      /// In the format "HH:MM"
       public let preferredChargingTimeStart: String
+      /// In the format "HH:MM"
       public let preferredChargingTimeEnd: String
     }
 
