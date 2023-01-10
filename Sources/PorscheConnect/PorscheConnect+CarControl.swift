@@ -90,6 +90,22 @@ extension PorscheConnect {
     result.data?.remoteCommand = .toggleDirectCharge
     return (remoteCommandAccepted: result.data, response: result.response)
   }
+  
+  public func toggleDirectClimatisation(
+    vehicle: Vehicle, enable: Bool = true
+  ) async throws -> (
+    remoteCommandAccepted: RemoteCommandAccepted?, response: HTTPURLResponse
+  ) {
+    let headers = try await performAuthFor(application: .carControl)
+    let url = networkRoutes.vehicleToggleDirectClimatisationURL(
+      vehicle: vehicle, enable: enable)
+
+    var result = try await networkClient.post(
+      RemoteCommandAccepted.self, url: url, body: kBlankString, headers: headers,
+      jsonKeyDecodingStrategy: .useDefaultKeys)
+    result.data?.remoteCommand = .toggleDirectClimatisation
+    return (remoteCommandAccepted: result.data, response: result.response)
+  }
 
   public func lock(vehicle: Vehicle) async throws -> (
     remoteCommandAccepted: RemoteCommandAccepted?, response: HTTPURLResponse

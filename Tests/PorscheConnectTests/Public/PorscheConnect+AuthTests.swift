@@ -19,7 +19,7 @@ final class PorscheConnectAuthTests: BaseMockNetworkTestCase {
 
   // MARK: - Tests
 
-  func testRequestTokenSuccessful() async {
+  func testRequestTokenSuccessful() async throws {
     let application: OAuthApplication = .api
     let expectation = expectation(description: "Network Expectation")
     mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
@@ -41,8 +41,7 @@ final class PorscheConnectAuthTests: BaseMockNetworkTestCase {
     XCTAssertEqual("Bearer", porscheAuth.tokenType)
     XCTAssertGreaterThan(porscheAuth.expiresAt, Date())
 
-    let portalAuth = connect.auths[application]!
-    XCTAssertNotNil(portalAuth)
+    let portalAuth = try XCTUnwrap(connect.authStorage.authentication(for: application.clientId))
 
     XCTAssertEqual("Kpjg2m1ZXd8GM0pvNIB3jogWd0o6", portalAuth.accessToken)
     XCTAssertEqual(

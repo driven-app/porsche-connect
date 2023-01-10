@@ -23,7 +23,7 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
     XCTAssertNotNil(connect)
     XCTAssertEqual(Environment.test, connect.environment)
     XCTAssertEqual("homer.simpson@icloud.example", connect.username)
-    XCTAssertNotNil(connect.auths)
+    XCTAssertNotNil(connect.authStorage)
     XCTAssertFalse(connect.authorized(application: .api))
     XCTAssertFalse(connect.authorized(application: .carControl))
   }

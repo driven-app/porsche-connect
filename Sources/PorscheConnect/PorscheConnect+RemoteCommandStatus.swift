@@ -24,6 +24,9 @@ extension PorscheConnect {
     case .toggleDirectCharge:
       return networkRoutes.vehicleToggleDirectChargingRemoteCommandStatusURL(
         vehicle: vehicle, capabilities: capabilities, remoteCommand: remoteCommand)
+    case .toggleDirectClimatisation:
+      return networkRoutes.vehicleToggleDirectClimatisationRemoteCommandStatusURL(
+        vehicle: vehicle, remoteCommand: remoteCommand)
     case .lock, .unlock:
       return networkRoutes.vehicleLockUnlockRemoteCommandStatusURL(vehicle: vehicle, remoteCommand: remoteCommand)
     case .none:
