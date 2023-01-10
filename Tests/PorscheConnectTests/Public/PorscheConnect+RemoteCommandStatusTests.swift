@@ -164,7 +164,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
   // MARK: - Toggle Direct Climatisation Tests
 
   func testRemoteCommandToggleDirectClimatisationStatusInProgressAuthRequiredSuccessful() async {
-    connect.auths[application] = nil
+    connect.authStorage.storeAuthentication(token: nil, for: application.clientId)
     let remoteCommand = RemoteCommandAccepted(requestId: "999", remoteCommand: .toggleDirectClimatisation)
     let expectation = expectation(description: "Network Expectation")
 
@@ -186,7 +186,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
   }
 
   func testRemoteCommandToggleDirectClimatisationStatusSuccessAuthRequiredSuccessful() async {
-    connect.auths[application] = nil
+    connect.authStorage.storeAuthentication(token: nil, for: application.clientId)
     let remoteCommand = RemoteCommandAccepted(requestId: "999", remoteCommand: .toggleDirectClimatisation)
     let expectation = expectation(description: "Network Expectation")
 
@@ -208,7 +208,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
   }
 
   func testRemoteCommandToggleDirectClimatisationStatusFailureAuthRequiredSuccessful() async {
-    connect.auths[application] = nil
+    connect.authStorage.storeAuthentication(token: nil, for: application.clientId)
     let remoteCommand = RemoteCommandAccepted(requestId: "999", remoteCommand: .toggleDirectClimatisation)
     let expectation = expectation(description: "Network Expectation")
 
