@@ -115,13 +115,13 @@ public struct Emobility: Codable {
     /// - `OFF`
     public let climatisationState: String
     public let remainingClimatisationTime: String?  // TBD when set
-    public let targetTemperature: String
+    public let targetTemperature: String?
     /// Can be any of:
     /// - `false`
-    public let climatisationWithoutHVpower: String
+    public let climatisationWithoutHVpower: String?
     /// Can be any of:
     /// - `electric`
-    public let heaterSource: String
+    public let heaterSource: String?
   }
 
   // MARK: -
