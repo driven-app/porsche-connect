@@ -794,12 +794,12 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertTrue(capabilities.hasRDK)
     XCTAssertEqual("BEV", capabilities.engineType)
     XCTAssertEqual("J1", capabilities.carModel)
-    XCTAssertTrue(capabilities.onlineRemoteUpdateStatus.editableByUser)
-    XCTAssertTrue(capabilities.onlineRemoteUpdateStatus.active)
+    XCTAssertEqual(capabilities.onlineRemoteUpdateStatus?.editableByUser, true)
+    XCTAssertEqual(capabilities.onlineRemoteUpdateStatus?.active, true)
     XCTAssertTrue(capabilities.heatingCapabilities.frontSeatHeatingAvailable)
     XCTAssertFalse(capabilities.heatingCapabilities.rearSeatHeatingAvailable)
     XCTAssertEqual("RIGHT", capabilities.steeringWheelPosition)
-    XCTAssertTrue(capabilities.hasHonkAndFlash)
+    XCTAssertEqual(capabilities.hasHonkAndFlash, true)
   }
 
   private func assertStatus(_ status: Status) {
