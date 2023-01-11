@@ -23,29 +23,37 @@ public struct Emobility: Codable {
 
     /// Can be any of:
     /// - `CONNECTED`
+    /// - `DISCONNECTED`
     public let plugState: String
     /// Can be any of:
     /// - `LOCKED`
+    /// - `UNLOCKED`
     public let lockState: String
     /// Can be any of:
     /// - `CHARGING`
+    /// - `OFF`-
     public let chargingState: String
     /// Can be any of:
     /// - `IMMEDIATE`
+    /// - `INVALID`
     public let chargingReason: String
     /// Can be any of:
     /// - `AVAILABLE`
+    /// - `UNAVAILABLE`
     public let externalPowerSupplyState: String
     /// Can be any of:
     /// - `GREEN`
+    /// - `NONE`
     public let ledColor: String
     /// Can be any of:
     /// - `BLINK`
+    /// - `OFF`
     public let ledState: String
     /// Can be any of:
     /// - `AC`
+    /// - `OFF`
     public let chargingMode: String
-    public let stateOfChargeInPercentage: Int
+    public let stateOfChargeInPercentage: Double
     public let remainingChargeTimeUntil100PercentInMinutes: Int?
     public let remainingERange: RemainingERange
     public let remainingCRange: String?  // TBD while charging
