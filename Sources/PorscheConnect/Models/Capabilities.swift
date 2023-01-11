@@ -9,10 +9,10 @@ public struct Capabilities: Codable {
   public let hasRDK: Bool
   public let engineType: String
   public let carModel: String
-  public let onlineRemoteUpdateStatus: OnlineRemoteUpdateStatus
+  public let onlineRemoteUpdateStatus: OnlineRemoteUpdateStatus?
   public let heatingCapabilities: HeatingCapabilities
   public let steeringWheelPosition: String
-  public let hasHonkAndFlash: Bool
+  public let hasHonkAndFlash: Bool?
 
   // MARK: -
 

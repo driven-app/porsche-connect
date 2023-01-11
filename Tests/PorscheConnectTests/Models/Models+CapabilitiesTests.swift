@@ -13,9 +13,9 @@ final class ModelsCapabilitiesTests: XCTestCase {
     XCTAssertFalse(capabilities.displayParkingBrake)
     XCTAssertFalse(capabilities.needsSPIN)
     XCTAssertFalse(capabilities.hasRDK)
-    XCTAssertFalse(capabilities.hasHonkAndFlash)
-    XCTAssertTrue(capabilities.onlineRemoteUpdateStatus.active)
-    XCTAssertTrue(capabilities.onlineRemoteUpdateStatus.editableByUser)
+    XCTAssertEqual(capabilities.hasHonkAndFlash, false)
+    XCTAssertEqual(capabilities.onlineRemoteUpdateStatus?.active, true)
+    XCTAssertEqual(capabilities.onlineRemoteUpdateStatus?.editableByUser, true)
     XCTAssertTrue(capabilities.heatingCapabilities.frontSeatHeatingAvailable)
     XCTAssertFalse(capabilities.heatingCapabilities.rearSeatHeatingAvailable)
   }
@@ -31,12 +31,12 @@ final class ModelsCapabilitiesTests: XCTestCase {
     XCTAssertTrue(capabilities.hasRDK)
     XCTAssertEqual("BEV", capabilities.engineType)
     XCTAssertEqual("J1", capabilities.carModel)
-    XCTAssertTrue(capabilities.onlineRemoteUpdateStatus.editableByUser)
-    XCTAssertTrue(capabilities.onlineRemoteUpdateStatus.active)
+    XCTAssertEqual(capabilities.onlineRemoteUpdateStatus?.active, true)
+    XCTAssertEqual(capabilities.onlineRemoteUpdateStatus?.editableByUser, true)
     XCTAssertTrue(capabilities.heatingCapabilities.frontSeatHeatingAvailable)
     XCTAssertFalse(capabilities.heatingCapabilities.rearSeatHeatingAvailable)
     XCTAssertEqual("RIGHT", capabilities.steeringWheelPosition)
-    XCTAssertTrue(capabilities.hasHonkAndFlash)
+    XCTAssertEqual(capabilities.hasHonkAndFlash, true)
   }
 
   // MARK: - Private functions
