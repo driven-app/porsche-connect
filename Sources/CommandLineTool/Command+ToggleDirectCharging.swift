@@ -12,7 +12,7 @@ extension Porsche {
 
     @Argument(help: ArgumentHelp(NSLocalizedString("Your vehicle VIN.", comment: "")))
     var vin: String
-    
+
     @Argument(help: ArgumentHelp(NSLocalizedString("Toggle Direct Charging on.", comment: "")))
     var toggleDirectChargingOn: Bool
 

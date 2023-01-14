@@ -19,8 +19,9 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     super.setUp()
     connect = PorscheConnect(
       username: "homer.simpson@icloud.example", password: "Duh!", environment: .test)
-    connect.authStorage.storeAuthentication(token: OAuthToken(authResponse: kTestPorschePortalAuth),
-                                            for: application.clientId)
+    connect.authStorage.storeAuthentication(
+      token: OAuthToken(authResponse: kTestPorschePortalAuth),
+      for: application.clientId)
   }
 
   // MARK: - Summary Tests

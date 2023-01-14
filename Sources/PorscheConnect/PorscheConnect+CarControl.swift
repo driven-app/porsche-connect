@@ -90,7 +90,7 @@ extension PorscheConnect {
     result.data?.remoteCommand = .toggleDirectCharge
     return (remoteCommandAccepted: result.data, response: result.response)
   }
-  
+
   public func toggleDirectClimatisation(
     vin: String, enable: Bool = true
   ) async throws -> (

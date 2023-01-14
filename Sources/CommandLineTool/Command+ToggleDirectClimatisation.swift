@@ -12,7 +12,7 @@ extension Porsche {
 
     @Argument(help: ArgumentHelp(NSLocalizedString("Your vehicle VIN.", comment: "")))
     var vin: String
-    
+
     @Argument(help: ArgumentHelp(NSLocalizedString("Toggle Direct Climatisation on.", comment: "")))
     var toggleDirectClimatisationOn: Bool
 
@@ -24,7 +24,8 @@ extension Porsche {
         password: options.password,
         environment: options.resolvedEnvironment
       )
-      await callToggleDirectClimatisationService(porscheConnect: porscheConnect, vin: vin, enable: toggleDirectClimatisationOn)
+      await callToggleDirectClimatisationService(
+        porscheConnect: porscheConnect, vin: vin, enable: toggleDirectClimatisationOn)
       dispatchMain()
     }
 

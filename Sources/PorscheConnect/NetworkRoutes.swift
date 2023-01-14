@@ -104,7 +104,7 @@ struct NetworkRoutes {
         "\(host("https://api.porsche.com"))/e-mobility/\(environment.regionCode)/\(vin)/toggle-direct-climatisation/\(enable ? "true" : "false")"
     )!
   }
-  
+
   func vehicleToggleDirectClimatisationRemoteCommandStatusURL(
     vin: String, remoteCommand: RemoteCommandAccepted
   ) -> URL {
@@ -113,7 +113,7 @@ struct NetworkRoutes {
         "\(host("https://api.porsche.com"))/e-mobility/\(environment.regionCode)/\(vin)/toggle-direct-climatisation/status/\(remoteCommand.identifier!)"
     )!
   }
-  
+
   func vehicleLockUnlockURL(vin: String, lock: Bool) -> URL {
     return URL(
       string:

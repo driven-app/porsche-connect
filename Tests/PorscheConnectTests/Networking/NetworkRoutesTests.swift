@@ -61,25 +61,40 @@ final class NetworkRoutesTests: XCTestCase {
       networkRoute.vehicleHonkAndFlashRemoteCommandStatusURL(
         vin: vin, remoteCommand: RemoteCommandAccepted(id: "123456", lastUpdated: Date())))
     XCTAssertEqual(
-      URL(string: "https://api.porsche.com/e-mobility/de/de_DE/J1/12345X/toggle-direct-charging/true"),
-      networkRoute.vehicleToggleDirectChargingURL(vin: vin, capabilities: capabilities!, enable: true))
+      URL(
+        string: "https://api.porsche.com/e-mobility/de/de_DE/J1/12345X/toggle-direct-charging/true"),
+      networkRoute.vehicleToggleDirectChargingURL(
+        vin: vin, capabilities: capabilities!, enable: true))
     XCTAssertEqual(
-      URL(string: "https://api.porsche.com/e-mobility/de/de_DE/J1/12345X/toggle-direct-charging/false"),
-      networkRoute.vehicleToggleDirectChargingURL(vin: vin, capabilities: capabilities!, enable: false))
+      URL(
+        string: "https://api.porsche.com/e-mobility/de/de_DE/J1/12345X/toggle-direct-charging/false"
+      ),
+      networkRoute.vehicleToggleDirectChargingURL(
+        vin: vin, capabilities: capabilities!, enable: false))
     XCTAssertEqual(
-      URL(string: "https://api.porsche.com/e-mobility/de/de_DE/J1/12345X/toggle-direct-charging/status/123456"),
+      URL(
+        string:
+          "https://api.porsche.com/e-mobility/de/de_DE/J1/12345X/toggle-direct-charging/status/123456"
+      ),
       networkRoute.vehicleToggleDirectChargingRemoteCommandStatusURL(
         vin: vin,
         capabilities: capabilities!,
         remoteCommand: RemoteCommandAccepted(requestId: "123456")))
     XCTAssertEqual(
-      URL(string: "https://api.porsche.com/e-mobility/de/de_DE/12345X/toggle-direct-climatisation/true"),
+      URL(
+        string:
+          "https://api.porsche.com/e-mobility/de/de_DE/12345X/toggle-direct-climatisation/true"),
       networkRoute.vehicleToggleDirectClimatisationURL(vin: vin, enable: true))
     XCTAssertEqual(
-      URL(string: "https://api.porsche.com/e-mobility/de/de_DE/12345X/toggle-direct-climatisation/false"),
+      URL(
+        string:
+          "https://api.porsche.com/e-mobility/de/de_DE/12345X/toggle-direct-climatisation/false"),
       networkRoute.vehicleToggleDirectClimatisationURL(vin: vin, enable: false))
     XCTAssertEqual(
-      URL(string: "https://api.porsche.com/e-mobility/de/de_DE/12345X/toggle-direct-climatisation/status/123456"),
+      URL(
+        string:
+          "https://api.porsche.com/e-mobility/de/de_DE/12345X/toggle-direct-climatisation/status/123456"
+      ),
       networkRoute.vehicleToggleDirectClimatisationRemoteCommandStatusURL(
         vin: vin,
         remoteCommand: RemoteCommandAccepted(requestId: "123456")))
@@ -87,10 +102,13 @@ final class NetworkRoutesTests: XCTestCase {
       URL(string: "https://api.porsche.com/service-vehicle/remote-lock-unlock/12345X/quick-lock"),
       networkRoute.vehicleLockUnlockURL(vin: vin, lock: true))
     XCTAssertEqual(
-      URL(string: "https://api.porsche.com/service-vehicle/remote-lock-unlock/12345X/security-pin/unlock"),
+      URL(
+        string:
+          "https://api.porsche.com/service-vehicle/remote-lock-unlock/12345X/security-pin/unlock"),
       networkRoute.vehicleLockUnlockURL(vin: vin, lock: false))
     XCTAssertEqual(
-      URL(string: "https://api.porsche.com/service-vehicle/remote-lock-unlock/12345X/123456/status"),
+      URL(
+        string: "https://api.porsche.com/service-vehicle/remote-lock-unlock/12345X/123456/status"),
       networkRoute.vehicleLockUnlockRemoteCommandStatusURL(
         vin: vin, remoteCommand: RemoteCommandAccepted(requestId: "123456")))
   }
@@ -142,47 +160,85 @@ final class NetworkRoutesTests: XCTestCase {
       networkRoute.vehicleHonkAndFlashRemoteCommandStatusURL(
         vin: vin, remoteCommand: RemoteCommandAccepted(id: "123456", lastUpdated: Date())))
     XCTAssertEqual(
-      URL(string: "http://localhost:\(kTestServerPort)/e-mobility/ie/en_IE/J1/12345X/toggle-direct-charging/true"),
-      networkRoute.vehicleToggleDirectChargingURL(vin: vin, capabilities: capabilities!, enable: true))
+      URL(
+        string:
+          "http://localhost:\(kTestServerPort)/e-mobility/ie/en_IE/J1/12345X/toggle-direct-charging/true"
+      ),
+      networkRoute.vehicleToggleDirectChargingURL(
+        vin: vin, capabilities: capabilities!, enable: true))
     XCTAssertEqual(
-      URL(string: "http://localhost:\(kTestServerPort)/e-mobility/ie/en_IE/J1/12345X/toggle-direct-charging/true"),
+      URL(
+        string:
+          "http://localhost:\(kTestServerPort)/e-mobility/ie/en_IE/J1/12345X/toggle-direct-charging/true"
+      ),
       networkRoute.vehicleToggleDirectChargingURL(vin: vin, enable: true))
     XCTAssertEqual(
-      URL(string: "http://localhost:\(kTestServerPort)/e-mobility/ie/en_IE/J1/12345X/toggle-direct-charging/false"),
-      networkRoute.vehicleToggleDirectChargingURL(vin: vin, capabilities: capabilities!, enable: false))
+      URL(
+        string:
+          "http://localhost:\(kTestServerPort)/e-mobility/ie/en_IE/J1/12345X/toggle-direct-charging/false"
+      ),
+      networkRoute.vehicleToggleDirectChargingURL(
+        vin: vin, capabilities: capabilities!, enable: false))
     XCTAssertEqual(
-      URL(string: "http://localhost:\(kTestServerPort)/e-mobility/ie/en_IE/J1/12345X/toggle-direct-charging/false"),
+      URL(
+        string:
+          "http://localhost:\(kTestServerPort)/e-mobility/ie/en_IE/J1/12345X/toggle-direct-charging/false"
+      ),
       networkRoute.vehicleToggleDirectChargingURL(vin: vin, enable: false))
     XCTAssertEqual(
-      URL(string: "http://localhost:\(kTestServerPort)/e-mobility/ie/en_IE/J1/12345X/toggle-direct-charging/status/123456"),
+      URL(
+        string:
+          "http://localhost:\(kTestServerPort)/e-mobility/ie/en_IE/J1/12345X/toggle-direct-charging/status/123456"
+      ),
       networkRoute.vehicleToggleDirectChargingRemoteCommandStatusURL(
         vin: vin,
         capabilities: capabilities!,
         remoteCommand: RemoteCommandAccepted(requestId: "123456")))
     XCTAssertEqual(
-      URL(string: "http://localhost:\(kTestServerPort)/e-mobility/ie/en_IE/J1/12345X/toggle-direct-charging/status/123456"),
+      URL(
+        string:
+          "http://localhost:\(kTestServerPort)/e-mobility/ie/en_IE/J1/12345X/toggle-direct-charging/status/123456"
+      ),
       networkRoute.vehicleToggleDirectChargingRemoteCommandStatusURL(
         vin: vin,
         remoteCommand: RemoteCommandAccepted(requestId: "123456")))
     XCTAssertEqual(
-      URL(string: "http://localhost:\(kTestServerPort)/e-mobility/ie/en_IE/12345X/toggle-direct-climatisation/true"),
+      URL(
+        string:
+          "http://localhost:\(kTestServerPort)/e-mobility/ie/en_IE/12345X/toggle-direct-climatisation/true"
+      ),
       networkRoute.vehicleToggleDirectClimatisationURL(vin: vin, enable: true))
     XCTAssertEqual(
-      URL(string: "http://localhost:\(kTestServerPort)/e-mobility/ie/en_IE/12345X/toggle-direct-climatisation/false"),
+      URL(
+        string:
+          "http://localhost:\(kTestServerPort)/e-mobility/ie/en_IE/12345X/toggle-direct-climatisation/false"
+      ),
       networkRoute.vehicleToggleDirectClimatisationURL(vin: vin, enable: false))
     XCTAssertEqual(
-      URL(string: "http://localhost:\(kTestServerPort)/e-mobility/ie/en_IE/12345X/toggle-direct-climatisation/status/123456"),
+      URL(
+        string:
+          "http://localhost:\(kTestServerPort)/e-mobility/ie/en_IE/12345X/toggle-direct-climatisation/status/123456"
+      ),
       networkRoute.vehicleToggleDirectClimatisationRemoteCommandStatusURL(
         vin: vin,
         remoteCommand: RemoteCommandAccepted(requestId: "123456")))
     XCTAssertEqual(
-      URL(string: "http://localhost:\(kTestServerPort)/service-vehicle/remote-lock-unlock/12345X/quick-lock"),
+      URL(
+        string:
+          "http://localhost:\(kTestServerPort)/service-vehicle/remote-lock-unlock/12345X/quick-lock"
+      ),
       networkRoute.vehicleLockUnlockURL(vin: vin, lock: true))
     XCTAssertEqual(
-      URL(string: "http://localhost:\(kTestServerPort)/service-vehicle/remote-lock-unlock/12345X/security-pin/unlock"),
+      URL(
+        string:
+          "http://localhost:\(kTestServerPort)/service-vehicle/remote-lock-unlock/12345X/security-pin/unlock"
+      ),
       networkRoute.vehicleLockUnlockURL(vin: vin, lock: false))
     XCTAssertEqual(
-      URL(string: "http://localhost:\(kTestServerPort)/service-vehicle/remote-lock-unlock/12345X/123456/status"),
+      URL(
+        string:
+          "http://localhost:\(kTestServerPort)/service-vehicle/remote-lock-unlock/12345X/123456/status"
+      ),
       networkRoute.vehicleLockUnlockRemoteCommandStatusURL(
         vin: vin, remoteCommand: RemoteCommandAccepted(requestId: "123456")))
   }

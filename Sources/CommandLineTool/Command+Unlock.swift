@@ -44,7 +44,7 @@ extension Porsche {
     }
 
     private func printRemoteCommandAccepted(_ remoteCommandAccepted: RemoteCommandAccepted) {
-      if (remoteCommandAccepted.pcckErrorKey != nil) {
+      if remoteCommandAccepted.pcckErrorKey != nil {
         printError(remoteCommandAccepted)
       } else {
         print(
@@ -72,4 +72,3 @@ extension Porsche {
     }
   }
 }
-
