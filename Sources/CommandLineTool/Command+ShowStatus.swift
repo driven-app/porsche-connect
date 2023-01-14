@@ -20,17 +20,16 @@ extension Porsche {
         password: options.password,
         environment: options.resolvedEnvironment
       )
-      let vehicle = Vehicle(vin: vin)
-      await callStatusService(porscheConnect: porscheConnect, vehicle: vehicle)
+      await callStatusService(porscheConnect: porscheConnect, vin: vin)
       dispatchMain()
     }
 
     // MARK: - Private functions
 
-    private func callStatusService(porscheConnect: PorscheConnect, vehicle: Vehicle) async {
+    private func callStatusService(porscheConnect: PorscheConnect, vin: String) async {
 
       do {
-        let result = try await porscheConnect.status(vehicle: vehicle)
+        let result = try await porscheConnect.status(vin: vin)
         if let status = result.status {
           printStatus(status)
         }

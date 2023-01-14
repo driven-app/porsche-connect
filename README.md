@@ -100,7 +100,7 @@ To get a summary for a vehicle. This call will return a `Summary` struct.
 
 ```swift
 try {
-  let result = porscheConnect.summary(vehicle: vehicle)
+  let result = porscheConnect.summary(vin: vehicle.vin)
   if let summary = result.summary {
     // Do something with the summary
   }
@@ -115,7 +115,7 @@ To get last reported position for a vehicle. This call will return a `Position` 
 
 ```swift
 try {
-  let result = porscheConnect.position(vehicle: vehicle)
+  let result = porscheConnect.position(vin: vehicle.vin)
   if let position = result.position {
     // Do something with the position
   }
@@ -130,7 +130,7 @@ To get capabilities for a vehicle. This call will return a `Capabilities` struct
 
 ```swift
 try {
-  let result = porscheConnect.capabilities(vehicle: vehicle)
+  let result = porscheConnect.capabilities(vin: vehicle.vin)
   if let capabilities = result.capabilities {
     // Do something with the capabilities
   }
@@ -145,7 +145,7 @@ If the vehicle is a plug-in hybrid (PHEV) or a battery electric vehicle (BEV) th
 
 ```swift
 try {
-  let result = porscheConnect.emobility(vehicle: vehicle, capabilities: capabilities)
+  let result = porscheConnect.emobility(vin: vehicle.vin, capabilities: capabilities)
   if let emobility = result.emobility {
     // Do something with the emobility
   }
@@ -160,7 +160,7 @@ To get the status for a vehicle. This call will return a `Status` struct. This s
 
 ```swift
 try {
-  let result = porscheConnect.status(vehicle: vehicle)
+  let result = porscheConnect.status(vin: vehicle.vin)
   if let status = result.status {
     // Do something with the status
   }
@@ -175,7 +175,7 @@ To ask the vehicle to flash its indicators and optionally honk the horn. This ca
 
 ```swift
 try {
-  let result = porscheConnect.flash(vehicle: vehicle, andHorn: true)
+  let result = porscheConnect.flash(vin: vehicle.vin, andHorn: true)
   if let remoteCommandAccepted = result.remoteCommandAccepted {
     // Do something with the remote command
   }
@@ -192,7 +192,7 @@ Passing in a capabilites paramater is not required to determine the status of a 
 
 ```swift
 try {
-  let result = porscheConnect.checkStatus(vehicle: vehicle, remoteCommand: remoteCommandAccepted)
+  let result = porscheConnect.checkStatus(vin: vehicle.vin, remoteCommand: remoteCommandAccepted)
   if let remoteCommandStatus = result.remoteCommand {
     // Do something with the remote command status
   }
@@ -211,7 +211,7 @@ Passing in a vehicles `Capabilites` is optional – if none is passed in, the li
 
 ```swift
 try {
-  let result = porscheConnect.toggleDirectCharging(vehicle: vehicle, capabilities: capabilities, enable: false)
+  let result = porscheConnect.toggleDirectCharging(vin: vehicle.vin, capabilities: capabilities, enable: false)
   if let remoteCommandAccepted = result.remoteCommandAccepted {
     // Do something with the remote command
   }
@@ -228,7 +228,7 @@ Passing in a vehicles `Capabilites` is optional – if none is passed in, the li
 
 ```swift
 try {
-  let result = porscheConnect.checkStatus(vehicle: vehicle, capabilities: capabilities, remoteCommand: remoteCommandAccepted)
+  let result = porscheConnect.checkStatus(vin: vehicle.vin, capabilities: capabilities, remoteCommand: remoteCommandAccepted)
   if let remoteCommandStatus = result.remoteCommand {
     // Do something with the remote command status
   }
@@ -245,7 +245,7 @@ The `enable` parameter is optional and defaults to true.
 
 ```swift
 try {
-  let result = porscheConnect.toggleClimatisation(vehicle: vehicle, enable: false)
+  let result = porscheConnect.toggleClimatisation(vin: vehicle.vin, enable: false)
   if let remoteCommandAccepted = result.remoteCommandAccepted {
     // Do something with the remote command
   }
@@ -260,7 +260,7 @@ The `status` is mapped to a strongly typed enum that can be retrieved by accessi
 
 ```swift
 try {
-  let result = porscheConnect.checkStatus(vehicle: vehicle, remoteCommand: remoteCommandAccepted)
+  let result = porscheConnect.checkStatus(vin: vehicle.vin, remoteCommand: remoteCommandAccepted)
   if let remoteCommandStatus = result.remoteCommand {
     // Do something with the remote command status
   }
@@ -277,7 +277,7 @@ Make sure that there are no vehicle keys, persons or animals in the vehicle.
 
 ```swift
 try {
-  let result = porscheConnect.lock(vehicle: vehicle)
+  let result = porscheConnect.lock(vin: vehicle.vin)
   if let remoteCommandAccepted = result.remoteCommandAccepted {
     // Do something with the remote command
   }
@@ -294,7 +294,7 @@ Passing in a capabilites paramater is not required to determine the status of a 
 
 ```swift
 try {
-  let result = porscheConnect.checkStatus(vehicle: vehicle, remoteCommand: remoteCommandAccepted)
+  let result = porscheConnect.checkStatus(vin: vehicle.vin, remoteCommand: remoteCommandAccepted)
   if let remoteCommandStatus = result.remoteCommand {
     // Do something with the remote command status
   }
@@ -309,7 +309,7 @@ To ask the vehicle to remote unlock. As this action impacts the security of the 
 
 ```swift
 try {
-  let result = porscheConnect.unlock(vehicle: vehicle, pin: "1234")
+  let result = porscheConnect.unlock(vin: vehicle.vin, pin: "1234")
   if let remoteCommandAccepted = result.remoteCommandAccepted {
     // Do something with the remote command
   }
@@ -326,7 +326,7 @@ Passing in a capabilites paramater is not required to determine the status of a 
 
 ```swift
 try {
-  let result = porscheConnect.checkStatus(vehicle: vehicle, remoteCommand: remoteCommandAccepted)
+  let result = porscheConnect.checkStatus(vin: vehicle.vin, remoteCommand: remoteCommandAccepted)
   if let remoteCommandStatus = result.remoteCommand {
     // Do something with the remote command status
   }

@@ -28,109 +28,105 @@ struct NetworkRoutes {
 
   // MARK: - Functions
 
-  func vehicleSummaryURL(vehicle: Vehicle) -> URL {
+  func vehicleSummaryURL(vin: String) -> URL {
     return URL(
-      string: "\(host("https://api.porsche.com"))/service-vehicle/vehicle-summary/\(vehicle.vin)")!
+      string: "\(host("https://api.porsche.com"))/service-vehicle/vehicle-summary/\(vin)")!
   }
 
-  func vehiclePositionURL(vehicle: Vehicle) -> URL {
+  func vehiclePositionURL(vin: String) -> URL {
     return URL(
       string:
-        "\(host("https://api.porsche.com"))/service-vehicle/car-finder/\(vehicle.vin)/position")!
+        "\(host("https://api.porsche.com"))/service-vehicle/car-finder/\(vin)/position")!
   }
 
-  func vehicleCapabilitiesURL(vehicle: Vehicle) -> URL {
+  func vehicleCapabilitiesURL(vin: String) -> URL {
     return URL(
-      string: "\(host("https://api.porsche.com"))/service-vehicle/vcs/capabilities/\(vehicle.vin)")!
+      string: "\(host("https://api.porsche.com"))/service-vehicle/vcs/capabilities/\(vin)")!
   }
 
-  func vehicleStatusURL(vehicle: Vehicle) -> URL {
+  func vehicleStatusURL(vin: String) -> URL {
     return URL(
       string:
-        "\(host("https://api.porsche.com"))/vehicle-data/\(environment.regionCode)/status/\(vehicle.vin)"
+        "\(host("https://api.porsche.com"))/vehicle-data/\(environment.regionCode)/status/\(vin)"
     )!
   }
 
-  func vehicleEmobilityURL(vehicle: Vehicle, capabilities: Capabilities? = nil) -> URL {
+  func vehicleEmobilityURL(vin: String, capabilities: Capabilities? = nil) -> URL {
     return URL(
       string:
-        "\(host("https://api.porsche.com"))/e-mobility/\(environment.regionCode)/\(capabilities?.carModel ?? kDefaultCarModel)/\(vehicle.vin)?timezone=Europe/Dublin"
+        "\(host("https://api.porsche.com"))/e-mobility/\(environment.regionCode)/\(capabilities?.carModel ?? kDefaultCarModel)/\(vin)?timezone=Europe/Dublin"
     )!
   }
 
-  func vehicleFlashURL(vehicle: Vehicle) -> URL {
+  func vehicleFlashURL(vin: String) -> URL {
     return URL(
       string:
-        "\(host("https://api.porsche.com"))/service-vehicle/honk-and-flash/\(vehicle.vin)/flash")!
+        "\(host("https://api.porsche.com"))/service-vehicle/honk-and-flash/\(vin)/flash")!
   }
 
-  func vehicleHonkAndFlashURL(vehicle: Vehicle) -> URL {
+  func vehicleHonkAndFlashURL(vin: String) -> URL {
     return URL(
       string:
-        "\(host("https://api.porsche.com"))/service-vehicle/honk-and-flash/\(vehicle.vin)/honk-and-flash"
+        "\(host("https://api.porsche.com"))/service-vehicle/honk-and-flash/\(vin)/honk-and-flash"
     )!
   }
 
   func vehicleHonkAndFlashRemoteCommandStatusURL(
-    vehicle: Vehicle, remoteCommand: RemoteCommandAccepted
+    vin: String, remoteCommand: RemoteCommandAccepted
   ) -> URL {
     return URL(
       string:
-        "\(host("https://api.porsche.com"))/service-vehicle/honk-and-flash/\(vehicle.vin)/\(remoteCommand.identifier!)/status"
+        "\(host("https://api.porsche.com"))/service-vehicle/honk-and-flash/\(vin)/\(remoteCommand.identifier!)/status"
     )!
   }
 
   func vehicleToggleDirectChargingURL(
-    vehicle: Vehicle, capabilities: Capabilities? = nil, enable: Bool
+    vin: String, capabilities: Capabilities? = nil, enable: Bool
   ) -> URL {
     return URL(
       string:
-        "\(host("https://api.porsche.com"))/e-mobility/\(environment.regionCode)/\(capabilities?.carModel ?? kDefaultCarModel)/\(vehicle.vin)/toggle-direct-charging/\(enable)"
+        "\(host("https://api.porsche.com"))/e-mobility/\(environment.regionCode)/\(capabilities?.carModel ?? kDefaultCarModel)/\(vin)/toggle-direct-charging/\(enable)"
     )!
   }
 
   func vehicleToggleDirectChargingRemoteCommandStatusURL(
-    vehicle: Vehicle, capabilities: Capabilities? = nil, remoteCommand: RemoteCommandAccepted
+    vin: String, capabilities: Capabilities? = nil, remoteCommand: RemoteCommandAccepted
   ) -> URL {
     return URL(
       string:
-        "\(host("https://api.porsche.com"))/e-mobility/\(environment.regionCode)/\(capabilities?.carModel ?? kDefaultCarModel)/\(vehicle.vin)/toggle-direct-charging/status/\(remoteCommand.identifier!)"
+        "\(host("https://api.porsche.com"))/e-mobility/\(environment.regionCode)/\(capabilities?.carModel ?? kDefaultCarModel)/\(vin)/toggle-direct-charging/status/\(remoteCommand.identifier!)"
     )!
   }
 
-  func vehicleToggleDirectClimatisationURL(
-    vehicle: Vehicle, enable: Bool
-  ) -> URL {
+  func vehicleToggleDirectClimatisationURL(vin: String, enable: Bool) -> URL {
     return URL(
       string:
-        "\(host("https://api.porsche.com"))/e-mobility/\(environment.regionCode)/\(vehicle.vin)/toggle-direct-climatisation/\(enable ? "true" : "false")"
+        "\(host("https://api.porsche.com"))/e-mobility/\(environment.regionCode)/\(vin)/toggle-direct-climatisation/\(enable ? "true" : "false")"
     )!
   }
   
   func vehicleToggleDirectClimatisationRemoteCommandStatusURL(
-    vehicle: Vehicle, remoteCommand: RemoteCommandAccepted
+    vin: String, remoteCommand: RemoteCommandAccepted
   ) -> URL {
     return URL(
       string:
-        "\(host("https://api.porsche.com"))/e-mobility/\(environment.regionCode)/\(vehicle.vin)/toggle-direct-climatisation/status/\(remoteCommand.identifier!)"
+        "\(host("https://api.porsche.com"))/e-mobility/\(environment.regionCode)/\(vin)/toggle-direct-climatisation/status/\(remoteCommand.identifier!)"
     )!
   }
   
-  func vehicleLockUnlockURL(
-    vehicle: Vehicle, lock: Bool
-  ) -> URL {
+  func vehicleLockUnlockURL(vin: String, lock: Bool) -> URL {
     return URL(
       string:
-        "\(host("https://api.porsche.com"))/service-vehicle/remote-lock-unlock/\(vehicle.vin)/\(lock ? "quick-lock" : "security-pin/unlock")"
+        "\(host("https://api.porsche.com"))/service-vehicle/remote-lock-unlock/\(vin)/\(lock ? "quick-lock" : "security-pin/unlock")"
     )!
   }
 
   func vehicleLockUnlockRemoteCommandStatusURL(
-    vehicle: Vehicle, remoteCommand: RemoteCommandAccepted
+    vin: String, remoteCommand: RemoteCommandAccepted
   ) -> URL {
     return URL(
       string:
-        "\(host("https://api.porsche.com"))/service-vehicle/remote-lock-unlock/\(vehicle.vin)/\(remoteCommand.identifier!)/status"
+        "\(host("https://api.porsche.com"))/service-vehicle/remote-lock-unlock/\(vin)/\(remoteCommand.identifier!)/status"
     )!
   }
 

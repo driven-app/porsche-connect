@@ -20,17 +20,16 @@ extension Porsche {
         password: options.password,
         environment: options.resolvedEnvironment
       )
-      let vehicle = Vehicle(vin: vin)
-      await callSummaryService(porscheConnect: porscheConnect, vehicle: vehicle)
+      await callSummaryService(porscheConnect: porscheConnect, vin: vin)
       dispatchMain()
     }
 
     // MARK: - Private functions
 
-    private func callSummaryService(porscheConnect: PorscheConnect, vehicle: Vehicle) async {
+    private func callSummaryService(porscheConnect: PorscheConnect, vin: String) async {
 
       do {
-        let result = try await porscheConnect.summary(vehicle: vehicle)
+        let result = try await porscheConnect.summary(vin: vin)
         if let summary = result.summary {
           printSummary(summary)
         }

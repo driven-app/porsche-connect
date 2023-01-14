@@ -24,18 +24,17 @@ extension Porsche {
         password: options.password,
         environment: options.resolvedEnvironment
       )
-      let vehicle = Vehicle(vin: vin)
-      await callCapabilitiesService(porscheConnect: porscheConnect, vehicle: vehicle)
+      await callCapabilitiesService(porscheConnect: porscheConnect, vin: vin)
       dispatchMain()
     }
 
     // MARK: - Private functions
 
-    private func callCapabilitiesService(porscheConnect: PorscheConnect, vehicle: Vehicle) async {
+    private func callCapabilitiesService(porscheConnect: PorscheConnect, vin: String) async {
       do {
-        let result = try await porscheConnect.capabilities(vehicle: vehicle)
+        let result = try await porscheConnect.capabilities(vin: vin)
         await callToggleDirectChargeService(
-          porscheConnect: porscheConnect, vehicle: vehicle, capabilities: result.capabilities,
+          porscheConnect: porscheConnect, vin: vin, capabilities: result.capabilities,
           enable: toggleDirectChargingOn)
       } catch {
         Porsche.ToggleDirectCharging.exit(withError: error)
@@ -43,13 +42,13 @@ extension Porsche {
     }
 
     private func callToggleDirectChargeService(
-      porscheConnect: PorscheConnect, vehicle: Vehicle, capabilities: Capabilities?, enable: Bool
+      porscheConnect: PorscheConnect, vin: String, capabilities: Capabilities?, enable: Bool
     ) async {
       guard let capabilities = capabilities else { return }
 
       do {
         let result = try await porscheConnect.toggleDirectCharging(
-          vehicle: vehicle, capabilities: capabilities, enable: enable)
+          vin: vin, capabilities: capabilities, enable: enable)
         if let remoteCommandAccepted = result.remoteCommandAccepted {
           printRemoteCommandAccepted(remoteCommandAccepted)
           Porsche.ToggleDirectCharging.exit()

@@ -24,17 +24,16 @@ extension Porsche {
         password: options.password,
         environment: options.resolvedEnvironment
       )
-      let vehicle = Vehicle(vin: vin)
-      await callUnlock(porscheConnect: porscheConnect, vehicle: vehicle, pin: pin)
+      await callUnlock(porscheConnect: porscheConnect, vin: vin, pin: pin)
       dispatchMain()
     }
 
     // MARK: - Private functions
 
-    private func callUnlock(porscheConnect: PorscheConnect, vehicle: Vehicle, pin: String) async {
+    private func callUnlock(porscheConnect: PorscheConnect, vin: String, pin: String) async {
 
       do {
-        let result = try await porscheConnect.unlock(vehicle: vehicle, pin: pin)
+        let result = try await porscheConnect.unlock(vin: vin, pin: pin)
         if let remoteCommandAccepted = result.remoteCommandAccepted {
           printRemoteCommandAccepted(remoteCommandAccepted)
         }

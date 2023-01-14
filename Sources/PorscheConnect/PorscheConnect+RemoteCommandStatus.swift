@@ -20,15 +20,15 @@ extension PorscheConnect {
     switch remoteCommand.remoteCommand {
     case .honkAndFlash:
       return networkRoutes.vehicleHonkAndFlashRemoteCommandStatusURL(
-        vehicle: vehicle, remoteCommand: remoteCommand)
+        vin: vehicle.vin, remoteCommand: remoteCommand)
     case .toggleDirectCharge:
       return networkRoutes.vehicleToggleDirectChargingRemoteCommandStatusURL(
-        vehicle: vehicle, capabilities: capabilities, remoteCommand: remoteCommand)
+        vin: vehicle.vin, capabilities: capabilities, remoteCommand: remoteCommand)
     case .toggleDirectClimatisation:
       return networkRoutes.vehicleToggleDirectClimatisationRemoteCommandStatusURL(
-        vehicle: vehicle, remoteCommand: remoteCommand)
+        vin: vehicle.vin, remoteCommand: remoteCommand)
     case .lock, .unlock:
-      return networkRoutes.vehicleLockUnlockRemoteCommandStatusURL(vehicle: vehicle, remoteCommand: remoteCommand)
+      return networkRoutes.vehicleLockUnlockRemoteCommandStatusURL(vin: vehicle.vin, remoteCommand: remoteCommand)
     case .none:
       return URL(string: kBlankString)!
     }

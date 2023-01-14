@@ -10,7 +10,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
   var connect: PorscheConnect!
   let mockNetworkRoutes = MockNetworkRoutes()
   let application: OAuthApplication = .carControl
-  let vehicle = Vehicle(vin: "A1234")
+  let vin = "A1234"
   let capabilites = buildCapabilites()
 
   // MARK: - Lifecycle
@@ -36,7 +36,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
 
     XCTAssertFalse(connect.authorized(application: application))
 
-    let result = try! await connect.summary(vehicle: vehicle)
+    let result = try! await connect.summary(vin: vin)
 
     expectation.fulfill()
     XCTAssertNotNil(result)
@@ -52,7 +52,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
 
     XCTAssert(connect.authorized(application: application))
 
-    let result = try! await connect.summary(vehicle: vehicle)
+    let result = try! await connect.summary(vin: vin)
 
     expectation.fulfill()
     XCTAssert(connect.authorized(application: application))
@@ -70,7 +70,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssert(connect.authorized(application: application))
 
     do {
-      _ = try await connect.summary(vehicle: vehicle)
+      _ = try await connect.summary(vin: vin)
     } catch {
       expectation.fulfill()
       XCTAssert(connect.authorized(application: application))
@@ -88,7 +88,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertFalse(connect.authorized(application: application))
 
     do {
-      _ = try await connect.summary(vehicle: vehicle)
+      _ = try await connect.summary(vin: vin)
     } catch {
       expectation.fulfill()
       XCTAssertFalse(connect.authorized(application: application))
@@ -110,7 +110,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
 
     XCTAssertFalse(connect.authorized(application: application))
 
-    let result = try! await connect.position(vehicle: vehicle)
+    let result = try! await connect.position(vin: vin)
 
     expectation.fulfill()
     XCTAssert(connect.authorized(application: application))
@@ -127,7 +127,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
 
     XCTAssert(connect.authorized(application: application))
 
-    let result = try! await connect.position(vehicle: vehicle)
+    let result = try! await connect.position(vin: vin)
 
     expectation.fulfill()
     XCTAssert(connect.authorized(application: application))
@@ -144,7 +144,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssert(connect.authorized(application: application))
 
     do {
-      _ = try await connect.position(vehicle: vehicle)
+      _ = try await connect.position(vin: vin)
     } catch {
       expectation.fulfill()
       XCTAssert(connect.authorized(application: application))
@@ -162,7 +162,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertFalse(connect.authorized(application: application))
 
     do {
-      _ = try await connect.position(vehicle: vehicle)
+      _ = try await connect.position(vin: vin)
     } catch {
       expectation.fulfill()
       XCTAssertFalse(connect.authorized(application: application))
@@ -184,7 +184,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
 
     XCTAssertFalse(connect.authorized(application: application))
 
-    let result = try! await connect.capabilities(vehicle: vehicle)
+    let result = try! await connect.capabilities(vin: vin)
 
     expectation.fulfill()
     XCTAssert(connect.authorized(application: application))
@@ -201,7 +201,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
 
     XCTAssert(connect.authorized(application: application))
 
-    let result = try! await connect.capabilities(vehicle: vehicle)
+    let result = try! await connect.capabilities(vin: vin)
 
     expectation.fulfill()
     XCTAssert(connect.authorized(application: application))
@@ -219,7 +219,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssert(connect.authorized(application: application))
 
     do {
-      _ = try await connect.capabilities(vehicle: vehicle)
+      _ = try await connect.capabilities(vin: vin)
     } catch {
       expectation.fulfill()
       XCTAssertEqual(HttpStatusCode.BadRequest, error as! HttpStatusCode)
@@ -236,7 +236,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertFalse(connect.authorized(application: application))
 
     do {
-      _ = try await connect.capabilities(vehicle: vehicle)
+      _ = try await connect.capabilities(vin: vin)
     } catch {
       expectation.fulfill()
       XCTAssertFalse(connect.authorized(application: application))
@@ -259,7 +259,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
 
     XCTAssertFalse(connect.authorized(application: .api))
 
-    let result = try! await connect.status(vehicle: vehicle)
+    let result = try! await connect.status(vin: vin)
 
     expectation.fulfill()
     XCTAssert(connect.authorized(application: .api))
@@ -279,7 +279,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertFalse(connect.authorized(application: .api))
 
     do {
-      _ = try await connect.status(vehicle: vehicle)
+      _ = try await connect.status(vin: vin)
     } catch {
       expectation.fulfill()
       XCTAssertFalse(connect.authorized(application: .api))
@@ -301,7 +301,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
 
     XCTAssertFalse(connect.authorized(application: application))
 
-    let result = try! await connect.emobility(vehicle: vehicle, capabilities: capabilites)
+    let result = try! await connect.emobility(vin: vin, capabilities: capabilites)
 
     expectation.fulfill()
     XCTAssertNotNil(result.response)
@@ -317,7 +317,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
 
     XCTAssert(connect.authorized(application: application))
 
-    let result = try! await connect.emobility(vehicle: vehicle, capabilities: capabilites)
+    let result = try! await connect.emobility(vin: vin, capabilities: capabilites)
 
     expectation.fulfill()
     XCTAssert(connect.authorized(application: application))
@@ -333,7 +333,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
 
     XCTAssert(connect.authorized(application: application))
 
-    let result = try! await connect.emobility(vehicle: vehicle, capabilities: capabilites)
+    let result = try! await connect.emobility(vin: vin, capabilities: capabilites)
 
     expectation.fulfill()
     XCTAssert(connect.authorized(application: application))
@@ -350,7 +350,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
 
     XCTAssert(connect.authorized(application: application))
 
-    let result = try! await connect.emobility(vehicle: vehicle, capabilities: capabilites)
+    let result = try! await connect.emobility(vin: vin, capabilities: capabilites)
 
     expectation.fulfill()
     XCTAssert(connect.authorized(application: application))
@@ -367,7 +367,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
 
     XCTAssert(connect.authorized(application: application))
 
-    let result = try! await connect.emobility(vehicle: vehicle, capabilities: capabilites)
+    let result = try! await connect.emobility(vin: vin, capabilities: capabilites)
 
     expectation.fulfill()
     XCTAssert(connect.authorized(application: application))
@@ -385,7 +385,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssert(connect.authorized(application: application))
 
     do {
-      _ = try await connect.emobility(vehicle: vehicle, capabilities: capabilites)
+      _ = try await connect.emobility(vin: vin, capabilities: capabilites)
     } catch {
       expectation.fulfill()
       XCTAssert(connect.authorized(application: application))
@@ -404,7 +404,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertFalse(connect.authorized(application: application))
 
     do {
-      _ = try await connect.emobility(vehicle: vehicle, capabilities: capabilites)
+      _ = try await connect.emobility(vin: vin, capabilities: capabilites)
     } catch {
       expectation.fulfill()
       XCTAssertFalse(connect.authorized(application: application))
@@ -427,7 +427,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
 
     XCTAssertFalse(connect.authorized(application: application))
 
-    let result = try! await connect.flash(vehicle: vehicle)
+    let result = try! await connect.flash(vin: vin)
 
     expectation.fulfill()
     XCTAssertNotNil(result)
@@ -451,7 +451,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertFalse(connect.authorized(application: application))
 
     do {
-      _ = try await connect.flash(vehicle: vehicle)
+      _ = try await connect.flash(vin: vin)
     } catch {
       expectation.fulfill()
       XCTAssert(connect.authorized(application: application))
@@ -472,7 +472,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
 
     XCTAssertFalse(connect.authorized(application: application))
 
-    let result = try! await connect.flash(vehicle: vehicle, andHonk: true)
+    let result = try! await connect.flash(vin: vin, andHonk: true)
 
     expectation.fulfill()
     XCTAssertNotNil(result)
@@ -496,7 +496,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertFalse(connect.authorized(application: application))
 
     do {
-      _ = try await connect.flash(vehicle: vehicle, andHonk: true)
+      _ = try await connect.flash(vin: vin, andHonk: true)
     } catch {
       expectation.fulfill()
       XCTAssert(connect.authorized(application: application))
@@ -520,7 +520,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertFalse(connect.authorized(application: application))
 
     let result = try! await connect.toggleDirectCharging(
-      vehicle: vehicle, capabilities: capabilites)
+      vin: vin, capabilities: capabilites)
 
     expectation.fulfill()
     XCTAssertNotNil(result)
@@ -545,7 +545,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertFalse(connect.authorized(application: application))
 
     let result = try! await connect.toggleDirectCharging(
-      vehicle: vehicle, capabilities: capabilites, enable: false)
+      vin: vin, capabilities: capabilites, enable: false)
 
     expectation.fulfill()
     XCTAssertNotNil(result)
@@ -570,7 +570,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertFalse(connect.authorized(application: application))
 
     do {
-      _ = try await connect.toggleDirectCharging(vehicle: vehicle, capabilities: capabilites)
+      _ = try await connect.toggleDirectCharging(vin: vin, capabilities: capabilites)
     } catch {
       expectation.fulfill()
       XCTAssert(connect.authorized(application: application))
@@ -593,7 +593,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
 
     do {
       _ = try await connect.toggleDirectCharging(
-        vehicle: vehicle, capabilities: capabilites, enable: false)
+        vin: vin, capabilities: capabilites, enable: false)
     } catch {
       expectation.fulfill()
       XCTAssert(connect.authorized(application: application))
@@ -616,7 +616,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
 
     XCTAssertFalse(connect.authorized(application: application))
 
-    let result = try! await connect.lock(vehicle: vehicle)
+    let result = try! await connect.lock(vin: vin)
 
     expectation.fulfill()
     XCTAssertNotNil(result)
@@ -640,7 +640,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertFalse(connect.authorized(application: application))
 
     do {
-      _ = try await connect.lock(vehicle: vehicle)
+      _ = try await connect.lock(vin: vin)
     } catch {
       expectation.fulfill()
       XCTAssert(connect.authorized(application: application))
@@ -663,7 +663,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
 
     XCTAssertFalse(connect.authorized(application: application))
 
-    let result = try! await connect.unlock(vehicle: vehicle, pin: "1234")
+    let result = try! await connect.unlock(vin: vin, pin: "1234")
 
     expectation.fulfill()
     XCTAssertNotNil(result)
@@ -687,7 +687,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertFalse(connect.authorized(application: application))
 
     do {
-      _ = try await connect.unlock(vehicle: vehicle, pin: "1234")
+      _ = try await connect.unlock(vin: vin, pin: "1234")
     } catch {
       expectation.fulfill()
       XCTAssert(connect.authorized(application: application))
@@ -709,7 +709,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertFalse(connect.authorized(application: application))
 
     do {
-      _ = try await connect.unlock(vehicle: vehicle, pin: "1234")
+      _ = try await connect.unlock(vin: vin, pin: "1234")
     } catch {
       expectation.fulfill()
       XCTAssert(connect.authorized(application: application))
@@ -731,7 +731,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertFalse(connect.authorized(application: application))
 
     do {
-      _ = try await connect.unlock(vehicle: vehicle, pin: "1234")
+      _ = try await connect.unlock(vin: vin, pin: "1234")
     } catch {
       expectation.fulfill()
       XCTAssert(connect.authorized(application: application))

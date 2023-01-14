@@ -2,71 +2,71 @@ import Foundation
 
 extension PorscheConnect {
 
-  public func summary(vehicle: Vehicle) async throws -> (
+  public func summary(vin: String) async throws -> (
     summary: Summary?, response: HTTPURLResponse
   ) {
     let headers = try await performAuthFor(application: .carControl)
 
     let result = try await networkClient.get(
-      Summary.self, url: networkRoutes.vehicleSummaryURL(vehicle: vehicle), headers: headers,
+      Summary.self, url: networkRoutes.vehicleSummaryURL(vin: vin), headers: headers,
       jsonKeyDecodingStrategy: .useDefaultKeys)
     return (summary: result.data, response: result.response)
   }
 
-  public func position(vehicle: Vehicle) async throws -> (
+  public func position(vin: String) async throws -> (
     position: Position?, response: HTTPURLResponse
   ) {
     let headers = try await performAuthFor(application: .carControl)
 
     let result = try await networkClient.get(
-      Position.self, url: networkRoutes.vehiclePositionURL(vehicle: vehicle), headers: headers,
+      Position.self, url: networkRoutes.vehiclePositionURL(vin: vin), headers: headers,
       jsonKeyDecodingStrategy: .useDefaultKeys)
     return (position: result.data, response: result.response)
   }
 
-  public func capabilities(vehicle: Vehicle) async throws -> (
+  public func capabilities(vin: String) async throws -> (
     capabilities: Capabilities?, response: HTTPURLResponse
   ) {
     let headers = try await performAuthFor(application: .carControl)
 
     let result = try await networkClient.get(
-      Capabilities.self, url: networkRoutes.vehicleCapabilitiesURL(vehicle: vehicle),
+      Capabilities.self, url: networkRoutes.vehicleCapabilitiesURL(vin: vin),
       headers: headers, jsonKeyDecodingStrategy: .useDefaultKeys)
     return (capabilities: result.data, response: result.response)
   }
 
-  public func emobility(vehicle: Vehicle, capabilities: Capabilities) async throws -> (
+  public func emobility(vin: String, capabilities: Capabilities) async throws -> (
     emobility: Emobility?, response: HTTPURLResponse
   ) {
     let headers = try await performAuthFor(application: .carControl)
 
     let result = try await networkClient.get(
       Emobility.self,
-      url: networkRoutes.vehicleEmobilityURL(vehicle: vehicle, capabilities: capabilities),
+      url: networkRoutes.vehicleEmobilityURL(vin: vin, capabilities: capabilities),
       headers: headers, jsonKeyDecodingStrategy: .useDefaultKeys)
     return (emobility: result.data, response: result.response)
   }
 
-  public func status(vehicle: Vehicle) async throws -> (
+  public func status(vin: String) async throws -> (
     status: Status?, response: HTTPURLResponse
   ) {
     let headers = try await performAuthFor(application: .api)
 
     let result = try await networkClient.get(
-      Status.self, url: networkRoutes.vehicleStatusURL(vehicle: vehicle), headers: headers,
+      Status.self, url: networkRoutes.vehicleStatusURL(vin: vin), headers: headers,
       jsonKeyDecodingStrategy: .useDefaultKeys)
     return (status: result.data, response: result.response)
   }
 
-  public func flash(vehicle: Vehicle, andHonk honk: Bool = false) async throws -> (
+  public func flash(vin: String, andHonk honk: Bool = false) async throws -> (
     remoteCommandAccepted: RemoteCommandAccepted?, response: HTTPURLResponse
   ) {
     let headers = try await performAuthFor(application: .carControl)
 
     let url =
       honk
-      ? networkRoutes.vehicleHonkAndFlashURL(vehicle: vehicle)
-      : networkRoutes.vehicleFlashURL(vehicle: vehicle)
+      ? networkRoutes.vehicleHonkAndFlashURL(vin: vin)
+      : networkRoutes.vehicleFlashURL(vin: vin)
 
     var result = try await networkClient.post(
       RemoteCommandAccepted.self, url: url, body: kBlankString, headers: headers,
@@ -76,13 +76,13 @@ extension PorscheConnect {
   }
 
   public func toggleDirectCharging(
-    vehicle: Vehicle, capabilities: Capabilities, enable: Bool = true
+    vin: String, capabilities: Capabilities, enable: Bool = true
   ) async throws -> (
     remoteCommandAccepted: RemoteCommandAccepted?, response: HTTPURLResponse
   ) {
     let headers = try await performAuthFor(application: .carControl)
     let url = networkRoutes.vehicleToggleDirectChargingURL(
-      vehicle: vehicle, capabilities: capabilities, enable: enable)
+      vin: vin, capabilities: capabilities, enable: enable)
 
     var result = try await networkClient.post(
       RemoteCommandAccepted.self, url: url, body: kBlankString, headers: headers,
@@ -92,13 +92,13 @@ extension PorscheConnect {
   }
   
   public func toggleDirectClimatisation(
-    vehicle: Vehicle, enable: Bool = true
+    vin: String, enable: Bool = true
   ) async throws -> (
     remoteCommandAccepted: RemoteCommandAccepted?, response: HTTPURLResponse
   ) {
     let headers = try await performAuthFor(application: .carControl)
     let url = networkRoutes.vehicleToggleDirectClimatisationURL(
-      vehicle: vehicle, enable: enable)
+      vin: vin, enable: enable)
 
     var result = try await networkClient.post(
       RemoteCommandAccepted.self, url: url, body: kBlankString, headers: headers,
@@ -107,11 +107,11 @@ extension PorscheConnect {
     return (remoteCommandAccepted: result.data, response: result.response)
   }
 
-  public func lock(vehicle: Vehicle) async throws -> (
+  public func lock(vin: String) async throws -> (
     remoteCommandAccepted: RemoteCommandAccepted?, response: HTTPURLResponse
   ) {
     let headers = try await performAuthFor(application: .carControl)
-    let url = networkRoutes.vehicleLockUnlockURL(vehicle: vehicle, lock: true)
+    let url = networkRoutes.vehicleLockUnlockURL(vin: vin, lock: true)
 
     var result = try await networkClient.post(
       RemoteCommandAccepted.self, url: url, body: kBlankString, headers: headers,
@@ -120,11 +120,11 @@ extension PorscheConnect {
     return (remoteCommandAccepted: result.data, response: result.response)
   }
 
-  public func unlock(vehicle: Vehicle, pin: String) async throws -> (
+  public func unlock(vin: String, pin: String) async throws -> (
     remoteCommandAccepted: RemoteCommandAccepted?, response: HTTPURLResponse
   ) {
     let headers = try await performAuthFor(application: .carControl)
-    let url = networkRoutes.vehicleLockUnlockURL(vehicle: vehicle, lock: false)
+    let url = networkRoutes.vehicleLockUnlockURL(vin: vin, lock: false)
 
     let pinSecurity = try await networkClient.get(
       PinSecurity.self, url: url, headers: headers, jsonKeyDecodingStrategy: .useDefaultKeys
