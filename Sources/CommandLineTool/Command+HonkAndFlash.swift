@@ -20,17 +20,16 @@ extension Porsche {
         password: options.password,
         environment: options.resolvedEnvironment
       )
-      let vehicle = Vehicle(vin: vin)
-      await callHonkAndFlash(porscheConnect: porscheConnect, vehicle: vehicle)
+      await callHonkAndFlash(porscheConnect: porscheConnect, vin: vin)
       dispatchMain()
     }
 
     // MARK: - Private functions
 
-    private func callHonkAndFlash(porscheConnect: PorscheConnect, vehicle: Vehicle) async {
+    private func callHonkAndFlash(porscheConnect: PorscheConnect, vin: String) async {
 
       do {
-        let result = try await porscheConnect.flash(vehicle: vehicle, andHonk: true)
+        let result = try await porscheConnect.flash(vin: vin, andHonk: true)
         if let remoteCommandAccepted = result.remoteCommandAccepted {
           printRemoteCommandAccepted(remoteCommandAccepted)
         }

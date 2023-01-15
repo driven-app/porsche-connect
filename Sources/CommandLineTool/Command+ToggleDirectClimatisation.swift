@@ -12,7 +12,7 @@ extension Porsche {
 
     @Argument(help: ArgumentHelp(NSLocalizedString("Your vehicle VIN.", comment: "")))
     var vin: String
-    
+
     @Argument(help: ArgumentHelp(NSLocalizedString("Toggle Direct Climatisation on.", comment: "")))
     var toggleDirectClimatisationOn: Bool
 
@@ -24,19 +24,18 @@ extension Porsche {
         password: options.password,
         environment: options.resolvedEnvironment
       )
-      let vehicle = Vehicle(vin: vin)
-      await callToggleDirectClimatisationService(porscheConnect: porscheConnect, vehicle: vehicle, enable: toggleDirectClimatisationOn)
+      await callToggleDirectClimatisationService(
+        porscheConnect: porscheConnect, vin: vin, enable: toggleDirectClimatisationOn)
       dispatchMain()
     }
 
     // MARK: - Private functions
 
     private func callToggleDirectClimatisationService(
-      porscheConnect: PorscheConnect, vehicle: Vehicle, enable: Bool
+      porscheConnect: PorscheConnect, vin: String, enable: Bool
     ) async {
       do {
-        let result = try await porscheConnect.toggleDirectClimatisation(
-          vehicle: vehicle, enable: enable)
+        let result = try await porscheConnect.toggleDirectClimatisation(vin: vin, enable: enable)
         if let remoteCommandAccepted = result.remoteCommandAccepted {
           printRemoteCommandAccepted(remoteCommandAccepted)
           Porsche.ToggleDirectCharging.exit()
