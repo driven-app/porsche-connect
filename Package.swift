@@ -18,6 +18,7 @@ let package = Package(
     .package(url: "https://github.com/envoy/Embassy.git", from: "4.1.4"),
     .package(url: "https://github.com/envoy/Ambassador.git", from: "4.0.5"),
     .package(url: "https://github.com/apple/swift-argument-parser", from: "1.2.0"),
+    .package(url: "https://github.com/mochidev/XCTAsync.git", .upToNextMajor(from: "1.0.0")),
   ],
   targets: [
     .executableTarget(
@@ -34,6 +35,11 @@ let package = Package(
       dependencies: []),
     .testTarget(
       name: "PorscheConnectTests",
-      dependencies: ["PorscheConnect", "Embassy", "Ambassador"]),
+      dependencies: [
+        "PorscheConnect",
+        "Embassy",
+        "Ambassador",
+        "XCTAsync"
+      ]),
   ]
 )

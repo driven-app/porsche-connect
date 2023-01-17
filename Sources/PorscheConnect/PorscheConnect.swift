@@ -78,8 +78,8 @@ public class PorscheConnect {
 
   // MARK: - Common functions
 
-  func authorized(application: OAuthApplication) -> Bool {
-    guard let auth = authStorage.authentication(for: application.clientId) else {
+  func authorized(application: OAuthApplication) async -> Bool {
+    guard let auth = await authStorage.authentication(for: application.clientId) else {
       return false
     }
 
@@ -91,7 +91,7 @@ public class PorscheConnect {
   internal func performAuthFor(application: OAuthApplication) async throws -> [String: String] {
     _ = try await authIfRequired(application: application)
 
-    guard let auth = authStorage.authentication(for: application.clientId), let apiKey = auth.apiKey else {
+    guard let auth = await authStorage.authentication(for: application.clientId), let apiKey = auth.apiKey else {
       throw PorscheConnectError.AuthFailure
     }
 
@@ -106,7 +106,7 @@ public class PorscheConnect {
   // MARK: - Private functions
 
   private func authIfRequired(application: OAuthApplication) async throws {
-    if !authorized(application: application) {
+    if await !authorized(application: application) {
       do {
         _ = try await auth(application: application)
       } catch {

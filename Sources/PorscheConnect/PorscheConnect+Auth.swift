@@ -20,7 +20,7 @@ extension PorscheConnect {
 
       return OAuthToken(authResponse: porscheAuth)
     }
-    authStorage.storeAuthentication(token: token, for: application.clientId)
+    try await authStorage.storeAuthentication(token: token, for: application.clientId)
     return token
   }
 
