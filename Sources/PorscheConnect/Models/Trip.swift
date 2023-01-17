@@ -14,7 +14,7 @@ public struct Trip: Codable {
   public let id: Int
   public let travelTime: Int // TODO: Consider using Swift 5.7's Duration struct
   public let timestamp: Date
-  public let averageSpeed: AverageSpeed
+  public let averageSpeed: TripSpeed
   public let averageFuelConsumption: AverageFuelConsumption
   public let averageElectricEngineConsumption: AverageElectricEngineConsumption
   public let tripMileage: TripMileage
@@ -24,7 +24,7 @@ public struct Trip: Codable {
   
   // MARK: -
 
-  public struct AverageSpeed: Codable {
+  public struct TripSpeed: Codable {
     
     // MARK: Properties
 
@@ -40,7 +40,7 @@ public struct Trip: Codable {
   public struct AverageFuelConsumption: Codable {
     
     public enum FuelConsumptionUnit: String, Codable {
-      case litersPer100Km = "LITERS_PER_100_KM" //TODO: add imperial units
+      case litersPer100Km = "LITERS_PER_100_KM", milesPerUSGallon = "MILES_PER_GALLON_US"
     }
     
     // MARK: Properties
@@ -57,7 +57,7 @@ public struct Trip: Codable {
   public struct AverageElectricEngineConsumption: Codable {
     
     public enum ElectricConsumptionUnit: String, Codable {
-      case kilowattHoursPer100Km = "KWH_PER_100KM" //TODO: add imperial units
+      case kilowattHoursPer100Km = "KWH_PER_100KM", kilowattHourPerMile = "KWH_PER_MILE"
     }
     
     // MARK: Properties
@@ -75,11 +75,11 @@ public struct Trip: Codable {
     
     // MARK: Properties
 
-    public let value: Int
+    public let value: Double
     public let unit: DistanceUnit
-    public let originalValue: Int
+    public let originalValue: Double
     public let originalUnit: DistanceUnit
-    public let valueInKilometers: Int
+    public let valueInKilometers: Double
     public let unitTranslationKey: String
     public let unitTranslationKeyV2: String
   }
