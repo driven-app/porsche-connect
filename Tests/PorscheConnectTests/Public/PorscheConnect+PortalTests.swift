@@ -1,4 +1,6 @@
 import XCTest
+import func XCTAsync.XCTAssertFalse
+import func XCTAsync.XCTAssertTrue
 
 @testable import PorscheConnect
 
@@ -12,18 +14,20 @@ final class PorscheConnectPortalTests: BaseMockNetworkTestCase {
 
   // MARK: - Lifecycle
 
-  override func setUp() {
-    super.setUp()
+  override func setUp() async throws {
+    try await super.setUp()
     connect = PorscheConnect(
       username: "homer.simpson@icloud.example", password: "Duh!", environment: .test)
-    connect.authStorage.storeAuthentication(token: OAuthToken(authResponse: kTestPorschePortalAuth),
-                                            for: application.clientId) 
+    try await connect.authStorage.storeAuthentication(
+      token: OAuthToken(authResponse: kTestPorschePortalAuth),
+      for: application.clientId
+    )
   }
 
   // MARK: - Tests
 
-  func testVehiclesAuthRequiredSuccessful() async {
-    connect.authStorage.storeAuthentication(token: nil, for: application.clientId)
+  func testVehiclesAuthRequiredSuccessful() async throws {
+    try await connect.authStorage.storeAuthentication(token: nil, for: application.clientId)
     let expectation = expectation(description: "Network Expectation")
 
     mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
@@ -31,12 +35,12 @@ final class PorscheConnectPortalTests: BaseMockNetworkTestCase {
     mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
     mockNetworkRoutes.mockGetVehiclesSuccessful(router: router)
 
-    XCTAssertFalse(connect.authorized(application: application))
+    await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
 
     let result = try! await connect.vehicles()
 
     expectation.fulfill()
-    XCTAssert(connect.authorized(application: application))
+    await XCTAsync.XCTAssertTrue(await connect.authorized(application: application))
     XCTAssertNotNil(result)
     XCTAssertNotNil(result.vehicles)
     XCTAssertEqual(1, result.vehicles!.count)
@@ -49,12 +53,12 @@ final class PorscheConnectPortalTests: BaseMockNetworkTestCase {
     let expectation = expectation(description: "Network Expectation")
     mockNetworkRoutes.mockGetVehiclesSuccessful(router: router)
 
-    XCTAssert(connect.authorized(application: application))
+    await XCTAsync.XCTAssertTrue(await connect.authorized(application: application))
 
     let result = try! await connect.vehicles()
 
     expectation.fulfill()
-    XCTAssert(connect.authorized(application: application))
+    await XCTAsync.XCTAssertTrue(await connect.authorized(application: application))
     XCTAssertNotNil(result)
     XCTAssertNotNil(result.vehicles)
     XCTAssertEqual(1, result.vehicles!.count)
@@ -67,7 +71,7 @@ final class PorscheConnectPortalTests: BaseMockNetworkTestCase {
     let expectation = expectation(description: "Network Expectation")
     mockNetworkRoutes.mockGetVehiclesFailure(router: router)
 
-    XCTAssert(connect.authorized(application: application))
+    await XCTAsync.XCTAssertTrue(await connect.authorized(application: application))
 
     do {
       _ = try await connect.vehicles()
@@ -79,12 +83,12 @@ final class PorscheConnectPortalTests: BaseMockNetworkTestCase {
     await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
 
-  func testVehiclesAuthRequiredAuthFailure() async {
-    connect.authStorage.storeAuthentication(token: nil, for: application.clientId)
+  func testVehiclesAuthRequiredAuthFailure() async throws {
+    try await connect.authStorage.storeAuthentication(token: nil, for: application.clientId)
     let expectation = expectation(description: "Network Expectation")
     mockNetworkRoutes.mockPostLoginAuthFailure(router: router)
 
-    XCTAssertFalse(connect.authorized(application: application))
+    await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
 
     do {
       _ = try await connect.vehicles()

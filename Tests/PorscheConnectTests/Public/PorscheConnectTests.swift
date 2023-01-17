@@ -1,4 +1,5 @@
 import XCTest
+import func XCTAsync.XCTAssertFalse
 
 @testable import PorscheConnect
 
@@ -19,13 +20,13 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
 
   // MARK: - Tests
 
-  func testConstruction() {
+  func testConstruction() async {
     XCTAssertNotNil(connect)
     XCTAssertEqual(Environment.test, connect.environment)
     XCTAssertEqual("homer.simpson@icloud.example", connect.username)
     XCTAssertNotNil(connect.authStorage)
-    XCTAssertFalse(connect.authorized(application: .api))
-    XCTAssertFalse(connect.authorized(application: .carControl))
+    await XCTAsync.XCTAssertFalse(await connect.authorized(application: .api))
+    await XCTAsync.XCTAssertFalse(await connect.authorized(application: .carControl))
   }
 
   func testEnvironmentGermany() {
