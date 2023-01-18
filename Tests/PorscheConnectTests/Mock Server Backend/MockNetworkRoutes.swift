@@ -298,7 +298,7 @@ final class MockNetworkRoutes {
 
   func mockGetShortTermTripsSuccessful(router: Router) {
     router[MockNetworkRoutes.getShortTermTripsPath] = JSONResponse(statusCode: 200) { _ -> Any in
-      return self.mockShortTermTripResponse(mockedResponse: kShortTripsInImperialJson)
+      return self.mockShortTermTripResponse(mockedResponse: kShortTripsInMetricJson)
     }
   }
   
