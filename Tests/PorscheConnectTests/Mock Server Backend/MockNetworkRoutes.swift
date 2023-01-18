@@ -302,6 +302,11 @@ final class MockNetworkRoutes {
     }
   }
   
+  func mockGetShortTermTripsFailure(router: Router) {
+    router[MockNetworkRoutes.getShortTermTripsPath] = DataResponse(
+      statusCode: 400, statusMessage: "bad request")
+  }
+
   // MARK: – Remote Command Status
 
   func mockGetHonkAndFlashRemoteCommandStatusInProgress(router: Router) {

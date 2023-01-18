@@ -43,4 +43,20 @@ final class PorscheConnectTripTests: BaseMockNetworkTestCase {
 
     await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
   }
+  
+  func testShortTermTripsNoAuthRequiredFailure() async {
+    let expectation = expectation(description: "Network Expectation")
+    mockNetworkRoutes.mockGetShortTermTripsFailure(router: router)
+
+    await XCTAsync.XCTAssertTrue(await connect.authorized(application: application))
+
+    do {
+      _ = try await connect.trips(vin: vin)
+    } catch {
+      expectation.fulfill()
+      XCTAssertEqual(HttpStatusCode.BadRequest, error as! HttpStatusCode)
+    }
+
+    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+  }
 }
