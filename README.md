@@ -477,7 +477,9 @@ $ porsche show-emobility <username> <password> <vin>
 Battery Level: 53%; Remaining Range: 180 KM; Charging Status: NOT_CHARGING; Plug Status: DISCONNECTED
 ```
 
-To get a list of all trips taken by the vehicle. You can specify either `short` or `long` term trips by using the `--trip-type` option. If no option is specified, it defaults to displaying `short` term trips.
+To get a list of all trips taken by the vehicle: 
+
+*You can specify either `short` or `long` term trips by using the `--trip-type` option. If no option is specified, it defaults to displaying `short` term trips.*
 
 ```bash
 $ porsche show-trips <username> <password> <vin> --trip-type <trip-type>
