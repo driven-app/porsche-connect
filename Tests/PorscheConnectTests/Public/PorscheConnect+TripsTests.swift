@@ -30,7 +30,7 @@ final class PorscheConnectTripTests: BaseMockNetworkTestCase {
   func testShortTermTripsNoAuthRequiredSuccessful() async {
     let expectation = expectation(description: "Network Expectation")
     mockNetworkRoutes.mockGetShortTermTripsSuccessful(router: router)
-
+    
     await XCTAsync.XCTAssertTrue(await connect.authorized(application: application))
 
     let results = try! await connect.trips(vin: vin)
