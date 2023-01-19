@@ -171,11 +171,11 @@ try {
 
 ### Vehicle Trips
 
-To get the trips for a vehicle. This call will return an array of `Trip` structs. 
+To get the trips for a vehicle. This call will return an array of `Trip` structs. You can specify either `shortTerm` or `longTerm` trips to be returned. `shortTerm` is the default if no type is specified.
 
 ```swift
 try {
-  let result = porscheConnect.trips(vin: vehicle.vin)
+  let result = porscheConnect.trips(vin: vehicle.vin, type: .longTerm)
   if let trips = result.trips {
     // Do something with the trips
   }
@@ -408,7 +408,7 @@ SUBCOMMANDS:
   show-position
   show-capabilities
   show-emobility
-  show-short-term-trips
+  show-trips
   flash
   honk-and-flash
   toggle-direct-charging
@@ -477,13 +477,13 @@ $ porsche show-emobility <username> <password> <vin>
 Battery Level: 53%; Remaining Range: 180 KM; Charging Status: NOT_CHARGING; Plug Status: DISCONNECTED
 ```
 
-To get a list of all short term trips taken by the vehicle:
+To get a list of all trips taken by the vehicle. You can specify either `short` or `long` term trips by using the `--trip-type` option. If no option is specified, it defaults to displaying `short` term trips.
 
 ```bash
-$ porsche show-short-term-trips <username> <password>
+$ porsche show-trips <username> <password> <vin> --trip-type <trip-type>
 
-#1 => Trip ID: 1162572771; Timestamp: 2023-01-17 20:10:14 +0000; Distance: 6.0 km; Average speed: 11.0 km/h; EV consumption: 39.6 kWh/100km
-#2 => Trip ID: 1161450482; Timestamp: 2023-01-17 13:53:51 +0000; Distance: 12.0 km; Average speed: 31.0 km/h; EV consumption: 34.9 kWh/100km
+#1 => Trip ID: 1162572771; Timestamp: 17/01/2023, 20:55; Distance: 6.0 km; Average speed: 11.0 km/h; EV consumption: 39.6 kWh/100km
+#2 => Trip ID: 1161450482; Timestamp: 16/01/2023, 09:11; Distance: 12.0 km; Average speed: 31.0 km/h; EV consumption: 34.9 kWh/100km
 ```
 
 To flash the indicators of a vehicle:
