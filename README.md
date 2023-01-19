@@ -176,7 +176,7 @@ To get the trips for a vehicle. This call will return an array of `Trip` structs
 ```swift
 try {
   let result = porscheConnect.trips(vin: vehicle.vin)
-  if let status = result.status {
+  if let trips = result.trips {
     // Do something with the trips
   }
 } catch {
