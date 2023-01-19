@@ -169,6 +169,21 @@ try {
 }
 ```
 
+### Vehicle Trips
+
+To get the trips for a vehicle. This call will return an array of `Trip` structs. 
+
+```swift
+try {
+  let result = porscheConnect.trips(vin: vehicle.vin)
+  if let status = result.status {
+    // Do something with the trips
+  }
+} catch {
+  // Handle the error
+}
+```
+
 ### Honk and Flash
 
 To ask the vehicle to flash its indicators and optionally honk the horn. This call will return a `RemoteCommandAccepted` struct when the request has been accepted. The `andHorn` paramater is optional and defaults to false.
