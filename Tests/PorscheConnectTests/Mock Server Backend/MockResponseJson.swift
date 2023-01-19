@@ -331,7 +331,7 @@ let kEmobilityACDirectChargingJson = """
     },
     \"errorInfo\": []
   }
-
+  
   """.data(using: .utf8)!
 
 // MARK: E-Mobility - DC Charging
@@ -445,9 +445,77 @@ let kEmobilityDCChargingJson = """
   }
   """.data(using: .utf8)!
 
-// MARK: Short Trips
+// MARK: Long Term Trips
 
-let kShortTripsInMetricJson = """
+let kLongTermTripsInMetricJson = """
+  [{
+  \"type\" : \"LONG_TERM\",
+  \"id\" : 1158728093,
+  \"averageSpeed\" : {
+    \"value\" : 39,
+    \"unit\" : \"KMH\",
+    \"valueInKmh\" : 39,
+    \"unitTranslationKey\" : \"GRAY_SLICE_UNIT_KMH\",
+    \"unitTranslationKeyV2\" : \"TC.UNIT.KMH\"
+  },
+  \"averageFuelConsumption\" : {
+    \"value\" : 0,
+    \"unit\" : \"LITERS_PER_100_KM\",
+    \"valueInLitersPer100Km\" : 0,
+    \"unitTranslationKey\" : \"GRAY_SLICE_UNIT_LITERS_PER_100_KM\",
+    \"unitTranslationKeyV2\" : \"TC.UNIT.LITERS_PER_100_KM\"
+  },
+  \"tripMileage\" : {
+    \"value\" : 1448,
+    \"unit\" : \"KILOMETERS\",
+    \"originalValue\" : 1448,
+    \"originalUnit\" : \"KILOMETERS\",
+    \"valueInKilometers\" : 1448,
+    \"unitTranslationKey\" : \"GRAY_SLICE_UNIT_KILOMETER\",
+    \"unitTranslationKeyV2\" : \"TC.UNIT.KILOMETER\"
+  },
+  \"travelTime\" : 2279,
+  \"startMileage\" : {
+    \"value\" : -1,
+    \"unit\" : \"KILOMETERS\",
+    \"originalValue\" : -1,
+    \"originalUnit\" : \"KILOMETERS\",
+    \"valueInKilometers\" : -1,
+    \"unitTranslationKey\" : \"GRAY_SLICE_UNIT_KILOMETER\",
+    \"unitTranslationKeyV2\" : \"TC.UNIT.KILOMETER\"
+  },
+  \"endMileage\" : {
+    \"value\" : 1448,
+    \"unit\" : \"KILOMETERS\",
+    \"originalValue\" : 1448,
+    \"originalUnit\" : \"KILOMETERS\",
+    \"valueInKilometers\" : 1448,
+    \"unitTranslationKey\" : \"GRAY_SLICE_UNIT_KILOMETER\",
+    \"unitTranslationKeyV2\" : \"TC.UNIT.KILOMETER\"
+  },
+  \"timestamp\" : \"2023-01-17T20:10:14Z\",
+  \"zeroEmissionDistance\" : {
+    \"value\" : 1448,
+    \"unit\" : \"KILOMETERS\",
+    \"originalValue\" : 1448,
+    \"originalUnit\" : \"KILOMETERS\",
+    \"valueInKilometers\" : 1448,
+    \"unitTranslationKey\" : \"GRAY_SLICE_UNIT_KILOMETER\",
+    \"unitTranslationKeyV2\" : \"TC.UNIT.KILOMETER\"
+  },
+  \"averageElectricEngineConsumption\" : {
+    \"value\" : 29.9,
+    \"unit\" : \"KWH_PER_100KM\",
+    \"valueKwhPer100Km\" : 29.9,
+    \"unitTranslationKey\" : \"GRAY_SLICE_UNIT_KWH_PER_100KM\",
+    \"unitTranslationKeyV2\" : \"TC.UNIT.KWH_PER_100KM\"
+  }
+  }]
+  """.data(using: .utf8)!
+
+// MARK: Short Term Trips
+
+let kShortTermTripsInMetricJson = """
   [{
     \"type\" : \"SHORT_TERM\",
     \"id\" : 1162572771,
@@ -513,7 +581,7 @@ let kShortTripsInMetricJson = """
   }]
   """.data(using: .utf8)!
 
-let kShortTripsInImperialJson = """
+let kShortTermTripsInImperialJson = """
   [{
     \"type\" : \"SHORT_TERM\",
     \"id\" : 1162658714,

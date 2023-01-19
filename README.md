@@ -171,11 +171,11 @@ try {
 
 ### Vehicle Trips
 
-To get the trips for a vehicle. This call will return an array of `Trip` structs. 
+To get the trips for a vehicle. This call will return an array of `Trip` structs. You can specify either `shortTerm` or `longTerm` trips to be returned. `shortTerm` is the default if no type is specified.
 
 ```swift
 try {
-  let result = porscheConnect.trips(vin: vehicle.vin)
+  let result = porscheConnect.trips(vin: vehicle.vin, type: .longTerm)
   if let trips = result.trips {
     // Do something with the trips
   }
