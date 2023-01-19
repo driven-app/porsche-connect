@@ -176,7 +176,7 @@ To get the trips for a vehicle. This call will return an array of `Trip` structs
 ```swift
 try {
   let result = porscheConnect.trips(vin: vehicle.vin)
-  if let status = result.status {
+  if let trips = result.trips {
     // Do something with the trips
   }
 } catch {
@@ -408,6 +408,7 @@ SUBCOMMANDS:
   show-position
   show-capabilities
   show-emobility
+  show-short-term-trips
   flash
   honk-and-flash
   toggle-direct-charging
@@ -474,6 +475,15 @@ To show the emobility of a vehicle:
 $ porsche show-emobility <username> <password> <vin>
 
 Battery Level: 53%; Remaining Range: 180 KM; Charging Status: NOT_CHARGING; Plug Status: DISCONNECTED
+```
+
+To get a list of all short term trips taken by the vehicle:
+
+```bash
+$ porsche show-short-term-trips <username> <password>
+
+#1 => Trip ID: 1162572771; Timestamp: 2023-01-17 20:10:14 +0000; Distance: 6.0 km; Average speed: 11.0 km/h; EV consumption: 39.6 kWh/100km
+#2 => Trip ID: 1161450482; Timestamp: 2023-01-17 13:53:51 +0000; Distance: 12.0 km; Average speed: 31.0 km/h; EV consumption: 34.9 kWh/100km
 ```
 
 To flash the indicators of a vehicle:
