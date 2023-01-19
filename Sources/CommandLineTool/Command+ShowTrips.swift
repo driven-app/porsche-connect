@@ -3,14 +3,23 @@ import Foundation
 import PorscheConnect
 
 extension Porsche {
-  
-  struct ShowShortTermTrips: AsyncParsableCommand {
+    
+  struct ShowTrips: AsyncParsableCommand {
+    
+    enum TripType: String, ExpressibleByArgument {
+        case short, long
+    }
+    
     // MARK: - Properties
     
-    @OptionGroup() var options: Options
+    @OptionGroup()
+    var options: Options
     
     @Argument(help: ArgumentHelp(NSLocalizedString("Your vehicle VIN.", comment: "")))
     var vin: String
+    
+    @Option(help: ArgumentHelp(NSLocalizedString("Use \"short\" for short term trips, and \"long\" for long term trips.", comment: "")))
+    var tripType: TripType = .short
     
     // MARK: - Lifecycle
     
@@ -29,11 +38,12 @@ extension Porsche {
     private func callTripService(porscheConnect: PorscheConnect, vin: String) async {
       
       do {
-        let result = try await porscheConnect.trips(vin: vin)
+        let type = tripType == .short ? Trip.TripType.shortTerm : Trip.TripType.longTerm
+        let result = try await porscheConnect.trips(vin: vin, type: type)
         printTrips(result.trips)
-        Porsche.ShowShortTermTrips.exit()
+        Porsche.ShowTrips.exit()
       } catch {
-        Porsche.ShowShortTermTrips.exit(withError: error)
+        Porsche.ShowTrips.exit(withError: error)
       }
     }
     

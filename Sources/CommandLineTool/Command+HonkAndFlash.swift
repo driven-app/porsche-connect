@@ -7,7 +7,8 @@ extension Porsche {
   struct HonkAndFlash: AsyncParsableCommand {
     // MARK: - Properties
 
-    @OptionGroup() var options: Options
+    @OptionGroup()
+    var options: Options
 
     @Argument(help: ArgumentHelp(NSLocalizedString("Your vehicle VIN.", comment: "")))
     var vin: String

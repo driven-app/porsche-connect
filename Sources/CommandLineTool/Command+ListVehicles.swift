@@ -8,7 +8,8 @@ extension Porsche {
 
     // MARK: - Properties
 
-    @OptionGroup() var options: Options
+    @OptionGroup()
+    var options: Options
 
     // MARK: - Lifecycle
 
