@@ -4,10 +4,9 @@ import Foundation
 ///
 /// All properties will be formatted based on the provided locale.
 public final class StatusFormatter {
-  public init() {}
 
   /// The locale to use for all textual representations.
-  public var locale: Locale = Locale.current
+  public var locale: Locale = .current
 
   /// The style used when creating a textual representation of distance (e.g. miles or kilometers).
   public var distanceUnitStyle: MeasurementFormatter.UnitStyle = .medium

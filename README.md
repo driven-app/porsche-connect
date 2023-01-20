@@ -484,8 +484,8 @@ To get a list of all trips taken by the vehicle:
 ```bash
 $ porsche show-trips <username> <password> <vin> --trip-type <trip-type>
 
-#1 => Trip ID: 1162572771; Timestamp: 17/01/2023, 20:55; Distance: 6.0 km; Average speed: 11.0 km/h; EV consumption: 39.6 kWh/100km
-#2 => Trip ID: 1161450482; Timestamp: 16/01/2023, 09:11; Distance: 12.0 km; Average speed: 31.0 km/h; EV consumption: 34.9 kWh/100km
+#1 => Trip ID: 1162572771; Timestamp: 8 Jan 2023 at 22:45:35; Distance: 6.0 km; Average speed: 11.0 km/h; EV consumption: 39.6 kWh/100km
+#2 => Trip ID: 1161450482; Timestamp: 7 Jan 2023 at 09:11:00; Distance: 12.0 km; Average speed: 31.0 km/h; EV consumption: 34.9 kWh/100km
 ```
 
 To flash the indicators of a vehicle:
