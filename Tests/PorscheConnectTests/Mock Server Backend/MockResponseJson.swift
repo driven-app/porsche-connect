@@ -646,3 +646,62 @@ let kShortTermTripsInImperialJson = """
     }
   }]
   """.data(using: .utf8)!
+
+
+let kMaintenanceItemsJson = """
+{
+  \"data\" : [ {
+    \"id\" : \"0003\",
+    \"description\" : {
+      \"shortName\" : \"Service\",
+      \"longName\" : null,
+      \"criticalityText\" : \"No service is due at the moment.\",
+      \"notificationText\" : null
+    },
+    \"criticality\" : 1,
+    \"remainingLifeTimeInDays\" : null,
+    \"remainingLifeTimePercentage\" : null,
+    \"remainingLifeTimeInKm\" : null,
+    \"values\" : {
+      \"modelName\" : \"Service-Intervall\",
+      \"odometerLastReset\" : \"0\",
+      \"modelVisibilityState\" : \"visible\",
+      \"WarnID100\" : \"0\",
+      \"modelId\" : \"0003\",
+      \"modelState\" : \"active\",
+      \"criticality\" : \"1\",
+      \"timestampLastReset\" : \"1999-11-30T00:00:00\",
+      \"WarnID99\" : \"0\",
+      \"source\" : \"Vehicle\",
+      \"event\" : \"CYCLIC\"
+    }
+  }, {
+    \"id\" : \"0005\",
+    \"description\" : {
+      \"shortName\" : \"Brake pads\",
+      \"longName\" : \"Changing the brake pads\",
+      \"criticalityText\" : \"No service is due at the moment.\",
+      \"notificationText\" : null
+    },
+    \"criticality\" : 1,
+    \"remainingLifeTimeInDays\" : null,
+    \"remainingLifeTimePercentage\" : null,
+    \"remainingLifeTimeInKm\" : null,
+    \"values\" : {
+      \"modelName\" : \"Service Bremse\",
+      \"odometerLastReset\" : \"0\",
+      \"modelVisibilityState\" : \"visible\",
+      \"modelId\" : \"0005\",
+      \"modelState\" : \"active\",
+      \"criticality\" : \"1\",
+      \"timestampLastReset\" : \"2022-12-08T17:20:05\",
+      \"source\" : \"Vehicle\",
+      \"event\" : \"CYCLIC\",
+      \"WarnID26\" : \"0\"
+    }
+  }],
+  \"serviceAccess\" : {
+    \"access\" : true
+  }
+}
+""".data(using: .utf8)!
