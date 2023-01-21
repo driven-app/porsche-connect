@@ -20,6 +20,7 @@ public struct Overview: Codable {
   public let parkingLight: ParkingLight
   public let tires: Tires
   public let windows: Windows
+  public let doors: Doors
   public let serviceIntervals: ServiceIntervals
   public let overallOpenStatus: PhysicalStatus
 
