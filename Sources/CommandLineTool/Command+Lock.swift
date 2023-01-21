@@ -32,8 +32,27 @@ extension Porsche {
 
       do {
         let result = try await porscheConnect.lock(vin: vin)
-        if let remoteCommandAccepted = result.remoteCommandAccepted {
-          printRemoteCommandAccepted(remoteCommandAccepted)
+        if let remoteCommand = result.remoteCommandAccepted {
+          printRemoteCommandAccepted(remoteCommand)
+
+          var lastStatus = try await porscheConnect.checkStatus(vin: vin, remoteCommand: remoteCommand).status?.status
+          while lastStatus == "IN_PROGRESS" {
+            // Avoid excessive API calls.
+            try await Task.sleep(nanoseconds: UInt64(0.5 * Double(NSEC_PER_SEC)))
+
+            print("Waiting for completion of command...")
+            lastStatus = try await porscheConnect.checkStatus(vin: vin, remoteCommand: remoteCommand).status?.status
+          }
+
+          if lastStatus == "SUCCESS" {
+            print("Command succeeded")
+          } else if let lastStatus {
+            print("Command failed with status: \(lastStatus)")
+          }
+
+          if let lastActions = try await porscheConnect.lockUnlockLastActions(vin: vin).lastActions {
+            printLastActions(lastActions)
+          }
         }
         Porsche.Lock.exit()
       } catch {
@@ -46,6 +65,19 @@ extension Porsche {
         NSLocalizedString(
           "Remote command \"Lock\" accepted by Porsche API with ID \(remoteCommandAccepted.identifier!)",
           comment: ""))
+    }
+
+    private func printLastActions(_ lastActions: LockUnlockLastActions) {
+      print("""
+Final status:
+- frontLeft: \(lastActions.doors.frontLeft)
+- frontRight: \(lastActions.doors.frontRight)
+- backLeft: \(lastActions.doors.backLeft)
+- backRight: \(lastActions.doors.backRight)
+- frontTrunk: \(lastActions.doors.frontTrunk)
+- backTrunk: \(lastActions.doors.backTrunk)
+- overallLockStatus: \(lastActions.doors.overallLockStatus)
+""")
     }
   }
 }
