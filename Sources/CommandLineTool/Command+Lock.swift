@@ -35,19 +35,21 @@ extension Porsche {
         if let remoteCommand = result.remoteCommandAccepted {
           printRemoteCommandAccepted(remoteCommand)
 
-          var lastStatus = try await porscheConnect.checkStatus(vin: vin, remoteCommand: remoteCommand).status?.status
-          while lastStatus == "IN_PROGRESS" {
+          var lastStatus = try await porscheConnect.checkStatus(vin: vin, remoteCommand: remoteCommand).status?.remoteStatus
+          while lastStatus == .inProgress {
             // Avoid excessive API calls.
             try await Task.sleep(nanoseconds: UInt64(0.5 * Double(NSEC_PER_SEC)))
 
-            print("Waiting for completion of command...")
-            lastStatus = try await porscheConnect.checkStatus(vin: vin, remoteCommand: remoteCommand).status?.status
+            print(NSLocalizedString("Waiting for completion of command...", comment: ""))
+            lastStatus = try await porscheConnect.checkStatus(vin: vin, remoteCommand: remoteCommand).status?.remoteStatus
           }
 
-          if lastStatus == "SUCCESS" {
-            print("Command succeeded")
+          if lastStatus == .success {
+            print(NSLocalizedString("Command succeeded", comment: ""))
           } else if let lastStatus {
-            print("Command failed with status: \(lastStatus)")
+            print(String.localizedStringWithFormat(
+              NSLocalizedString("Command failed with status: %@", comment: ""),
+              lastStatus.rawValue))
           }
 
           if let lastActions = try await porscheConnect.lockUnlockLastActions(vin: vin).lastActions {
