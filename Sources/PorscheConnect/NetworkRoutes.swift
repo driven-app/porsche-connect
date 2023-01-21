@@ -121,6 +121,13 @@ struct NetworkRoutes {
     )!
   }
 
+  func vehicleLockUnlockLastActionsURL(vin: String) -> URL {
+    return URL(
+      string:
+        "\(host("https://api.porsche.com"))/service-vehicle/remote-lock-unlock/\(vin)/last-actions"
+    )!
+  }
+
   func vehicleLockUnlockRemoteCommandStatusURL(
     vin: String, remoteCommand: RemoteCommandAccepted
   ) -> URL {
