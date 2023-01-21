@@ -72,11 +72,11 @@ public enum SupportedLocale: String, CaseIterable {
   case unitedStates = "en_US"
 
   public static var `default`: Locale {
-    // If no locale was provided, try to use the user's current locale.
+    // Try to use the user's current locale.
     if let currentLocale = SupportedLocale(rawValue: Locale.current.identifier) {
       return Locale(identifier: currentLocale.rawValue)
     }
-    // If the system locale wasn't supported at all, fall back to Germany.
+    // If the current locale wasn't supported, fall back to Germany.
     return Locale(identifier: SupportedLocale.germany.rawValue)
   }
 }
