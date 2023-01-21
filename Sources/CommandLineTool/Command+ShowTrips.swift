@@ -56,8 +56,9 @@ extension Porsche {
     }
     
     private func printTrip(_ trip: Trip, at index: Int) {
+      let timestampFormatter = TimestampFormatter()
       let output = NSLocalizedString(
-        "#\(index+1) => Trip ID: \(trip.id); Timestamp: \(TimestampFormatter(timestamp: trip.timestamp).formatted()); Distance: \(trip.tripMileage.valueInKilometers) km; Average speed: \(trip.averageSpeed.valueInKmh) km/h; EV consumption: \(trip.averageElectricEngineConsumption.valueKwhPer100Km) kWh/100km",
+        "#\(index+1) => Trip ID: \(trip.id); Timestamp: \(timestampFormatter.formatted(from: trip.timestamp)!); Distance: \(trip.tripMileage.valueInKilometers) km; Average speed: \(trip.averageSpeed.valueInKmh) km/h; EV consumption: \(trip.averageElectricEngineConsumption.valueKwhPer100Km) kWh/100km",
         comment: "") //TODO: Implement locales for units
       print(output)
     }
