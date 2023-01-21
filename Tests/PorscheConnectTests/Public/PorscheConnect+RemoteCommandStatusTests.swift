@@ -10,7 +10,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
   var connect: PorscheConnect!
   let mockNetworkRoutes = MockNetworkRoutes()
   let application: OAuthApplication = .carControl
-  let vehicle = Vehicle(vin: "A1234")
+  let vin = "A1234"
 
   // MARK: - Lifecycle
 
@@ -38,7 +38,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
 
     await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
 
-    let result = try! await connect.checkStatus(vehicle: vehicle, remoteCommand: remoteCommand)
+    let result = try! await connect.checkStatus(vin: vin, remoteCommand: remoteCommand)
 
     expectation.fulfill()
     XCTAssertNotNil(result)
@@ -60,7 +60,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
 
     await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
 
-    let result = try! await connect.checkStatus(vehicle: vehicle, remoteCommand: remoteCommand)
+    let result = try! await connect.checkStatus(vin: vin, remoteCommand: remoteCommand)
 
     expectation.fulfill()
     XCTAssertNotNil(result)
@@ -82,7 +82,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
 
     await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
 
-    let result = try! await connect.checkStatus(vehicle: vehicle, remoteCommand: remoteCommand)
+    let result = try! await connect.checkStatus(vin: vin, remoteCommand: remoteCommand)
 
     expectation.fulfill()
     XCTAssertNotNil(result)
@@ -108,7 +108,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
 
     await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
 
-    let result = try! await connect.checkStatus(vehicle: vehicle, remoteCommand: remoteCommand)
+    let result = try! await connect.checkStatus(vin: vin, remoteCommand: remoteCommand)
 
     expectation.fulfill()
     XCTAssertNotNil(result)
@@ -130,7 +130,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
 
     await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
 
-    let result = try! await connect.checkStatus(vehicle: vehicle, remoteCommand: remoteCommand)
+    let result = try! await connect.checkStatus(vin: vin, remoteCommand: remoteCommand)
 
     expectation.fulfill()
     XCTAssertNotNil(result)
@@ -152,7 +152,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
 
     await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
 
-    let result = try! await connect.checkStatus(vehicle: vehicle, remoteCommand: remoteCommand)
+    let result = try! await connect.checkStatus(vin: vin, remoteCommand: remoteCommand)
 
     expectation.fulfill()
     XCTAssertNotNil(result)
@@ -178,7 +178,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
 
     await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
 
-    let result = try! await connect.checkStatus(vehicle: vehicle, remoteCommand: remoteCommand)
+    let result = try! await connect.checkStatus(vin: vin, remoteCommand: remoteCommand)
 
     expectation.fulfill()
     XCTAssertNotNil(result)
@@ -200,7 +200,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
 
     await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
 
-    let result = try! await connect.checkStatus(vehicle: vehicle, remoteCommand: remoteCommand)
+    let result = try! await connect.checkStatus(vin: vin, remoteCommand: remoteCommand)
 
     expectation.fulfill()
     XCTAssertNotNil(result)
@@ -222,7 +222,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
 
     await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
 
-    let result = try! await connect.checkStatus(vehicle: vehicle, remoteCommand: remoteCommand)
+    let result = try! await connect.checkStatus(vin: vin, remoteCommand: remoteCommand)
 
     expectation.fulfill()
     XCTAssertNotNil(result)
@@ -248,7 +248,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
 
     await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
 
-    let result = try! await connect.checkStatus(vehicle: vehicle, remoteCommand: remoteCommand)
+    let result = try! await connect.checkStatus(vin: vin, remoteCommand: remoteCommand)
 
     expectation.fulfill()
     XCTAssertNotNil(result)
@@ -270,7 +270,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
 
     await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
 
-    let result = try! await connect.checkStatus(vehicle: vehicle, remoteCommand: remoteCommand)
+    let result = try! await connect.checkStatus(vin: vin, remoteCommand: remoteCommand)
 
     expectation.fulfill()
     XCTAssertNotNil(result)
@@ -292,7 +292,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
 
     await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
 
-    let result = try! await connect.checkStatus(vehicle: vehicle, remoteCommand: remoteCommand)
+    let result = try! await connect.checkStatus(vin: vin, remoteCommand: remoteCommand)
 
     expectation.fulfill()
     XCTAssertNotNil(result)
@@ -318,7 +318,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
 
     await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
 
-    let result = try! await connect.checkStatus(vehicle: vehicle, remoteCommand: remoteCommand)
+    let result = try! await connect.checkStatus(vin: vin, remoteCommand: remoteCommand)
 
     expectation.fulfill()
     XCTAssertNotNil(result)
@@ -340,7 +340,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
 
     await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
 
-    let result = try! await connect.checkStatus(vehicle: vehicle, remoteCommand: remoteCommand)
+    let result = try! await connect.checkStatus(vin: vin, remoteCommand: remoteCommand)
 
     expectation.fulfill()
     XCTAssertNotNil(result)
@@ -362,7 +362,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
 
     await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
 
-    let result = try! await connect.checkStatus(vehicle: vehicle, remoteCommand: remoteCommand)
+    let result = try! await connect.checkStatus(vin: vin, remoteCommand: remoteCommand)
 
     expectation.fulfill()
     XCTAssertNotNil(result)
