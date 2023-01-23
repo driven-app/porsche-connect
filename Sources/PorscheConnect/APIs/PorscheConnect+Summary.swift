@@ -12,3 +12,13 @@ extension PorscheConnect {
     return (summary: result.data, response: result.response)
   }
 }
+
+// MARK: - Response types
+
+public struct Summary: Codable {
+
+  // MARK: Properties
+
+  public let modelDescription: String
+  public let nickName: String?
+}

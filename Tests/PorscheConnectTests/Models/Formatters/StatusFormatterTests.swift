@@ -64,11 +64,11 @@ private let templateStatus = Status(
     unit: "PERCENT",
     unitTranslationKey: "GRAY_SLICE_UNIT_PERCENT",
     unitTranslationKeyV2: "TC.UNIT.PERCENT"),
-  mileage: Status.Distance(
+  mileage: Distance(
     value: 2195,
-    unit: "KILOMETERS",
+    unit: .kilometers,
     originalValue: 2195,
-    originalUnit: "KILOMETERS",
+    originalUnit: .kilometers,
     valueInKilometers: 2195,
     unitTranslationKey: "GRAY_SLICE_UNIT_KILOMETER",
     unitTranslationKeyV2: "TC.UNIT.KILOMETER"),
@@ -76,11 +76,11 @@ private let templateStatus = Status(
   serviceIntervals: Status.ServiceIntervals(
     oilService: Status.ServiceIntervals.OilService(),
     inspection: Status.ServiceIntervals.Inspection(
-      distance: Status.Distance(
+      distance: Distance(
         value: -27842,
-        unit: "KILOMETERS",
+        unit: .kilometers,
         originalValue: -27842,
-        originalUnit: "KILOMETERS",
+        originalUnit: .kilometers,
         valueInKilometers: -27842,
         unitTranslationKey: "GRAY_SLICE_UNIT_KILOMETER",
         unitTranslationKeyV2: "TC.UNIT.KILOMETER"
@@ -99,11 +99,11 @@ private let templateStatus = Status(
       engineType: "UNSUPPORTED"
     ),
     electricalRange: Status.RemainingRanges.Range(
-      distance: Status.Distance(
+      distance: Distance(
         value: 294,
-        unit: "KILOMETERS",
+        unit: .kilometers,
         originalValue: 294,
-        originalUnit: "KILOMETERS",
+        originalUnit: .kilometers,
         valueInKilometers: 294,
         unitTranslationKey: "GRAY_SLICE_UNIT_KILOMETER",
         unitTranslationKeyV2: "TC.UNIT.KILOMETER"

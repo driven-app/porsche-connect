@@ -20,21 +20,21 @@ final class TripTests: XCTestCase {
     
     let averageSpeed = trip.averageSpeed
     XCTAssertEqual(11, averageSpeed.value)
-    XCTAssertEqual(SpeedUnit.kmh, averageSpeed.unit)
+    XCTAssertEqual(Speed.Unit.kmh, averageSpeed.unit)
     XCTAssertEqual(11, averageSpeed.valueInKmh)
     XCTAssertEqual("TC.UNIT.KMH", averageSpeed.unitTranslationKeyV2)
     XCTAssertEqual("GRAY_SLICE_UNIT_KMH", averageSpeed.unitTranslationKey)
     
     let averageFuelConsumption = trip.averageFuelConsumption
     XCTAssertEqual(0, averageFuelConsumption.value)
-    XCTAssertEqual(Trip.AverageFuelConsumption.FuelConsumptionUnit.litersPer100Km, averageFuelConsumption.unit)
+    XCTAssertEqual(FuelConsumption.Unit.litersPer100Km, averageFuelConsumption.unit)
     XCTAssertEqual(0, averageFuelConsumption.valueInLitersPer100Km)
     XCTAssertEqual("TC.UNIT.LITERS_PER_100_KM", averageFuelConsumption.unitTranslationKeyV2)
     XCTAssertEqual("GRAY_SLICE_UNIT_LITERS_PER_100_KM", averageFuelConsumption.unitTranslationKey)
     
     let averageElectricEngineConsumption = trip.averageElectricEngineConsumption
     XCTAssertEqual(39.6, averageElectricEngineConsumption.value)
-    XCTAssertEqual(Trip.AverageElectricEngineConsumption.ElectricConsumptionUnit.kilowattHoursPer100Km, averageElectricEngineConsumption.unit)
+    XCTAssertEqual(ElectricEngineConsumption.Unit.kilowattHoursPer100Km, averageElectricEngineConsumption.unit)
     XCTAssertEqual(39.6, averageElectricEngineConsumption.valueKwhPer100Km)
     XCTAssertEqual("TC.UNIT.KWH_PER_100KM", averageElectricEngineConsumption.unitTranslationKeyV2)
     XCTAssertEqual("GRAY_SLICE_UNIT_KWH_PER_100KM", averageElectricEngineConsumption.unitTranslationKey)
@@ -43,8 +43,8 @@ final class TripTests: XCTestCase {
     XCTAssertEqual(6, tripMileage.value)
     XCTAssertEqual(6, tripMileage.originalValue)
     XCTAssertEqual(6, tripMileage.valueInKilometers)
-    XCTAssertEqual(DistanceUnit.kilometers, tripMileage.unit)
-    XCTAssertEqual(DistanceUnit.kilometers, tripMileage.originalUnit)
+    XCTAssertEqual(Distance.Unit.kilometers, tripMileage.unit)
+    XCTAssertEqual(Distance.Unit.kilometers, tripMileage.originalUnit)
     XCTAssertEqual("TC.UNIT.KILOMETER", tripMileage.unitTranslationKeyV2)
     XCTAssertEqual("GRAY_SLICE_UNIT_KILOMETER", tripMileage.unitTranslationKey)
     
@@ -52,8 +52,8 @@ final class TripTests: XCTestCase {
     XCTAssertEqual(1442, startMileage.value)
     XCTAssertEqual(1442, startMileage.originalValue)
     XCTAssertEqual(1442, startMileage.valueInKilometers)
-    XCTAssertEqual(DistanceUnit.kilometers, startMileage.unit)
-    XCTAssertEqual(DistanceUnit.kilometers, startMileage.originalUnit)
+    XCTAssertEqual(Distance.Unit.kilometers, startMileage.unit)
+    XCTAssertEqual(Distance.Unit.kilometers, startMileage.originalUnit)
     XCTAssertEqual("TC.UNIT.KILOMETER", startMileage.unitTranslationKeyV2)
     XCTAssertEqual("GRAY_SLICE_UNIT_KILOMETER", startMileage.unitTranslationKey)
     
@@ -61,8 +61,8 @@ final class TripTests: XCTestCase {
     XCTAssertEqual(1448, endMileage.value)
     XCTAssertEqual(1448, endMileage.originalValue)
     XCTAssertEqual(1448, endMileage.valueInKilometers)
-    XCTAssertEqual(DistanceUnit.kilometers, endMileage.unit)
-    XCTAssertEqual(DistanceUnit.kilometers, endMileage.originalUnit)
+    XCTAssertEqual(Distance.Unit.kilometers, endMileage.unit)
+    XCTAssertEqual(Distance.Unit.kilometers, endMileage.originalUnit)
     XCTAssertEqual("TC.UNIT.KILOMETER", endMileage.unitTranslationKeyV2)
     XCTAssertEqual("GRAY_SLICE_UNIT_KILOMETER", endMileage.unitTranslationKey)
     
@@ -70,8 +70,8 @@ final class TripTests: XCTestCase {
     XCTAssertEqual(6, zeroEmissionDistance.value)
     XCTAssertEqual(6, zeroEmissionDistance.originalValue)
     XCTAssertEqual(6, zeroEmissionDistance.valueInKilometers)
-    XCTAssertEqual(DistanceUnit.kilometers, zeroEmissionDistance.unit)
-    XCTAssertEqual(DistanceUnit.kilometers, zeroEmissionDistance.originalUnit)
+    XCTAssertEqual(Distance.Unit.kilometers, zeroEmissionDistance.unit)
+    XCTAssertEqual(Distance.Unit.kilometers, zeroEmissionDistance.originalUnit)
     XCTAssertEqual("TC.UNIT.KILOMETER", zeroEmissionDistance.unitTranslationKeyV2)
     XCTAssertEqual("GRAY_SLICE_UNIT_KILOMETER", zeroEmissionDistance.unitTranslationKey)
   }
@@ -90,21 +90,21 @@ final class TripTests: XCTestCase {
     
     let averageSpeed = trip.averageSpeed
     XCTAssertEqual(44.11735, averageSpeed.value)
-    XCTAssertEqual(SpeedUnit.mph, averageSpeed.unit)
+    XCTAssertEqual(Speed.Unit.mph, averageSpeed.unit)
     XCTAssertEqual(70.99999, averageSpeed.valueInKmh)
     XCTAssertEqual("TC.UNIT.MPH", averageSpeed.unitTranslationKeyV2)
     XCTAssertEqual("GRAY_SLICE_UNIT_MPH", averageSpeed.unitTranslationKey)
     
     let averageFuelConsumption = trip.averageFuelConsumption
     XCTAssertEqual(0, averageFuelConsumption.value)
-    XCTAssertEqual(Trip.AverageFuelConsumption.FuelConsumptionUnit.milesPerUSGallon, averageFuelConsumption.unit)
+    XCTAssertEqual(FuelConsumption.Unit.milesPerUSGallon, averageFuelConsumption.unit)
     XCTAssertEqual(0, averageFuelConsumption.valueInLitersPer100Km)
     XCTAssertEqual("TC.UNIT.MILES_PER_GALLON_US", averageFuelConsumption.unitTranslationKeyV2)
     XCTAssertEqual("GRAY_SLICE_UNIT_MILES_PER_GALLON_US", averageFuelConsumption.unitTranslationKey)
     
     let averageElectricEngineConsumption = trip.averageElectricEngineConsumption
     XCTAssertEqual(0.3250875, averageElectricEngineConsumption.value)
-    XCTAssertEqual(Trip.AverageElectricEngineConsumption.ElectricConsumptionUnit.kilowattHourPerMile, averageElectricEngineConsumption.unit)
+    XCTAssertEqual(ElectricEngineConsumption.Unit.kilowattHourPerMile, averageElectricEngineConsumption.unit)
     XCTAssertEqual(20.2, averageElectricEngineConsumption.valueKwhPer100Km)
     XCTAssertEqual("TC.UNIT.KWH_PER_MILE", averageElectricEngineConsumption.unitTranslationKeyV2)
     XCTAssertEqual("GRAY_SLICE_UNIT_KWH_PER_MILE", averageElectricEngineConsumption.unitTranslationKey)
@@ -113,8 +113,8 @@ final class TripTests: XCTestCase {
     XCTAssertEqual(17.39839, tripMileage.value)
     XCTAssertEqual(28, tripMileage.originalValue)
     XCTAssertEqual(28, tripMileage.valueInKilometers)
-    XCTAssertEqual(DistanceUnit.miles, tripMileage.unit)
-    XCTAssertEqual(DistanceUnit.kilometers, tripMileage.originalUnit)
+    XCTAssertEqual(Distance.Unit.miles, tripMileage.unit)
+    XCTAssertEqual(Distance.Unit.kilometers, tripMileage.originalUnit)
     XCTAssertEqual("TC.UNIT.MILES", tripMileage.unitTranslationKeyV2)
     XCTAssertEqual("GRAY_SLICE_UNIT_MILES", tripMileage.unitTranslationKey)
     
@@ -122,8 +122,8 @@ final class TripTests: XCTestCase {
     XCTAssertEqual(14781.8, startMileage.value)
     XCTAssertEqual(23789.0, startMileage.originalValue)
     XCTAssertEqual(23789.0, startMileage.valueInKilometers)
-    XCTAssertEqual(DistanceUnit.miles, startMileage.unit)
-    XCTAssertEqual(DistanceUnit.kilometers, startMileage.originalUnit)
+    XCTAssertEqual(Distance.Unit.miles, startMileage.unit)
+    XCTAssertEqual(Distance.Unit.kilometers, startMileage.originalUnit)
     XCTAssertEqual("TC.UNIT.MILES", startMileage.unitTranslationKeyV2)
     XCTAssertEqual("GRAY_SLICE_UNIT_MILES", startMileage.unitTranslationKey)
     
@@ -131,8 +131,8 @@ final class TripTests: XCTestCase {
     XCTAssertEqual(14799.2, endMileage.value)
     XCTAssertEqual(23817, endMileage.originalValue)
     XCTAssertEqual(23817, endMileage.valueInKilometers)
-    XCTAssertEqual(DistanceUnit.miles, endMileage.unit)
-    XCTAssertEqual(DistanceUnit.kilometers, endMileage.originalUnit)
+    XCTAssertEqual(Distance.Unit.miles, endMileage.unit)
+    XCTAssertEqual(Distance.Unit.kilometers, endMileage.originalUnit)
     XCTAssertEqual("TC.UNIT.MILES", endMileage.unitTranslationKeyV2)
     XCTAssertEqual("GRAY_SLICE_UNIT_MILES", endMileage.unitTranslationKey)
     
@@ -140,8 +140,8 @@ final class TripTests: XCTestCase {
     XCTAssertEqual(17.39839, zeroEmissionDistance.value)
     XCTAssertEqual(28, zeroEmissionDistance.originalValue)
     XCTAssertEqual(28, zeroEmissionDistance.valueInKilometers)
-    XCTAssertEqual(DistanceUnit.miles, zeroEmissionDistance.unit)
-    XCTAssertEqual(DistanceUnit.kilometers, zeroEmissionDistance.originalUnit)
+    XCTAssertEqual(Distance.Unit.miles, zeroEmissionDistance.unit)
+    XCTAssertEqual(Distance.Unit.kilometers, zeroEmissionDistance.originalUnit)
     XCTAssertEqual("TC.UNIT.MILES", zeroEmissionDistance.unitTranslationKeyV2)
     XCTAssertEqual("GRAY_SLICE_UNIT_MILES", zeroEmissionDistance.unitTranslationKey)
   }
@@ -160,21 +160,21 @@ final class TripTests: XCTestCase {
     
     let averageSpeed = trip.averageSpeed
     XCTAssertEqual(39, averageSpeed.value)
-    XCTAssertEqual(SpeedUnit.kmh, averageSpeed.unit)
+    XCTAssertEqual(Speed.Unit.kmh, averageSpeed.unit)
     XCTAssertEqual(39, averageSpeed.valueInKmh)
     XCTAssertEqual("TC.UNIT.KMH", averageSpeed.unitTranslationKeyV2)
     XCTAssertEqual("GRAY_SLICE_UNIT_KMH", averageSpeed.unitTranslationKey)
     
     let averageFuelConsumption = trip.averageFuelConsumption
     XCTAssertEqual(0, averageFuelConsumption.value)
-    XCTAssertEqual(Trip.AverageFuelConsumption.FuelConsumptionUnit.litersPer100Km, averageFuelConsumption.unit)
+    XCTAssertEqual(FuelConsumption.Unit.litersPer100Km, averageFuelConsumption.unit)
     XCTAssertEqual(0, averageFuelConsumption.valueInLitersPer100Km)
     XCTAssertEqual("TC.UNIT.LITERS_PER_100_KM", averageFuelConsumption.unitTranslationKeyV2)
     XCTAssertEqual("GRAY_SLICE_UNIT_LITERS_PER_100_KM", averageFuelConsumption.unitTranslationKey)
     
     let averageElectricEngineConsumption = trip.averageElectricEngineConsumption
     XCTAssertEqual(29.9, averageElectricEngineConsumption.value)
-    XCTAssertEqual(Trip.AverageElectricEngineConsumption.ElectricConsumptionUnit.kilowattHoursPer100Km, averageElectricEngineConsumption.unit)
+    XCTAssertEqual(ElectricEngineConsumption.Unit.kilowattHoursPer100Km, averageElectricEngineConsumption.unit)
     XCTAssertEqual(29.9, averageElectricEngineConsumption.valueKwhPer100Km)
     XCTAssertEqual("TC.UNIT.KWH_PER_100KM", averageElectricEngineConsumption.unitTranslationKeyV2)
     XCTAssertEqual("GRAY_SLICE_UNIT_KWH_PER_100KM", averageElectricEngineConsumption.unitTranslationKey)
@@ -183,8 +183,8 @@ final class TripTests: XCTestCase {
     XCTAssertEqual(1448, tripMileage.value)
     XCTAssertEqual(1448, tripMileage.originalValue)
     XCTAssertEqual(1448, tripMileage.valueInKilometers)
-    XCTAssertEqual(DistanceUnit.kilometers, tripMileage.unit)
-    XCTAssertEqual(DistanceUnit.kilometers, tripMileage.originalUnit)
+    XCTAssertEqual(Distance.Unit.kilometers, tripMileage.unit)
+    XCTAssertEqual(Distance.Unit.kilometers, tripMileage.originalUnit)
     XCTAssertEqual("TC.UNIT.KILOMETER", tripMileage.unitTranslationKeyV2)
     XCTAssertEqual("GRAY_SLICE_UNIT_KILOMETER", tripMileage.unitTranslationKey)
     
@@ -192,8 +192,8 @@ final class TripTests: XCTestCase {
     XCTAssertEqual(-1, startMileage.value)
     XCTAssertEqual(-1, startMileage.originalValue)
     XCTAssertEqual(-1, startMileage.valueInKilometers)
-    XCTAssertEqual(DistanceUnit.kilometers, startMileage.unit)
-    XCTAssertEqual(DistanceUnit.kilometers, startMileage.originalUnit)
+    XCTAssertEqual(Distance.Unit.kilometers, startMileage.unit)
+    XCTAssertEqual(Distance.Unit.kilometers, startMileage.originalUnit)
     XCTAssertEqual("TC.UNIT.KILOMETER", startMileage.unitTranslationKeyV2)
     XCTAssertEqual("GRAY_SLICE_UNIT_KILOMETER", startMileage.unitTranslationKey)
     
@@ -201,8 +201,8 @@ final class TripTests: XCTestCase {
     XCTAssertEqual(1448, endMileage.value)
     XCTAssertEqual(1448, endMileage.originalValue)
     XCTAssertEqual(1448, endMileage.valueInKilometers)
-    XCTAssertEqual(DistanceUnit.kilometers, endMileage.unit)
-    XCTAssertEqual(DistanceUnit.kilometers, endMileage.originalUnit)
+    XCTAssertEqual(Distance.Unit.kilometers, endMileage.unit)
+    XCTAssertEqual(Distance.Unit.kilometers, endMileage.originalUnit)
     XCTAssertEqual("TC.UNIT.KILOMETER", endMileage.unitTranslationKeyV2)
     XCTAssertEqual("GRAY_SLICE_UNIT_KILOMETER", endMileage.unitTranslationKey)
     
@@ -210,8 +210,8 @@ final class TripTests: XCTestCase {
     XCTAssertEqual(1448, zeroEmissionDistance.value)
     XCTAssertEqual(1448, zeroEmissionDistance.originalValue)
     XCTAssertEqual(1448, zeroEmissionDistance.valueInKilometers)
-    XCTAssertEqual(DistanceUnit.kilometers, zeroEmissionDistance.unit)
-    XCTAssertEqual(DistanceUnit.kilometers, zeroEmissionDistance.originalUnit)
+    XCTAssertEqual(Distance.Unit.kilometers, zeroEmissionDistance.unit)
+    XCTAssertEqual(Distance.Unit.kilometers, zeroEmissionDistance.originalUnit)
     XCTAssertEqual("TC.UNIT.KILOMETER", zeroEmissionDistance.unitTranslationKeyV2)
     XCTAssertEqual("GRAY_SLICE_UNIT_KILOMETER", zeroEmissionDistance.unitTranslationKey)
   }

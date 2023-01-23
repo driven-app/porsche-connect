@@ -810,13 +810,13 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertEqual(status.batteryLevel.value, 73)
     XCTAssertEqual(status.batteryLevel.unit, "PERCENT")
     XCTAssertEqual(status.mileage.value, 2195)
-    XCTAssertEqual(status.mileage.unit, "KILOMETERS")
+    XCTAssertEqual(status.mileage.unit, .kilometers)
     XCTAssertEqual(status.overallLockStatus, "CLOSED_LOCKED")
     XCTAssertEqual(status.serviceIntervals.inspection.distance.value, -27842)
     XCTAssertEqual(status.serviceIntervals.inspection.time.value, -710)
     XCTAssertEqual(status.remainingRanges.electricalRange.engineType, "ELECTRIC")
     XCTAssertEqual(status.remainingRanges.electricalRange.distance?.value, 294)
-    XCTAssertEqual(status.remainingRanges.electricalRange.distance?.unit, "KILOMETERS")
+    XCTAssertEqual(status.remainingRanges.electricalRange.distance?.unit, .kilometers)
   }
 
   private func assertEmobilityWhenNotCharging(_ emobility: Emobility) {
@@ -840,9 +840,9 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertNotNil(batteryChargeStatus.remainingERange)
     let remainingERange = batteryChargeStatus.remainingERange
     XCTAssertEqual(191, remainingERange.value)
-    XCTAssertEqual("KILOMETER", remainingERange.unit)
+    XCTAssertEqual(.kilometers, remainingERange.unit)
     XCTAssertEqual(191, remainingERange.originalValue)
-    XCTAssertEqual("KILOMETER", remainingERange.originalUnit)
+    XCTAssertEqual(.kilometers, remainingERange.originalUnit)
     XCTAssertEqual(191, remainingERange.valueInKilometers)
     XCTAssertEqual("GRAY_SLICE_UNIT_KILOMETER", remainingERange.unitTranslationKey)
 
@@ -966,9 +966,9 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertNotNil(batteryChargeStatus.remainingERange)
     let remainingERange = batteryChargeStatus.remainingERange
     XCTAssertEqual(191, remainingERange.value)
-    XCTAssertEqual("KILOMETER", remainingERange.unit)
+    XCTAssertEqual(.kilometers, remainingERange.unit)
     XCTAssertEqual(191, remainingERange.originalValue)
-    XCTAssertEqual("KILOMETER", remainingERange.originalUnit)
+    XCTAssertEqual(.kilometers, remainingERange.originalUnit)
     XCTAssertEqual(191, remainingERange.valueInKilometers)
     XCTAssertEqual("GRAY_SLICE_UNIT_KILOMETER", remainingERange.unitTranslationKey)
 
@@ -1092,9 +1092,9 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertNotNil(batteryChargeStatus.remainingERange)
     let remainingERange = batteryChargeStatus.remainingERange
     XCTAssertEqual(191, remainingERange.value)
-    XCTAssertEqual("KILOMETER", remainingERange.unit)
+    XCTAssertEqual(.kilometers, remainingERange.unit)
     XCTAssertEqual(191, remainingERange.originalValue)
-    XCTAssertEqual("KILOMETER", remainingERange.originalUnit)
+    XCTAssertEqual(.kilometers, remainingERange.originalUnit)
     XCTAssertEqual(191, remainingERange.valueInKilometers)
     XCTAssertEqual("GRAY_SLICE_UNIT_KILOMETER", remainingERange.unitTranslationKey)
 
@@ -1218,9 +1218,9 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertNotNil(batteryChargeStatus.remainingERange)
     let remainingERange = batteryChargeStatus.remainingERange
     XCTAssertEqual(191, remainingERange.value)
-    XCTAssertEqual("KILOMETER", remainingERange.unit)
+    XCTAssertEqual(.kilometers, remainingERange.unit)
     XCTAssertEqual(191, remainingERange.originalValue)
-    XCTAssertEqual("KILOMETER", remainingERange.originalUnit)
+    XCTAssertEqual(.kilometers, remainingERange.originalUnit)
     XCTAssertEqual(191, remainingERange.valueInKilometers)
     XCTAssertEqual("GRAY_SLICE_UNIT_KILOMETER", remainingERange.unitTranslationKey)
 
