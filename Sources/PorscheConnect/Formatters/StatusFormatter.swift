@@ -61,7 +61,7 @@ extension StatusFormatter {
     }
   }
 
-  private func formatted(distance: Status.Distance, scalar: Double = 1) -> String {
+  private func formatted(distance: Distance, scalar: Double = 1) -> String {
     let formatter = MeasurementFormatter()
     formatter.locale = locale
     formatter.unitStyle = distanceUnitStyle
@@ -71,12 +71,10 @@ extension StatusFormatter {
     let value = distance.value * scalar
     let unit: UnitLength
     switch distance.unit {
-    case "KILOMETERS":
+    case .kilometers:
       unit = .kilometers
-    case "MILES":
+    case .miles:
       unit = .miles
-    default:
-      return "\(value)"
     }
     return formatter.string(from: Measurement(value: value, unit: unit))
   }

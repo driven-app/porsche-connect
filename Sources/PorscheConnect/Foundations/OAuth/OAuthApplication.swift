@@ -48,7 +48,7 @@ public struct OAuthToken: Codable {
 
   // MARK: Lifecycle
 
-  public init(authResponse: AuthResponse) {
+  init(authResponse: AuthResponse) {
     self.accessToken = authResponse.accessToken
     self.idToken = authResponse.idToken
     self.tokenType = authResponse.tokenType

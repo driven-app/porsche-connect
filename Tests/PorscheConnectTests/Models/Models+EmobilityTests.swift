@@ -30,9 +30,9 @@ final class ModelsEmobilityTests: XCTestCase {
     XCTAssertNotNil(batteryChargeStatus.remainingERange)
     let remainingERange = batteryChargeStatus.remainingERange
     XCTAssertEqual(191, remainingERange.value)
-    XCTAssertEqual("KILOMETER", remainingERange.unit)
+    XCTAssertEqual(.kilometers, remainingERange.unit)
     XCTAssertEqual(191, remainingERange.originalValue)
-    XCTAssertEqual("KILOMETER", remainingERange.originalUnit)
+    XCTAssertEqual(.kilometers, remainingERange.originalUnit)
     XCTAssertEqual(191, remainingERange.valueInKilometers)
     XCTAssertEqual("GRAY_SLICE_UNIT_KILOMETER", remainingERange.unitTranslationKey)
 
