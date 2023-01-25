@@ -15,21 +15,26 @@ public final class DistanceFormatter {
   public var distanceUnitStyle: MeasurementFormatter.UnitStyle = .medium
 
   /// Returns a textual representation of the vehicle's mileage.
-  public func string(from distance: Distance) -> String {
+  public func string(from distance: Distance, scalar: Double = 1) -> String {
     let formatter = MeasurementFormatter()
     formatter.locale = locale
     formatter.unitStyle = distanceUnitStyle
     formatter.unitOptions = []
-    formatter.locale = locale
     formatter.numberFormatter.maximumFractionDigits = 0
-    let value = distance.value
-    let unit: UnitLength
-    switch distance.unit {
+    return formatter.string(from: Measurement(
+      value: distance.value * scalar,
+      unit: distance.unit.asUnitLength
+    ))
+  }
+}
+
+extension Distance.Unit {
+  fileprivate var asUnitLength: UnitLength {
+    switch self {
     case .kilometers:
-      unit = .kilometers
+      return .kilometers
     case .miles:
-      unit = .miles
+      return .miles
     }
-    return formatter.string(from: Measurement(value: value, unit: unit))
   }
 }
