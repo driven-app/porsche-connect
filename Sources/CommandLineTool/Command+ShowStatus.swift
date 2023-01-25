@@ -41,55 +41,24 @@ extension Porsche {
     }
 
     private func printStatus(_ status: Status) {
+      let genericValueFormatter = GenericValueFormatter()
+      let distanceFormatter = DistanceFormatter()
       print(
         NSLocalizedString(
           "Overall lock status: \(formatted(lockStatus: status.overallLockStatus))", comment: ""))
       print(
         NSLocalizedString(
-          "Battery level: \(formatted(genericValue: status.batteryLevel)), Mileage: \(formatted(distance: status.mileage))",
+          "Battery level: \(genericValueFormatter.string(from: status.batteryLevel)), Mileage: \(distanceFormatter.string(from: status.mileage))",
           comment: ""))
       if let electricalRangeDistance = status.remainingRanges.electricalRange.distance {
         print(
           NSLocalizedString(
-            "Remaining range is \(formatted(distance: electricalRangeDistance))", comment: ""))
+            "Remaining range is \(distanceFormatter.string(from: electricalRangeDistance))", comment: ""))
       }
       print(
         NSLocalizedString(
-          "Next inspection in \(formatted(distance: status.serviceIntervals.inspection.distance, scalar: -1)) or on \(formatted(genericValue: status.serviceIntervals.inspection.time, scalar: -1))",
+          "Next inspection in \(distanceFormatter.string(from: status.serviceIntervals.inspection.distance, scalar: -1)) or on \(genericValueFormatter.string(from: status.serviceIntervals.inspection.time, scalar: -1))",
           comment: ""))
-    }
-
-    private func formatted(genericValue: Status.GenericValue, scalar: Double = 1) -> String {
-      let value = Double(genericValue.value) * scalar
-      switch genericValue.unit {
-      case "PERCENT":
-        return "\(value)%"
-      case "DAYS":
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .none
-        formatter.formattingContext = .middleOfSentence
-        let secondsPerDay: Double = 24 * 60 * 60
-        return formatter.string(from: Date(timeIntervalSinceNow: value * secondsPerDay))
-      default:
-        return "\(value) \(genericValue.unit)"
-      }
-    }
-
-    private func formatted(distance: Distance, scalar: Double = 1) -> String {
-      let formatter = MeasurementFormatter()
-      formatter.unitStyle = .long
-      formatter.unitOptions = .providedUnit
-      formatter.locale = Locale.current
-      let value = distance.value * scalar
-      let unit: UnitLength
-      switch distance.unit {
-      case .kilometers:
-        unit = .kilometers
-      case .miles:
-        unit = .miles
-      }
-      return formatter.string(from: Measurement(value: value, unit: unit))
     }
 
     private func formatted(lockStatus: String) -> String {
