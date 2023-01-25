@@ -192,7 +192,7 @@ To get the maintenance status for a vehicle. This call will return a `Maintenanc
 try {
   let result = porscheConnect.maintenance(vin: vehicle.vin)
   if let trips = result.maintenance {
-    // Do something with the maintenance
+    // Do something with maintenance
   }
 } catch {
   // Handle the error
@@ -424,6 +424,7 @@ SUBCOMMANDS:
   show-capabilities
   show-emobility
   show-trips
+  show-maintenance
   flash
   honk-and-flash
   toggle-direct-charging
@@ -501,6 +502,16 @@ $ porsche show-trips <username> <password> <vin> --trip-type <trip-type>
 
 #1 => Trip ID: 1162572771; Timestamp: 8 Jan 2023 at 22:45:35; Distance: 6.0 km; Average speed: 11.0 km/h; EV consumption: 39.6 kWh/100km
 #2 => Trip ID: 1161450482; Timestamp: 7 Jan 2023 at 09:11:00; Distance: 12.0 km; Average speed: 31.0 km/h; EV consumption: 34.9 kWh/100km
+```
+
+To get a list of all maintenance items for the vehicle: 
+
+```bash
+$ porsche show-maintenance <username> <password> <vin>
+
+#1 => Maintenance ID: 0003; Short Description: "Inspection"; Long Description: ""; Criticality: "No maintenance is due at the moment."
+#2 => Maintenance ID: 0005; Short Description: "Brake pads"; Long Description: "Replace brake pads"; Criticality: "No maintenance is due at the moment."
+#3 => Maintenance ID: 0007; Short Description: "Brake fluid"; Long Description: "Replace brake fluid"; Criticality: "No maintenance is due at the moment."
 ```
 
 To flash the indicators of a vehicle:

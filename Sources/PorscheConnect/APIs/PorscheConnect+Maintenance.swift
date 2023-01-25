@@ -18,8 +18,8 @@ public struct Maintenance: Codable {
   
   // MARK: Properties
   
-  let serviceAccess: ServiceAccess
-  let items: [MaintenanceItem]
+  public let serviceAccess: ServiceAccess
+  public let items: [MaintenanceItem]
   
   // MARK: Mappings
   
