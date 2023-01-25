@@ -59,7 +59,7 @@ extension Porsche {
           comment: ""))
     }
 
-    private func formatted(genericValue: Status.GenericValue, scalar: Double = 1) -> String {
+    private func formatted(genericValue: GenericValue, scalar: Double = 1) -> String {
       let value = Double(genericValue.value) * scalar
       switch genericValue.unit {
       case "PERCENT":
