@@ -14,5 +14,6 @@ public struct Doors: Codable {
     case closedAndLocked = "CLOSED_LOCKED"
     case closedAndUnlocked = "CLOSED_UNLOCKED"
     case openAndUnlocked = "OPEN_UNLOCKED"
+    case invalid = "INVALID"
   }
 }
