@@ -191,7 +191,7 @@ To get the maintenance status for a vehicle. This call will return a `Maintenanc
 ```swift
 try {
   let result = porscheConnect.maintenance(vin: vehicle.vin)
-  if let trips = result.maintenance {
+  if let maintenance = result.maintenance {
     // Do something with maintenance
   }
 } catch {
