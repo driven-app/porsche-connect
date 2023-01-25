@@ -73,7 +73,7 @@ public struct Emobility: Codable {
     public let remainingChargeTimeUntil100PercentInMinutes: Int?
     public let remainingERange: Distance
     public let remainingCRange: String?  // TBD while charging
-    public let chargingTargetDateTime: String  //2021-02-19T01:09
+    public let chargingTargetDateTime: String?  //2021-02-19T01:09
     public let status: String?  // TBD while charging
     public let chargeRate: ChargeRate
     public let chargingPower: Double
@@ -113,7 +113,7 @@ public struct Emobility: Codable {
     /// Can be any of:
     /// - `OFF`
     public let climatisationState: String
-    public let remainingClimatisationTime: String?  // TBD when set
+    public let remainingClimatisationTime: Int?  // TBD when set
     public let targetTemperature: String?
     /// Can be any of:
     /// - `false`
