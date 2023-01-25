@@ -121,6 +121,11 @@ final class NetworkRoutesTests: XCTestCase {
         string: "https://api.porsche.com/service-vehicle/de/de_DE/trips/12345X/LONG_TERM"),
       networkRoute.vehicleLongTermTripsURL(
         vin: vin))
+    XCTAssertEqual(
+      URL(
+        string: "https://api.porsche.com/predictive-maintenance/information/12345X"),
+      networkRoute.vehicleMaintenanceURL(
+        vin: vin))
   }
 
   func testNetworkRoutesTest() {
@@ -260,6 +265,11 @@ final class NetworkRoutesTests: XCTestCase {
       URL(
         string: "http://localhost:\(kTestServerPort)/service-vehicle/ie/en_IE/trips/12345X/LONG_TERM"),
       networkRoute.vehicleLongTermTripsURL(
+        vin: vin))
+    XCTAssertEqual(
+      URL(
+        string: "http://localhost:\(kTestServerPort)/predictive-maintenance/information/12345X"),
+      networkRoute.vehicleMaintenanceURL(
         vin: vin))
   }
 }

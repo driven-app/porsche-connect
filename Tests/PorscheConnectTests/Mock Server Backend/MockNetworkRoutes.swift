@@ -15,6 +15,7 @@ final class MockNetworkRoutes {
   private static let getEmobilityPath = "/e-mobility/ie/en_IE/J1/A1234"
   private static let getShortTermTripsPath = "/service-vehicle/ie/en_IE/trips/A1234/SHORT_TERM"
   private static let getLongTermTripsPath = "/service-vehicle/ie/en_IE/trips/A1234/LONG_TERM"
+  private static let getMaintenancePath = "/predictive-maintenance/information/A1234"
 
   private static let getHonkAndFlashRemoteCommandStatusPath =
     "/service-vehicle/honk-and-flash/A1234/999/status"
@@ -299,7 +300,7 @@ final class MockNetworkRoutes {
 
   func mockGetShortTermTripsSuccessful(router: Router) {
     router[MockNetworkRoutes.getShortTermTripsPath] = JSONResponse(statusCode: 200) { _ -> Any in
-      return self.mockShortTermTripResponse(mockedResponse: kShortTermTripsInMetricJson)
+      return self.mockArrayResponse(mockedResponse: kShortTermTripsInMetricJson)
     }
   }
   
@@ -312,12 +313,25 @@ final class MockNetworkRoutes {
 
   func mockGetLongTermTripsSuccessful(router: Router) {
     router[MockNetworkRoutes.getLongTermTripsPath] = JSONResponse(statusCode: 200) { _ -> Any in
-      return self.mockShortTermTripResponse(mockedResponse: kLongTermTripsInMetricJson)
+      return self.mockArrayResponse(mockedResponse: kLongTermTripsInMetricJson)
     }
   }
   
   func mockGetLongTermTripsFailure(router: Router) {
     router[MockNetworkRoutes.getLongTermTripsPath] = DataResponse(
+      statusCode: 400, statusMessage: "bad request")
+  }
+  
+  // MARK: – Maintenance
+
+  func mockGetMaintenanceSuccessful(router: Router) {
+    router[MockNetworkRoutes.getMaintenancePath] = JSONResponse(statusCode: 200) { _ -> Any in
+      return self.mockDictionaryResponse(mockedResponse: kMaintenanceItemsJson)
+    }
+  }
+  
+  func mockGetMaintenanceFailure(router: Router) {
+    router[MockNetworkRoutes.getMaintenancePath] = DataResponse(
       statusCode: 400, statusMessage: "bad request")
   }
 
@@ -601,7 +615,11 @@ final class MockNetworkRoutes {
     ]
   }
   
-  private func mockShortTermTripResponse(mockedResponse: Data) -> [[String: Any]] {
+  private func mockArrayResponse(mockedResponse: Data) -> [[String: Any]] {
     return try! (JSONSerialization.jsonObject(with: mockedResponse, options: []) as! [[String: Any]])
+  }
+  
+  private func mockDictionaryResponse(mockedResponse: Data) -> [String: Any] {
+    return try! (JSONSerialization.jsonObject(with: mockedResponse, options: []) as! [String: Any])
   }
 }

@@ -184,6 +184,21 @@ try {
 }
 ```
 
+### Maintenance
+
+To get the maintenance status for a vehicle. This call will return a `Maintenance` struct which contains a number of maintenance `items`. 
+
+```swift
+try {
+  let result = porscheConnect.maintenance(vin: vehicle.vin)
+  if let trips = result.maintenance {
+    // Do something with the maintenance
+  }
+} catch {
+  // Handle the error
+}
+```
+
 ### Honk and Flash
 
 To ask the vehicle to flash its indicators and optionally honk the horn. This call will return a `RemoteCommandAccepted` struct when the request has been accepted. The `andHorn` paramater is optional and defaults to false.

@@ -151,6 +151,13 @@ struct NetworkRoutes {
     )!
   }
   
+  func vehicleMaintenanceURL(vin: String) -> URL {
+    return URL(
+      string:
+        "\(host("https://api.porsche.com"))/predictive-maintenance/information/\(vin)"
+    )!
+  }
+  
   // MARK: - Private
 
   private func host(_ defaultHost: String) -> String {
