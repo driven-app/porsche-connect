@@ -6,15 +6,21 @@ final class GenericValueFormatterTests: XCTestCase {
 
   var formatter: GenericValueFormatter!
   override func setUp() {
-    formatter = GenericValueFormatter()
+    formatter = GenericValueFormatter(date: DateComponents(calendar: Calendar(identifier: .gregorian),
+                                                           timeZone: .init(abbreviation: "GMT"),
+                                                           year: 2023,
+                                                           month: 1,
+                                                           day: 26,
+                                                           hour: 0,
+                                                           minute: 0,
+                                                           second: 0).date!)
     formatter.timeZone = .init(abbreviation: "GMT")!
-    formatter.defaultDate = DateComponents(calendar: Calendar(identifier: .gregorian), timeZone: .init(abbreviation: "GMT"), year: 2023, month: 1, day: 24, hour: 0, minute: 0, second: 0).date
   }
-
+  
   override func tearDown() {
     formatter = nil
   }
-
+  
   // MARK: - Defaults
 
   func testDefaultLocaleIsCurrent() {
