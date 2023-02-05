@@ -112,11 +112,18 @@ public struct Emobility: Codable {
 
     /// Can be any of:
     /// - `OFF`
+    /// - `ON`
     public let climatisationState: String
-    public let remainingClimatisationTime: Int?  // TBD when set
+    /// Remaining time in number of minutes.
+    public let remainingClimatisationTime: Int?
+    /// Example temperatures:
+    /// - 69 Fahrenheit = 2935
+    /// - 70 Fahrenheit = 2940
+    /// - 80 Fahrenheit = 2990
     public let targetTemperature: String?
     /// Can be any of:
     /// - `false`
+    /// - `true`
     public let climatisationWithoutHVpower: String?
     /// Can be any of:
     /// - `electric`
