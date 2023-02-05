@@ -56,7 +56,7 @@ public struct Vehicle: Codable {
   public struct VehiclePicture: Codable {
     public init(
       url: URL,
-      view: String,
+      view: CameraView,
       size: Int,
       width: Int,
       height: Int,
@@ -75,7 +75,22 @@ public struct Vehicle: Codable {
     // MARK: Properties
 
     public let url: URL
-    public let view: String
+    public enum CameraView: String, Codable {
+      case front = "extcam01"
+      case side = "extcam02"
+      case rear = "extcam03"
+      case topAngled = "extcam04"
+      case overhead = "extcam05"
+      case dashboard = "intcam01"
+      case cabin = "intcam02"
+      case personalized
+      case unknown
+
+      public init(from decoder: Decoder) throws {
+        self = try CameraView(rawValue: decoder.singleValueContainer().decode(RawValue.self)) ?? .unknown
+      }
+    }
+    public let view: CameraView
     public let size: Int
     public let width: Int
     public let height: Int
