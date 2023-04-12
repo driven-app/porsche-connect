@@ -150,7 +150,7 @@ public struct Emobility: Codable {
     public let profileName: String
     public let profileActive: Bool
     public let chargingOptions: ChargingOptions
-    public let position: Position
+    public let position: Position?
 
     // MARK: -
 
