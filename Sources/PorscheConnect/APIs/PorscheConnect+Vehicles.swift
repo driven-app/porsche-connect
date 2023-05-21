@@ -26,7 +26,9 @@ public struct Vehicle: Codable {
   public let exteriorColor: String?
   public let exteriorColorHex: String?
   public let attributes: [VehicleAttribute]?
-  public let pictures: [VehiclePicture]?
+
+  // This property was moved to the PorscheConnect+Pictures endpoint as of May 2023.
+  public let pictures: [Picture]?
 
   // MARK: Computed Properties
 
@@ -51,59 +53,12 @@ public struct Vehicle: Codable {
     public let value: String
   }
 
-  // MARK: -
-
-  public struct VehiclePicture: Codable {
-    public init(
-      url: URL,
-      view: CameraView,
-      size: Int,
-      width: Int,
-      height: Int,
-      transparent: Bool,
-      placeholder: String? = nil
-    ) {
-      self.url = url
-      self.view = view
-      self.size = size
-      self.width = width
-      self.height = height
-      self.transparent = transparent
-      self.placeholder = placeholder
-    }
-
-    // MARK: Properties
-
-    public let url: URL
-    public enum CameraView: String, Codable {
-      case front = "extcam01"
-      case side = "extcam02"
-      case rear = "extcam03"
-      case topAngled = "extcam04"
-      case overhead = "extcam05"
-      case dashboard = "intcam01"
-      case cabin = "intcam02"
-      case personalized
-      case unknown
-
-      public init(from decoder: Decoder) throws {
-        self = try CameraView(rawValue: decoder.singleValueContainer().decode(RawValue.self)) ?? .unknown
-      }
-    }
-    public let view: CameraView
-    public let size: Int
-    public let width: Int
-    public let height: Int
-    public let transparent: Bool
-    public let placeholder: String?
-  }
-
   // MARK: - Public
 
   public init(
     vin: String, modelDescription: String, modelType: String, modelYear: String,
     exteriorColor: String?, exteriorColorHex: String?, attributes: [VehicleAttribute]?,
-    pictures: [VehiclePicture]?
+    pictures: [Picture]?
   ) {
     self.vin = vin
     self.modelDescription = modelDescription
