@@ -33,6 +33,11 @@ struct NetworkRoutes {
       string: "\(host("https://api.porsche.com"))/service-vehicle/vehicle-summary/\(vin)")!
   }
 
+  func vehiclePicturesURL(vin: String) -> URL {
+    return URL(
+      string: "\(host("https://api.porsche.com"))/vehicles/v2/\(environment.countryCode)/\(vin)/pictures")!
+  }
+
   func vehiclePositionURL(vin: String) -> URL {
     return URL(
       string:
