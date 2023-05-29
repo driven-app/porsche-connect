@@ -53,7 +53,7 @@ final class PorscheConnectAuthTests: BaseMockNetworkTestCase {
     XCTAssertEqual("Bearer", portalAuth.tokenType)
     XCTAssertGreaterThan(porscheAuth.expiresAt, Date())
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testRequestTokenFailureAtLoginToRetrieveCookies() async {
@@ -72,7 +72,7 @@ final class PorscheConnectAuthTests: BaseMockNetworkTestCase {
       assertCookiesNotPresent()
     }
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testRequestTokenFailureAtGetApiAuthCode() async {
@@ -91,7 +91,7 @@ final class PorscheConnectAuthTests: BaseMockNetworkTestCase {
       assertCookiesPresent()
     }
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testRequestTokenFailureAtGetApiAuthToken() async {
@@ -111,7 +111,7 @@ final class PorscheConnectAuthTests: BaseMockNetworkTestCase {
       assertCookiesPresent()
     }
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   // MARK: - Private functions

@@ -46,7 +46,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertNotNil(result.summary)
     assertSummary(result.summary!)
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testSummaryNoAuthRequiredSuccessful() async throws {
@@ -63,7 +63,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertNotNil(result.summary)
     assertSummary(result.summary!)
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testSummaryNoAuthRequiredFailure() async throws {
@@ -80,7 +80,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
       XCTAssertEqual(HttpStatusCode.BadRequest, error as! HttpStatusCode)
     }
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testSummaryAuthRequiredAuthFailure() async throws {
@@ -98,7 +98,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
       XCTAssertEqual(PorscheConnectError.AuthFailure, error as! PorscheConnectError)
     }
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   // MARK: - Position Tests
@@ -121,7 +121,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertNotNil(result.position)
     assertPosition(result.position!)
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testPositionNoAuthRequiredSuccessful() async throws {
@@ -137,7 +137,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertNotNil(result.response)
     XCTAssertNotNil(result.position)
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testPositionNoAuthRequiredFailure() async throws {
@@ -154,7 +154,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
       XCTAssertEqual(HttpStatusCode.BadRequest, error as! HttpStatusCode)
     }
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testPositionAuthRequiredAuthFailure() async throws {
@@ -172,7 +172,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
       XCTAssertEqual(PorscheConnectError.AuthFailure, error as! PorscheConnectError)
     }
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   // MARK: - Capabilities Tests
@@ -195,7 +195,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertNotNil(result.capabilities)
     assertCapabilities(result.capabilities!)
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testCapabilitiesNoAuthRequiredSuccessful() async throws {
@@ -212,7 +212,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertNotNil(result.capabilities)
     assertCapabilities(result.capabilities!)
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testCapabilitiesNoAuthRequiredFailure() async throws {
@@ -228,7 +228,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
       XCTAssertEqual(HttpStatusCode.BadRequest, error as! HttpStatusCode)
     }
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testCapabilitiesAuthRequiredAuthFailure() async throws {
@@ -246,7 +246,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
       XCTAssertEqual(PorscheConnectError.AuthFailure, error as! PorscheConnectError)
     }
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   // MARK: - Status Tests
@@ -270,7 +270,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertNotNil(result.status)
     assertStatus(result.status!)
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testStatusAuthRequiredAuthFailure() async throws {
@@ -289,7 +289,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
       XCTAssertEqual(PorscheConnectError.AuthFailure, error as! PorscheConnectError)
     }
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   // MARK: - Emobility Tests
@@ -311,7 +311,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertNotNil(result.emobility)
     assertEmobilityWhenNotCharging(result.emobility!)
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testEmobilityNotChargingNoAuthRequiredSuccessful() async throws {
@@ -327,7 +327,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertNotNil(result.response)
     XCTAssertNotNil(result.emobility)
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testEmobilityACTimerChargingNoAuthRequiredSuccessful() async throws {
@@ -344,7 +344,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertNotNil(result.emobility)
     assertEmobilityWhenACTimerCharging(result.emobility!)
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testEmobilityACDirectChargingNoAuthRequiredSuccessful() async throws {
@@ -361,7 +361,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertNotNil(result.emobility)
     assertEmobilityWhenACDirectCharging(result.emobility!)
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testEmobilityDCChargingNoAuthRequiredSuccessful() async throws {
@@ -378,7 +378,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertNotNil(result.emobility)
     assertEmobilityWhenDCCharging(result.emobility!)
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testEmobilityNoAuthRequiredFailure() async throws {
@@ -395,7 +395,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
       XCTAssertEqual(HttpStatusCode.BadRequest, error as! HttpStatusCode)
     }
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testEmobilityAuthRequiredAuthFailure() async throws {
@@ -414,7 +414,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
       XCTAssertEqual(PorscheConnectError.AuthFailure, error as! PorscheConnectError)
     }
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   // MARK: - Honk and Flash Tests
@@ -439,7 +439,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertEqual(
       RemoteCommandAccepted.RemoteCommand.honkAndFlash, result.remoteCommandAccepted!.remoteCommand)
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testFlashAuthRequiredFailure() async throws {
@@ -461,7 +461,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
       XCTAssertEqual(HttpStatusCode.BadRequest, error as! HttpStatusCode)
     }
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testHonkAndFlashAuthRequiredSuccessful() async throws {
@@ -484,7 +484,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertEqual(
       RemoteCommandAccepted.RemoteCommand.honkAndFlash, result.remoteCommandAccepted!.remoteCommand)
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testHonkAndFlashAuthRequiredFailure() async throws {
@@ -506,7 +506,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
       XCTAssertEqual(HttpStatusCode.BadRequest, error as! HttpStatusCode)
     }
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   // MARK: - Toggle Direct Charging Tests
@@ -533,7 +533,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
       RemoteCommandAccepted.RemoteCommand.toggleDirectCharge,
       result.remoteCommandAccepted!.remoteCommand)
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testToggleDirectChargingOffAuthRequiredSuccessful() async throws {
@@ -558,7 +558,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
       RemoteCommandAccepted.RemoteCommand.toggleDirectCharge,
       result.remoteCommandAccepted!.remoteCommand)
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testToggleDirectChargingOnFailureAuthRequiredSuccessful() async throws {
@@ -580,7 +580,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
       XCTAssertEqual(HttpStatusCode.BadRequest, error as! HttpStatusCode)
     }
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testToggleDirectChargingOffFailureAuthRequired() async throws {
@@ -603,7 +603,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
       XCTAssertEqual(HttpStatusCode.BadRequest, error as! HttpStatusCode)
     }
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   // MARK: - Lock Vehicle
@@ -628,7 +628,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertEqual(
       RemoteCommandAccepted.RemoteCommand.lock, result.remoteCommandAccepted!.remoteCommand)
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testLockVehicleFailureAuthRequired() async throws {
@@ -650,7 +650,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
       XCTAssertEqual(HttpStatusCode.BadRequest, error as! HttpStatusCode)
     }
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   // MARK: - Unlock Vehicle
@@ -675,7 +675,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     XCTAssertEqual(
       RemoteCommandAccepted.RemoteCommand.unlock, result.remoteCommandAccepted!.remoteCommand)
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testUnlockVehicleFailureAuthRequired() async throws {
@@ -697,7 +697,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
       XCTAssertEqual(HttpStatusCode.BadRequest, error as! HttpStatusCode)
     }
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testUnlockVehicleLockedErrorAuthRequired() async throws {
@@ -719,7 +719,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
       XCTAssertEqual(PorscheConnectError.lockedFor60Minutes, error as! PorscheConnectError)
     }
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testUnlockVehicleIncorrectPinErrorAuthRequired() async throws {
@@ -741,7 +741,7 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
       XCTAssertEqual(PorscheConnectError.IncorrectPin, error as! PorscheConnectError)
     }
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   // MARK: - Private functions
