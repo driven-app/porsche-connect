@@ -25,8 +25,8 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
-      - name: Force XCode 14.3
-        run: sudo xcode-select -switch /Applications/Xcode_14.3.app
+      - name: Force XCode 14.2
+        run: sudo xcode-select -switch /Applications/Xcode_14.2.app
       - name: Tests
         run: xcodebuild test -destination "platform=macOS,arch=x86_64" -scheme "PorscheConnect"
         env:
