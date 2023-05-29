@@ -83,10 +83,10 @@ extension PorscheConnect {
       "username": username,
       "password": password,
       "keeploggedin": "false",
-      "sec": "",
-      "resume": "",
-      "thirdPartyId": "",
-      "state": "",
+      "sec": kBlankString,
+      "resume": kBlankString,
+      "thirdPartyId": kBlankString,
+      "state": kBlankString,
     ]
   }
 

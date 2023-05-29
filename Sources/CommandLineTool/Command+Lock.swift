@@ -11,7 +11,7 @@ extension Porsche {
     @OptionGroup()
     var options: Options
 
-    @Argument(help: ArgumentHelp(NSLocalizedString("Your vehicle VIN.", comment: "")))
+    @Argument(help: ArgumentHelp(NSLocalizedString("Your vehicle VIN.", comment: kBlankString)))
     var vin: String
 
     // MARK: - Lifecycle
@@ -40,15 +40,15 @@ extension Porsche {
             // Avoid excessive API calls.
             try await Task.sleep(nanoseconds: UInt64(0.5 * Double(NSEC_PER_SEC)))
 
-            print(NSLocalizedString("Waiting for completion of command...", comment: ""))
+            print(NSLocalizedString("Waiting for completion of command...", comment: kBlankString))
             lastStatus = try await porscheConnect.checkStatus(vin: vin, remoteCommand: remoteCommand).status?.remoteStatus
           }
 
           if lastStatus == .success {
-            print(NSLocalizedString("Command succeeded", comment: ""))
+            print(NSLocalizedString("Command succeeded", comment: kBlankString))
           } else if let lastStatus {
             print(String.localizedStringWithFormat(
-              NSLocalizedString("Command failed with status: %@", comment: ""),
+              NSLocalizedString("Command failed with status: %@", comment: kBlankString),
               lastStatus.rawValue))
           }
 
@@ -66,7 +66,7 @@ extension Porsche {
       print(
         NSLocalizedString(
           "Remote command \"Lock\" accepted by Porsche API with ID \(remoteCommandAccepted.identifier!)",
-          comment: ""))
+          comment: kBlankString))
     }
 
     private func printLastActions(_ lastActions: LockUnlockLastActions) {

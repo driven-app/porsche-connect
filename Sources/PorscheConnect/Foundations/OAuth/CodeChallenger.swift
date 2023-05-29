@@ -30,7 +30,7 @@ struct CodeChallenger {
     let encodedHash = Data(SHA256.hash(data: data)).base64EncodedString()
       .replacingOccurrences(of: "+", with: "-")
       .replacingOccurrences(of: "/", with: "_")
-      .replacingOccurrences(of: "=", with: "")
+      .replacingOccurrences(of: "=", with: kBlankString)
 
     return encodedHash
   }

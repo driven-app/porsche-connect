@@ -15,10 +15,10 @@ extension Porsche {
     @OptionGroup()
     var options: Options
     
-    @Argument(help: ArgumentHelp(NSLocalizedString("Your vehicle VIN.", comment: "")))
+    @Argument(help: ArgumentHelp(NSLocalizedString("Your vehicle VIN.", comment: kBlankString)))
     var vin: String
     
-    @Option(help: ArgumentHelp(NSLocalizedString("Use \"short\" for short term trips, and \"long\" for long term trips.", comment: "")))
+    @Option(help: ArgumentHelp(NSLocalizedString("Use \"short\" for short term trips, and \"long\" for long term trips.", comment: kBlankString)))
     var tripType: TripType = .short
     
     // MARK: - Lifecycle
@@ -59,7 +59,7 @@ extension Porsche {
       let timestampFormatter = TimestampFormatter()
       let output = NSLocalizedString(
         "#\(index+1) => Trip ID: \(trip.id); Timestamp: \(timestampFormatter.formatted(from: trip.timestamp)!); Distance: \(trip.tripMileage.valueInKilometers) km; Average speed: \(trip.averageSpeed.valueInKmh) km/h; EV consumption: \(trip.averageElectricEngineConsumption.valueKwhPer100Km) kWh/100km",
-        comment: "") //TODO: Implement locales for units
+        comment: kBlankString) //TODO: Implement locales for units
       print(output)
     }
   }

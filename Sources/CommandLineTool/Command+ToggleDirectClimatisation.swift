@@ -11,10 +11,10 @@ extension Porsche {
     @OptionGroup()
     var options: Options
 
-    @Argument(help: ArgumentHelp(NSLocalizedString("Your vehicle VIN.", comment: "")))
+    @Argument(help: ArgumentHelp(NSLocalizedString("Your vehicle VIN.", comment: kBlankString)))
     var vin: String
 
-    @Argument(help: ArgumentHelp(NSLocalizedString("Toggle Direct Climatisation on.", comment: "")))
+    @Argument(help: ArgumentHelp(NSLocalizedString("Toggle Direct Climatisation on.", comment: kBlankString)))
     var toggleDirectClimatisationOn: Bool
 
     // MARK: - Lifecycle
@@ -50,7 +50,7 @@ extension Porsche {
       print(
         NSLocalizedString(
           "Remote command \"Toggle Direct Charging\" accepted by Porsche API with ID \(remoteCommandAccepted.identifier!)",
-          comment: ""))
+          comment: kBlankString))
     }
   }
 }

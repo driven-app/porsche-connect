@@ -10,7 +10,7 @@ extension Porsche {
     @OptionGroup()
     var options: Options
 
-    @Argument(help: ArgumentHelp(NSLocalizedString("Your vehicle VIN.", comment: "")))
+    @Argument(help: ArgumentHelp(NSLocalizedString("Your vehicle VIN.", comment: kBlankString)))
     var vin: String
 
     // MARK: - Lifecycle
@@ -43,7 +43,7 @@ extension Porsche {
     private func printSummary(_ summary: Summary) {
       let output = NSLocalizedString(
         "Model Description: \(summary.modelDescription); Nickname: \(summary.nickName ?? "None")",
-        comment: "")
+        comment: kBlankString)
       print(output)
     }
   }
