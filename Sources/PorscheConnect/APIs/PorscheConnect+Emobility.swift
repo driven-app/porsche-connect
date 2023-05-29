@@ -26,7 +26,7 @@ public struct Emobility: Codable {
   public let directClimatisation: DirectClimatisation
   /// Can be any of:
   /// - `INSTANT_CHARGING`
-  public let chargingStatus: String
+  public let chargingStatus: String?
   public let chargingProfiles: ChargingProfiles
   public let climateTimer: String?  // TBD when set
   public let timers: [Timer]?
