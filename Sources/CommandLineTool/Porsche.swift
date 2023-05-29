@@ -14,7 +14,7 @@ extension SupportedLocale: ExpressibleByArgument {
 struct Porsche: AsyncParsableCommand {
   static let configuration = CommandConfiguration(
     abstract: NSLocalizedString(
-      "A command-line tool to call and interact with Porsche Connect services.", comment: ""),
+      "A command-line tool to call and interact with Porsche Connect services.", comment: kBlankString),
     version: "0.1.19",
     subcommands: [
       ListVehicles.self, ShowSummary.self, ShowPosition.self, ShowCapabilities.self,
@@ -25,10 +25,10 @@ struct Porsche: AsyncParsableCommand {
   struct Options: ParsableArguments {
     @Argument(
       help: ArgumentHelp(
-        NSLocalizedString("Your MyPorsche username (registered email).", comment: "")))
+        NSLocalizedString("Your MyPorsche username (registered email).", comment: kBlankString)))
     var username: String
 
-    @Argument(help: ArgumentHelp(NSLocalizedString("Your MyPorsche password.", comment: "")))
+    @Argument(help: ArgumentHelp(NSLocalizedString("Your MyPorsche password.", comment: kBlankString)))
     var password: String
 
     @Option(help: ArgumentHelp(NSLocalizedString(
@@ -51,3 +51,7 @@ struct Porsche: AsyncParsableCommand {
     }
   }
 }
+
+// MARK – Constants
+
+let kBlankString = ""

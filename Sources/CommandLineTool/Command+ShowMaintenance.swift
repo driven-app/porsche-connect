@@ -15,7 +15,7 @@ extension Porsche {
     @OptionGroup()
     var options: Options
     
-    @Argument(help: ArgumentHelp(NSLocalizedString("Your vehicle VIN.", comment: "")))
+    @Argument(help: ArgumentHelp(NSLocalizedString("Your vehicle VIN.", comment: kBlankString)))
     var vin: String
     
     // MARK: - Lifecycle
@@ -54,7 +54,7 @@ extension Porsche {
     private func printMaintenanceItem(_ item: Maintenance.MaintenanceItem, at index: Int) {
       let output = NSLocalizedString(
         "#\(index+1) => Maintenance ID: \(item.id); Short Description: \"\(item.description.shortName)\"; Long Description: \"\(item.description.longName ?? "")\"; Criticality: \"\(item.description.criticalityText)\"",
-        comment: "")
+        comment: kBlankString)
       print(output)
     }
   }

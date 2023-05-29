@@ -11,7 +11,7 @@ extension Porsche {
     @OptionGroup()
     var options: Options
 
-    @Argument(help: ArgumentHelp(NSLocalizedString("Your vehicle VIN.", comment: "")))
+    @Argument(help: ArgumentHelp(NSLocalizedString("Your vehicle VIN.", comment: kBlankString)))
     var vin: String
 
     // MARK: - Lifecycle
@@ -43,7 +43,7 @@ extension Porsche {
     private func printPosition(_ position: Position) {
       let output = NSLocalizedString(
         "Latitude: \(position.carCoordinate.latitude); Longitude: \(position.carCoordinate.longitude); Heading: \(String(format: "%.0f" ,position.heading))",
-        comment: "")
+        comment: kBlankString)
       print(output)
     }
   }

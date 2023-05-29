@@ -10,7 +10,7 @@ extension Porsche {
     @OptionGroup()
     var options: Options
 
-    @Argument(help: ArgumentHelp(NSLocalizedString("Your vehicle VIN.", comment: "")))
+    @Argument(help: ArgumentHelp(NSLocalizedString("Your vehicle VIN.", comment: kBlankString)))
     var vin: String
 
     // MARK: - Lifecycle
@@ -45,20 +45,20 @@ extension Porsche {
       let distanceFormatter = DistanceFormatter()
       print(
         NSLocalizedString(
-          "Overall lock status: \(formatted(lockStatus: status.overallLockStatus))", comment: ""))
+          "Overall lock status: \(formatted(lockStatus: status.overallLockStatus))", comment: kBlankString))
       print(
         NSLocalizedString(
           "Battery level: \(genericValueFormatter.string(from: status.batteryLevel)), Mileage: \(distanceFormatter.string(from: status.mileage))",
-          comment: ""))
+          comment: kBlankString))
       if let electricalRangeDistance = status.remainingRanges.electricalRange.distance {
         print(
           NSLocalizedString(
-            "Remaining range is \(distanceFormatter.string(from: electricalRangeDistance))", comment: ""))
+            "Remaining range is \(distanceFormatter.string(from: electricalRangeDistance))", comment: kBlankString))
       }
       print(
         NSLocalizedString(
           "Next inspection in \(distanceFormatter.string(from: status.serviceIntervals.inspection.distance, scalar: -1)) or on \(genericValueFormatter.string(from: status.serviceIntervals.inspection.time, scalar: -1))",
-          comment: ""))
+          comment: kBlankString))
     }
 
     private func formatted(lockStatus: String) -> String {

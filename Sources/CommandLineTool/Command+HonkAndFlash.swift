@@ -10,7 +10,7 @@ extension Porsche {
     @OptionGroup()
     var options: Options
 
-    @Argument(help: ArgumentHelp(NSLocalizedString("Your vehicle VIN.", comment: "")))
+    @Argument(help: ArgumentHelp(NSLocalizedString("Your vehicle VIN.", comment: kBlankString)))
     var vin: String
 
     // MARK: - Lifecycle
@@ -44,7 +44,7 @@ extension Porsche {
       print(
         NSLocalizedString(
           "Remote command \"Honk and Flash\" accepted by Porsche API with ID \(remoteCommandAccepted.identifier!)",
-          comment: ""))
+          comment: kBlankString))
     }
   }
 }

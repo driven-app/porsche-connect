@@ -4,7 +4,7 @@ import Foundation
 
 let kDefaultTestTimeout: TimeInterval = 10
 let kBlankString = ""
-let kBlankData: Data = "".data(using: .utf8)!
+let kBlankData: Data = kBlankString.data(using: .utf8)!
 let kTestServerPort = 8080
 
 // MARK: - Test Objects & Value Types

@@ -11,10 +11,10 @@ extension Porsche {
     @OptionGroup()
     var options: Options
 
-    @Argument(help: ArgumentHelp(NSLocalizedString("Your vehicle VIN.", comment: "")))
+    @Argument(help: ArgumentHelp(NSLocalizedString("Your vehicle VIN.", comment: kBlankString)))
     var vin: String
 
-    @Argument(help: ArgumentHelp(NSLocalizedString("Your PIN/Security Code.", comment: "")))
+    @Argument(help: ArgumentHelp(NSLocalizedString("Your PIN/Security Code.", comment: kBlankString)))
     var pin: String
 
     // MARK: - Lifecycle
@@ -51,7 +51,7 @@ extension Porsche {
         print(
           NSLocalizedString(
             "Remote command \"Unlock\" accepted by Porsche API with ID \(remoteCommandAccepted.identifier!)",
-            comment: ""))
+            comment: kBlankString))
       }
     }
 
@@ -61,12 +61,12 @@ extension Porsche {
         print(
           NSLocalizedString(
             "Remote command \"Unlock\" returned with a \"Locked for 60 minutes\" error",
-            comment: ""))
+            comment: kBlankString))
       case .incorrectPin:
         print(
           NSLocalizedString(
             "Remote command \"Unlock\" returned with a \"Incorrect PIN\" error",
-            comment: ""))
+            comment: kBlankString))
       default:
         break
       }

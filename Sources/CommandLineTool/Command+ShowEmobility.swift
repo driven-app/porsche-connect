@@ -11,7 +11,7 @@ extension Porsche {
     @OptionGroup()
     var options: Options
 
-    @Argument(help: ArgumentHelp(NSLocalizedString("Your vehicle VIN.", comment: "")))
+    @Argument(help: ArgumentHelp(NSLocalizedString("Your vehicle VIN.", comment: kBlankString)))
     var vin: String
 
     // MARK: - Lifecycle
@@ -56,8 +56,8 @@ extension Porsche {
 
     private func printEmobility(_ emobility: Emobility) {
       let output = NSLocalizedString(
-        "Battery Level: \(emobility.batteryChargeStatus.stateOfChargeInPercentage)%; Remaining Range: \(emobility.batteryChargeStatus.remainingERange.valueInKilometers) KM; Charging Status: \(emobility.chargingStatus); Plug Status: \(emobility.batteryChargeStatus.plugState)",
-        comment: "")
+        "Battery Level: \(emobility.batteryChargeStatus.stateOfChargeInPercentage)%; Remaining Range: \(emobility.batteryChargeStatus.remainingERange.valueInKilometers) KM; Charging Status: \(emobility.chargingStatus ?? kBlankString); Plug Status: \(emobility.batteryChargeStatus.plugState)",
+        comment: kBlankString)
       print(output)
     }
   }
