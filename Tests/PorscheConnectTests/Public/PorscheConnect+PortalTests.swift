@@ -46,7 +46,7 @@ final class PorscheConnectPortalTests: BaseMockNetworkTestCase {
     XCTAssertEqual(1, result.vehicles!.count)
     assertVehicle(result.vehicles!.first!)
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testVehiclesNoAuthRequiredSuccessful() async {
@@ -64,7 +64,7 @@ final class PorscheConnectPortalTests: BaseMockNetworkTestCase {
     XCTAssertEqual(1, result.vehicles!.count)
     assertVehicle(result.vehicles!.first!)
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testVehiclesNoAuthRequiredFailure() async {
@@ -80,7 +80,7 @@ final class PorscheConnectPortalTests: BaseMockNetworkTestCase {
       XCTAssertEqual(HttpStatusCode.BadRequest, error as! HttpStatusCode)
     }
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testVehiclesAuthRequiredAuthFailure() async throws {
@@ -97,7 +97,7 @@ final class PorscheConnectPortalTests: BaseMockNetworkTestCase {
       XCTAssertEqual(PorscheConnectError.AuthFailure, error as! PorscheConnectError)
     }
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   // MARK: - Private functions

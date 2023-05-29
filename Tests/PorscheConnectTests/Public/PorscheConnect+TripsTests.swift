@@ -104,7 +104,7 @@ final class PorscheConnectTripTests: BaseMockNetworkTestCase {
     XCTAssertEqual("TC.UNIT.KILOMETER", zeroEmissionDistance.unitTranslationKeyV2)
     XCTAssertEqual("GRAY_SLICE_UNIT_KILOMETER", zeroEmissionDistance.unitTranslationKey)
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
   
   func testShortTermTripsNoAuthRequiredFailure() async {
@@ -120,7 +120,7 @@ final class PorscheConnectTripTests: BaseMockNetworkTestCase {
       XCTAssertEqual(HttpStatusCode.BadRequest, error as! HttpStatusCode)
     }
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
   
   func testLongTermTripsNoAuthRequiredSuccessful() async {
@@ -200,7 +200,7 @@ final class PorscheConnectTripTests: BaseMockNetworkTestCase {
     XCTAssertEqual("TC.UNIT.KILOMETER", zeroEmissionDistance.unitTranslationKeyV2)
     XCTAssertEqual("GRAY_SLICE_UNIT_KILOMETER", zeroEmissionDistance.unitTranslationKey)
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
   
   func testLongTermTripsNoAuthRequiredFailure() async {
@@ -216,6 +216,6 @@ final class PorscheConnectTripTests: BaseMockNetworkTestCase {
       XCTAssertEqual(HttpStatusCode.BadRequest, error as! HttpStatusCode)
     }
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 }

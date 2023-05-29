@@ -476,7 +476,7 @@ final class MockNetworkRoutes {
           "geoCoordinateSystem": "WGS84",
           "latitude": 53.395367,
           "longitude": -6.389296,
-        ],
+        ] as [String : Any] as [String : Any],
       "heading": 68,
     ]
   }
@@ -511,7 +511,7 @@ final class MockNetworkRoutes {
         "unit": "PERCENT",
         "unitTranslationKey": "GRAY_SLICE_UNIT_PERCENT",
         "unitTranslationKeyV2": "TC.UNIT.PERCENT",
-      ],
+      ] as [String : Any],
       "mileage": [
         "value": 2195,
         "unit": "KILOMETERS",
@@ -520,7 +520,7 @@ final class MockNetworkRoutes {
         "valueInKilometers": 2195,
         "unitTranslationKey": "GRAY_SLICE_UNIT_KILOMETER",
         "unitTranslationKeyV2": "TC.UNIT.KILOMETER",
-      ],
+      ] as [String : Any],
       "overallLockStatus": "CLOSED_LOCKED",
       "serviceIntervals": [
         "oilService": [
@@ -536,7 +536,7 @@ final class MockNetworkRoutes {
             "valueInKilometers": -27842,
             "unitTranslationKey": "GRAY_SLICE_UNIT_KILOMETER",
             "unitTranslationKeyV2": "TC.UNIT.KILOMETER",
-          ],
+          ] as [String : Any],
           "time": [
             "value": -710,
             "unit": "DAYS",
@@ -549,7 +549,7 @@ final class MockNetworkRoutes {
         "conventionalRange": [
           "distance": nil,
           "engineType": "UNSUPPORTED",
-        ],
+        ] as [String : Any?],
         "electricalRange": [
           "distance": [
             "value": 294,
@@ -559,7 +559,7 @@ final class MockNetworkRoutes {
             "valueInKilometers": 294,
             "unitTranslationKey": "GRAY_SLICE_UNIT_KILOMETER",
             "unitTranslationKeyV2": "TC.UNIT.KILOMETER",
-          ],
+          ] as [String : Any],
           "engineType": "ELECTRIC",
         ],
       ],

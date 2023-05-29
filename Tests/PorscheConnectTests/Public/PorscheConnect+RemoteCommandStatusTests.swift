@@ -45,7 +45,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
     XCTAssertEqual("IN_PROGRESS", result.status!.status)
     XCTAssertEqual(RemoteCommandStatus.RemoteStatus.inProgress, result.status!.remoteStatus)
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testRemoteCommandHonkAndFlashStatusSuccessAuthRequiredSuccessful() async throws {
@@ -67,7 +67,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
     XCTAssertEqual("SUCCESS", result.status!.status)
     XCTAssertEqual(RemoteCommandStatus.RemoteStatus.success, result.status!.remoteStatus)
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testRemoteCommandHonkAndFlashStatusFailureAuthRequiredSuccessful() async throws {
@@ -91,7 +91,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
     XCTAssertEqual(RemoteCommandStatus.RemoteStatus.failure, result.status!.remoteStatus)
     XCTAssertEqual("INTERNAL", result.status!.errorType)
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   // MARK: - Toggle Direct Charging Tests
@@ -115,7 +115,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
     XCTAssertEqual("IN_PROGRESS", result.status!.status)
     XCTAssertEqual(RemoteCommandStatus.RemoteStatus.inProgress, result.status!.remoteStatus)
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testRemoteCommandToggleDirectChargingStatusSuccessAuthRequiredSuccessful() async throws {
@@ -137,7 +137,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
     XCTAssertEqual("SUCCESS", result.status!.status)
     XCTAssertEqual(RemoteCommandStatus.RemoteStatus.success, result.status!.remoteStatus)
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testRemoteCommandToggleDirectChargingStatusFailureAuthRequiredSuccessful() async throws {
@@ -161,7 +161,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
     XCTAssertEqual(RemoteCommandStatus.RemoteStatus.failure, result.status!.remoteStatus)
     XCTAssertEqual("INTERNAL", result.status!.errorType)
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   // MARK: - Toggle Direct Climatisation Tests
@@ -185,7 +185,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
     XCTAssertEqual("IN_PROGRESS", result.status!.status)
     XCTAssertEqual(RemoteCommandStatus.RemoteStatus.inProgress, result.status!.remoteStatus)
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testRemoteCommandToggleDirectClimatisationStatusSuccessAuthRequiredSuccessful() async throws {
@@ -207,7 +207,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
     XCTAssertEqual("SUCCESS", result.status!.status)
     XCTAssertEqual(RemoteCommandStatus.RemoteStatus.success, result.status!.remoteStatus)
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testRemoteCommandToggleDirectClimatisationStatusFailureAuthRequiredSuccessful() async throws {
@@ -231,7 +231,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
     XCTAssertEqual(RemoteCommandStatus.RemoteStatus.failure, result.status!.remoteStatus)
     XCTAssertEqual("INTERNAL", result.status!.errorType)
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
   
   // MARK: - Lock Tests
@@ -255,7 +255,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
     XCTAssertEqual("IN_PROGRESS", result.status!.status)
     XCTAssertEqual(RemoteCommandStatus.RemoteStatus.inProgress, result.status!.remoteStatus)
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testRemoteCommandLockStatusSuccessfulAuthRequiredSuccessful() async throws {
@@ -277,7 +277,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
     XCTAssertEqual("SUCCESS", result.status!.status)
     XCTAssertEqual(RemoteCommandStatus.RemoteStatus.success, result.status!.remoteStatus)
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testRemoteCommandLockStatusFailureAuthRequiredSuccessful() async throws {
@@ -301,7 +301,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
     XCTAssertEqual(RemoteCommandStatus.RemoteStatus.failure, result.status!.remoteStatus)
     XCTAssertEqual("INTERNAL", result.status!.errorType)
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   // MARK: - Unlock Tests
@@ -325,7 +325,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
     XCTAssertEqual("IN_PROGRESS", result.status!.status)
     XCTAssertEqual(RemoteCommandStatus.RemoteStatus.inProgress, result.status!.remoteStatus)
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testRemoteCommandUnlockStatusSuccessfulAuthRequiredSuccessful() async throws {
@@ -347,7 +347,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
     XCTAssertEqual("SUCCESS", result.status!.status)
     XCTAssertEqual(RemoteCommandStatus.RemoteStatus.success, result.status!.remoteStatus)
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testRemoteCommandUnlockStatusFailureAuthRequiredSuccessful() async throws {
@@ -371,6 +371,6 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
     XCTAssertEqual(RemoteCommandStatus.RemoteStatus.failure, result.status!.remoteStatus)
     XCTAssertEqual("INTERNAL", result.status!.errorType)
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 }

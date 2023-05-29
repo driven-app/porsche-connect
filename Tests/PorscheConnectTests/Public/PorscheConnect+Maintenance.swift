@@ -90,7 +90,7 @@ final class PorscheConnectMaintenanceTests: BaseMockNetworkTestCase {
     XCTAssertEqual(Maintenance.MaintenanceItemValues.Source.vehicle, maintenanceItemTwo.values.source)
     XCTAssertEqual(Maintenance.MaintenanceItemValues.Event.cyclic, maintenanceItemTwo.values.event)
     
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
   
   func testMaintenanceNoAuthRequiredFailure() async {
@@ -106,7 +106,7 @@ final class PorscheConnectMaintenanceTests: BaseMockNetworkTestCase {
       XCTAssertEqual(HttpStatusCode.BadRequest, error as! HttpStatusCode)
     }
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 }
 

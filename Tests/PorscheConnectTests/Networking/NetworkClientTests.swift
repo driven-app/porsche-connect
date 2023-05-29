@@ -33,7 +33,7 @@ final class NetworkClientTests: BaseMockNetworkTestCase {
     XCTAssertEqual("Hello World!", result.data!.message)
     XCTAssertEqual(200, result.response.statusCode)
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testGetFailure() async {
@@ -48,7 +48,7 @@ final class NetworkClientTests: BaseMockNetworkTestCase {
       XCTAssertEqual(HttpStatusCode.Unauthorized, error as! HttpStatusCode)
     }
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testPostSuccess() async {
@@ -64,7 +64,7 @@ final class NetworkClientTests: BaseMockNetworkTestCase {
     XCTAssertEqual("Hello World!", result.data!.message)
     XCTAssertEqual(200, result.response.statusCode)
 
-    await waitForExpectations(timeout: kDefaultTestTimeout, handler: nil)
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
   func testUrlExtensionAddSingleParam() {
