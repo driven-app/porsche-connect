@@ -9,10 +9,10 @@ extension PorscheConnect {
     let _ = try await followCallback(formNameValuePairs: sendAuthenticationDetailsResponse.formNameValuePairs)
     let resumeAuthResponse = try await resumeAuth()
     let accessTokenResponse = try await getAccessToken(code: resumeAuthResponse.code)
-  
+    
     let token =  OAuthToken(authResponse: accessTokenResponse.authResponse)
     try await authStorage.storeAuthentication(token: token, for: application.clientId)
-
+    
     return token
   }
   
@@ -78,7 +78,7 @@ extension PorscheConnect {
   
   private func resumeAuth() async throws -> (code: String, response: HTTPURLResponse?) {
     let url = environment.testEnvironment ? networkRoutes.resumeAuth0URL : networkRoutes.loginAuth0URL
-     let result = try await networkClient.get(String.self, url: url, parseResponseBody: false, followRedirects: false)
+    let result = try await networkClient.get(String.self, url: url, parseResponseBody: false, followRedirects: false)
     
     if let statusCode = HttpStatusCode(rawValue: result.response.statusCode), statusCode == .Found {
       AuthLogger.info("Resume auth service successful.")
@@ -135,6 +135,7 @@ extension PorscheConnect {
       "redirect_uri": OAuthApplication.api.redirectURL.description
     ]
   }
+}
 
 // MARK: - Response types
 
