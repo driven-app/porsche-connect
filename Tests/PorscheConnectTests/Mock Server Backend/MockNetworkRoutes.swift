@@ -62,6 +62,11 @@ final class MockNetworkRoutes {
       ])
   }
   
+  func mockGetAuth0InitialStateFailure(router: Router) {
+    router[MockNetworkRoutes.getAuth0LoginPath] = DataResponse(
+      statusCode: 400, statusMessage: "bad request")
+  }
+  
   // MARK: – Post Auth0 Loging Details
   
   func mockPostLoginDetailsAuth0Successful(router: Router) {

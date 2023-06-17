@@ -85,23 +85,23 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
-//  func testSummaryAuthRequiredAuthFailure() async throws {
-//    try await connect.authStorage.storeAuthentication(token: nil, for: application.clientId)
-//    let expectation = expectation(description: "Network Expectation")
-//    mockNetworkRoutes.mockPostLoginAuthFailure(router: router)
-//
-//    await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
-//
-//    do {
-//      _ = try await connect.summary(vin: vin)
-//    } catch {
-//      expectation.fulfill()
-//      await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
-//      XCTAssertEqual(PorscheConnectError.AuthFailure, error as! PorscheConnectError)
-//    }
-//
-//    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
-//  }
+  func testSummaryAuthRequiredAuthFailure() async throws {
+    try await connect.authStorage.storeAuthentication(token: nil, for: application.clientId)
+    let expectation = expectation(description: "Network Expectation")
+    mockNetworkRoutes.mockGetAuth0InitialStateFailure(router: router)
+    
+    await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
+
+    do {
+      _ = try await connect.summary(vin: vin)
+    } catch {
+      expectation.fulfill()
+      await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
+      XCTAssertEqual(PorscheConnectError.AuthFailure, error as! PorscheConnectError)
+    }
+
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
+  }
 
   // MARK: - Position Tests
 
@@ -161,23 +161,23 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
-//  func testPositionAuthRequiredAuthFailure() async throws {
-//    try await connect.authStorage.storeAuthentication(token: nil, for: application.clientId)
-//    let expectation = expectation(description: "Network Expectation")
-//    mockNetworkRoutes.mockPostLoginAuthFailure(router: router)
-//
-//    await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
-//
-//    do {
-//      _ = try await connect.position(vin: vin)
-//    } catch {
-//      expectation.fulfill()
-//      await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
-//      XCTAssertEqual(PorscheConnectError.AuthFailure, error as! PorscheConnectError)
-//    }
-//
-//    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
-//  }
+  func testPositionAuthRequiredAuthFailure() async throws {
+    try await connect.authStorage.storeAuthentication(token: nil, for: application.clientId)
+    let expectation = expectation(description: "Network Expectation")
+    mockNetworkRoutes.mockGetAuth0InitialStateFailure(router: router)
+    
+    await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
+
+    do {
+      _ = try await connect.position(vin: vin)
+    } catch {
+      expectation.fulfill()
+      await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
+      XCTAssertEqual(PorscheConnectError.AuthFailure, error as! PorscheConnectError)
+    }
+
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
+  }
 
   // MARK: - Capabilities Tests
 
@@ -237,23 +237,23 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
-//  func testCapabilitiesAuthRequiredAuthFailure() async throws {
-//    try await connect.authStorage.storeAuthentication(token: nil, for: application.clientId)
-//    let expectation = expectation(description: "Network Expectation")
-//    mockNetworkRoutes.mockPostLoginAuthFailure(router: router)
-//
-//    await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
-//
-//    do {
-//      _ = try await connect.capabilities(vin: vin)
-//    } catch {
-//      expectation.fulfill()
-//      await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
-//      XCTAssertEqual(PorscheConnectError.AuthFailure, error as! PorscheConnectError)
-//    }
-//
-//    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
-//  }
+  func testCapabilitiesAuthRequiredAuthFailure() async throws {
+    try await connect.authStorage.storeAuthentication(token: nil, for: application.clientId)
+    let expectation = expectation(description: "Network Expectation")
+    mockNetworkRoutes.mockGetAuth0InitialStateFailure(router: router)
+    
+    await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
+
+    do {
+      _ = try await connect.capabilities(vin: vin)
+    } catch {
+      expectation.fulfill()
+      await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
+      XCTAssertEqual(PorscheConnectError.AuthFailure, error as! PorscheConnectError)
+    }
+
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
+  }
 
   // MARK: - Status Tests
 
@@ -281,24 +281,24 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
-//  func testStatusAuthRequiredAuthFailure() async throws {
-//    try await connect.authStorage.storeAuthentication(token: nil, for: application.clientId)
-//    try await connect.authStorage.storeAuthentication(token: nil, for: OAuthApplication.api.clientId)
-//    let expectation = expectation(description: "Network Expectation")
-//    mockNetworkRoutes.mockPostLoginAuthFailure(router: router)
-//
-//    await XCTAsync.XCTAssertFalse(await connect.authorized(application: .api))
-//
-//    do {
-//      _ = try await connect.status(vin: vin)
-//    } catch {
-//      expectation.fulfill()
-//      await XCTAsync.XCTAssertFalse(await connect.authorized(application: .api))
-//      XCTAssertEqual(PorscheConnectError.AuthFailure, error as! PorscheConnectError)
-//    }
-//
-//    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
-//  }
+  func testStatusAuthRequiredAuthFailure() async throws {
+    try await connect.authStorage.storeAuthentication(token: nil, for: application.clientId)
+    try await connect.authStorage.storeAuthentication(token: nil, for: OAuthApplication.api.clientId)
+    let expectation = expectation(description: "Network Expectation")
+    mockNetworkRoutes.mockGetAuth0InitialStateFailure(router: router)
+    
+    await XCTAsync.XCTAssertFalse(await connect.authorized(application: .api))
+
+    do {
+      _ = try await connect.status(vin: vin)
+    } catch {
+      expectation.fulfill()
+      await XCTAsync.XCTAssertFalse(await connect.authorized(application: .api))
+      XCTAssertEqual(PorscheConnectError.AuthFailure, error as! PorscheConnectError)
+    }
+
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
+  }
 
   // MARK: - Emobility Tests
 
@@ -408,24 +408,23 @@ final class PorscheConnectCarControlTests: BaseMockNetworkTestCase {
     await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
   }
 
-//  func testEmobilityAuthRequiredAuthFailure() async throws {
-//    try await connect.authStorage.storeAuthentication(token: nil, for: application.clientId)
-//    let expectation = expectation(description: "Network Expectation")
-//
-//    mockNetworkRoutes.mockPostLoginAuthFailure(router: router)
-//
-//    await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
-//
-//    do {
-//      _ = try await connect.emobility(vin: vin, capabilities: capabilites)
-//    } catch {
-//      expectation.fulfill()
-//      await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
-//      XCTAssertEqual(PorscheConnectError.AuthFailure, error as! PorscheConnectError)
-//    }
-//
-//    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
-//  }
+  func testEmobilityAuthRequiredAuthFailure() async throws {
+    try await connect.authStorage.storeAuthentication(token: nil, for: application.clientId)
+    let expectation = expectation(description: "Network Expectation")
+    mockNetworkRoutes.mockGetAuth0InitialStateFailure(router: router)
+
+    await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
+
+    do {
+      _ = try await connect.emobility(vin: vin, capabilities: capabilites)
+    } catch {
+      expectation.fulfill()
+      await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
+      XCTAssertEqual(PorscheConnectError.AuthFailure, error as! PorscheConnectError)
+    }
+
+    await fulfillment(of: [expectation], timeout: kDefaultTestTimeout)
+  }
 
   // MARK: - Honk and Flash Tests
 
