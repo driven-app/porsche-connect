@@ -11,14 +11,14 @@ final class NetworkRoutesTests: XCTestCase {
     capabilities = buildCapabilites()
   }
 
-  func testApplicationRedirectURLPortal() {
+  func testApplicationRedirectURLApi() {
     let application = OAuthApplication.api
-    XCTAssertEqual(URL(string: "https://my.porsche.com/core/de/de_DE")!, application.redirectURL)
+    XCTAssertEqual(URL(string: "https://my.porsche.com/")!, application.redirectURL)
   }
 
-  func testApplicationClientIdCarControl() {
+  func testApplicationClientIdApi() {
     let application = OAuthApplication.api
-    XCTAssertEqual("Ux8WmyzsOAGGmvmWnW7GLEjIILHEztAs", application.clientId)
+    XCTAssertEqual("UYsK00My6bCqJdbQhTQ0PbWmcSdIAMig", application.clientId)
   }
 
   func testNetworkRoutesGermany() {

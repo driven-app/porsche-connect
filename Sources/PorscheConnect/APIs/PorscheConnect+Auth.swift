@@ -67,9 +67,11 @@ extension PorscheConnect {
       AuthLogger.info("Authentication details sent successfully.")
     }
     
-    AuthLogger.info("About to sleep for \(kSleepDurationInSecs) seconds to give Porsche Auth0 service chance to process previous request.")
-    try await Task.sleep(nanoseconds: UInt64(kSleepDurationInSecs * Double(NSEC_PER_SEC)))
-    AuthLogger.info("Finished sleeping.")
+    if !environment.testEnvironment {
+      AuthLogger.info("About to sleep for \(kSleepDurationInSecs) seconds to give Porsche Auth0 service chance to process previous request.")
+      try await Task.sleep(nanoseconds: UInt64(kSleepDurationInSecs * Double(NSEC_PER_SEC)))
+      AuthLogger.info("Finished sleeping.")
+    }
     
     return result.response
   }
