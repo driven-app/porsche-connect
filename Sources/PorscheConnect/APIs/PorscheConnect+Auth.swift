@@ -1,124 +1,231 @@
 import Foundation
+import SwiftSoup
 
 extension PorscheConnect {
-
+  
   public func auth(application: OAuthApplication) async throws -> OAuthToken {
-    let token: OAuthToken = try await networkClient.interceptCookiesOnWatchOS {
-      let loginToRetrieveCookiesResponse = try await loginToRetrieveCookies()
-      guard loginToRetrieveCookiesResponse != nil else { throw PorscheConnectError.NoResult }
-
-      let apiAuthCodeResult = try await getApiAuthCode(application: application)
-      guard let codeVerifier = apiAuthCodeResult.codeVerifier,
-            let code = apiAuthCodeResult.code
-      else { throw PorscheConnectError.NoResult }
-
-      let apiTokenResult = try await getApiToken(
-        application: application, codeVerifier: codeVerifier, code: code)
-      guard let porscheAuth = apiTokenResult.data,
-            apiTokenResult.response != nil
-      else { throw PorscheConnectError.NoResult }
-
-      return OAuthToken(authResponse: porscheAuth)
-    }
+    let initialStateResponse = try await getInitialStateFromAuthService()
+    let sendAuthenticationDetailsResponse = try await sendAuthenticationDetails(state: initialStateResponse.state)
+    let _ = try await followCallback(formNameValuePairs: sendAuthenticationDetailsResponse.formNameValuePairs)
+    let resumeAuthResponse = try await resumeAuth()
+    let accessTokenResponse = try await getAccessToken(code: resumeAuthResponse.code)
+  
+    let token =  OAuthToken(authResponse: accessTokenResponse.authResponse)
     try await authStorage.storeAuthentication(token: token, for: application.clientId)
+
     return token
   }
-
-  private func loginToRetrieveCookies() async throws -> HTTPURLResponse? {
-    let loginBody = buildLoginBody(username: username, password: password)
-    let result = try await networkClient.post(
-      String.self, url: networkRoutes.loginAuthURL,
-      body: buildPostFormBodyFrom(dictionary: loginBody), contentType: .form,
-      parseResponseBody: false)
-    if let statusCode = HttpStatusCode(rawValue: result.response.statusCode),
-      statusCode == .OK
-    {
-      AuthLogger.info("Login to retrieve cookies successful")
+  
+  // MARK: - Private functions
+  
+  private func getInitialStateFromAuthService() async throws -> (state: String, response: HTTPURLResponse?) {
+    let result = try await networkClient.get(String.self, url: networkRoutes.loginAuth0URL, parseResponseBody: false, followRedirects: false)
+    
+    if let statusCode = HttpStatusCode(rawValue: result.response.statusCode), statusCode == .Found {
+      AuthLogger.info("Initial state from auth service successful.")
     }
-
-    return result.response
-  }
-
-  private func getApiAuthCode(application: OAuthApplication) async throws -> (
-    code: String?, codeVerifier: String?, response: HTTPURLResponse?
-  ) {
-    let codeVerifier = codeChallenger.generateCodeVerifier()!  //TODO: handle null
-    AuthLogger.debug("Code Verifier: \(codeVerifier)")
-
-    let apiAuthParams = buildApiAuthParams(
-      clientId: application.clientId, redirectURL: application.redirectURL,
-      codeVerifier: codeVerifier)
-    let result = try await networkClient.get(
-      String.self, url: networkRoutes.apiAuthURL, params: apiAuthParams, parseResponseBody: false)
-    if let url = result.response.value(forHTTPHeaderField: "cdn-original-uri"),
-      let code = URLComponents(string: url)?.queryItems?.first(where: { $0.name == "code" })?.value
-    {
-      AuthLogger.info("Api Auth call for code successful")
-      return (code, codeVerifier, result.response)
-    } else {
+    
+    guard let headerValue = result.response.value(forHTTPHeaderField: "Location"),
+          let urlComponents = URLComponents(string: headerValue),
+          let state = urlComponents.queryItems?.first(where: { $0.name == "state"})?.value
+    else {
+      AuthLogger.error("Could not find or process Location header from auth response.")
       throw PorscheConnectError.AuthFailure
     }
+    
+    return (state, result.response)
   }
-
-  private func getApiToken(application: OAuthApplication, codeVerifier: String, code: String)
-    async throws -> (data: AuthResponse?, response: HTTPURLResponse?)
-  {
-    let apiTokenBody = buildApiTokenBody(
-      clientId: application.clientId, redirectURL: application.redirectURL, code: code,
-      codeVerifier: codeVerifier)
-    let result = try await networkClient.post(
-      AuthResponse.self, url: networkRoutes.apiTokenURL,
-      body: buildPostFormBodyFrom(dictionary: apiTokenBody), contentType: .form)
-    if let statusCode = HttpStatusCode(rawValue: result.response.statusCode),
-      statusCode == .OK
-    {
-      AuthLogger.info("Api Auth call for token successful")
+  
+  private func sendAuthenticationDetails(state: String) async throws -> (formNameValuePairs: [String : String], response: HTTPURLResponse?) {
+    let loginBody = buildLoginBody(username: username, password: password, state: state)
+    let result = try await networkClient.post(String.self, url: networkRoutes.usernamePasswordLoginAuth0URL, body: buildPostFormBodyFrom(dictionary: loginBody), contentType: .form)
+    
+    if let statusCode = HttpStatusCode(rawValue: result.response.statusCode), statusCode == .OK {
+      AuthLogger.info("Authentication details sent successfully.")
     }
-
-    return result
+    
+    guard let html = result.data else {
+      AuthLogger.error("No HTML form data returned.")
+      throw PorscheConnectError.AuthFailure
+    }
+    
+    var hiddenFormNameValuePairs = [String:String]()
+    
+    let document = try SwiftSoup.parseBodyFragment(html)
+    let elements: Elements = try document.select("input[type='hidden']")
+    for element in elements {
+      hiddenFormNameValuePairs[try element.attr("name")] = try element.attr("value")
+    }
+    
+    return (hiddenFormNameValuePairs, result.response)
   }
-
-  private func buildLoginBody(username: String, password: String) -> [String: String] {
+  
+  private func followCallback(formNameValuePairs: [String:String]) async throws -> HTTPURLResponse? {
+    let result = try await networkClient.post(String.self, url: networkRoutes.callbackAuth0URL, body: buildPostFormBodyFrom(dictionary: formNameValuePairs), contentType: .form, parseResponseBody: false, followRedirects: false)
+    
+    if let statusCode = HttpStatusCode(rawValue: result.response.statusCode), statusCode == .Found {
+      AuthLogger.info("Authentication details sent successfully.")
+    }
+    
+    AuthLogger.info("About to sleep for \(kSleepDurationInSecs) seconds to give Porsche Auth0 service chance to process previous request.")
+    try await Task.sleep(nanoseconds: UInt64(kSleepDurationInSecs * Double(NSEC_PER_SEC)))
+    AuthLogger.info("Finished sleeping.")
+    
+    return result.response
+  }
+  
+  private func resumeAuth() async throws -> (code: String, response: HTTPURLResponse?) {
+    let url = environment.testEnvironment ? networkRoutes.resumeAuth0URL : networkRoutes.loginAuth0URL
+     let result = try await networkClient.get(String.self, url: url, parseResponseBody: false, followRedirects: false)
+    
+    if let statusCode = HttpStatusCode(rawValue: result.response.statusCode), statusCode == .Found {
+      AuthLogger.info("Resume auth service successful.")
+    }
+    
+    guard let headerValue = result.response.value(forHTTPHeaderField: "Location"),
+          let urlComponents = URLComponents(string: headerValue),
+          let code = urlComponents.queryItems?.first(where: { $0.name == "code"})?.value
+    else {
+      AuthLogger.error("Could not find or process Location header from auth response.")
+      throw PorscheConnectError.AuthFailure
+    }
+    
+    return (code, result.response)
+  }
+  
+  private func getAccessToken(code: String) async throws -> (authResponse: AuthResponse, response:  HTTPURLResponse?) {
+    let result = try await networkClient.post(AuthResponse.self, url: networkRoutes.accessTokenAuth0URL, body: buildPostFormBodyFrom(dictionary: buildAccessTokenBody(code: code)), contentType: .form)
+    
+    if let statusCode = HttpStatusCode(rawValue: result.response.statusCode), statusCode == .Found {
+      AuthLogger.info("Retrieving access token successful.")
+    }
+    
+    guard let authResponse = result.data else {
+      AuthLogger.error("Could not map response to AuthResponse.")
+      throw PorscheConnectError.AuthFailure
+    }
+    
+    return (authResponse, result.response)
+  }
+  
+  private func buildLoginBody(username: String, password: String, state: String) -> [String : String] {
     return [
+      "sec": "high",
       "username": username,
       "password": password,
-      "keeploggedin": "false",
-      "sec": kBlankString,
-      "resume": kBlankString,
-      "thirdPartyId": kBlankString,
-      "state": kBlankString,
-    ]
-  }
-
-  private func buildApiAuthParams(clientId: String, redirectURL: URL, codeVerifier: String)
-    -> [String: String]
-  {
-    let codeChallenge = codeChallenger.codeChallenge(for: codeVerifier)!  //TODO: Handle null
-    AuthLogger.debug("Code Challenge: \(codeChallenge)")
-
-    return [
-      "client_id": clientId,
-      "redirect_uri": redirectURL.absoluteString,
-      "code_challenge": codeChallenge,
-      "scope": "openid",
-      "response_type": "code",
-      "access_type": "offline",
-      "prompt": "none",
       "code_challenge_method": "S256",
+      "redirect_uri": "https://my.porsche.com/",
+      "ui_locales": "de-DE",
+      "audience": "https://api.porsche.com",
+      "client_id": "UYsK00My6bCqJdbQhTQ0PbWmcSdIAMig",
+      "connection": "Username-Password-Authentication",
+      "state": state,
+      "tenant": "porsche-production",
+      "response_type": "code"
     ]
   }
-
-  private func buildApiTokenBody(
-    clientId: String, redirectURL: URL, code: String, codeVerifier: String
-  ) -> [String: String] {
+  
+  private func buildAccessTokenBody(code: String) -> [String : String] {
     return [
-      "client_id": clientId,
-      "redirect_uri": redirectURL.absoluteString,
-      "code": code,
-      "code_verifier": codeVerifier,
-      "prompt": "none",
+      "client_id": OAuthApplication.api.clientId,
       "grant_type": "authorization_code",
+      "code": code,
+      "redirect_uri": OAuthApplication.api.redirectURL.description
     ]
+  }
+  
+  public func auth0Raw() async throws {
+    let loginUrl = URL(string: "https://identity.porsche.com/authorize?response_type=code&client_id=UYsK00My6bCqJdbQhTQ0PbWmcSdIAMig&code_challenge_method=S256&redirect_uri=https://my.porsche.com&uri_locales=de-DE&audience=https://api.porsche.com&scope=openid")!
+    
+    let result = try await networkClient.get(String.self, url: loginUrl, parseResponseBody: false, followRedirects: false)
+    
+    print()
+    
+    guard let headerValue = result.response.value(forHTTPHeaderField: "Location"), let locationUrlComponents = URLComponents(string: headerValue) else {
+      throw PorscheConnectError.AuthFailure
+    }
+    
+    guard let state = locationUrlComponents.queryItems?.first(where: { $0.name == "state"})?.value else {
+      throw PorscheConnectError.AuthFailure
+    }
+    
+    print("State: \(state)")
+    
+    // Post auth data
+    
+    let authBody = [
+      "sec": "high",
+      "username": username,
+      "password": password,
+      "code_challenge_method": "S256",
+      "redirect_uri": OAuthApplication.api.redirectURL.description,
+      "ui_locales": "de-DE",
+      "audience": "https://api.porsche.com",
+      "client_id": OAuthApplication.api.clientId,
+      "connection": "Username-Password-Authentication",
+      "state": state,
+      "tenant": "porsche-production",
+      "response_type": "code"
+    ]
+    
+    let result2 = try await networkClient.post(String.self, url: URL(string: "https://identity.porsche.com/usernamepassword/login")!, body: buildPostFormBodyFrom(dictionary: authBody), contentType: .form)
+    
+    let body = result2.data!
+    
+    var verifyBody = [String:String]()
+    
+    let document = try SwiftSoup.parseBodyFragment(body)
+    let elements: Elements = try document.select("input[type='hidden']")
+    for element in elements {
+      verifyBody[try element.attr("name")] = try element.attr("value")
+    }
+    
+    print()
+    
+    // Follow callback
+    
+    let _ = try await networkClient.post(String.self, url: URL(string: "https://identity.porsche.com/login/callback")!, body: buildPostFormBodyFrom(dictionary: verifyBody), contentType: .form, parseResponseBody: false, followRedirects: false)
+    
+    print()
+    
+    //    guard let headerValue2 = result3.response.value(forHTTPHeaderField: "Location") else {
+    //      throw PorscheConnectError.AuthFailure
+    //    }
+    
+    try await Task.sleep(nanoseconds: UInt64(2.5 * Double(NSEC_PER_SEC)))
+    
+    // resume auth
+    //    let result4 = try await networkClient.get(String.self, url: URL(string: "https://identify.porsche.com\(headerValue2)")!, parseResponseBody: false, followRedirects: false)
+    let result4 = try await networkClient.get(String.self, url: loginUrl, parseResponseBody: false, followRedirects: false)
+    
+    guard let headerValue3 = result4.response.value(forHTTPHeaderField: "Location"), let locationUrlComponents2 = URLComponents(string: headerValue3) else {
+      throw PorscheConnectError.AuthFailure
+    }
+    
+    guard let code = locationUrlComponents2.queryItems?.first(where: { $0.name == "code"})?.value else {
+      throw PorscheConnectError.AuthFailure
+    }
+    
+    print("Code: \(code)")
+    print()
+    
+    //    token endpoint
+    let authBody2 = [
+      "client_id": "UYsK00My6bCqJdbQhTQ0PbWmcSdIAMig",
+      "grant_type": "authorization_code",
+      "code": code,
+      "redirect_uri": "https://my.porsche.com/"
+    ]
+    
+    let result5 = try await networkClient.post(AuthResponse.self, url: URL(string: "https://identity.porsche.com/oauth/token")!, body: buildPostFormBodyFrom(dictionary: authBody2), contentType: .form)
+    
+    //    let authResponse = result5.data!
+    //
+    //    let jwt = try decode(jwt: authResponse.accessToken)
+    //
+    
+    print(result5)
+    
   }
 }
 
@@ -132,5 +239,6 @@ struct AuthResponse: Decodable {
   let accessToken: String
   let idToken: String
   let tokenType: String
+  let scope: String
   let expiresIn: Double
 }

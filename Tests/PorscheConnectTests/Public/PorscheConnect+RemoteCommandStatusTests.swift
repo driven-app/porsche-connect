@@ -9,7 +9,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
 
   var connect: PorscheConnect!
   let mockNetworkRoutes = MockNetworkRoutes()
-  let application: OAuthApplication = .carControl
+  let application: OAuthApplication = .api
   let vin = "A1234"
 
   // MARK: - Lifecycle

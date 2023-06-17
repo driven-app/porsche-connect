@@ -7,18 +7,34 @@ struct NetworkRoutes {
 
   // MARK: - Calculated properties
 
-  var loginAuthURL: URL {
+  var loginAuth0URL: URL {
     return URL(
       string:
-        "\(host("https://login.porsche.com"))/auth/api/v1/\(environment.regionCode)/public/login")!
+        "\(host("https://identity.porsche.com"))/authorize?response_type=code&client_id=\(OAuthApplication.api.clientId)&code_challenge_method=S256&redirect_uri=https://my.porsche.com&uri_locales=de-DE&audience=https://api.porsche.com&scope=openid")!
   }
-
-  var apiAuthURL: URL {
-    return URL(string: "\(host("https://login.porsche.com"))/as/authorization.oauth2")!
+  
+  var resumeAuth0URL: URL { // this is only used in test environment
+    return URL(
+      string:
+        "\(host("https://identity.porsche.com"))/testing-second-authorize?response_type=code&client_id=\(OAuthApplication.api.clientId)&code_challenge_method=S256&redirect_uri=https://my.porsche.com&uri_locales=de-DE&audience=https://api.porsche.com&scope=openid")!
   }
-
-  var apiTokenURL: URL {
-    return URL(string: "\(host("https://login.porsche.com"))/as/token.oauth2")!
+  
+  var accessTokenAuth0URL: URL {
+    return URL(
+      string:
+        "\(host("https://identity.porsche.com"))/oauth/token")!
+  }
+  
+  var usernamePasswordLoginAuth0URL: URL {
+    return URL(
+      string:
+        "\(host("https://identity.porsche.com"))/usernamepassword/login")!
+  }
+  
+  var callbackAuth0URL: URL {
+    return URL(
+      string:
+        "\(host("https://identity.porsche.com"))/login/callback")!
   }
 
   var vehiclesURL: URL {

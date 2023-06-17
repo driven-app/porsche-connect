@@ -5,7 +5,7 @@ extension PorscheConnect {
   public func position(vin: String) async throws -> (
     position: Position?, response: HTTPURLResponse
   ) {
-    let headers = try await performAuthFor(application: .carControl)
+    let headers = try await performAuthFor(application: .api)
 
     let result = try await networkClient.get(
       Position.self, url: networkRoutes.vehiclePositionURL(vin: vin), headers: headers,

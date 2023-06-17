@@ -14,12 +14,8 @@ public enum PorscheConnectError: Error {
 
 extension OAuthApplication {
   public static let api = OAuthApplication(
-    clientId: "4mPO3OE5Srjb1iaUGWsbqKBvvesya8oA",
-    redirectURL: URL(string: "https://my.porsche.com/core/de/de_DE")!
-  )
-  public static let carControl = OAuthApplication(
-    clientId: "Ux8WmyzsOAGGmvmWnW7GLEjIILHEztAs",
-    redirectURL: URL(string: "https://my.porsche.com/myservices/auth/auth.html")!
+    clientId: "UYsK00My6bCqJdbQhTQ0PbWmcSdIAMig",
+    redirectURL: URL(string: "https://my.porsche.com/")!
   )
 }
 
@@ -46,7 +42,6 @@ public class PorscheConnect {
   let networkClient = NetworkClient()
   let networkRoutes: NetworkRoutes
   let password: String
-  let codeChallenger = CodeChallenger()
 
   // MARK: - Init & configuration
 

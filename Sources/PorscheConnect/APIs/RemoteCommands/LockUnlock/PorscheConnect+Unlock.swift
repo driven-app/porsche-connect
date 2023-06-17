@@ -5,7 +5,7 @@ extension PorscheConnect {
   public func unlock(vin: String, pin: String) async throws -> (
     remoteCommandAccepted: RemoteCommandAccepted?, response: HTTPURLResponse
   ) {
-    let headers = try await performAuthFor(application: .carControl)
+    let headers = try await performAuthFor(application: .api)
     let url = networkRoutes.vehicleLockUnlockURL(vin: vin, lock: false)
 
     let pinSecurity = try await networkClient.get(

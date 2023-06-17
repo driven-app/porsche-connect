@@ -15,10 +15,11 @@ let package = Package(
       targets: ["PorscheConnect"]),
   ],
   dependencies: [
-    .package(url: "https://github.com/envoy/Embassy.git", from: "4.1.4"),
+    .package(url: "https://github.com/envoy/Embassy.git", from: "4.1.6"),
     .package(url: "https://github.com/envoy/Ambassador.git", from: "4.0.5"),
-    .package(url: "https://github.com/apple/swift-argument-parser", from: "1.2.0"),
-    .package(url: "https://github.com/mochidev/XCTAsync.git", .upToNextMajor(from: "1.0.0")),
+    .package(url: "https://github.com/apple/swift-argument-parser", from: "1.2.2"),
+    .package(url: "https://github.com/mochidev/XCTAsync.git", .upToNextMajor(from: "1.0.1")),
+    .package(url: "https://github.com/scinfu/SwiftSoup.git", from: "2.6.0"),
   ],
   targets: [
     .executableTarget(
@@ -32,7 +33,7 @@ let package = Package(
       ]),
     .target(
       name: "PorscheConnect",
-      dependencies: []),
+      dependencies: ["SwiftSoup"]),
     .testTarget(
       name: "PorscheConnectTests",
       dependencies: [

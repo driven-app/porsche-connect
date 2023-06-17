@@ -6,6 +6,10 @@ final class MockNetworkRoutes {
   // MARK: - Properties
 
   private static let getHelloWorldPath = "/hello_world.json"
+  
+  private static let getAuth0LoginPath = "/authorize"
+  private static let getAuth0ResumeAuthPath = "/testing-second-authorize"
+ 
   private static let getApiAuthPath = "/as/authorization.oauth2"
   private static let getVehiclesPath = "/core/api/v3/ie/en_IE/vehicles"
   private static let getSummaryPath = "/service-vehicle/vehicle-summary/A1234"
@@ -26,6 +30,11 @@ final class MockNetworkRoutes {
   private static let getLockUnlockRemoteCommandStatusPath =
     "service-vehicle/remote-lock-unlock/A1234/999/status"
 
+  private static let postAuth0LoginDetailsPath = "/usernamepassword/login"
+  private static let postAuth0CallbackPath = "/login/callback"
+  private static let postAuth0AccessTokenPath = "/oauth/token"
+
+  
   private static let postLoginAuthPath = "/auth/api/v1/ie/en_IE/public/login"
   private static let postApiTokenPath = "/as/token.oauth2"
   private static let postFlashPath = "/service-vehicle/honk-and-flash/A1234/flash"
@@ -52,6 +61,51 @@ final class MockNetworkRoutes {
       statusCode: 401, statusMessage: "unauthorized")
   }
 
+  // MARK: – Get Auth0 Initial State
+  
+  func mockGetAuth0InitialStateSuccessful(router: Router) {
+    router[MockNetworkRoutes.getAuth0LoginPath] = DataResponse(
+      statusCode: 302, statusMessage: "Found",
+      headers: [
+        ("Location", "/login?state=hKFo2SAyMU45djQ4bEdVeVpfRnBPajE2dktQcmVMTExLTTBFVqFupWxvZ2luo3RpZNkgYzZGOE5TeWpoTzZ4Y0hTSTFJZ1BWTWh1M2k4WW12T2OjY2lk2SBVWXNLMDBNeTZiQ3FKZGJRaFRRMFBiV21jU2RJQU1pZw&client=UYsK00My6bCqJdbQhTQ0PbWmcSdIAMig&protocol=oauth2&response_type=code&code_challenge_method=S256&redirect_uri=https%3A%2F%2Fmy.porsche.com&uri_locales=de-DE&audience=https%3A%2F%2Fapi.porsche.com&scope=openid")
+      ])
+  }
+  
+  // MARK: – Post Auth0 Loging Details
+  
+  func mockPostLoginDetailsAuth0Successful(router: Router) {
+    router[MockNetworkRoutes.postAuth0LoginDetailsPath] = DataResponse(
+      statusCode: 200, statusMessage: "ok", contentType: "text/html") { environ -> Data in
+        return Data("<form method=\"post\" name=\"hiddenform\" action=\"https://identity.porsche.com/login/callback\">\n    <input type=\"hidden\" name=\"wa\" value=\"wsignin1.0\">\n    <input type=\"hidden\" \n           name=\"wresult\" \n           value=\"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VyX2lkIjoiNjQ3NmEyNTZmNzUzZmY1NWFmY2IzY2JkIiwiZW1haWwiOiJkYW1pZW4uZ2xhbmN5QGljbG91ZC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwic2lkIjoiSTRlZkE1akVYWXNfRjJnZDVKVnlPQ2dEWGc4b3pBbFEiLCJpYXQiOjE2ODcwMjIzMDMsImV4cCI6MTY4NzAyMjM2MywiYXVkIjoidXJuOmF1dGgwOnBvcnNjaGUtcHJvZHVjdGlvbjpVc2VybmFtZS1QYXNzd29yZC1BdXRoZW50aWNhdGlvbiIsImlzcyI6InVybjphdXRoMCJ9.MH8OBE55g8dPPHHpH0lQEF7NFvy6hYN5zIHZlbpFr8XRl29P8TVRlLrpcFft85cn4e5u16PVCnXROmdt_SAko_AWB4TZ0WgQDDDr5z-x8XHkJfkAlsoz4DG0t3tu9hnyv1gNh-NDKqv8GRAEjHTvZgKRIG5Jjo3uoRlEWIrj9TVGT04czlK18p-zgc68XOE2TPkmlbwPD9RLygAyNwJboYWlwVRpkvHGwEghMF6zyss3B1K_YZMGHPUal8k_HktvDgW6-1yDluJAQ0Sz3vG4iG7UyYms6XuARrJFO4GtA5uyEbkF8wz3vCbUar4Z_rS-d9Q9VV0ycH8WKFcekIHoAg\">\n    <input type=\"hidden\" name=\"wctx\" value=\"{&#34;strategy&#34;:&#34;auth0&#34;,&#34;auth0Client&#34;:&#34;&#34;,&#34;tenant&#34;:&#34;porsche-production&#34;,&#34;connection&#34;:&#34;Username-Password-Authentication&#34;,&#34;client_id&#34;:&#34;UYsK00My6bCqJdbQhTQ0PbWmcSdIAMig&#34;,&#34;response_type&#34;:&#34;code&#34;,&#34;redirect_uri&#34;:&#34;https://my.porsche.com/&#34;,&#34;state&#34;:&#34;hKFo2SBUbnJVZ2hEM1FrYXJWNlUydG96WHBKeDd3NEk0bzljbaFupWxvZ2luo3RpZNkgeHVfbTJ3TDZlRFdSa3lyVTJJUUZhSW91WjZGRFMtMHqjY2lk2SBVWXNLMDBNeTZiQ3FKZGJRaFRRMFBiV21jU2RJQU1pZw&#34;,&#34;sid&#34;:&#34;I4efA5jEXYs_F2gd5JVyOCgDXg8ozAlQ&#34;,&#34;audience&#34;:&#34;https://api.porsche.com&#34;,&#34;realm&#34;:&#34;Username-Password-Authentication&#34;}\">\n    <noscript>\n        <p>\n            Script is disabled. Click Submit to continue.\n        </p><input type=\"submit\" value=\"Submit\">\n    </noscript>\n</form>".utf8)
+      }
+  }
+
+  // MARK: – Post Auth0 Callback
+  
+  func mockGetAuth0CallbackSuccessful(router: Router) {
+    router[MockNetworkRoutes.postAuth0CallbackPath] = DataResponse(
+      statusCode: 302, statusMessage: "Found")
+  }
+  
+  // MARK: – Get Auth0 Resume Auth
+  
+  func mockGetAuth0ResumeAuthSuccessful(router: Router) {
+    router[MockNetworkRoutes.getAuth0ResumeAuthPath] = DataResponse(
+      statusCode: 302, statusMessage: "Found",
+      headers: [
+        ("Location", "https://my.porsche.com/?code=k4b1NKzJ1lkC_E1ox9wgcbno9_FNI_XDLGs51yE1PJCWB")
+      ])
+  }
+  
+  // MARK: – Post Access Token
+  
+  func mockPostAuth0AccessTokenSuccessful(router: Router) {
+    router[MockNetworkRoutes.postAuth0AccessTokenPath] = JSONResponse(statusCode: 302) { _ -> Any in
+      return self.mockApiTokenResponse()
+    }
+  }
+  
+  
   // MARK: - Post Login Auth
 
   func mockPostLoginAuthSuccessful(router: Router) {
@@ -438,13 +492,14 @@ final class MockNetworkRoutes {
   private func mockHelloWorldResponse() -> [String: Any] {
     return ["message": "Hello World!"]
   }
-
+  
   private func mockApiTokenResponse() -> [String: Any] {
     return [
       "access_token": "Kpjg2m1ZXd8GM0pvNIB3jogWd0o6",
       "id_token":
         "eyJhbGciOiJSUzI1NiIsImtpZCI6IjE1bF9LeldTV08tQ1ZNdXdlTmQyMnMifQ.eyJzdWIiOiI4N3VnOGJobXZydnF5bTFrIiwiYXVkIjoiVFo0VmY1d25LZWlwSnh2YXRKNjBsUEhZRXpxWjRXTnAiLCJqdGkiOiJmTldhWEE4RTBXUzNmVzVZU0VmNFRDIiwiaXNzIjoiaHR0cHM6XC9cL2xvZ2luLnBvcnNjaGUuY29tIiwiaWF0IjoxNjEyNzQxNDA4LCJleHAiOjE2MTI3NDE3MDgsInBpLnNyaSI6InNoeTN3aDN4RFVWSFlwd0pPYmpQdHJ5Y2FpOCJ9.EsgxbnDCdEC0O8b05B_VJoe09etxcQOqhj4bRkR-AOwZrFV0Ba5LGkUFD_8GxksWuCn9W_bG_vHNOxpcum-avI7r2qY3N2iMJHZaOc0Y-NqBPCu5kUN3F5oh8e7aDbBKQI_ZWTxRdMvcTC8zKJRZf0Ud2YFQSk6caGwmqJ5OE_OB38_ovbAiVRgV_beHePWpEkdADKKtlF5bmSViHOoUOs8x6j21mCXDiuMPf62oRxU4yPN-AS4wICtz22dabFgdjIwOAFm651098z2zwEUEAPAGkcRKuvSHlZ8OAvi4IXSFPXBdCfcfXRk5KdCXxP1xaZW0ItbrQZORdI12hVFoUQ",
       "token_type": "Bearer",
+      "scope": "openid",
       "expires_in": 7199,
     ]
   }

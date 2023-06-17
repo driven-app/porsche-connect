@@ -7,27 +7,30 @@ public struct Environment: Equatable {
   public let countryCode: String
   public let languageCode: String
   public let regionCode: String
+  public let testEnvironment: Bool
 
-  public init(countryCode: String, languageCode: String, regionCode: String) {
+  public init(countryCode: String, languageCode: String, regionCode: String, testEnvironment: Bool = false) {
     self.countryCode = countryCode
     self.languageCode = languageCode
     self.regionCode = regionCode
+    self.testEnvironment = testEnvironment
   }
 
   /// Initializes the Environment with a given locale, if possible.
   ///
   /// - Parameter locale:The Locale must have an identifier consisting of both the country and language,
   ///   separated by a `-` or `_` character. For example, `de_DE` or `en_US`.
-  public init?(locale: Locale) {
+  public init?(locale: Locale, testEnvironment: Bool = false) {
     guard let regionCode = locale.regionCode, let languageCode = locale.languageCode else {
       return nil
     }
     self.countryCode = regionCode.lowercased()
     self.languageCode = languageCode.lowercased()
     self.regionCode = "\(countryCode)/\(locale.identifier.replacingOccurrences(of: "-", with: "_"))"
+    self.testEnvironment = testEnvironment
   }
   static public let germany = Environment(locale: Locale(identifier: "de_DE"))!
-  static let test = Environment(locale: Locale(identifier: "en_IE"))!
+  static let test = Environment(locale: Locale(identifier: "en_IE"), testEnvironment: true)!
 }
 
 /// The set of locales known to be supported by the Porsche API endpoints.

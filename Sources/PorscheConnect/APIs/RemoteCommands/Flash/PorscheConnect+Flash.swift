@@ -4,7 +4,7 @@ extension PorscheConnect {
   public func flash(vin: String, andHonk honk: Bool = false) async throws -> (
     remoteCommandAccepted: RemoteCommandAccepted?, response: HTTPURLResponse
   ) {
-    let headers = try await performAuthFor(application: .carControl)
+    let headers = try await performAuthFor(application: .api)
 
     let url =
     honk
