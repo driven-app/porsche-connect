@@ -168,13 +168,9 @@ final class PorscheConnectURLSessionDataDelegate: NSObject, URLSessionDataDelega
       return
     }
     
-    let followRedirects = NSString(string: headerValue).boolValue
-    if !followRedirects {
-      completionHandler(nil)
-      return
-    }
-    
-    completionHandler(request)
+    let shoudFollowRedirects = NSString(string: headerValue).boolValue
+    let completionHandlerRequest = shoudFollowRedirects ? request : nil
+    completionHandler(completionHandlerRequest)
   }
 }
 
