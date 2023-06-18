@@ -74,8 +74,8 @@ A valid [MyPorsche](https://my.porsche.com) username (email) and password is req
 To get a list of vehicles associated with your My Porsche account . This call will return an array of `Vehicle` structs, with nested `VehicleAttribute`'s and `VehiclePicture`'s as appropriate for the vehicles configuration.
 
 ```swift
-try {
-  let result = porscheConnect.vehicles()
+do {
+  let result = try await porscheConnect.vehicles()
   if let vehicles = result.vehicles {
     // Do something with vehicles
   }
@@ -87,8 +87,8 @@ try {
 For example, to get the external [Color](https://developer.apple.com/documentation/swiftui/color) (a SwiftUI struct) for the first car in your account:
 
 ```swift
-try {
-  let result = porscheConnect.vehicles()
+do {
+  let result = try await porscheConnect.vehicles()
   if let vehicles = result.vehicles {
     let firstVehicle = vehicles.first!
     let color: Color = firstVehicle.color
@@ -103,8 +103,8 @@ try {
 To get a summary for a vehicle. This call will return a `Summary` struct.
 
 ```swift
-try {
-  let result = porscheConnect.summary(vin: vehicle.vin)
+do {
+  let result = try await porscheConnect.summary(vin: vehicle.vin)
   if let summary = result.summary {
     // Do something with the summary
   }
@@ -118,8 +118,8 @@ try {
 To get last reported position for a vehicle. This call will return a `Position` struct. 
 
 ```swift
-try {
-  let result = porscheConnect.position(vin: vehicle.vin)
+do {
+  let result = try await porscheConnect.position(vin: vehicle.vin)
   if let position = result.position {
     // Do something with the position
   }
@@ -133,8 +133,8 @@ try {
 To get capabilities for a vehicle. This call will return a `Capabilities` struct. This struct has nested `OnlineRemoteUpdateStatus` and `HeatingCapabilities` structs as appropriate for the vehicle.
 
 ```swift
-try {
-  let result = porscheConnect.capabilities(vin: vehicle.vin)
+do {
+  let result = try await porscheConnect.capabilities(vin: vehicle.vin)
   if let capabilities = result.capabilities {
     // Do something with the capabilities
   }
@@ -148,8 +148,8 @@ try {
 If the vehicle is a plug-in hybrid (PHEV) or a battery electric vehicle (BEV) this will return the status and configuration of the e-mobility aspects of the vehicle. This call requires both a vehicle and its matching capabilities. This call will return a `Emobility` struct. Passing in a vehicles `Capabilites` is optional – if none is passed in, the library will assume the vehicle is based on the `J1` (Taycan) platform.
 
 ```swift
-try {
-  let result = porscheConnect.emobility(vin: vehicle.vin, capabilities: capabilities)
+do {
+  let result = try await porscheConnect.emobility(vin: vehicle.vin, capabilities: capabilities)
   if let emobility = result.emobility {
     // Do something with the emobility
   }
@@ -163,8 +163,8 @@ try {
 To get the status for a vehicle. This call will return a `Status` struct. This struct has nested `ServiceIntervals`, and `RemainingRanges` structs as appropriate for the vehicle.
 
 ```swift
-try {
-  let result = porscheConnect.status(vin: vehicle.vin)
+do {
+  let result = try await porscheConnect.status(vin: vehicle.vin)
   if let status = result.status {
     // Do something with the status
   }
@@ -178,8 +178,8 @@ try {
 To get the trips for a vehicle. This call will return an array of `Trip` structs. You can specify either `shortTerm` or `longTerm` trips to be returned. `shortTerm` is the default if no type is specified.
 
 ```swift
-try {
-  let result = porscheConnect.trips(vin: vehicle.vin, type: .longTerm)
+do {
+  let result = try await porscheConnect.trips(vin: vehicle.vin, type: .longTerm)
   if let trips = result.trips {
     // Do something with the trips
   }
@@ -193,8 +193,8 @@ try {
 To get the maintenance status for a vehicle. This call will return a `Maintenance` struct which contains a number of maintenance `items`. 
 
 ```swift
-try {
-  let result = porscheConnect.maintenance(vin: vehicle.vin)
+do {
+  let result = try await porscheConnect.maintenance(vin: vehicle.vin)
   if let maintenance = result.maintenance {
     // Do something with maintenance
   }
@@ -208,8 +208,8 @@ try {
 To ask the vehicle to flash its indicators and optionally honk the horn. This call will return a `RemoteCommandAccepted` struct when the request has been accepted. The `andHorn` paramater is optional and defaults to false.
 
 ```swift
-try {
-  let result = porscheConnect.flash(vin: vehicle.vin, andHorn: true)
+do {
+  let result = try await porscheConnect.flash(vin: vehicle.vin, andHorn: true)
   if let remoteCommandAccepted = result.remoteCommandAccepted {
     // Do something with the remote command
   }
@@ -225,8 +225,8 @@ The `status` is mapped to a strongly typed enum that can be retrieved by accessi
 Passing in a capabilites paramater is not required to determine the status of a Honk and Flash command.
 
 ```swift
-try {
-  let result = porscheConnect.checkStatus(vin: vehicle.vin, remoteCommand: remoteCommandAccepted)
+do {
+  let result = try await porscheConnect.checkStatus(vin: vehicle.vin, remoteCommand: remoteCommandAccepted)
   if let remoteCommandStatus = result.remoteCommand {
     // Do something with the remote command status
   }
@@ -244,8 +244,8 @@ The `enable` parameter is optional and defaults to true.
 Passing in a vehicles `Capabilites` is optional – if none is passed in, the library will assume the vehicle is based on the `J1` (Taycan) platform.
 
 ```swift
-try {
-  let result = porscheConnect.toggleDirectCharging(vin: vehicle.vin, capabilities: capabilities, enable: false)
+do {
+  let result = try await porscheConnect.toggleDirectCharging(vin: vehicle.vin, capabilities: capabilities, enable: false)
   if let remoteCommandAccepted = result.remoteCommandAccepted {
     // Do something with the remote command
   }
@@ -261,8 +261,8 @@ The `status` is mapped to a strongly typed enum that can be retrieved by accessi
 Passing in a vehicles `Capabilites` is optional – if none is passed in, the library will assume the vehicle is based on the `J1` (Taycan) platform.
 
 ```swift
-try {
-  let result = porscheConnect.checkStatus(vin: vehicle.vin, capabilities: capabilities, remoteCommand: remoteCommandAccepted)
+do {
+  let result = try await porscheConnect.checkStatus(vin: vehicle.vin, capabilities: capabilities, remoteCommand: remoteCommandAccepted)
   if let remoteCommandStatus = result.remoteCommand {
     // Do something with the remote command status
   }
@@ -278,8 +278,8 @@ To toggle climatisation mode to on or off. This call will return a `RemoteComman
 The `enable` parameter is optional and defaults to true. 
 
 ```swift
-try {
-  let result = porscheConnect.toggleClimatisation(vin: vehicle.vin, enable: false)
+do {
+  let result = try await porscheConnect.toggleClimatisation(vin: vehicle.vin, enable: false)
   if let remoteCommandAccepted = result.remoteCommandAccepted {
     // Do something with the remote command
   }
@@ -293,8 +293,8 @@ As Toggle Direct Climatisation is a remote command that can take time to reach a
 The `status` is mapped to a strongly typed enum that can be retrieved by accessing the `remoteStatus` calculated property.
 
 ```swift
-try {
-  let result = porscheConnect.checkStatus(vin: vehicle.vin, remoteCommand: remoteCommandAccepted)
+do {
+  let result = try await porscheConnect.checkStatus(vin: vehicle.vin, remoteCommand: remoteCommandAccepted)
   if let remoteCommandStatus = result.remoteCommand {
     // Do something with the remote command status
   }
@@ -310,8 +310,8 @@ To ask the vehicle to remote lock. This call will return a `RemoteCommandAccepte
 Make sure that there are no vehicle keys, persons or animals in the vehicle.
 
 ```swift
-try {
-  let result = porscheConnect.lock(vin: vehicle.vin)
+do {
+  let result = try await porscheConnect.lock(vin: vehicle.vin)
   if let remoteCommandAccepted = result.remoteCommandAccepted {
     // Do something with the remote command
   }
@@ -327,8 +327,8 @@ The `status` is mapped to a strongly typed enum that can be retrieved by accessi
 Passing in a capabilites paramater is not required to determine the status of a Lock command.
 
 ```swift
-try {
-  let result = porscheConnect.checkStatus(vin: vehicle.vin, remoteCommand: remoteCommandAccepted)
+do {
+  let result = try await porscheConnect.checkStatus(vin: vehicle.vin, remoteCommand: remoteCommandAccepted)
   if let remoteCommandStatus = result.remoteCommand {
     // Do something with the remote command status
   }
@@ -342,8 +342,8 @@ try {
 To ask the vehicle to remote unlock. As this action impacts the security of the vehicle (by unlocking it), it also requires the users four digit security (PIN) code. This call will return a `RemoteCommandAccepted` struct when the request has been accepted. 
 
 ```swift
-try {
-  let result = porscheConnect.unlock(vin: vehicle.vin, pin: "1234")
+do {
+  let result = try await porscheConnect.unlock(vin: vehicle.vin, pin: "1234")
   if let remoteCommandAccepted = result.remoteCommandAccepted {
     // Do something with the remote command
   }
@@ -359,8 +359,8 @@ The `status` is mapped to a strongly typed enum that can be retrieved by accessi
 Passing in a capabilites paramater is not required to determine the status of a Unlock command.
 
 ```swift
-try {
-  let result = porscheConnect.checkStatus(vin: vehicle.vin, remoteCommand: remoteCommandAccepted)
+do {
+  let result = try await porscheConnect.checkStatus(vin: vehicle.vin, remoteCommand: remoteCommandAccepted)
   if let remoteCommandStatus = result.remoteCommand {
     // Do something with the remote command status
   }
