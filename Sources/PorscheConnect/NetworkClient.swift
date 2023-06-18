@@ -30,7 +30,7 @@ struct NetworkClient {
       headers: headers,
       contentType: .json,
       bodyData: nil,
-      followRedirects: followRedirects
+      shouldFollowRedirects: followRedirects
     )
     return try await performRequest(
       responseType, request: request, parseResponseBody: parseResponseBody,
@@ -54,7 +54,7 @@ struct NetworkClient {
       headers: headers,
       contentType: contentType,
       body: body,
-      followRedirects: followRedirects
+      shouldFollowRedirects: followRedirects
     )
     return try await performRequest(
       responseType, request: request, contentType: contentType,
@@ -69,7 +69,7 @@ struct NetworkClient {
     headers: [String: String]?,
     contentType: HttpRequestContentType,
     bodyData: Data?,
-    followRedirects: Bool? = nil
+    shouldFollowRedirects followRedirects: Bool? = nil
   ) -> URLRequest {
     var request = URLRequest(url: url)
     request.httpMethod = method
@@ -135,10 +135,10 @@ struct NetworkClient {
   
   private func buildModifyingRequest<E: Encodable>(
     url: URL, method: String, headers: [String: String]?,
-    contentType: HttpRequestContentType = .json, body: E?, followRedirects: Bool) -> URLRequest {
+    contentType: HttpRequestContentType = .json, body: E?, shouldFollowRedirects followRedirects: Bool) -> URLRequest {
     let bodyData: Data? = contentType == .json ? buildJsonBody(body: body) : body as? Data
     return createRequest(
-      url: url, method: method, headers: headers, contentType: contentType, bodyData: bodyData, followRedirects: followRedirects)
+      url: url, method: method, headers: headers, contentType: contentType, bodyData: bodyData, shouldFollowRedirects: followRedirects)
   }
   
   private func buildJsonBody<E: Encodable>(body: E?) -> Data? {
