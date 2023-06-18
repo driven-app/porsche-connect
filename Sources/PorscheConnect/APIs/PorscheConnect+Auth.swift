@@ -10,7 +10,7 @@ extension PorscheConnect {
     let resumeAuthResponse = try await resumeAuth()
     let accessTokenResponse = try await getAccessToken(code: resumeAuthResponse.code)
     
-    let token =  OAuthToken(authResponse: accessTokenResponse.authResponse)
+    let token = OAuthToken(authResponse: accessTokenResponse.authResponse)
     try await authStorage.storeAuthentication(token: token, for: application.clientId)
     
     return token

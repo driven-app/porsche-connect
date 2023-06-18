@@ -75,12 +75,22 @@ final class MockNetworkRoutes {
         return Data("<form method=\"post\" name=\"hiddenform\" action=\"https://identity.porsche.com/login/callback\">\n    <input type=\"hidden\" name=\"wa\" value=\"wsignin1.0\">\n    <input type=\"hidden\" \n           name=\"wresult\" \n           value=\"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VyX2lkIjoiNjQ3NmEyNTZmNzUzZmY1NWFmY2IzY2JkIiwiZW1haWwiOiJkYW1pZW4uZ2xhbmN5QGljbG91ZC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwic2lkIjoiSTRlZkE1akVYWXNfRjJnZDVKVnlPQ2dEWGc4b3pBbFEiLCJpYXQiOjE2ODcwMjIzMDMsImV4cCI6MTY4NzAyMjM2MywiYXVkIjoidXJuOmF1dGgwOnBvcnNjaGUtcHJvZHVjdGlvbjpVc2VybmFtZS1QYXNzd29yZC1BdXRoZW50aWNhdGlvbiIsImlzcyI6InVybjphdXRoMCJ9.MH8OBE55g8dPPHHpH0lQEF7NFvy6hYN5zIHZlbpFr8XRl29P8TVRlLrpcFft85cn4e5u16PVCnXROmdt_SAko_AWB4TZ0WgQDDDr5z-x8XHkJfkAlsoz4DG0t3tu9hnyv1gNh-NDKqv8GRAEjHTvZgKRIG5Jjo3uoRlEWIrj9TVGT04czlK18p-zgc68XOE2TPkmlbwPD9RLygAyNwJboYWlwVRpkvHGwEghMF6zyss3B1K_YZMGHPUal8k_HktvDgW6-1yDluJAQ0Sz3vG4iG7UyYms6XuARrJFO4GtA5uyEbkF8wz3vCbUar4Z_rS-d9Q9VV0ycH8WKFcekIHoAg\">\n    <input type=\"hidden\" name=\"wctx\" value=\"{&#34;strategy&#34;:&#34;auth0&#34;,&#34;auth0Client&#34;:&#34;&#34;,&#34;tenant&#34;:&#34;porsche-production&#34;,&#34;connection&#34;:&#34;Username-Password-Authentication&#34;,&#34;client_id&#34;:&#34;UYsK00My6bCqJdbQhTQ0PbWmcSdIAMig&#34;,&#34;response_type&#34;:&#34;code&#34;,&#34;redirect_uri&#34;:&#34;https://my.porsche.com/&#34;,&#34;state&#34;:&#34;hKFo2SBUbnJVZ2hEM1FrYXJWNlUydG96WHBKeDd3NEk0bzljbaFupWxvZ2luo3RpZNkgeHVfbTJ3TDZlRFdSa3lyVTJJUUZhSW91WjZGRFMtMHqjY2lk2SBVWXNLMDBNeTZiQ3FKZGJRaFRRMFBiV21jU2RJQU1pZw&#34;,&#34;sid&#34;:&#34;I4efA5jEXYs_F2gd5JVyOCgDXg8ozAlQ&#34;,&#34;audience&#34;:&#34;https://api.porsche.com&#34;,&#34;realm&#34;:&#34;Username-Password-Authentication&#34;}\">\n    <noscript>\n        <p>\n            Script is disabled. Click Submit to continue.\n        </p><input type=\"submit\" value=\"Submit\">\n    </noscript>\n</form>".utf8)
       }
   }
+  
+  func mockPostLoginDetailsAuth0Failure(router: Router) {
+    router[MockNetworkRoutes.postAuth0LoginDetailsPath] = DataResponse(
+      statusCode: 400, statusMessage: "bad request")
+  }
 
   // MARK: – Post Auth0 Callback
   
   func mockGetAuth0CallbackSuccessful(router: Router) {
     router[MockNetworkRoutes.postAuth0CallbackPath] = DataResponse(
       statusCode: 302, statusMessage: "Found")
+  }
+  
+  func mockGetAuth0CallbackFailure(router: Router) {
+    router[MockNetworkRoutes.postAuth0CallbackPath] = DataResponse(
+      statusCode: 400, statusMessage: "bad request")
   }
   
   // MARK: – Get Auth0 Resume Auth
@@ -93,12 +103,22 @@ final class MockNetworkRoutes {
       ])
   }
   
+  func mockGetAuth0ResumeAuthFailure(router: Router) {
+    router[MockNetworkRoutes.getAuth0ResumeAuthPath] = DataResponse(
+      statusCode: 400, statusMessage: "bad request")
+  }
+  
   // MARK: – Post Access Token
   
   func mockPostAuth0AccessTokenSuccessful(router: Router) {
     router[MockNetworkRoutes.postAuth0AccessTokenPath] = JSONResponse(statusCode: 302) { _ -> Any in
       return self.mockApiTokenResponse()
     }
+  }
+  
+  func mockPostAuth0AccessTokenFailure(router: Router) {
+    router[MockNetworkRoutes.postAuth0AccessTokenPath] = DataResponse(
+      statusCode: 400, statusMessage: "bad request")
   }
   
   // MARK: - Get Vehicles
