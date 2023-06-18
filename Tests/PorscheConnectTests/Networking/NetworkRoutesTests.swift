@@ -11,31 +11,38 @@ final class NetworkRoutesTests: XCTestCase {
     capabilities = buildCapabilites()
   }
 
-  func testApplicationRedirectURLPortal() {
+  func testApplicationRedirectURLApi() {
     let application = OAuthApplication.api
-    XCTAssertEqual(URL(string: "https://my.porsche.com/core/de/de_DE")!, application.redirectURL)
+    XCTAssertEqual(URL(string: "https://my.porsche.com/")!, application.redirectURL)
   }
 
-  func testApplicationClientIdCarControl() {
-    let application = OAuthApplication.carControl
-    XCTAssertEqual("Ux8WmyzsOAGGmvmWnW7GLEjIILHEztAs", application.clientId)
-  }
-
-  func testApplicationRedirectURLCarControl() {
-    let application = OAuthApplication.carControl
-    XCTAssertEqual(
-      URL(string: "https://my.porsche.com/myservices/auth/auth.html")!, application.redirectURL)
+  func testApplicationClientIdApi() {
+    let application = OAuthApplication.api
+    XCTAssertEqual("UYsK00My6bCqJdbQhTQ0PbWmcSdIAMig", application.clientId)
   }
 
   func testNetworkRoutesGermany() {
     let networkRoute = NetworkRoutes(environment: .germany)
     XCTAssertEqual(
-      URL(string: "https://login.porsche.com/auth/api/v1/de/de_DE/public/login")!,
-      networkRoute.loginAuthURL)
+      URL(string: "https://identity.porsche.com/authorize?response_type=code&client_id=UYsK00My6bCqJdbQhTQ0PbWmcSdIAMig&code_challenge_method=S256&redirect_uri=https://my.porsche.com&uri_locales=de-DE&audience=https://api.porsche.com&scope=openid"),
+      networkRoute.loginAuth0URL
+    )
     XCTAssertEqual(
-      URL(string: "https://login.porsche.com/as/authorization.oauth2")!, networkRoute.apiAuthURL)
+      URL(string: "https://identity.porsche.com/testing-second-authorize?response_type=code&client_id=UYsK00My6bCqJdbQhTQ0PbWmcSdIAMig&code_challenge_method=S256&redirect_uri=https://my.porsche.com&uri_locales=de-DE&audience=https://api.porsche.com&scope=openid"),
+      networkRoute.resumeAuth0URL
+    )
     XCTAssertEqual(
-      URL(string: "https://login.porsche.com/as/token.oauth2")!, networkRoute.apiTokenURL)
+      URL(string: "https://identity.porsche.com/oauth/token"),
+      networkRoute.accessTokenAuth0URL
+    )
+    XCTAssertEqual(
+      URL(string: "https://identity.porsche.com/usernamepassword/login"),
+      networkRoute.usernamePasswordLoginAuth0URL
+    )
+    XCTAssertEqual(
+      URL(string: "https://identity.porsche.com/login/callback"),
+      networkRoute.callbackAuth0URL
+    )
 
     let vin = "12345X"
     XCTAssertEqual(
@@ -131,13 +138,25 @@ final class NetworkRoutesTests: XCTestCase {
   func testNetworkRoutesTest() {
     let networkRoute = NetworkRoutes(environment: .test)
     XCTAssertEqual(
-      URL(string: "http://localhost:\(kTestServerPort)/auth/api/v1/ie/en_IE/public/login")!,
-      networkRoute.loginAuthURL)
+      URL(string: "http://localhost:\(kTestServerPort)/authorize?response_type=code&client_id=UYsK00My6bCqJdbQhTQ0PbWmcSdIAMig&code_challenge_method=S256&redirect_uri=https://my.porsche.com&uri_locales=de-DE&audience=https://api.porsche.com&scope=openid"),
+      networkRoute.loginAuth0URL
+    )
     XCTAssertEqual(
-      URL(string: "http://localhost:\(kTestServerPort)/as/authorization.oauth2")!,
-      networkRoute.apiAuthURL)
+      URL(string: "http://localhost:\(kTestServerPort)/testing-second-authorize?response_type=code&client_id=UYsK00My6bCqJdbQhTQ0PbWmcSdIAMig&code_challenge_method=S256&redirect_uri=https://my.porsche.com&uri_locales=de-DE&audience=https://api.porsche.com&scope=openid"),
+      networkRoute.resumeAuth0URL
+    )
     XCTAssertEqual(
-      URL(string: "http://localhost:\(kTestServerPort)/as/token.oauth2")!, networkRoute.apiTokenURL)
+      URL(string: "http://localhost:\(kTestServerPort)/oauth/token"),
+      networkRoute.accessTokenAuth0URL
+    )
+    XCTAssertEqual(
+      URL(string: "http://localhost:\(kTestServerPort)/usernamepassword/login"),
+      networkRoute.usernamePasswordLoginAuth0URL
+    )
+    XCTAssertEqual(
+      URL(string: "http://localhost:\(kTestServerPort)/login/callback"),
+      networkRoute.callbackAuth0URL
+    )
 
     let vin = "12345X"
     XCTAssertEqual(

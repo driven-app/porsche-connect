@@ -6,7 +6,7 @@ extension PorscheConnect {
   ) async throws -> (
     remoteCommandAccepted: RemoteCommandAccepted?, response: HTTPURLResponse
   ) {
-    let headers = try await performAuthFor(application: .carControl)
+    let headers = try await performAuthFor(application: .api)
     let url = networkRoutes.vehicleToggleDirectChargingURL(
       vin: vin, capabilities: capabilities, enable: enable)
 

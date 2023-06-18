@@ -30,9 +30,11 @@ final class PorscheConnectPortalTests: BaseMockNetworkTestCase {
     try await connect.authStorage.storeAuthentication(token: nil, for: application.clientId)
     let expectation = expectation(description: "Network Expectation")
 
-    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
-    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
-    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockGetAuth0InitialStateSuccessful(router: router)
+    mockNetworkRoutes.mockPostLoginDetailsAuth0Successful(router: router)
+    mockNetworkRoutes.mockGetAuth0CallbackSuccessful(router: router)
+    mockNetworkRoutes.mockGetAuth0ResumeAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostAuth0AccessTokenSuccessful(router: router)
     mockNetworkRoutes.mockGetVehiclesSuccessful(router: router)
 
     await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
@@ -86,7 +88,7 @@ final class PorscheConnectPortalTests: BaseMockNetworkTestCase {
   func testVehiclesAuthRequiredAuthFailure() async throws {
     try await connect.authStorage.storeAuthentication(token: nil, for: application.clientId)
     let expectation = expectation(description: "Network Expectation")
-    mockNetworkRoutes.mockPostLoginAuthFailure(router: router)
+    mockNetworkRoutes.mockGetAuth0InitialStateFailure(router: router)
 
     await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
 

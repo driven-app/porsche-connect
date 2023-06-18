@@ -4,7 +4,7 @@ extension PorscheConnect {
   public func summary(vin: String) async throws -> (
     summary: Summary?, response: HTTPURLResponse
   ) {
-    let headers = try await performAuthFor(application: .carControl)
+    let headers = try await performAuthFor(application: .api)
 
     let result = try await networkClient.get(
       Summary.self, url: networkRoutes.vehicleSummaryURL(vin: vin), headers: headers,

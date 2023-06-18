@@ -19,6 +19,7 @@ public struct OAuthToken: Codable {
   public let idToken: String
   public let tokenType: String
   public let expiresAt: Date
+  public let scope: String
 
   public var apiKey: String? {
     // Standard OAuth JWT decoding. See
@@ -52,6 +53,7 @@ public struct OAuthToken: Codable {
     self.accessToken = authResponse.accessToken
     self.idToken = authResponse.idToken
     self.tokenType = authResponse.tokenType
+    self.scope = authResponse.scope
     self.expiresAt = Date().addingTimeInterval(authResponse.expiresIn)
   }
 }

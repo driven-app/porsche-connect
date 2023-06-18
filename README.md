@@ -19,7 +19,7 @@ Absolutely not. These endpoints are a result of reverse engineering Porsche's we
 
 ## CI/CD Status
 
-The library has a comprehensive suite of unit tests that run on GitHub Actions. Currently the test suite is run on a Intel based macOS v12.4.x running XCode 14.2.
+The library has a comprehensive suite of unit tests that run on GitHub Actions. Currently the test suite is run on a Intel based macOS v13..x running XCode 14.3.
 
 You can see the current build status of the `main` branch here:
 
@@ -36,14 +36,18 @@ Porsche Connect requires Swift 5.5 or higher. It uses the new async/await concur
 
 Currently the library supports the following platforms:
 
-* **macOS** (Version 11.0+)
-* **iOS** (Version 14+)
-* **tvOS** (Version 14+)
-* **watchOS** (Version 6+)
+* **macOS** (Version 12.0+)
+* **iOS** (Version 15+)
+* **tvOS** (Version 15+)
+* **watchOS** (Version 8+)
 
 ### Swift Package Index
 
 This library is availble on the Swift Package Index at [https://swiftpackageindex.com/driven-app/porsche-connect](https://swiftpackageindex.com/driven-app/porsche-connect).
+
+### Auth
+
+Since calendar week 12, 2023, Porsche has moved their identity provider (iDP) in production to [Auth0](https://auth0.com). Release v0.1.37 and higher of this library uses this new Auth0 service in a transparent manner to external clients. Use of the old iDP has been retired. 
 
 
 # Usage

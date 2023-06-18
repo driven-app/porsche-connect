@@ -4,7 +4,7 @@ extension PorscheConnect {
   public func lockUnlockLastActions(vin: String) async throws -> (
     lastActions: LockUnlockLastActions?, response: HTTPURLResponse
   ) {
-    let headers = try await performAuthFor(application: .carControl)
+    let headers = try await performAuthFor(application: .api)
     let url = networkRoutes.vehicleLockUnlockLastActionsURL(vin: vin)
 
     let result = try await networkClient.get(

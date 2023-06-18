@@ -9,7 +9,7 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
 
   var connect: PorscheConnect!
   let mockNetworkRoutes = MockNetworkRoutes()
-  let application: OAuthApplication = .carControl
+  let application: OAuthApplication = .api
   let vin = "A1234"
 
   // MARK: - Lifecycle
@@ -31,9 +31,11 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
     let remoteCommand = RemoteCommandAccepted(id: "999", lastUpdated: Date(), remoteCommand: .honkAndFlash)
     let expectation = expectation(description: "Network Expectation")
 
-    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
-    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
-    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockGetAuth0InitialStateSuccessful(router: router)
+    mockNetworkRoutes.mockPostLoginDetailsAuth0Successful(router: router)
+    mockNetworkRoutes.mockGetAuth0CallbackSuccessful(router: router)
+    mockNetworkRoutes.mockGetAuth0ResumeAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostAuth0AccessTokenSuccessful(router: router)
     mockNetworkRoutes.mockGetHonkAndFlashRemoteCommandStatusInProgress(router: router)
 
     await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
@@ -53,9 +55,11 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
     let remoteCommand = RemoteCommandAccepted(id: "999", lastUpdated: Date(), remoteCommand: .honkAndFlash)
     let expectation = expectation(description: "Network Expectation")
 
-    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
-    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
-    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockGetAuth0InitialStateSuccessful(router: router)
+    mockNetworkRoutes.mockPostLoginDetailsAuth0Successful(router: router)
+    mockNetworkRoutes.mockGetAuth0CallbackSuccessful(router: router)
+    mockNetworkRoutes.mockGetAuth0ResumeAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostAuth0AccessTokenSuccessful(router: router)
     mockNetworkRoutes.mockGetHonkAndFlashRemoteCommandStatusSuccess(router: router)
 
     await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
@@ -75,9 +79,11 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
     let remoteCommand = RemoteCommandAccepted(id: "999", lastUpdated: Date(), remoteCommand: .honkAndFlash)
     let expectation = expectation(description: "Network Expectation")
 
-    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
-    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
-    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockGetAuth0InitialStateSuccessful(router: router)
+    mockNetworkRoutes.mockPostLoginDetailsAuth0Successful(router: router)
+    mockNetworkRoutes.mockGetAuth0CallbackSuccessful(router: router)
+    mockNetworkRoutes.mockGetAuth0ResumeAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostAuth0AccessTokenSuccessful(router: router)
     mockNetworkRoutes.mockGetHonkAndFlashRemoteCommandStatusFailure(router: router)
 
     await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
@@ -101,9 +107,11 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
     let remoteCommand = RemoteCommandAccepted(requestId: "999", remoteCommand: .toggleDirectCharge)
     let expectation = expectation(description: "Network Expectation")
 
-    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
-    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
-    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockGetAuth0InitialStateSuccessful(router: router)
+    mockNetworkRoutes.mockPostLoginDetailsAuth0Successful(router: router)
+    mockNetworkRoutes.mockGetAuth0CallbackSuccessful(router: router)
+    mockNetworkRoutes.mockGetAuth0ResumeAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostAuth0AccessTokenSuccessful(router: router)
     mockNetworkRoutes.mockGetToggleDirectChargingRemoteCommandStatusInProgress(router: router)
 
     await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
@@ -123,9 +131,11 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
     let remoteCommand = RemoteCommandAccepted(requestId: "999", remoteCommand: .toggleDirectCharge)
     let expectation = expectation(description: "Network Expectation")
 
-    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
-    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
-    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockGetAuth0InitialStateSuccessful(router: router)
+    mockNetworkRoutes.mockPostLoginDetailsAuth0Successful(router: router)
+    mockNetworkRoutes.mockGetAuth0CallbackSuccessful(router: router)
+    mockNetworkRoutes.mockGetAuth0ResumeAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostAuth0AccessTokenSuccessful(router: router)
     mockNetworkRoutes.mockGetToggleDirectChargingRemoteCommandStatusSuccess(router: router)
 
     await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
@@ -145,9 +155,11 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
     let remoteCommand = RemoteCommandAccepted(requestId: "999", remoteCommand: .toggleDirectCharge)
     let expectation = expectation(description: "Network Expectation")
 
-    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
-    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
-    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockGetAuth0InitialStateSuccessful(router: router)
+    mockNetworkRoutes.mockPostLoginDetailsAuth0Successful(router: router)
+    mockNetworkRoutes.mockGetAuth0CallbackSuccessful(router: router)
+    mockNetworkRoutes.mockGetAuth0ResumeAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostAuth0AccessTokenSuccessful(router: router)
     mockNetworkRoutes.mockGetToggleDirectChargingRemoteCommandStatusFailure(router: router)
 
     await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
@@ -171,9 +183,11 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
     let remoteCommand = RemoteCommandAccepted(requestId: "999", remoteCommand: .toggleDirectClimatisation)
     let expectation = expectation(description: "Network Expectation")
 
-    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
-    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
-    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockGetAuth0InitialStateSuccessful(router: router)
+    mockNetworkRoutes.mockPostLoginDetailsAuth0Successful(router: router)
+    mockNetworkRoutes.mockGetAuth0CallbackSuccessful(router: router)
+    mockNetworkRoutes.mockGetAuth0ResumeAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostAuth0AccessTokenSuccessful(router: router)
     mockNetworkRoutes.mockGetToggleDirectClimatisationRemoteCommandStatusInProgress(router: router)
 
     await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
@@ -193,9 +207,11 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
     let remoteCommand = RemoteCommandAccepted(requestId: "999", remoteCommand: .toggleDirectClimatisation)
     let expectation = expectation(description: "Network Expectation")
 
-    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
-    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
-    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockGetAuth0InitialStateSuccessful(router: router)
+    mockNetworkRoutes.mockPostLoginDetailsAuth0Successful(router: router)
+    mockNetworkRoutes.mockGetAuth0CallbackSuccessful(router: router)
+    mockNetworkRoutes.mockGetAuth0ResumeAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostAuth0AccessTokenSuccessful(router: router)
     mockNetworkRoutes.mockGetToggleDirectClimatisationRemoteCommandStatusSuccess(router: router)
 
     await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
@@ -215,9 +231,11 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
     let remoteCommand = RemoteCommandAccepted(requestId: "999", remoteCommand: .toggleDirectClimatisation)
     let expectation = expectation(description: "Network Expectation")
 
-    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
-    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
-    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockGetAuth0InitialStateSuccessful(router: router)
+    mockNetworkRoutes.mockPostLoginDetailsAuth0Successful(router: router)
+    mockNetworkRoutes.mockGetAuth0CallbackSuccessful(router: router)
+    mockNetworkRoutes.mockGetAuth0ResumeAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostAuth0AccessTokenSuccessful(router: router)
     mockNetworkRoutes.mockGetToggleDirectClimatisationRemoteCommandStatusFailure(router: router)
 
     await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
@@ -241,9 +259,11 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
     let remoteCommand = RemoteCommandAccepted(requestId: "999", remoteCommand: .lock)
     let expectation = expectation(description: "Network Expectation")
 
-    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
-    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
-    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockGetAuth0InitialStateSuccessful(router: router)
+    mockNetworkRoutes.mockPostLoginDetailsAuth0Successful(router: router)
+    mockNetworkRoutes.mockGetAuth0CallbackSuccessful(router: router)
+    mockNetworkRoutes.mockGetAuth0ResumeAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostAuth0AccessTokenSuccessful(router: router)
     mockNetworkRoutes.mockGetLockUnlockRemoteCommandStatusInProgress(router: router)
 
     await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
@@ -263,9 +283,11 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
     let remoteCommand = RemoteCommandAccepted(requestId: "999", remoteCommand: .lock)
     let expectation = expectation(description: "Network Expectation")
 
-    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
-    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
-    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockGetAuth0InitialStateSuccessful(router: router)
+    mockNetworkRoutes.mockPostLoginDetailsAuth0Successful(router: router)
+    mockNetworkRoutes.mockGetAuth0CallbackSuccessful(router: router)
+    mockNetworkRoutes.mockGetAuth0ResumeAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostAuth0AccessTokenSuccessful(router: router)
     mockNetworkRoutes.mockGetLockUnlockRemoteCommandStatusSuccess(router: router)
 
     await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
@@ -285,9 +307,11 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
     let remoteCommand = RemoteCommandAccepted(requestId: "999", remoteCommand: .lock)
     let expectation = expectation(description: "Network Expectation")
 
-    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
-    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
-    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockGetAuth0InitialStateSuccessful(router: router)
+    mockNetworkRoutes.mockPostLoginDetailsAuth0Successful(router: router)
+    mockNetworkRoutes.mockGetAuth0CallbackSuccessful(router: router)
+    mockNetworkRoutes.mockGetAuth0ResumeAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostAuth0AccessTokenSuccessful(router: router)
     mockNetworkRoutes.mockGetLockUnlockRemoteCommandStatusFailure(router: router)
 
     await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
@@ -311,9 +335,11 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
     let remoteCommand = RemoteCommandAccepted(requestId: "999", remoteCommand: .lock)
     let expectation = expectation(description: "Network Expectation")
 
-    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
-    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
-    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockGetAuth0InitialStateSuccessful(router: router)
+    mockNetworkRoutes.mockPostLoginDetailsAuth0Successful(router: router)
+    mockNetworkRoutes.mockGetAuth0CallbackSuccessful(router: router)
+    mockNetworkRoutes.mockGetAuth0ResumeAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostAuth0AccessTokenSuccessful(router: router)
     mockNetworkRoutes.mockGetLockUnlockRemoteCommandStatusInProgress(router: router)
 
     await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
@@ -333,9 +359,11 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
     let remoteCommand = RemoteCommandAccepted(requestId: "999", remoteCommand: .lock)
     let expectation = expectation(description: "Network Expectation")
 
-    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
-    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
-    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockGetAuth0InitialStateSuccessful(router: router)
+    mockNetworkRoutes.mockPostLoginDetailsAuth0Successful(router: router)
+    mockNetworkRoutes.mockGetAuth0CallbackSuccessful(router: router)
+    mockNetworkRoutes.mockGetAuth0ResumeAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostAuth0AccessTokenSuccessful(router: router)
     mockNetworkRoutes.mockGetLockUnlockRemoteCommandStatusSuccess(router: router)
 
     await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))
@@ -355,9 +383,11 @@ final class PorscheConnectRemoteCommandStatuslTests: BaseMockNetworkTestCase {
     let remoteCommand = RemoteCommandAccepted(requestId: "999", remoteCommand: .lock)
     let expectation = expectation(description: "Network Expectation")
 
-    mockNetworkRoutes.mockPostLoginAuthSuccessful(router: router)
-    mockNetworkRoutes.mockGetApiAuthSuccessful(router: router)
-    mockNetworkRoutes.mockPostApiTokenSuccessful(router: router)
+    mockNetworkRoutes.mockGetAuth0InitialStateSuccessful(router: router)
+    mockNetworkRoutes.mockPostLoginDetailsAuth0Successful(router: router)
+    mockNetworkRoutes.mockGetAuth0CallbackSuccessful(router: router)
+    mockNetworkRoutes.mockGetAuth0ResumeAuthSuccessful(router: router)
+    mockNetworkRoutes.mockPostAuth0AccessTokenSuccessful(router: router)
     mockNetworkRoutes.mockGetLockUnlockRemoteCommandStatusFailure(router: router)
 
     await XCTAsync.XCTAssertFalse(await connect.authorized(application: application))

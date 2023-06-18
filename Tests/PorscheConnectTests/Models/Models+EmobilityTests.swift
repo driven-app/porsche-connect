@@ -81,7 +81,7 @@ final class ModelsEmobilityTests: XCTestCase {
     XCTAssertEqual("06:00", chargingOptionsForChargingProfile1.preferredChargingTimeEnd)
 
     XCTAssertNotNil(chargingProfile1.position)
-    let positionForChargingProfile1 = chargingProfile1.position
+    let positionForChargingProfile1 = chargingProfile1.position!
     XCTAssertEqual(0, positionForChargingProfile1.latitude)
     XCTAssertEqual(0, positionForChargingProfile1.longitude)
 
@@ -100,7 +100,7 @@ final class ModelsEmobilityTests: XCTestCase {
     XCTAssertEqual("08:00", chargingOptionsForChargingProfile2.preferredChargingTimeEnd)
 
     XCTAssertNotNil(chargingProfile2.position)
-    let positionForChargingProfile2 = chargingProfile2.position
+    let positionForChargingProfile2 = chargingProfile2.position!
     XCTAssertEqual(53.365771, positionForChargingProfile2.latitude)
     XCTAssertEqual(-6.330550, positionForChargingProfile2.longitude)
 

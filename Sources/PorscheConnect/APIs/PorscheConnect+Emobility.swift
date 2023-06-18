@@ -5,7 +5,7 @@ extension PorscheConnect {
   public func emobility(vin: String, capabilities: Capabilities) async throws -> (
     emobility: Emobility?, response: HTTPURLResponse
   ) {
-    let headers = try await performAuthFor(application: .carControl)
+    let headers = try await performAuthFor(application: .api)
 
     let result = try await networkClient.get(
       Emobility.self,
@@ -150,7 +150,7 @@ public struct Emobility: Codable {
     public let profileName: String
     public let profileActive: Bool
     public let chargingOptions: ChargingOptions
-    public let position: Position
+    public let position: Position?
 
     // MARK: -
 

@@ -26,7 +26,6 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
     XCTAssertEqual("homer.simpson@icloud.example", connect.username)
     XCTAssertNotNil(connect.authStorage)
     await XCTAsync.XCTAssertFalse(await connect.authorized(application: .api))
-    await XCTAsync.XCTAssertFalse(await connect.authorized(application: .carControl))
   }
 
   func testEnvironmentGermany() {
@@ -57,14 +56,9 @@ final class PorscheConnectTests: BaseMockNetworkTestCase {
     XCTAssertEqual(environment.countryCode, CountryCode.ireland.rawValue)
   }
 
-  func testApplicationClientIdPortal() {
+  func testApplicationClientIdApi() {
     let application = OAuthApplication.api
-    XCTAssertEqual(application.clientId, "4mPO3OE5Srjb1iaUGWsbqKBvvesya8oA")
-  }
-
-  func testApplicationClientIdCarControl() {
-    let application = OAuthApplication.carControl
-    XCTAssertEqual(application.clientId, "Ux8WmyzsOAGGmvmWnW7GLEjIILHEztAs")
+    XCTAssertEqual(application.clientId, "UYsK00My6bCqJdbQhTQ0PbWmcSdIAMig")
   }
 
   func testAuthLoggerIsDefined() {

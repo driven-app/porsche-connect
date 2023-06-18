@@ -4,7 +4,7 @@ extension PorscheConnect {
   public func capabilities(vin: String) async throws -> (
     capabilities: Capabilities?, response: HTTPURLResponse
   ) {
-    let headers = try await performAuthFor(application: .carControl)
+    let headers = try await performAuthFor(application: .api)
 
     let result = try await networkClient.get(
       Capabilities.self, url: networkRoutes.vehicleCapabilitiesURL(vin: vin),
