@@ -19,7 +19,7 @@ extension PorscheConnect {
   // MARK: - Private functions
   
   private func getInitialStateFromAuthService() async throws -> (state: String, response: HTTPURLResponse?) {
-    let result = try await networkClient.get(String.self, url: networkRoutes.loginAuth0URL, parseResponseBody: false, followRedirects: false)
+    let result = try await networkClient.get(String.self, url: networkRoutes.loginAuth0URL, parseResponseBody: false, shouldFollowRedirects: false)
     
     if let statusCode = HttpStatusCode(rawValue: result.response.statusCode), statusCode == .Found {
       AuthLogger.info("Initial state from auth service successful.")
@@ -61,7 +61,7 @@ extension PorscheConnect {
   }
   
   private func followCallback(formNameValuePairs: [String:String]) async throws -> HTTPURLResponse? {
-    let result = try await networkClient.post(String.self, url: networkRoutes.callbackAuth0URL, body: buildPostFormBodyFrom(dictionary: formNameValuePairs), contentType: .form, parseResponseBody: false, followRedirects: false)
+    let result = try await networkClient.post(String.self, url: networkRoutes.callbackAuth0URL, body: buildPostFormBodyFrom(dictionary: formNameValuePairs), contentType: .form, parseResponseBody: false, shouldFollowRedirects: false)
     
     if let statusCode = HttpStatusCode(rawValue: result.response.statusCode), statusCode == .Found {
       AuthLogger.info("Authentication details sent successfully.")
@@ -78,7 +78,7 @@ extension PorscheConnect {
   
   private func resumeAuth() async throws -> (code: String, response: HTTPURLResponse?) {
     let url = environment.testEnvironment ? networkRoutes.resumeAuth0URL : networkRoutes.loginAuth0URL
-    let result = try await networkClient.get(String.self, url: url, parseResponseBody: false, followRedirects: false)
+    let result = try await networkClient.get(String.self, url: url, parseResponseBody: false, shouldFollowRedirects: false)
     
     if let statusCode = HttpStatusCode(rawValue: result.response.statusCode), statusCode == .Found {
       AuthLogger.info("Resume auth service successful.")

@@ -22,7 +22,7 @@ struct NetworkClient {
     headers: [String: String]? = nil,
     parseResponseBody: Bool = true,
     jsonKeyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase,
-    followRedirects: Bool = true
+    shouldFollowRedirects followRedirects: Bool = true
   ) async throws -> (data: D?, response: HTTPURLResponse) {
     let request = createRequest(
       url: url.addParams(params: params),
@@ -46,7 +46,7 @@ struct NetworkClient {
     contentType: HttpRequestContentType = .json,
     parseResponseBody: Bool = true,
     jsonKeyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase,
-    followRedirects: Bool = true
+    shouldFollowRedirects followRedirects: Bool = true
   ) async throws -> (data: D?, response: HTTPURLResponse) {
     let request = buildModifyingRequest(
       url: url.addParams(params: params),
