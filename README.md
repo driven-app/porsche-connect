@@ -5,6 +5,8 @@
 ![PorscheConnect](https://github.com/driven-app/porsche-connect/workflows/PorscheConnect/badge.svg)
 [![License](https://img.shields.io/github/license/driven-app/porsche-connect)](https://github.com/driven-app/porsche-connect/blob/main/LICENSE)
 [![Reviewed by Hound](https://img.shields.io/badge/Reviewed_by-Hound-8E64B0.svg)](https://houndci.com)
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fdriven-app%2Fporsche-connect%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/driven-app/porsche-connect)
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fdriven-app%2Fporsche-connect%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/driven-app/porsche-connect)
 
 </div>
 
